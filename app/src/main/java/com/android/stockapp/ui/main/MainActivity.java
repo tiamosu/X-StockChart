@@ -2,12 +2,12 @@ package com.android.stockapp.ui.main;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import com.android.stockapp.R;
 import com.android.stockapp.application.MyApplication;
 import com.android.stockapp.ui.market.activity.StockDetailActivity;
 
+import androidx.appcompat.app.AppCompatActivity;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 

@@ -1,11 +1,11 @@
 package com.android.stockapp.common.adapter;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-
 import java.util.Arrays;
 import java.util.List;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
 /**
  * 装载Fragment的通用适配器
@@ -51,5 +51,4 @@ public class SimpleFragmentPagerAdapter extends FragmentStatePagerAdapter {
         }
         return super.getPageTitle(position);
     }
-
 }

@@ -2,7 +2,6 @@ package com.android.stockapp.ui.market.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +17,8 @@ import com.github.mikephil.charting.stockChart.view.OneDayView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -26,7 +27,6 @@ import butterknife.Unbinder;
  * 分时页
  */
 public class ChartOneDayFragment extends BaseFragment {
-
     @BindView(R.id.chart)
     OneDayView chart;
     Unbinder unbinder;
@@ -61,7 +61,7 @@ public class ChartOneDayFragment extends BaseFragment {
         }
 
         //上证指数代码000001.IDX.SH
-        kTimeData.parseTimeData(object,"000001.IDX.SH",0);
+        kTimeData.parseTimeData(object, "000001.IDX.SH", 0);
         chart.setDataToChart(kTimeData);
 
         //非横屏页单击转横屏页
@@ -90,14 +90,7 @@ public class ChartOneDayFragment extends BaseFragment {
     }
 
     @Override
-    public void onDestroy() {
-
-        super.onDestroy();
-    }
-
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         unbinder = ButterKnife.bind(this, rootView);

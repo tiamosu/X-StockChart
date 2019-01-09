@@ -2,7 +2,6 @@ package com.github.mikephil.charting.stockChart.view;
 
 import android.content.Context;
 import android.graphics.Paint;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -12,8 +11,6 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.ScaleAnimation;
 import android.widget.LinearLayout;
 
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.stockChart.CoupleChartGestureListener;
 import com.github.mikephil.charting.stockChart.data.KLineDataManage;
 import com.github.mikephil.charting.stockChart.data.TimeDataManage;
@@ -22,8 +19,9 @@ import com.github.mikephil.charting.stockChart.event.BaseEvent;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-public class BaseView extends LinearLayout {
+import androidx.annotation.Nullable;
 
+public class BaseView extends LinearLayout {
     public boolean landscape = false;//是否横屏模式
     public int precision = 3;//小数精度
     public Paint mPaint;
@@ -51,9 +49,9 @@ public class BaseView extends LinearLayout {
     }
 
     public interface OnHighlightValueSelectedListener {
-        void onDayHighlightValueListener(TimeDataManage mData,int index, boolean isSelect);
+        void onDayHighlightValueListener(TimeDataManage mData, int index, boolean isSelect);
 
-        void onKHighlightValueListener(KLineDataManage data,int index, boolean isSelect);
+        void onKHighlightValueListener(KLineDataManage data, int index, boolean isSelect);
     }
 
     public CoupleChartGestureListener getGestureListenerLine() {
@@ -63,12 +61,14 @@ public class BaseView extends LinearLayout {
     public CoupleChartGestureListener getGestureListenerBar() {
         return gestureListenerBar;
     }
+
     public CoupleChartGestureListener getGestureListenerCandle() {
         return gestureListenerCandle;
     }
 
     /**
      * 分时图最后一点的圆圈动画
+     *
      * @param heartbeatView
      */
     public void playHeartbeatAnimation(final View heartbeatView) {
@@ -116,7 +116,5 @@ public class BaseView extends LinearLayout {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(BaseEvent event) {
-
     }
-
 }

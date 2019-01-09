@@ -2,7 +2,6 @@ package com.android.stockapp.ui.market.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +17,8 @@ import com.github.mikephil.charting.stockChart.view.KLineView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -26,8 +27,6 @@ import butterknife.Unbinder;
  * K线
  */
 public class ChartKLineFragment extends BaseFragment {
-
-
     @BindView(R.id.combinedchart)
     KLineView combinedchart;
     Unbinder unbinder;
@@ -38,14 +37,13 @@ public class ChartKLineFragment extends BaseFragment {
     private JSONObject object;
     private int indexType = 1;
 
-    public static ChartKLineFragment newInstance(int type,boolean land){
+    public static ChartKLineFragment newInstance(int type, boolean land) {
         ChartKLineFragment fragment = new ChartKLineFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("type", type);
-        bundle.putBoolean("landscape",land);
+        bundle.putBoolean("landscape", land);
         fragment.setArguments(bundle);
         return fragment;
-
     }
 
     @Override
@@ -58,24 +56,24 @@ public class ChartKLineFragment extends BaseFragment {
         kLineData = new KLineDataManage(getActivity());
         combinedchart.initChart(land);
         try {
-            if(mType == 1){
+            if (mType == 1) {
                 object = new JSONObject(ChartData.KLINEDATA);
-            }else if(mType == 7){
+            } else if (mType == 7) {
                 object = new JSONObject(ChartData.KLINEWEEKDATA);
-            }else if(mType == 30){
+            } else if (mType == 30) {
                 object = new JSONObject(ChartData.KLINEMONTHDATA);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
         //上证指数代码000001.IDX.SH
-        kLineData.parseKlineData(object,"000001.IDX.SH",land);
+        kLineData.parseKlineData(object, "000001.IDX.SH", land);
         combinedchart.setDataToChart(kLineData);
 
         combinedchart.getGestureListenerCandle().setCoupleClick(new CoupleChartGestureListener.CoupleClick() {
             @Override
             public void singleClickListener() {
-                if(!land) {
+                if (!land) {
                     Intent intent = new Intent(getActivity(), StockDetailLandActivity.class);
                     getActivity().startActivity(intent);
                 }
@@ -85,9 +83,9 @@ public class ChartKLineFragment extends BaseFragment {
         combinedchart.getGestureListenerBar().setCoupleClick(new CoupleChartGestureListener.CoupleClick() {
             @Override
             public void singleClickListener() {
-                if(land) {
+                if (land) {
                     loadIndexData(indexType < 5 ? ++indexType : 1);
-                }else {
+                } else {
                     Intent intent = new Intent(getActivity(), StockDetailLandActivity.class);
                     getActivity().startActivity(intent);
                 }
@@ -130,7 +128,7 @@ public class ChartKLineFragment extends BaseFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         unbinder = ButterKnife.bind(this, rootView);

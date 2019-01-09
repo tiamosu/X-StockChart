@@ -4,12 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import butterknife.ButterKnife;
 
 public abstract class BaseFragment extends Fragment {
@@ -28,10 +29,10 @@ public abstract class BaseFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(setLayoutId(), container, false);
-        ButterKnife.bind(this,view);
+        ButterKnife.bind(this, view);
         initBase(view);
         return view;
     }
@@ -55,16 +56,17 @@ public abstract class BaseFragment extends Fragment {
         super.onDetach();
     }
 
-    protected void startToActivity(Class<?> cls){
+    protected void startToActivity(Class<?> cls) {
         Intent intent = new Intent(mAct, cls);
         mAct.startActivity(intent);
     }
 
     Toast toast;
+
     public void showToast(String string) {
-        if(toast == null){
+        if (toast == null) {
             toast = Toast.makeText(mAct, string, Toast.LENGTH_SHORT);
-        }else{
+        } else {
             toast.setText(string);
         }
         toast.show();
@@ -72,7 +74,7 @@ public abstract class BaseFragment extends Fragment {
 
     @Override
     public void onDestroy() {
-        if(toast != null){
+        if (toast != null) {
             toast.cancel();
         }
         super.onDestroy();

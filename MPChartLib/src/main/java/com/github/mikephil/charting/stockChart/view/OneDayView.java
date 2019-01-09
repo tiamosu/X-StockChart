@@ -2,21 +2,13 @@ package com.github.mikephil.charting.stockChart.view;
 
 import android.content.Context;
 import android.graphics.Paint;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.DecelerateInterpolator;
-import android.view.animation.ScaleAnimation;
 import android.widget.FrameLayout;
 
 import com.github.mikephil.charting.R;
-import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
@@ -53,11 +45,12 @@ import com.github.mikephil.charting.utils.Transformer;
 import com.github.mikephil.charting.utils.Utils;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 /**
  * 当日分时图view
@@ -93,16 +86,19 @@ public class OneDayView extends BaseView {
         super(context, attrs);
         mContext = context;
         LayoutInflater.from(context).inflate(R.layout.view_time, this);
-        lineChart = (TimeLineChart) findViewById(R.id.line_chart);
-        barChart = (TimeBarChart) findViewById(R.id.bar_chart);
-        cirCleView = (FrameLayout) findViewById(R.id.circle_frame_time);
+        lineChart = findViewById(R.id.line_chart);
+        barChart = findViewById(R.id.bar_chart);
+        cirCleView = findViewById(R.id.circle_frame_time);
 
         EventBus.getDefault().register(this);
 
-        colorArray = new int[]{ ContextCompat.getColor(mContext, R.color.up_color), ContextCompat.getColor(mContext, R.color.equal_color),ContextCompat.getColor(mContext, R.color.down_color)};
+        colorArray = new int[]{
+                ContextCompat.getColor(mContext, R.color.up_color),
+                ContextCompat.getColor(mContext, R.color.equal_color),
+                ContextCompat.getColor(mContext, R.color.down_color)
+        };
 
         playHeartbeatAnimation(cirCleView.findViewById(R.id.anim_view));
-
     }
 
     /**
@@ -317,7 +313,7 @@ public class OneDayView extends BaseView {
         rightColorContentYAxisRenderer.setLandscape(landscape);
         lineChart.setRendererRightYAxis(rightColorContentYAxisRenderer);
 
-        if (Float.isNaN(mData.getPercentMax()) || Float.isNaN(mData.getPercentMin())||Float.isNaN(mData.getVolMaxTime())) {
+        if (Float.isNaN(mData.getPercentMax()) || Float.isNaN(mData.getPercentMin()) || Float.isNaN(mData.getVolMaxTime())) {
             axisLeftBar.setAxisMaximum(0);
             axisRightLine.setAxisMinimum(-0.01f);
             axisRightLine.setAxisMaximum(0.01f);
@@ -387,7 +383,7 @@ public class OneDayView extends BaseView {
         //设置当前视图四周的偏移量。 设置这个，将阻止图表自动计算它的偏移量。使用 resetViewPortOffsets()撤消此设置。
         if (landscape) {
             float volwidth = Utils.calcTextWidthForVol(mPaint, mData.getVolMaxTime());
-            float pricewidth = Utils.calcTextWidth(mPaint, NumberUtils.keepPrecision(Float.isNaN(mData.getMax())?"0":mData.getMax() + "", precision) + "#");
+            float pricewidth = Utils.calcTextWidth(mPaint, NumberUtils.keepPrecision(Float.isNaN(mData.getMax()) ? "0" : mData.getMax() + "", precision) + "#");
             float left = CommonUtil.dip2px(mContext, pricewidth > volwidth ? pricewidth : volwidth);
             float right = CommonUtil.dip2px(mContext, Utils.calcTextWidth(mPaint, "-10.00%"));
             lineChart.setViewPortOffsets(left, CommonUtil.dip2px(mContext, 5), right, CommonUtil.dip2px(mContext, 15));
@@ -516,6 +512,4 @@ public class OneDayView extends BaseView {
     public void eventBusUnregister() {
         EventBus.getDefault().unregister(this);
     }
-
-
 }

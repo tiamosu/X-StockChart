@@ -11,9 +11,9 @@ import com.github.mikephil.charting.animation.ChartAnimator;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.renderer.LineChartRenderer;
 import com.github.mikephil.charting.stockChart.event.BaseEvent;
 import com.github.mikephil.charting.stockChart.model.CirclePositionTime;
-import com.github.mikephil.charting.renderer.LineChartRenderer;
 import com.github.mikephil.charting.utils.NumberUtils;
 import com.github.mikephil.charting.utils.Transformer;
 import com.github.mikephil.charting.utils.Utils;
@@ -21,13 +21,11 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import org.greenrobot.eventbus.EventBus;
 
-
 /**
  * Created by ly on 2017/7/3.
  */
 
 public class TimeLineChartRenderer extends LineChartRenderer {
-
 
     public TimeLineChartRenderer(LineDataProvider chart, ChartAnimator animator, ViewPortHandler viewPortHandler) {
         super(chart, animator, viewPortHandler);
@@ -35,9 +33,6 @@ public class TimeLineChartRenderer extends LineChartRenderer {
 
     /**
      * Draws a normal line.
-     *
-     * @param c
-     * @param dataSet
      */
     @Override
     protected void drawLinear(Canvas c, ILineDataSet dataSet) {
@@ -260,5 +255,4 @@ public class TimeLineChartRenderer extends LineChartRenderer {
         event.obj = position;
         EventBus.getDefault().post(event);
     }
-
 }

@@ -1,37 +1,26 @@
 package com.github.mikephil.charting.stockChart.view;
 
 import android.content.Context;
-import android.graphics.Matrix;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.widget.TextView;
 
 import com.github.mikephil.charting.R;
-import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.components.AxisBase;
-import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.CandleData;
 import com.github.mikephil.charting.data.CandleDataSet;
-import com.github.mikephil.charting.data.CandleEntry;
 import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.VolFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
-import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
-import com.github.mikephil.charting.interfaces.datasets.ICandleDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.stockChart.BarBottomMarkerView;
 import com.github.mikephil.charting.stockChart.CandleCombinedChart;
@@ -40,22 +29,19 @@ import com.github.mikephil.charting.stockChart.KRightMarkerView;
 import com.github.mikephil.charting.stockChart.LeftMarkerView;
 import com.github.mikephil.charting.stockChart.MyCombinedChart;
 import com.github.mikephil.charting.stockChart.data.KLineDataManage;
-import com.github.mikephil.charting.stockChart.enums.ChartType;
 import com.github.mikephil.charting.stockChart.enums.TimeType;
 import com.github.mikephil.charting.utils.CommonUtil;
-import com.github.mikephil.charting.utils.DataTimeUtil;
 import com.github.mikephil.charting.utils.NumberUtils;
 import com.github.mikephil.charting.utils.Utils;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
-import java.util.ArrayList;
-import java.util.Locale;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 /**
  * K线view
  */
 public class KLineView extends BaseView {
-
     private Context mContext;
     private CandleCombinedChart candleChart;
     private MyCombinedChart barChart;
@@ -73,7 +59,6 @@ public class KLineView extends BaseView {
     public Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-
             candleChart.setAutoScaleMinMaxEnabled(true);
             barChart.setAutoScaleMinMaxEnabled(true);
             candleChart.notifyDataSetChanged();
@@ -91,10 +76,14 @@ public class KLineView extends BaseView {
         super(context, attrs);
         mContext = context;
         LayoutInflater.from(context).inflate(R.layout.view_kline, this);
-        candleChart = (CandleCombinedChart) findViewById(R.id.candleChart);
-        barChart = (MyCombinedChart) findViewById(R.id.barchart);
+        candleChart = findViewById(R.id.candleChart);
+        barChart = findViewById(R.id.barchart);
 
-        zbColor = new int[]{ContextCompat.getColor(context, R.color.ma5), ContextCompat.getColor(context, R.color.ma10), ContextCompat.getColor(context, R.color.ma20)};
+        zbColor = new int[]{
+                ContextCompat.getColor(context, R.color.ma5),
+                ContextCompat.getColor(context, R.color.ma10),
+                ContextCompat.getColor(context, R.color.ma20)
+        };
     }
 
     /**
@@ -599,5 +588,4 @@ public class KLineView extends BaseView {
                 break;
         }
     }
-
 }
