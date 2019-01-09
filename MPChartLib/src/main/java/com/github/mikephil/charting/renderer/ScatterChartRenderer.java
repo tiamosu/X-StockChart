@@ -1,4 +1,3 @@
-
 package com.github.mikephil.charting.renderer;
 
 import android.graphics.Canvas;
@@ -40,8 +39,9 @@ public class ScatterChartRenderer extends LineScatterCandleRadarRenderer {
 
         for (IScatterDataSet set : scatterData.getDataSets()) {
 
-            if (set.isVisible())
+            if (set.isVisible()) {
                 drawDataSet(c, set);
+            }
         }
     }
 
@@ -74,12 +74,14 @@ public class ScatterChartRenderer extends LineScatterCandleRadarRenderer {
 
             trans.pointValuesToPixel(mPixelBuffer);
 
-            if (!viewPortHandler.isInBoundsRight(mPixelBuffer[0]))
+            if (!viewPortHandler.isInBoundsRight(mPixelBuffer[0])) {
                 break;
+            }
 
             if (!viewPortHandler.isInBoundsLeft(mPixelBuffer[0])
-                    || !viewPortHandler.isInBoundsY(mPixelBuffer[1]))
+                    || !viewPortHandler.isInBoundsY(mPixelBuffer[1])) {
                 continue;
+            }
 
             mRenderPaint.setColor(dataSet.getColor(i / 2));
             renderer.renderShape(
@@ -101,8 +103,9 @@ public class ScatterChartRenderer extends LineScatterCandleRadarRenderer {
 
                 IScatterDataSet dataSet = dataSets.get(i);
 
-                if (!shouldDrawValues(dataSet))
+                if (!shouldDrawValues(dataSet)) {
                     continue;
+                }
 
                 // apply the text-styling defined by the DataSet
                 applyValueTextStyle(dataSet);
@@ -121,13 +124,15 @@ public class ScatterChartRenderer extends LineScatterCandleRadarRenderer {
 
                 for (int j = 0; j < positions.length; j += 2) {
 
-                    if (!mViewPortHandler.isInBoundsRight(positions[j]))
+                    if (!mViewPortHandler.isInBoundsRight(positions[j])) {
                         break;
+                    }
 
                     // make sure the lines don't do shitty things outside bounds
                     if ((!mViewPortHandler.isInBoundsLeft(positions[j])
-                            || !mViewPortHandler.isInBoundsY(positions[j + 1])))
+                            || !mViewPortHandler.isInBoundsY(positions[j + 1]))) {
                         continue;
+                    }
 
                     Entry entry = dataSet.getEntryForIndex(j / 2 + mXBounds.min);
 
@@ -174,13 +179,15 @@ public class ScatterChartRenderer extends LineScatterCandleRadarRenderer {
 
             IScatterDataSet set = scatterData.getDataSetByIndex(high.getDataSetIndex());
 
-            if (set == null || !set.isHighlightEnabled())
+            if (set == null || !set.isHighlightEnabled()) {
                 continue;
+            }
 
             final Entry e = set.getEntryForXValue(high.getX(), high.getY());
 
-            if (!isInBoundsX(e, set))
+            if (!isInBoundsX(e, set)) {
                 continue;
+            }
 
             MPPointD pix = mChart.getTransformer(set.getAxisDependency()).getPixelForValues(e.getX(), e.getY() * mAnimator
                     .getPhaseY());

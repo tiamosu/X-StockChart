@@ -1,4 +1,3 @@
-
 package com.github.mikephil.charting.renderer;
 
 import android.graphics.Canvas;
@@ -49,16 +48,6 @@ public abstract class AxisRenderer extends Renderer {
      */
     protected Paint mLimitLinePaint;
 
-//    private boolean isShowLabels = true;
-
-//    public boolean isShowLabels() {
-//        return isShowLabels;
-//    }
-
-//    public void setShowLabels(boolean showLabels) {
-//        isShowLabels = showLabels;
-//    }
-
     public AxisRenderer(ViewPortHandler viewPortHandler, Transformer trans, AxisBase axis) {
         super(viewPortHandler);
 
@@ -87,8 +76,6 @@ public abstract class AxisRenderer extends Renderer {
 
     /**
      * Returns the Paint object used for drawing the axis (labels).
-     *
-     * @return
      */
     public Paint getPaintAxisLabels() {
         return mAxisLabelPaint;
@@ -97,8 +84,6 @@ public abstract class AxisRenderer extends Renderer {
     /**
      * Returns the Paint object that is used for drawing the grid-lines of the
      * axis.
-     *
-     * @return
      */
     public Paint getPaintGrid() {
         return mGridPaint;
@@ -107,8 +92,6 @@ public abstract class AxisRenderer extends Renderer {
     /**
      * Returns the Paint object that is used for drawing the axis-line that goes
      * alongside the axis.
-     *
-     * @return
      */
     public Paint getPaintAxisLine() {
         return mAxisLinePaint;
@@ -116,8 +99,6 @@ public abstract class AxisRenderer extends Renderer {
 
     /**
      * Returns the Transformer object used for transforming the axis values.
-     *
-     * @return
      */
     public Transformer getTransformer() {
         return mTrans;
@@ -157,11 +138,8 @@ public abstract class AxisRenderer extends Renderer {
 
     /**
      * Sets up the axis values. Computes the desired number of labels between the two given extremes.
-     *
-     * @return
      */
     protected void computeAxisValues(float min, float max) {
-
         float yMin = min;
         float yMax = max;
 
@@ -276,29 +254,21 @@ public abstract class AxisRenderer extends Renderer {
 
     /**
      * Draws the axis labels to the screen.
-     *
-     * @param c
      */
     public abstract void renderAxisLabels(Canvas c);
 
     /**
      * Draws the grid lines belonging to the axis.
-     *
-     * @param c
      */
     public abstract void renderGridLines(Canvas c);
 
     /**
      * Draws the line that goes alongside the axis.
-     *
-     * @param c
      */
     public abstract void renderAxisLine(Canvas c);
 
     /**
      * Draws the LimitLines associated with this axis to the screen.
-     *
-     * @param c
      */
     public abstract void renderLimitLines(Canvas c);
 }

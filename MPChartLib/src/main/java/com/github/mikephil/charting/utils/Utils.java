@@ -1,4 +1,3 @@
-
 package com.github.mikephil.charting.utils;
 
 import android.annotation.SuppressLint;
@@ -7,7 +6,6 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.Layout;
@@ -15,7 +13,6 @@ import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.SizeF;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
@@ -36,7 +33,6 @@ import java.util.List;
  * @author Philipp Jahoda
  */
 public abstract class Utils {
-
     private static DisplayMetrics mMetrics;
     private static int mMinimumFlingVelocity = 50;
     private static int mMaximumFlingVelocity = 8000;
@@ -51,12 +47,9 @@ public abstract class Utils {
 
     /**
      * initialize method, called inside the Chart.init() method.
-     *
-     * @param context
      */
     @SuppressWarnings("deprecation")
     public static void init(Context context) {
-
         if (context == null) {
             // noinspection deprecation
             mMinimumFlingVelocity = ViewConfiguration.getMinimumFlingVelocity();
@@ -79,12 +72,9 @@ public abstract class Utils {
     /**
      * initialize method, called inside the Chart.init() method. backwards
      * compatibility - to not break existing code
-     *
-     * @param res
      */
     @Deprecated
     public static void init(Resources res) {
-
         mMetrics = res.getDisplayMetrics();
 
         // noinspection deprecation
@@ -103,7 +93,6 @@ public abstract class Utils {
      * device density
      */
     public static float convertDpToPixel(float dp) {
-
         if (mMetrics == null) {
 
             Log.e("MPChartLib-Utils",
@@ -124,7 +113,6 @@ public abstract class Utils {
      * @return A float value to represent dp equivalent to px value
      */
     public static float convertPixelsToDp(float px) {
-
         if (mMetrics == null) {
 
             Log.e("MPChartLib-Utils",
@@ -140,10 +128,6 @@ public abstract class Utils {
     /**
      * calculates the approximate width of a text, depending on a demo text
      * avoid repeated calls (e.g. inside drawing methods)
-     *
-     * @param paint
-     * @param demoText
-     * @return
      */
     public static int calcTextWidth(Paint paint, String demoText) {
         return (int) paint.measureText(demoText);
@@ -168,13 +152,8 @@ public abstract class Utils {
     /**
      * calculates the approximate height of a text, depending on a demo text
      * avoid repeated calls (e.g. inside drawing methods)
-     *
-     * @param paint
-     * @param demoText
-     * @return
      */
     public static int calcTextHeight(Paint paint, String demoText) {
-
         Rect r = mCalcTextHeightRect;
         r.set(0, 0, 0, 0);
         paint.getTextBounds(demoText, 0, demoText.length(), r);
@@ -206,12 +185,9 @@ public abstract class Utils {
      * calculates the approximate size of a text, depending on a demo text
      * avoid repeated calls (e.g. inside drawing methods)
      *
-     * @param paint
-     * @param demoText
      * @return A Recyclable FSize instance
      */
     public static FSize calcTextSize(Paint paint, String demoText) {
-
         FSize result = FSize.getInstance(0, 0);
         calcTextSize(paint, demoText, result);
         return result;
@@ -223,20 +199,15 @@ public abstract class Utils {
      * calculates the approximate size of a text, depending on a demo text
      * avoid repeated calls (e.g. inside drawing methods)
      *
-     * @param paint
-     * @param demoText
      * @param outputFSize An output variable, modified by the function.
      */
     public static void calcTextSize(Paint paint, String demoText, FSize outputFSize) {
-
         Rect r = mCalcTextSizeRect;
         r.set(0, 0, 0, 0);
         paint.getTextBounds(demoText, 0, demoText.length(), r);
         outputFSize.width = r.width();
         outputFSize.height = r.height();
-
     }
-
 
     /**
      * Math.pow(...) is very expensive, so avoid calling it and create it
@@ -263,10 +234,7 @@ public abstract class Utils {
      * number as a string, maximum 35 characters. If thousands are separated, the separating
      * character is a dot (".").
      *
-     * @param number
-     * @param digitCount
      * @param separateThousands set this to true to separate thousands values
-     * @return
      */
     public static String formatNumber(float number, int digitCount, boolean separateThousands) {
         return formatNumber(number, digitCount, separateThousands, '.');
@@ -276,11 +244,8 @@ public abstract class Utils {
      * Formats the given number to the given number of decimals, and returns the
      * number as a string, maximum 35 characters.
      *
-     * @param number
-     * @param digitCount
      * @param separateThousands set this to true to separate thousands values
      * @param separateChar      a caracter to be paced between the "thousands"
-     * @return
      */
     public static String formatNumber(float number, int digitCount, boolean separateThousands,
                                       char separateChar) {
@@ -364,9 +329,6 @@ public abstract class Utils {
 
     /**
      * rounds the given number to the next significant number
-     *
-     * @param number
-     * @return
      */
     public static float roundToNextSignificant(double number) {
         if (Double.isInfinite(number) ||
@@ -385,9 +347,6 @@ public abstract class Utils {
     /**
      * Returns the appropriate number of decimals to be used for the provided
      * number.
-     *
-     * @param number
-     * @return
      */
     public static int getDecimals(float number) {
 
@@ -402,14 +361,9 @@ public abstract class Utils {
 
     /**
      * Converts the provided Integer List to an int array.
-     *
-     * @param integers
-     * @return
      */
     public static int[] convertIntegers(List<Integer> integers) {
-
         int[] ret = new int[integers.size()];
-
         copyIntegers(integers, ret);
 
         return ret;
@@ -424,12 +378,8 @@ public abstract class Utils {
 
     /**
      * Converts the provided String List to a String array.
-     *
-     * @param strings
-     * @return
      */
     public static String[] convertStrings(List<String> strings) {
-
         String[] ret = new String[strings.size()];
 
         for (int i = 0; i < ret.length; i++) {
@@ -449,9 +399,6 @@ public abstract class Utils {
     /**
      * Replacement for the Math.nextUp(...) method that is only available in
      * HONEYCOMB and higher. Dat's some seeeeek sheeet.
-     *
-     * @param d
-     * @return
      */
     public static double nextUp(double d) {
         if (d == Double.POSITIVE_INFINITY) {
@@ -468,10 +415,7 @@ public abstract class Utils {
      * Calculates the position around a center point, depending on the distance
      * from the center, and the angle of the position around the center.
      *
-     * @param center
-     * @param dist
-     * @param angle  in degrees, converted to radians internally
-     * @return
+     * @param angle in degrees, converted to radians internally
      */
     public static MPPointF getPosition(MPPointF center, float dist, float angle) {
 
@@ -515,8 +459,6 @@ public abstract class Utils {
     /**
      * Original method view.postInvalidateOnAnimation() only supportd in API >=
      * 16, This is a replica of the code from ViewCompat.
-     *
-     * @param view
      */
     @SuppressLint("NewApi")
     public static void postInvalidateOnAnimation(View view) {
@@ -737,8 +679,6 @@ public abstract class Utils {
      * Returns a recyclable FSize instance.
      * Represents size of a rotated rectangle by degrees.
      *
-     * @param rectangleSize
-     * @param degrees
      * @return A Recyclable FSize instance
      */
     public static FSize getSizeOfRotatedRectangleByDegrees(FSize rectangleSize, float degrees) {
@@ -751,8 +691,6 @@ public abstract class Utils {
      * Returns a recyclable FSize instance.
      * Represents size of a rotated rectangle by radians.
      *
-     * @param rectangleSize
-     * @param radians
      * @return A Recyclable FSize instance
      */
     public static FSize getSizeOfRotatedRectangleByRadians(FSize rectangleSize, float radians) {
@@ -764,9 +702,6 @@ public abstract class Utils {
      * Returns a recyclable FSize instance.
      * Represents size of a rotated rectangle by degrees.
      *
-     * @param rectangleWidth
-     * @param rectangleHeight
-     * @param degrees
      * @return A Recyclable FSize instance
      */
     public static FSize getSizeOfRotatedRectangleByDegrees(float rectangleWidth, float
@@ -779,9 +714,6 @@ public abstract class Utils {
      * Returns a recyclable FSize instance.
      * Represents size of a rotated rectangle by radians.
      *
-     * @param rectangleWidth
-     * @param rectangleHeight
-     * @param radians
      * @return A Recyclable FSize instance
      */
     public static FSize getSizeOfRotatedRectangleByRadians(float rectangleWidth, float

@@ -11,7 +11,6 @@ import java.util.List;
  * Created by Philipp Jahoda on 11/07/15.
  */
 public abstract class LineScatterCandleRadarDataSet<T extends Entry> extends BarLineScatterCandleBubbleDataSet<T> implements ILineScatterCandleRadarDataSet<T> {
-
     protected boolean mDrawVerticalHighlightIndicator = true;
     protected boolean mDrawHorizontalHighlightIndicator = true;
 
@@ -20,7 +19,6 @@ public abstract class LineScatterCandleRadarDataSet<T extends Entry> extends Bar
      */
     protected DashPathEffect mHighlightDashPathEffect = null;
 
-
     public LineScatterCandleRadarDataSet(List<T> yVals, String label) {
         super(yVals, label);
         mHighlightLineWidth = Utils.convertDpToPixel(0.5f);
@@ -28,8 +26,6 @@ public abstract class LineScatterCandleRadarDataSet<T extends Entry> extends Bar
 
     /**
      * Enables / disables the horizontal highlight-indicator. If disabled, the indicator is not drawn.
-     *
-     * @param enabled
      */
     public void setDrawHorizontalHighlightIndicator(boolean enabled) {
         this.mDrawHorizontalHighlightIndicator = enabled;
@@ -37,8 +33,6 @@ public abstract class LineScatterCandleRadarDataSet<T extends Entry> extends Bar
 
     /**
      * Enables / disables the vertical highlight-indicator. If disabled, the indicator is not drawn.
-     *
-     * @param enabled
      */
     public void setDrawVerticalHighlightIndicator(boolean enabled) {
         this.mDrawVerticalHighlightIndicator = enabled;
@@ -46,8 +40,6 @@ public abstract class LineScatterCandleRadarDataSet<T extends Entry> extends Bar
 
     /**
      * Enables / disables both vertical and horizontal highlight-indicators.
-     *
-     * @param enabled
      */
     public void setDrawHighlightIndicators(boolean enabled) {
         setDrawVerticalHighlightIndicator(enabled);
@@ -63,7 +55,6 @@ public abstract class LineScatterCandleRadarDataSet<T extends Entry> extends Bar
     public boolean isHorizontalHighlightIndicatorEnabled() {
         return mDrawHorizontalHighlightIndicator;
     }
-
 
     /**
      * Enables the highlight-line to be drawn in dashed mode, e.g. like this "- - - - - -"
@@ -88,11 +79,9 @@ public abstract class LineScatterCandleRadarDataSet<T extends Entry> extends Bar
     /**
      * Returns true if the dashed-line effect is enabled for highlight lines, false if not.
      * Default: disabled
-     *
-     * @return
      */
     public boolean isDashedHighlightLineEnabled() {
-        return mHighlightDashPathEffect == null ? false : true;
+        return mHighlightDashPathEffect != null;
     }
 
     @Override

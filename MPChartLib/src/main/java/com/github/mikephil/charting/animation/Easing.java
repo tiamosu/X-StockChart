@@ -1,4 +1,3 @@
-
 package com.github.mikephil.charting.animation;
 
 /**
@@ -230,6 +229,7 @@ public class Easing {
 
         public static final EasingFunction EaseInQuart = new EasingFunction() {
 
+            @Override
             public float getInterpolation(float input) {
                 return input * input * input * input;
             }
@@ -237,6 +237,7 @@ public class Easing {
 
         public static final EasingFunction EaseOutQuart = new EasingFunction() {
 
+            @Override
             public float getInterpolation(float input) {
                 input--;
                 return -(input * input * input * input - 1f);
@@ -406,8 +407,7 @@ public class Easing {
                         if (position < 1.f) {
                             return -0.5f * ((float) Math.sqrt(1.f - position * position) - 1.f);
                         }
-                        return 0.5f * ((float) Math.sqrt(1.f - (position -= 2.f) * position)
-                                + 1.f);
+                        return 0.5f * ((float) Math.sqrt(1.f - (position -= 2.f) * position) + 1.f);
                     }
                 };
 
@@ -449,8 +449,7 @@ public class Easing {
                         float p = .3f;
                         float s = p / (2.f * (float) Math.PI) * (float) Math.asin(1.f);
                         return -((float) Math.pow(2.f, 10.f * (position -= 1.f)) * (float)
-                                Math
-                                        .sin((position - s) * (2.f * Math.PI) / p));
+                                Math.sin((position - s) * (2.f * Math.PI) / p));
                     }
                 };
 
@@ -491,8 +490,7 @@ public class Easing {
                         float p = .3f;
                         float s = p / (2 * (float) Math.PI) * (float) Math.asin(1.f);
                         return (float) Math.pow(2, -10 * position)
-                                * (float) Math.sin((position - s) * (2.f * Math.PI) / p) +
-                                1.f;
+                                * (float) Math.sin((position - s) * (2.f * Math.PI) / p) + 1.f;
                     }
                 };
 
@@ -547,9 +545,7 @@ public class Easing {
                                     .sin((position * 1f - s) * (2.f * Math.PI) / p));
                         }
                         return (float) Math.pow(2.f, -10.f * (position -= 1.f))
-                                * (float) Math.sin((position * 1f - s) * (2.f * Math.PI) / p) *
-                                .5f
-                                + 1.f;
+                                * (float) Math.sin((position * 1f - s) * (2.f * Math.PI) / p) * .5f + 1.f;
                     }
                 };
 
@@ -666,8 +662,7 @@ public class Easing {
                         } else if (position < (2.5f / 2.75f)) {
                             return (7.5625f * (position -= (2.25f / 2.75f)) * position + .9375f);
                         } else {
-                            return (7.5625f * (position -= (2.625f / 2.75f)) * position +
-                                    .984375f);
+                            return (7.5625f * (position -= (2.625f / 2.75f)) * position + .984375f);
                         }
                     }
                 };
@@ -690,10 +685,8 @@ public class Easing {
                         if (input < 0.5f) {
                             return EaseInBounce.getInterpolation(input * 2) * .5f;
                         }
-                        return EaseOutBounce.getInterpolation(input * 2 - 1f) * .5f +
-                                .5f;
+                        return EaseOutBounce.getInterpolation(input * 2 - 1f) * .5f + .5f;
                     }
                 };
-
     }
 }

@@ -59,13 +59,9 @@ public abstract class ChartTouchListener<T extends Chart<?>> extends GestureDete
 
     /**
      * Calls the OnChartGestureListener to do the start callback
-     *
-     * @param me
      */
     public void startAction(MotionEvent me) {
-
         OnChartGestureListener l = mChart.getOnChartGestureListener();
-
         if (l != null) {
             l.onChartGestureStart(me, mLastGesture);
         }
@@ -73,13 +69,9 @@ public abstract class ChartTouchListener<T extends Chart<?>> extends GestureDete
 
     /**
      * Calls the OnChartGestureListener to do the end callback
-     *
-     * @param me
      */
     public void endAction(MotionEvent me) {
-
         OnChartGestureListener l = mChart.getOnChartGestureListener();
-
         if (l != null) {
             l.onChartGestureEnd(me, mLastGesture);
         }
@@ -87,8 +79,6 @@ public abstract class ChartTouchListener<T extends Chart<?>> extends GestureDete
 
     /**
      * Sets the last value that was highlighted via touch.
-     *
-     * @param high
      */
     public void setLastHighlighted(Highlight high) {
         mLastHighlighted = high;
@@ -96,8 +86,6 @@ public abstract class ChartTouchListener<T extends Chart<?>> extends GestureDete
 
     /**
      * returns the touch mode the listener is currently in
-     *
-     * @return
      */
     public int getTouchMode() {
         return mTouchMode;
@@ -105,8 +93,6 @@ public abstract class ChartTouchListener<T extends Chart<?>> extends GestureDete
 
     /**
      * Returns the last gesture that has been performed on the chart.
-     *
-     * @return
      */
     public ChartGesture getLastGesture() {
         return mLastGesture;
@@ -115,11 +101,8 @@ public abstract class ChartTouchListener<T extends Chart<?>> extends GestureDete
 
     /**
      * Perform a highlight operation.
-     *
-     * @param e
      */
     protected void performHighlight(Highlight h, MotionEvent e) {
-
         if (h == null || h.equalTo(mLastHighlighted)) {
             mChart.highlightValue(null, true);
             mLastHighlighted = null;
@@ -131,12 +114,6 @@ public abstract class ChartTouchListener<T extends Chart<?>> extends GestureDete
 
     /**
      * returns the distance between two points
-     *
-     * @param eventX
-     * @param startX
-     * @param eventY
-     * @param startY
-     * @return
      */
     protected static float distance(float eventX, float startX, float eventY, float startY) {
         float dx = eventX - startX;

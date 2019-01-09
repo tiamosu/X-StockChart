@@ -1,11 +1,8 @@
-
 package com.github.mikephil.charting.renderer;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
 
 import com.github.mikephil.charting.animation.ChartAnimator;
 import com.github.mikephil.charting.data.CandleData;
@@ -15,7 +12,6 @@ import com.github.mikephil.charting.interfaces.dataprovider.CandleDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.ICandleDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.MPPointD;
-import com.github.mikephil.charting.utils.MPPointF;
 import com.github.mikephil.charting.utils.NumberUtils;
 import com.github.mikephil.charting.utils.Transformer;
 import com.github.mikephil.charting.utils.Utils;
@@ -342,8 +338,8 @@ public class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
                 int highStringHeight = Utils.calcTextHeight(mValuePaint, "← " + highString);
 
                 float[] tPosition = new float[2];
-                tPosition[0] = minEntry == null ? 0f : minEntry.getX() + offSet;
-                tPosition[1] = minEntry == null ? 0f : minEntry.getLow();
+                tPosition[0] = minEntry.getX() + offSet;
+                tPosition[1] = minEntry.getLow();
                 trans.pointValuesToPixel(tPosition);
                 if (tPosition[0] + highStringWidth / 2 > mViewPortHandler.contentRight()) {
                     c.drawText(highString + " →", tPosition[0] - highStringWidth / 2, tPosition[1] + highStringHeight / 2, mValuePaint);
@@ -379,8 +375,8 @@ public class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
                 int highStringHeight = Utils.calcTextHeight(mValuePaint, highString + " →");
 
                 float[] tPosition = new float[2];
-                tPosition[0] = maxEntry == null ? 0f : maxEntry.getX() + offSet;
-                tPosition[1] = maxEntry == null ? 0f : maxEntry.getHigh();
+                tPosition[0] = maxEntry.getX() + offSet;
+                tPosition[1] = maxEntry.getHigh();
                 trans.pointValuesToPixel(tPosition);
                 if ((tPosition[0] - highStringWidth / 2) < mViewPortHandler.contentLeft()) {
                     c.drawText("← " + highString, tPosition[0] + highStringWidth / 2, tPosition[1] + highStringHeight / 2, mValuePaint);
@@ -435,7 +431,6 @@ public class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
 
             float lowValue = e.getLow() * mAnimator.getPhaseY();
             float highValue = e.getHigh() * mAnimator.getPhaseY();
-//            float y = (lowValue + highValue) / 2f;
             float y = e.getClose() * mAnimator.getPhaseY();
 
             MPPointD pix = mChart.getTransformer(set.getAxisDependency()).getPixelForValues(e.getX() + offSet, y);

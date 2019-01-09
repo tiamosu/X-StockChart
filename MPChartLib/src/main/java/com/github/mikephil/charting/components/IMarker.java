@@ -37,10 +37,6 @@ public interface IMarker {
 
     /**
      * Draws the IMarker on the given position on the screen with the given Canvas object.
-     *
-     * @param canvas
-     * @param posX
-     * @param posY
      */
     void draw(Canvas canvas, float posX, float posY);
 }

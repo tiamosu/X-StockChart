@@ -1,4 +1,3 @@
-
 package com.github.mikephil.charting.matrix;
 
 /**
@@ -130,5 +129,4 @@ public final class Vector3 {
     public final boolean pointsInSameDirection(Vector3 other) {
         return this.dot(other) > 0;
     }
-
 }

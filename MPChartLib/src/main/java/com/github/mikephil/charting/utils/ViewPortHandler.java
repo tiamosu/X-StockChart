@@ -1,4 +1,3 @@
-
 package com.github.mikephil.charting.utils;
 
 import android.graphics.Matrix;
@@ -85,11 +84,7 @@ public class ViewPortHandler {
 
     /**
      * Sets the width and height of the chart.
-     *
-     * @param width
-     * @param height
      */
-
     public void setChartDimens(float width, float height) {
 
         float offsetLeft = this.offsetLeft();
@@ -171,8 +166,6 @@ public class ViewPortHandler {
 
     /**
      * Returns the smallest extension of the content rect (width or height).
-     *
-     * @return
      */
     public float getSmallestContentExtension() {
         return Math.min(mContentRect.width(), mContentRect.height());
@@ -186,12 +179,8 @@ public class ViewPortHandler {
     /**
      * Zooms in by 1.4f, x and y are the coordinates (in pixels) of the zoom
      * center.
-     *
-     * @param x
-     * @param y
      */
     public Matrix zoomIn(float x, float y) {
-
         Matrix save = new Matrix();
         zoomIn(x, y, save);
         return save;
@@ -208,7 +197,6 @@ public class ViewPortHandler {
      * center.
      */
     public Matrix zoomOut(float x, float y) {
-
         Matrix save = new Matrix();
         zoomOut(x, y, save);
         return save;
@@ -222,8 +210,6 @@ public class ViewPortHandler {
 
     /**
      * Zooms out to original size.
-     *
-     * @param outputMatrix
      */
     public void resetZoom(Matrix outputMatrix) {
         outputMatrix.reset();
@@ -233,13 +219,8 @@ public class ViewPortHandler {
 
     /**
      * Post-scales by the specified scale factors.
-     *
-     * @param scaleX
-     * @param scaleY
-     * @return
      */
     public Matrix zoom(float scaleX, float scaleY) {
-
         Matrix save = new Matrix();
         zoom(scaleX, scaleY, save);
         return save;
@@ -253,12 +234,6 @@ public class ViewPortHandler {
 
     /**
      * Post-scales by the specified scale factors. x and y is pivot.
-     *
-     * @param scaleX
-     * @param scaleY
-     * @param x
-     * @param y
-     * @return
      */
     public Matrix zoom(float scaleX, float scaleY, float x, float y) {
 
@@ -275,10 +250,6 @@ public class ViewPortHandler {
 
     /**
      * Sets the scale factor to the specified values.
-     *
-     * @param scaleX
-     * @param scaleY
-     * @return
      */
     public Matrix setZoom(float scaleX, float scaleY) {
 
@@ -295,12 +266,6 @@ public class ViewPortHandler {
 
     /**
      * Sets the scale factor to the specified values. x and y is pivot.
-     *
-     * @param scaleX
-     * @param scaleY
-     * @param x
-     * @param y
-     * @return
      */
     public Matrix setZoom(float scaleX, float scaleY, float x, float y) {
 
@@ -319,7 +284,6 @@ public class ViewPortHandler {
      * bounds.
      */
     public Matrix fitScreen() {
-
         Matrix save = new Matrix();
         fitScreen(save);
         return save;
@@ -353,9 +317,6 @@ public class ViewPortHandler {
 
     /**
      * Post-translates to the specified points.  Less Performant.
-     *
-     * @param transformedPts
-     * @return
      */
     public Matrix translate(final float[] transformedPts) {
 
@@ -366,9 +327,6 @@ public class ViewPortHandler {
 
     /**
      * Post-translates to the specified points.  Output matrix allows for caching objects.
-     *
-     * @param transformedPts
-     * @return
      */
     public void translate(final float[] transformedPts, Matrix outputMatrix) {
         outputMatrix.reset();
@@ -387,8 +345,6 @@ public class ViewPortHandler {
      * setScaleMinima(...) method.
      *
      * @param transformedPts the position to center view viewport to
-     * @param view
-     * @return save
      */
     public void centerViewPort(final float[] transformedPts, final View view) {
 
@@ -411,12 +367,8 @@ public class ViewPortHandler {
 
     /**
      * call this method to refresh the graph with a given matrix
-     *
-     * @param newMatrix
-     * @return
      */
     public Matrix refresh(Matrix newMatrix, View chart, boolean invalidate) {
-
         mMatrixTouch.set(newMatrix);
 
         // make sure scale and translation are within their bounds
@@ -432,8 +384,6 @@ public class ViewPortHandler {
 
     /**
      * limits the maximum scale and X translation of the given matrix
-     *
-     * @param matrix
      */
     public void limitTransAndScale(Matrix matrix, RectF content) {
 
@@ -476,11 +426,8 @@ public class ViewPortHandler {
 
     /**
      * Sets the minimum scale factor for the x-axis
-     *
-     * @param xScale
      */
     public void setMinimumScaleX(float xScale) {
-
         if (xScale < 1f) {
             xScale = 1f;
         }
@@ -492,11 +439,8 @@ public class ViewPortHandler {
 
     /**
      * Sets the maximum scale factor for the x-axis
-     *
-     * @param xScale
      */
     public void setMaximumScaleX(float xScale) {
-
         if (xScale == 0.f) {
             xScale = Float.MAX_VALUE;
         }
@@ -508,12 +452,8 @@ public class ViewPortHandler {
 
     /**
      * Sets the minimum and maximum scale factors for the x-axis
-     *
-     * @param minScaleX
-     * @param maxScaleX
      */
     public void setMinMaxScaleX(float minScaleX, float maxScaleX) {
-
         if (minScaleX < 1f) {
             minScaleX = 1f;
         }
@@ -530,11 +470,8 @@ public class ViewPortHandler {
 
     /**
      * Sets the minimum scale factor for the y-axis
-     *
-     * @param yScale
      */
     public void setMinimumScaleY(float yScale) {
-
         if (yScale < 1f) {
             yScale = 1f;
         }
@@ -546,11 +483,8 @@ public class ViewPortHandler {
 
     /**
      * Sets the maximum scale factor for the y-axis
-     *
-     * @param yScale
      */
     public void setMaximumScaleY(float yScale) {
-
         if (yScale == 0.f) {
             yScale = Float.MAX_VALUE;
         }
@@ -561,7 +495,6 @@ public class ViewPortHandler {
     }
 
     public void setMinMaxScaleY(float minScaleY, float maxScaleY) {
-
         if (minScaleY < 1f) {
             minScaleY = 1f;
         }
@@ -578,8 +511,6 @@ public class ViewPortHandler {
 
     /**
      * Returns the charts-touch matrix used for translation and scale on touch.
-     *
-     * @return
      */
     public Matrix getMatrixTouch() {
         return mMatrixTouch;
@@ -654,8 +585,6 @@ public class ViewPortHandler {
 
     /**
      * Returns the translation (drag / pan) distance on the x-axis
-     *
-     * @return
      */
     public float getTransX() {
         return mTransX;
@@ -663,8 +592,6 @@ public class ViewPortHandler {
 
     /**
      * Returns the translation (drag / pan) distance on the y-axis
-     *
-     * @return
      */
     public float getTransY() {
         return mTransY;
@@ -672,8 +599,6 @@ public class ViewPortHandler {
 
     /**
      * if the chart is fully zoomed out, return true
-     *
-     * @return
      */
     public boolean isFullyZoomedOut() {
 
@@ -682,8 +607,6 @@ public class ViewPortHandler {
 
     /**
      * Returns true if the chart is fully zoomed out on it's y-axis (vertical).
-     *
-     * @return
      */
     public boolean isFullyZoomedOutY() {
         return !(mScaleY > mMinScaleY || mMinScaleY > 1f);
@@ -692,8 +615,6 @@ public class ViewPortHandler {
     /**
      * Returns true if the chart is fully zoomed out on it's x-axis
      * (horizontal).
-     *
-     * @return
      */
     public boolean isFullyZoomedOutX() {
         return !(mScaleX > mMinScaleX || mMinScaleX > 1f);
@@ -702,8 +623,6 @@ public class ViewPortHandler {
     /**
      * Set an offset in dp that allows the user to drag the chart over it's
      * bounds on the x-axis.
-     *
-     * @param offset
      */
     public void setDragOffsetX(float offset) {
         mTransOffsetX = Utils.convertDpToPixel(offset);
@@ -712,8 +631,6 @@ public class ViewPortHandler {
     /**
      * Set an offset in dp that allows the user to drag the chart over it's
      * bounds on the y-axis.
-     *
-     * @param offset
      */
     public void setDragOffsetY(float offset) {
         mTransOffsetY = Utils.convertDpToPixel(offset);
@@ -721,8 +638,6 @@ public class ViewPortHandler {
 
     /**
      * Returns true if both drag offsets (x and y) are zero or smaller.
-     *
-     * @return
      */
     public boolean hasNoDragOffset() {
         return mTransOffsetX <= 0 && mTransOffsetY <= 0;
@@ -730,8 +645,6 @@ public class ViewPortHandler {
 
     /**
      * Returns true if the chart is not yet fully zoomed out on the x-axis
-     *
-     * @return
      */
     public boolean canZoomOutMoreX() {
         return mScaleX > mMinScaleX;
@@ -739,8 +652,6 @@ public class ViewPortHandler {
 
     /**
      * Returns true if the chart is not yet fully zoomed in on the x-axis
-     *
-     * @return
      */
     public boolean canZoomInMoreX() {
         return mScaleX < mMaxScaleX;
@@ -748,8 +659,6 @@ public class ViewPortHandler {
 
     /**
      * Returns true if the chart is not yet fully zoomed out on the y-axis
-     *
-     * @return
      */
     public boolean canZoomOutMoreY() {
         return mScaleY > mMinScaleY;
@@ -757,8 +666,6 @@ public class ViewPortHandler {
 
     /**
      * Returns true if the chart is not yet fully zoomed in on the y-axis
-     *
-     * @return
      */
     public boolean canZoomInMoreY() {
         return mScaleY < mMaxScaleY;

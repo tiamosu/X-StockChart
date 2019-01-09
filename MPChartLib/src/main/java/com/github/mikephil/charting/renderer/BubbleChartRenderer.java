@@ -1,4 +1,3 @@
-
 package com.github.mikephil.charting.renderer;
 
 import android.graphics.Canvas;
@@ -40,16 +39,12 @@ public class BubbleChartRenderer extends BarLineScatterCandleBubbleRenderer {
 
     @Override
     public void initBuffers() {
-
     }
 
     @Override
     public void drawData(Canvas c) {
-
         BubbleData bubbleData = mChart.getBubbleData();
-
         for (IBubbleDataSet set : bubbleData.getDataSets()) {
-
             if (set.isVisible()) {
                 drawDataSet(c, set);
             }
@@ -62,14 +57,11 @@ public class BubbleChartRenderer extends BarLineScatterCandleBubbleRenderer {
     protected float getShapeSize(float entrySize, float maxSize, float reference, boolean normalizeSize) {
         final float factor = normalizeSize ? ((maxSize == 0f) ? 1f : (float) Math.sqrt(entrySize / maxSize)) :
                 entrySize;
-        final float shapeSize = reference * factor;
-        return shapeSize;
+        return reference * factor;
     }
 
     protected void drawDataSet(Canvas c, IBubbleDataSet dataSet) {
-
         Transformer trans = mChart.getTransformer(dataSet.getAxisDependency());
-
         float phaseY = mAnimator.getPhaseY();
 
         mXBounds.set(mChart, dataSet);

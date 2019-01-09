@@ -10,13 +10,10 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.utils.MPPointF;
 import com.github.mikephil.charting.utils.NumberUtils;
 
-import java.text.DecimalFormat;
-
 public class LeftMarkerView extends MarkerView {
     /**
      * Constructor. Sets up the MarkerView with a custom layout resource.
      *
-     * @param context
      * @param layoutResource the layout resource to use for the MarkerView
      */
     private TextView markerTv;
@@ -26,7 +23,7 @@ public class LeftMarkerView extends MarkerView {
     public LeftMarkerView(Context context, int layoutResource, int precision) {
         super(context, layoutResource);
         this.precision = precision;
-        markerTv = (TextView) findViewById(R.id.marker_tv);
+        markerTv = findViewById(R.id.marker_tv);
         markerTv.setTextSize(10);
     }
 

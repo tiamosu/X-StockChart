@@ -152,8 +152,6 @@ public class YAxis extends AxisBase {
 
     /**
      * Sets the minimum width that the axis should take (in dp).
-     *
-     * @param minWidth
      */
     public void setMinWidth(float minWidth) {
         mMinWidth = minWidth;
@@ -168,8 +166,6 @@ public class YAxis extends AxisBase {
 
     /**
      * Sets the maximum width that the axis can take (in dp).
-     *
-     * @param maxWidth
      */
     public void setMaxWidth(float maxWidth) {
         mMaxWidth = maxWidth;
@@ -184,8 +180,6 @@ public class YAxis extends AxisBase {
 
     /**
      * sets the position of the y-labels
-     *
-     * @param pos
      */
     public void setPosition(YAxisLabelPosition pos) {
         mPosition = pos;
@@ -193,8 +187,6 @@ public class YAxis extends AxisBase {
 
     /**
      * returns true if drawing the top y-axis label entry is enabled
-     *
-     * @return
      */
     public boolean isDrawTopYLabelEntryEnabled() {
         return mDrawTopYLabelEntry;
@@ -202,8 +194,6 @@ public class YAxis extends AxisBase {
 
     /**
      * returns true if drawing the bottom y-axis label entry is enabled
-     *
-     * @return
      */
     public boolean isDrawBottomYLabelEntryEnabled() {
         return mDrawBottomYLabelEntry;
@@ -213,8 +203,6 @@ public class YAxis extends AxisBase {
      * set this to true to enable drawing the top y-label entry. Disabling this can be helpful
      * when the top y-label and
      * left x-label interfere with each other. default: true
-     *
-     * @param enabled
      */
     public void setDrawTopYLabelEntry(boolean enabled) {
         mDrawTopYLabelEntry = enabled;
@@ -224,8 +212,6 @@ public class YAxis extends AxisBase {
      * If this is set to true, the y-axis is inverted which means that low values are on top of
      * the chart, high values
      * on bottom.
-     *
-     * @param enabled
      */
     public void setInverted(boolean enabled) {
         mInverted = enabled;
@@ -233,8 +219,6 @@ public class YAxis extends AxisBase {
 
     /**
      * If this returns true, the y-axis is inverted.
-     *
-     * @return
      */
     public boolean isInverted() {
         return mInverted;
@@ -243,8 +227,6 @@ public class YAxis extends AxisBase {
     /**
      * This method is deprecated.
      * Use setAxisMinimum(...) / setAxisMaximum(...) instead.
-     *
-     * @param startAtZero
      */
     @Deprecated
     public void setStartAtZero(boolean startAtZero) {
@@ -257,8 +239,6 @@ public class YAxis extends AxisBase {
 
     /**
      * Sets the top axis space in percent of the full range. Default 10f
-     *
-     * @param percent
      */
     public void setSpaceTop(float percent) {
         mSpacePercentTop = percent;
@@ -266,8 +246,6 @@ public class YAxis extends AxisBase {
 
     /**
      * Returns the top axis space in percent of the full range. Default 10f
-     *
-     * @return
      */
     public float getSpaceTop() {
         return mSpacePercentTop;
@@ -275,8 +253,6 @@ public class YAxis extends AxisBase {
 
     /**
      * Sets the bottom axis space in percent of the full range. Default 10f
-     *
-     * @param percent
      */
     public void setSpaceBottom(float percent) {
         mSpacePercentBottom = percent;
@@ -284,8 +260,6 @@ public class YAxis extends AxisBase {
 
     /**
      * Returns the bottom axis space in percent of the full range. Default 10f
-     *
-     * @return
      */
     public float getSpaceBottom() {
         return mSpacePercentBottom;
@@ -298,8 +272,6 @@ public class YAxis extends AxisBase {
     /**
      * Set this to true to draw the zero-line regardless of weather other
      * grid-lines are enabled or not. Default: false
-     *
-     * @param mDrawZeroLine
      */
     public void setDrawZeroLine(boolean mDrawZeroLine) {
         this.mDrawZeroLine = mDrawZeroLine;
@@ -311,8 +283,6 @@ public class YAxis extends AxisBase {
 
     /**
      * Sets the color of the zero line
-     *
-     * @param color
      */
     public void setZeroLineColor(int color) {
         mZeroLineColor = color;
@@ -324,8 +294,6 @@ public class YAxis extends AxisBase {
 
     /**
      * Sets the width of the zero line in dp
-     *
-     * @param width
      */
     public void setZeroLineWidth(float width) {
         this.mZeroLineWidth = Utils.convertDpToPixel(width);
@@ -333,12 +301,8 @@ public class YAxis extends AxisBase {
 
     /**
      * This is for normal (not horizontal) charts horizontal spacing.
-     *
-     * @param p
-     * @return
      */
     public float getRequiredWidthSpace(Paint p) {
-
         p.setTextSize(mTextSize);
 
         String label = getLongestLabel();
@@ -362,12 +326,8 @@ public class YAxis extends AxisBase {
 
     /**
      * This is for HorizontalBarChart vertical spacing.
-     *
-     * @param p
-     * @return
      */
     public float getRequiredHeightSpace(Paint p) {
-
         p.setTextSize(mTextSize);
 
         String label = getLongestLabel();
@@ -376,12 +336,10 @@ public class YAxis extends AxisBase {
 
     /**
      * Returns true if this axis needs horizontal offset, false if no offset is needed.
-     *
-     * @return
      */
     public boolean needsOffset() {
-        return isEnabled() && isDrawLabelsEnabled() && getLabelPosition() == YAxisLabelPosition
-                .OUTSIDE_CHART;
+        return isEnabled() && isDrawLabelsEnabled()
+                && getLabelPosition() == YAxisLabelPosition.OUTSIDE_CHART;
     }
 
     @Override

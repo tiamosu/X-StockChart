@@ -1,4 +1,3 @@
-
 package com.github.mikephil.charting.charts;
 
 import android.content.Context;
@@ -102,14 +101,9 @@ public class CombinedChart extends BarLineChartBase<CombinedData> implements Com
      * Returns the Highlight object (contains x-index and DataSet index) of the selected value at the given touch
      * point
      * inside the CombinedChart.
-     *
-     * @param x
-     * @param y
-     * @return
      */
     @Override
     public Highlight getHighlightByTouchPoint(float x, float y) {
-
         if (mData == null) {
             Log.e(LOG_TAG, "Can't select by touch. No data set.");
             return null;
@@ -179,8 +173,6 @@ public class CombinedChart extends BarLineChartBase<CombinedData> implements Com
     /**
      * If set to true, all values are drawn above their bars, instead of below
      * their top.
-     *
-     * @param enabled
      */
     public void setDrawValueAboveBar(boolean enabled) {
         mDrawValueAboveBar = enabled;
@@ -190,8 +182,6 @@ public class CombinedChart extends BarLineChartBase<CombinedData> implements Com
     /**
      * If set to true, a grey area is drawn behind each bar that indicates the
      * maximum value. Enabling his will reduce performance by about 50%.
-     *
-     * @param enabled
      */
     public void setDrawBarShadow(boolean enabled) {
         mDrawBarShadow = enabled;
@@ -200,8 +190,6 @@ public class CombinedChart extends BarLineChartBase<CombinedData> implements Com
     /**
      * Set this to true to make the highlight operation full-bar oriented,
      * false to make it highlight single values (relevant only for stacked).
-     *
-     * @param enabled
      */
     public void setHighlightFullBarEnabled(boolean enabled) {
         mHighlightFullBarEnabled = enabled;
@@ -217,8 +205,6 @@ public class CombinedChart extends BarLineChartBase<CombinedData> implements Com
 
     /**
      * Returns the currently set draw order.
-     *
-     * @return
      */
     public DrawOrder[] getDrawOrder() {
         return mDrawOrder;
@@ -229,8 +215,6 @@ public class CombinedChart extends BarLineChartBase<CombinedData> implements Com
      * earlier you place them in the provided array, the further they will be in
      * the background. e.g. if you provide new DrawOrer[] { DrawOrder.BAR,
      * DrawOrder.LINE }, the bars will be drawn behind the lines.
-     *
-     * @param order
      */
     public void setDrawOrder(DrawOrder[] order) {
         if (order == null || order.length <= 0) {

@@ -5,8 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 
-import androidx.core.content.ContextCompat;
-
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.highlight.Highlight;
@@ -15,6 +13,8 @@ import com.github.mikephil.charting.utils.MPPointF;
 
 import java.lang.ref.WeakReference;
 
+import androidx.core.content.ContextCompat;
+
 /**
  * View that can be displayed when selecting values in the chart. Extend this class to provide custom layouts for your
  * markers.
@@ -22,7 +22,6 @@ import java.lang.ref.WeakReference;
  * @author Philipp Jahoda
  */
 public class MarkerImage implements IMarker {
-
     private Context mContext;
     private Drawable mDrawable;
 
@@ -36,7 +35,6 @@ public class MarkerImage implements IMarker {
     /**
      * Constructor. Sets up the MarkerView with a custom layout resource.
      *
-     * @param context
      * @param drawableResourceId the drawable resource to render
      */
     public MarkerImage(Context context, int drawableResourceId) {
@@ -84,7 +82,6 @@ public class MarkerImage implements IMarker {
 
     @Override
     public MPPointF getOffsetForDrawingAtPoint(float posX, float posY) {
-
         MPPointF offset = getOffset();
         mOffset2.x = offset.x;
         mOffset2.y = offset.y;
@@ -118,12 +115,10 @@ public class MarkerImage implements IMarker {
 
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
-
     }
 
     @Override
     public void draw(Canvas canvas, float posX, float posY) {
-
         if (mDrawable == null) {
             return;
         }

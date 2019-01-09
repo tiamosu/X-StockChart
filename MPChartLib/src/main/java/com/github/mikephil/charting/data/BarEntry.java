@@ -35,9 +35,6 @@ public class BarEntry extends Entry {
 
     /**
      * Constructor for normal bars (not stacked).
-     *
-     * @param x
-     * @param y
      */
     public BarEntry(int mXIndex, float x, float y) {
         super(mXIndex, x, y);
@@ -46,8 +43,6 @@ public class BarEntry extends Entry {
     /**
      * Constructor for normal bars (not stacked).
      *
-     * @param x
-     * @param y
      * @param data - Spot for additional data this Entry represents.
      */
     public BarEntry(int mXIndex, float x, float y, Object data) {
@@ -57,8 +52,6 @@ public class BarEntry extends Entry {
     /**
      * Constructor for normal bars (not stacked).
      *
-     * @param x
-     * @param y
      * @param icon - icon image
      */
     public BarEntry(int mXIndex, float x, float y, Drawable icon) {
@@ -68,8 +61,6 @@ public class BarEntry extends Entry {
     /**
      * Constructor for normal bars (not stacked).
      *
-     * @param x
-     * @param y
      * @param icon - icon image
      * @param data - Spot for additional data this Entry represents.
      */
@@ -80,7 +71,6 @@ public class BarEntry extends Entry {
     /**
      * Constructor for stacked bar entries. One data object for whole stack
      *
-     * @param x
      * @param vals - the stack values, use at least 2
      */
     public BarEntry(int mXIndex, float x, float[] vals) {
@@ -94,7 +84,6 @@ public class BarEntry extends Entry {
     /**
      * Constructor for stacked bar entries. One data object for whole stack
      *
-     * @param x
      * @param vals - the stack values, use at least 2
      * @param data - Spot for additional data this Entry represents.
      */
@@ -109,7 +98,6 @@ public class BarEntry extends Entry {
     /**
      * Constructor for stacked bar entries. One data object for whole stack
      *
-     * @param x
      * @param vals - the stack values, use at least 2
      * @param icon - icon image
      */
@@ -124,7 +112,6 @@ public class BarEntry extends Entry {
     /**
      * Constructor for stacked bar entries. One data object for whole stack
      *
-     * @param x
      * @param vals - the stack values, use at least 2
      * @param icon - icon image
      * @param data - Spot for additional data this Entry represents.
@@ -142,7 +129,6 @@ public class BarEntry extends Entry {
      */
     @Override
     public BarEntry copy() {
-
         BarEntry copied = new BarEntry(getXIndex(), getX(), getY(), getData());
         copied.setVals(mYVals);
         return copied;
@@ -151,8 +137,6 @@ public class BarEntry extends Entry {
     /**
      * Returns the stacked values this BarEntry represents, or null, if only a single value is represented (then, use
      * getY()).
-     *
-     * @return
      */
     public float[] getYVals() {
         return mYVals;
@@ -160,8 +144,6 @@ public class BarEntry extends Entry {
 
     /**
      * Set the array of values this BarEntry should represent.
-     *
-     * @param vals
      */
     public void setVals(float[] vals) {
         setY(calcSum(vals));
@@ -172,8 +154,6 @@ public class BarEntry extends Entry {
 
     /**
      * Returns the value of this BarEntry. If the entry is stacked, it returns the positive sum of all values.
-     *
-     * @return
      */
     @Override
     public float getY() {
@@ -182,8 +162,6 @@ public class BarEntry extends Entry {
 
     /**
      * Returns the ranges of the individual stack-entries. Will return null if this entry is not stacked.
-     *
-     * @return
      */
     public Range[] getRanges() {
         return mRanges;
@@ -191,8 +169,6 @@ public class BarEntry extends Entry {
 
     /**
      * Returns true if this BarEntry is stacked (has a values array), false if not.
-     *
-     * @return
      */
     public boolean isStacked() {
         return mYVals != null;
@@ -207,7 +183,6 @@ public class BarEntry extends Entry {
     }
 
     public float getSumBelow(int stackIndex) {
-
         if (mYVals == null) {
             return 0;
         }
@@ -225,8 +200,6 @@ public class BarEntry extends Entry {
 
     /**
      * Reuturns the sum of all positive values this entry (if stacked) contains.
-     *
-     * @return
      */
     public float getPositiveSum() {
         return mPositiveSum;
@@ -234,15 +207,12 @@ public class BarEntry extends Entry {
 
     /**
      * Returns the sum of all negative values this entry (if stacked) contains. (this is a positive number)
-     *
-     * @return
      */
     public float getNegativeSum() {
         return mNegativeSum;
     }
 
     private void calcPosNegSum() {
-
         if (mYVals == null) {
             mNegativeSum = 0;
             mPositiveSum = 0;
@@ -266,12 +236,8 @@ public class BarEntry extends Entry {
 
     /**
      * Calculates the sum across all values of the given stack.
-     *
-     * @param vals
-     * @return
      */
     private static float calcSum(float[] vals) {
-
         if (vals == null) {
             return 0f;
         }
@@ -286,9 +252,7 @@ public class BarEntry extends Entry {
     }
 
     protected void calcRanges() {
-
         float[] values = getYVals();
-
         if (values == null || values.length == 0) {
             return;
         }
@@ -312,5 +276,3 @@ public class BarEntry extends Entry {
         }
     }
 }
-
-

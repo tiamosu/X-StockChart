@@ -4,12 +4,9 @@ import com.github.mikephil.charting.stockChart.model.KLineDataModel;
 
 import java.util.ArrayList;
 
-import static java.lang.Float.NaN;
-
 /**
  * Created by loro on 2017/3/7.
  */
-
 public class BOLLEntity {
     private ArrayList<Float> UPs;
     private ArrayList<Float> MBs;
@@ -17,9 +14,6 @@ public class BOLLEntity {
 
     /**
      * 得到BOLL指标
-     *
-     * @param kLineBeens
-     * @param n
      */
     public BOLLEntity(ArrayList<KLineDataModel> kLineBeens, int n) {
         this(kLineBeens, n, 0);
@@ -27,10 +21,6 @@ public class BOLLEntity {
 
     /**
      * 得到BOLL指标
-     *
-     * @param kLineBeens
-     * @param n
-     * @param defult
      */
     public BOLLEntity(ArrayList<KLineDataModel> kLineBeens, int n, float defult) {
         UPs = new ArrayList<>();
@@ -101,7 +91,6 @@ public class BOLLEntity {
 
         return close;
     }
-
 
     public ArrayList<Float> getUPs() {
         return UPs;

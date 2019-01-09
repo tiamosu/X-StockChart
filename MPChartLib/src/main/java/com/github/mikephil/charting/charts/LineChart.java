@@ -1,4 +1,3 @@
-
 package com.github.mikephil.charting.charts;
 
 import android.content.Context;
@@ -46,7 +45,7 @@ public class LineChart extends BarLineChartBase<LineData> implements LineDataPro
     @Override
     protected void onDetachedFromWindow() {
         // releases the bitmap in the renderer to avoid oom error
-        if (mRenderer != null && mRenderer instanceof LineChartRenderer) {
+        if (mRenderer instanceof LineChartRenderer) {
             ((LineChartRenderer) mRenderer).releaseBitmap();
         }
         super.onDetachedFromWindow();

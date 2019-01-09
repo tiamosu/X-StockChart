@@ -1,4 +1,3 @@
-
 package com.github.mikephil.charting.formatter;
 
 import com.github.mikephil.charting.components.AxisBase;
@@ -23,8 +22,6 @@ public class PercentFormatter implements IValueFormatter, IAxisValueFormatter {
 
     /**
      * Allow a custom decimalformat
-     *
-     * @param format
      */
     public PercentFormatter(DecimalFormat format) {
         this.mFormat = format;

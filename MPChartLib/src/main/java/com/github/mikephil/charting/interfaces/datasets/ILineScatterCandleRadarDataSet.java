@@ -11,22 +11,16 @@ public interface ILineScatterCandleRadarDataSet<T extends Entry> extends IBarLin
 
     /**
      * Returns true if vertical highlight indicator lines are enabled (drawn)
-     *
-     * @return
      */
     boolean isVerticalHighlightIndicatorEnabled();
 
     /**
      * Returns true if vertical highlight indicator lines are enabled (drawn)
-     *
-     * @return
      */
     boolean isHorizontalHighlightIndicatorEnabled();
 
     /**
      * Returns the DashPathEffect that is used for highlighting.
-     *
-     * @return
      */
     DashPathEffect getDashPathEffectHighlight();
 }

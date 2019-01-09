@@ -1,9 +1,5 @@
 package com.github.mikephil.charting.utils;
 
-/**
- * Created by Administrator on 2016/8/4.
- */
-
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -72,10 +68,6 @@ public class NumberUtils {
 
     /**
      * 用于格式化显示
-     *
-     * @param number
-     * @param precision
-     * @return
      */
     public static String keepPrecisionR(double number, int precision) {
         String str = "######0";
@@ -105,23 +97,16 @@ public class NumberUtils {
             }
         }
         //处理首个数字是.的问题
-        if (s.toString().trim().substring(0).equals(".")) {
+        if (".".equals(s.toString().trim().substring(0))) {
             s = "0" + s;
             view.setText(s);
             view.setSelection(2);
         }
-        //处理最后数字是.的问题
-//        if(s.toString().trim().substring(s.length()-1).equals(".")){
-//            s = s.subSequence(0,s.toString().indexOf("."));
-//            view.setText(s);
-//            view.setSelection(s.length());
-//        }
         //处理首个数字是0，第二个数字不是.的问题
         if (s.toString().startsWith("0") && s.toString().trim().length() > 1) {
-            if (!s.toString().substring(1, 2).equals(".")) {
+            if (!".".equals(s.toString().substring(1, 2))) {
                 view.setText(s.subSequence(0, 1));
                 view.setSelection(1);
-                return;
             }
         }
     }
@@ -151,7 +136,7 @@ public class NumberUtils {
                         editText.setSelection(s.length());
                     }
                 }
-                if (s.toString().trim().substring(0).equals(".")) {
+                if (".".equals(s.toString().trim().substring(0))) {
                     s = "0" + s;
                     editText.setText(s);
                     editText.setSelection(2);
@@ -159,10 +144,9 @@ public class NumberUtils {
 
                 if (s.toString().startsWith("0")
                         && s.toString().trim().length() > 1) {
-                    if (!s.toString().substring(1, 2).equals(".")) {
+                    if (!".".equals(s.toString().substring(1, 2))) {
                         editText.setText(s.subSequence(0, 1));
                         editText.setSelection(1);
-                        return;
                     }
                 }
             }
@@ -175,10 +159,7 @@ public class NumberUtils {
 
             @Override
             public void afterTextChanged(Editable s) {
-                // TODO Auto-generated method stub
-
             }
-
         });
     }
 
@@ -186,7 +167,6 @@ public class NumberUtils {
      * 格式化成交量,(开启千位分隔符)
      *
      * @param vol 成交量
-     * @return
      */
     public static String formatVol(Context context, String assetId, double vol) {
         DecimalFormat df = new DecimalFormat();
@@ -205,10 +185,8 @@ public class NumberUtils {
 
     public static double String2Double(String strVal) {
         try {
-            double doubleVal = Double.parseDouble(strVal);
-            return doubleVal;
-        } catch (Exception e) {
-
+            return Double.parseDouble(strVal);
+        } catch (Exception ignored) {
         }
         return 0;
     }

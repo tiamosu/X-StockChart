@@ -79,17 +79,18 @@ public class DataTimeUtil {
         int hour = 0;
         int minute = 0;
         int second = 0;
-        if (time <= 0)
+        if (time <= 0) {
             return "00:00:00";
-        else {
+        } else {
             minute = time / 60;
             if (minute < 60) {
                 second = time % 60;
                 timeStr = "00:" + unitFormat(minute) + ":" + unitFormat(second);
             } else {
                 hour = minute / 60;
-                if (hour > 99)
+                if (hour > 99) {
                     return "99:59:59";
+                }
                 minute = minute % 60;
                 second = time - hour * 3600 - minute * 60;
                 timeStr = unitFormat(hour) + ":" + unitFormat(minute) + ":" + unitFormat(second);
@@ -145,10 +146,11 @@ public class DataTimeUtil {
 
     public static String unitFormat(int i) {
         String retStr = null;
-        if (i >= 0 && i < 10)
+        if (i >= 0 && i < 10) {
             retStr = "0" + Integer.toString(i);
-        else
+        } else {
             retStr = "" + i;
+        }
         return retStr;
     }
 
@@ -219,24 +221,16 @@ public class DataTimeUtil {
         }
     }
 
-//    public static boolean isEmail(String email){
-//        //正则表达式
-//        String regex = "^[A-Za-z]{1,40}@[A-Za-z0-9]{1,40}\\.[A-Za-z]{2,3}$";
-//        return email.matches(regex);
-//    }
-
     public static boolean isEmail(String string) {
-        if (string == null)
+        if (string == null) {
             return false;
+        }
         String regEx1 = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
         Pattern p;
         Matcher m;
         p = Pattern.compile(regEx1);
         m = p.matcher(string);
-        if (m.matches())
-            return true;
-        else
-            return false;
+        return m.matches();
     }
 
     public static String getMonthDay(int before) {
@@ -281,7 +275,7 @@ public class DataTimeUtil {
         Date date = new Date();//取时间
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(date);
-        calendar.add(calendar.DATE, -1);//把日期往后增加一天.整数往后推,负数往前移动
+        calendar.add(Calendar.DATE, -1);//把日期往后增加一天.整数往后推,负数往前移动
         date = calendar.getTime(); //这个时间就是日期往后推一天的结果
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         return formatter.format(date);
@@ -289,8 +283,6 @@ public class DataTimeUtil {
 
     //之前的几周
     public static String getWeekBefore(int week) {
-//        String paramStartDate = "";
-//        String paramEndDate = "";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date dateNow = new Date();
         Date dateBefore = new Date();
@@ -298,14 +290,11 @@ public class DataTimeUtil {
         cal.setTime(dateNow);
         cal.add(Calendar.DAY_OF_MONTH, -week * 7);
         dateBefore = cal.getTime();
-//        paramEndDate = sdf.format(dateNow);
         return sdf.format(dateBefore);
     }
 
     //之前的几个月
     public static String getMonthBefore(int month) {
-//        String paramStartDate = "";
-//        String paramEndDate = "";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date dateNow = new Date();
         Date dateBefore = new Date();
@@ -313,7 +302,6 @@ public class DataTimeUtil {
         cal.setTime(dateNow);
         cal.add(Calendar.MONTH, -1 * month);
         dateBefore = cal.getTime();
-//        paramEndDate = sdf.format(dateNow);
         return sdf.format(dateBefore);
     }
 
@@ -374,10 +362,6 @@ public class DataTimeUtil {
         if (isAddFirst || yValues.size() == 1) {
             yValues.add(0, 0f);
         }
-//        for(int i = 1;i < yValues.size();i++){
-//            yValues.set(i,yValues.get(i)+yValues.get(i-1));
-//        }
         return yValues;
     }
-
 }

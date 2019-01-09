@@ -1,6 +1,5 @@
 package com.github.mikephil.charting.stockChart.model.bean;
 
-
 import com.github.mikephil.charting.stockChart.model.KLineDataModel;
 
 import java.util.ArrayList;
@@ -10,7 +9,6 @@ import static java.lang.Float.NaN;
 /**
  * Created by loro on 2017/3/7.
  */
-
 public class KMAEntity {
     private ArrayList<Float> MAs;
 
@@ -32,7 +30,7 @@ public class KMAEntity {
      * @param defult    不足N日时的默认值
      */
     public KMAEntity(ArrayList<KLineDataModel> kLineBeen, int n, float defult) {
-        MAs = new ArrayList<Float>();
+        MAs = new ArrayList<>();
         float ma = 0.0f;
         int index = n - 1;
         if (kLineBeen != null && kLineBeen.size() > 0) {
@@ -70,5 +68,4 @@ public class KMAEntity {
     public ArrayList<Float> getMAs() {
         return MAs;
     }
-
 }

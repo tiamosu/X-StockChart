@@ -1,4 +1,3 @@
-
 package com.github.mikephil.charting.renderer;
 
 import android.graphics.Canvas;
@@ -6,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 
 import com.github.mikephil.charting.animation.ChartAnimator;
 import com.github.mikephil.charting.buffer.BarBuffer;
@@ -58,7 +56,6 @@ public class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
 
     @Override
     public void initBuffers() {
-
         BarData barData = mChart.getBarData();
         mBarBuffers = new BarBuffer[barData.getDataSetCount()];
 
@@ -449,7 +446,7 @@ public class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
                 mHighlightPaint.setColor(set.getHighLightColor());
                 mHighlightPaint.setStrokeWidth(Utils.convertDpToPixel(set.getHighlightLineWidth()));
 
-                boolean isStack = (high.getStackIndex() >= 0 && e.isStacked()) ? true : false;
+                boolean isStack = high.getStackIndex() >= 0 && e.isStacked();
 
                 final float y1;
                 final float y2;
@@ -484,8 +481,6 @@ public class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
 
     /**
      * Sets the drawing position of the highlight object based on the riven bar-rect.
-     *
-     * @param high
      */
     protected void setHighlightDrawPos(Highlight high, RectF bar) {
         high.setDraw(bar.centerX(), bar.top);

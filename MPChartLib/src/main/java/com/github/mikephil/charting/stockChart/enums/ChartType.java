@@ -17,7 +17,6 @@ public enum ChartType {
     K_WEEK_BIG(1000),
     K_MONTH_BIG(1000);
 
-
     private int pointNum = 0;
 
     ChartType(int num) {

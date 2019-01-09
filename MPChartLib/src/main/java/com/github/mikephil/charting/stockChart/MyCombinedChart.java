@@ -51,15 +51,12 @@ public class MyCombinedChart extends CombinedChart {
             return;
         }
 
-        for (int i = 0; i < mIndicesToHighlight.length; i++) {
-
-            Highlight highlight = mIndicesToHighlight[i];
-
+        for (Highlight highlight : mIndicesToHighlight) {
             IDataSet set = mData.getDataSetByIndex(highlight.getDataSetIndex());
-            if(set == null){
+            if (set == null) {
                 continue;
             }
-            Entry e = mData.getEntryForHighlight(mIndicesToHighlight[i]);
+            Entry e = mData.getEntryForHighlight(highlight);
             int entryIndex = set.getEntryIndex(e);
 
             // make sure entry not null
@@ -97,6 +94,4 @@ public class MyCombinedChart extends CombinedChart {
             }
         }
     }
-
-
 }

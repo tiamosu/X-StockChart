@@ -13,7 +13,6 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
  */
 public class XShapeRenderer implements IShapeRenderer {
 
-
     @Override
     public void renderShape(Canvas c, IScatterDataSet dataSet, ViewPortHandler viewPortHandler,
                             float posX, float posY, Paint renderPaint) {
@@ -35,7 +34,5 @@ public class XShapeRenderer implements IShapeRenderer {
                 posX - shapeHalf,
                 posY + shapeHalf,
                 renderPaint);
-
     }
-
 }

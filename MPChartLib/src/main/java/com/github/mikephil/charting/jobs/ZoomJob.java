@@ -1,4 +1,3 @@
-
 package com.github.mikephil.charting.jobs;
 
 import android.graphics.Matrix;

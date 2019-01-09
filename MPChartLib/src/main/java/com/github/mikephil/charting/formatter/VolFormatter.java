@@ -1,6 +1,5 @@
 package com.github.mikephil.charting.formatter;
 
-
 import android.content.Context;
 
 import com.github.mikephil.charting.R;
@@ -12,17 +11,17 @@ import java.text.DecimalFormat;
  * 坐标label格式化
  */
 public class VolFormatter implements IAxisValueFormatter {
-
     private int unit;
     private DecimalFormat mFormat;
     private String u;
     private String assetId;
     private Context context;
 
-    public VolFormatter(Context context,String assetId){
+    public VolFormatter(Context context, String assetId) {
         this.context = context;
         this.assetId = assetId;
     }
+
     @Override
     public String getFormattedValue(float value, AxisBase axis) {
         int e = (int) Math.floor(Math.log10(value));
@@ -43,15 +42,14 @@ public class VolFormatter implements IAxisValueFormatter {
         if (value == 0) {
             int e2 = (int) Math.floor(Math.log10(axis.getAxisMaximum()));
             if (e2 >= 8) {
-                u = assetId.endsWith(".HK")?context.getResources().getString(R.string.billions_gu):context.getResources().getString(R.string.billions_shou);
+                u = assetId.endsWith(".HK") ? context.getResources().getString(R.string.billions_gu) : context.getResources().getString(R.string.billions_shou);
             } else if (e2 >= 4) {
-                u = assetId.endsWith(".HK")?context.getResources().getString(R.string.millions_gu):context.getResources().getString(R.string.millions_shou);
+                u = assetId.endsWith(".HK") ? context.getResources().getString(R.string.millions_gu) : context.getResources().getString(R.string.millions_shou);
             } else {
-                u = assetId.endsWith(".HK")?context.getResources().getString(R.string.gu):context.getResources().getString(R.string.shou);
+                u = assetId.endsWith(".HK") ? context.getResources().getString(R.string.gu) : context.getResources().getString(R.string.shou);
             }
             return u;
         }
         return mFormat.format(value);
     }
-
 }

@@ -1,6 +1,5 @@
 package com.github.mikephil.charting.stockChart.model.bean;
 
-
 import com.github.mikephil.charting.stockChart.model.KLineDataModel;
 
 import java.util.ArrayList;
@@ -9,7 +8,6 @@ import java.util.List;
 /**
  * Created by loro on 2017/3/2.
  */
-
 public class MACDEntity {
 
     private List<Float> DEAs;
@@ -22,13 +20,13 @@ public class MACDEntity {
      * @param kLineBeen
      */
     public MACDEntity(List<KLineDataModel> kLineBeen, int SHORT, int LONG, int M) {
-        DEAs = new ArrayList<Float>();
-        DIFs = new ArrayList<Float>();
-        MACDs = new ArrayList<Float>();
+        DEAs = new ArrayList<>();
+        DIFs = new ArrayList<>();
+        MACDs = new ArrayList<>();
 
-        List<Float> dEAs = new ArrayList<Float>();
-        List<Float> dIFs = new ArrayList<Float>();
-        List<Float> mACDs = new ArrayList<Float>();
+        List<Float> dEAs = new ArrayList<>();
+        List<Float> dIFs = new ArrayList<>();
+        List<Float> mACDs = new ArrayList<>();
 
         float eMA12 = 0.0f;
         float eMA26 = 0.0f;
@@ -60,7 +58,6 @@ public class MACDEntity {
                 MACDs.add(mACDs.get(i));
             }
         }
-
     }
 
     public List<Float> getDEA() {

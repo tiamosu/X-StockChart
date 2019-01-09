@@ -33,9 +33,7 @@ public class CombinedHighlighter extends ChartHighlighter<CombinedDataProvider> 
         mHighlightBuffer.clear();
 
         List<BarLineScatterCandleBubbleData> dataObjects = mChart.getCombinedData().getAllData();
-
         for (int i = 0; i < dataObjects.size(); i++) {
-
             ChartData dataObject = dataObjects.get(i);
 
             // in case of BarData, let the BarHighlighter take over
@@ -47,11 +45,8 @@ public class CombinedHighlighter extends ChartHighlighter<CombinedDataProvider> 
                     mHighlightBuffer.add(high);
                 }
             } else {
-
                 for (int j = 0, dataSetCount = dataObject.getDataSetCount(); j < dataSetCount; j++) {
-
                     IDataSet dataSet = dataObjects.get(i).getDataSetByIndex(j);
-
                     // don't include datasets that cannot be highlighted
                     if (!dataSet.isHighlightEnabled()) {
                         continue;
@@ -68,25 +63,4 @@ public class CombinedHighlighter extends ChartHighlighter<CombinedDataProvider> 
 
         return mHighlightBuffer;
     }
-
-//    protected Highlight getClosest(float x, float y, Highlight... highs) {
-//
-//        Highlight closest = null;
-//        float minDistance = Float.MAX_VALUE;
-//
-//        for (Highlight high : highs) {
-//
-//            if (high == null)
-//                continue;
-//
-//            float tempDistance = getDistance(x, y, high.getXPx(), high.getYPx());
-//
-//            if (tempDistance < minDistance) {
-//                minDistance = tempDistance;
-//                closest = high;
-//            }
-//        }
-//
-//        return closest;
-//    }
 }

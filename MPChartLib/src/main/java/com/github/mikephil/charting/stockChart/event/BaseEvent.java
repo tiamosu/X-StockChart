@@ -1,10 +1,3 @@
-/*
- * Copyright (C) 2014-2020,点证科技 Tech. Co., Ltd.
- * Author: Tony Dylan
- * Date: 2014-12-5
- * Description: 基于EventBus封装的Event基类，所有其他自定义Event全部继承此类。
- * Others:
- */
 package com.github.mikephil.charting.stockChart.event;
 
 public class BaseEvent {

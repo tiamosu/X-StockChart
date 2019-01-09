@@ -24,9 +24,6 @@ public abstract class BarLineScatterCandleBubbleRenderer extends DataRenderer {
 
     /**
      * Returns true if the DataSet values should be drawn, false if not.
-     *
-     * @param set
-     * @return
      */
     protected boolean shouldDrawValues(IDataSet set) {
         return set.isVisible() && (set.isDrawValuesEnabled() || set.isDrawIconsEnabled());
@@ -34,24 +31,15 @@ public abstract class BarLineScatterCandleBubbleRenderer extends DataRenderer {
 
     /**
      * Checks if the provided entry object is in bounds for drawing considering the current animation phase.
-     *
-     * @param e
-     * @param set
-     * @return
      */
     protected boolean isInBoundsX(Entry e, IBarLineScatterCandleBubbleDataSet set) {
-
         if (e == null) {
             return false;
         }
 
         float entryIndex = set.getEntryIndex(e);
 
-        if (e == null || entryIndex >= set.getEntryCount() * mAnimator.getPhaseX()) {
-            return false;
-        } else {
-            return true;
-        }
+        return !(entryIndex >= set.getEntryCount() * mAnimator.getPhaseX());
     }
 
     /**
@@ -76,9 +64,6 @@ public abstract class BarLineScatterCandleBubbleRenderer extends DataRenderer {
 
         /**
          * Calculates the minimum and maximum x values as well as the range between them.
-         *
-         * @param chart
-         * @param dataSet
          */
         public void set(BarLineScatterCandleBubbleDataProvider chart, IBarLineScatterCandleBubbleDataSet dataSet) {
             float phaseX = Math.max(0.f, Math.min(1.f, mAnimator.getPhaseX()));

@@ -22,11 +22,8 @@ public class HorizontalBarHighlighter extends BarHighlighter {
 
     @Override
     public Highlight getHighlight(float x, float y) {
-
         BarData barData = mChart.getBarData();
-
         MPPointD pos = getValsForTouch(y, x);
-
         Highlight high = getHighlightForX((float) pos.y, y, x);
         if (high == null) {
             return null;
@@ -34,7 +31,6 @@ public class HorizontalBarHighlighter extends BarHighlighter {
 
         IBarDataSet set = barData.getDataSetByIndex(high.getDataSetIndex());
         if (set.isStacked()) {
-
             return getStackedHighlight(high,
                     set,
                     (float) pos.y,
@@ -48,7 +44,6 @@ public class HorizontalBarHighlighter extends BarHighlighter {
 
     @Override
     protected List<Highlight> buildHighlights(IDataSet set, int dataSetIndex, float xVal, DataSet.Rounding rounding) {
-
         ArrayList<Highlight> highlights = new ArrayList<>();
 
         //noinspection unchecked

@@ -22,8 +22,6 @@ public class DefaultAxisValueFormatter implements IAxisValueFormatter {
     /**
      * Constructor that specifies to how many digits the value should be
      * formatted.
-     *
-     * @param digits
      */
     public DefaultAxisValueFormatter(int digits) {
         this.digits = digits;
@@ -47,8 +45,6 @@ public class DefaultAxisValueFormatter implements IAxisValueFormatter {
 
     /**
      * Returns the number of decimal digits this formatter uses or -1, if unspecified.
-     *
-     * @return
      */
     public int getDecimalDigits() {
         return digits;

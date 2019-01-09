@@ -1,4 +1,3 @@
-
 package com.github.mikephil.charting.data;
 
 import android.graphics.Paint;
@@ -79,8 +78,7 @@ public class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> im
 
     @Override
     public DataSet<CandleEntry> copy() {
-
-        List<CandleEntry> yVals = new ArrayList<CandleEntry>();
+        List<CandleEntry> yVals = new ArrayList<>();
         yVals.clear();
 
         for (int i = 0; i < mValues.size(); i++) {
@@ -102,44 +100,46 @@ public class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> im
 
     @Override
     protected void calcMinMax(CandleEntry e) {
-
-        if (e.getLow() < mYMin)
+        if (e.getLow() < mYMin) {
             mYMin = e.getLow();
-
-        if (e.getHigh() > mYMax)
+        }
+        if (e.getHigh() > mYMax) {
             mYMax = e.getHigh();
+        }
 
         calcMinMaxX(e);
     }
 
     @Override
     protected void calcMinMaxY(CandleEntry e) {
-
-        if (e.getHigh() < mYMin)
+        if (e.getHigh() < mYMin) {
             mYMin = e.getHigh();
+        }
 
-        if (e.getHigh() > mYMax)
+        if (e.getHigh() > mYMax) {
             mYMax = e.getHigh();
+        }
 
-        if (e.getLow() < mYMin)
+        if (e.getLow() < mYMin) {
             mYMin = e.getLow();
+        }
 
-        if (e.getLow() > mYMax)
+        if (e.getLow() > mYMax) {
             mYMax = e.getLow();
+        }
     }
 
     /**
      * Sets the space that is left out on the left and right side of each
      * candle, default 0.1f (10%), max 0.45f, min 0f
-     *
-     * @param space
      */
     public void setBarSpace(float space) {
-
-        if (space < 0f)
+        if (space < 0f) {
             space = 0f;
-        if (space > 0.45f)
+        }
+        if (space > 0.45f) {
             space = 0.45f;
+        }
 
         mBarSpace = space;
     }
@@ -151,8 +151,6 @@ public class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> im
 
     /**
      * Sets the width of the candle-shadow-line in pixels. Default 3f.
-     *
-     * @param width
      */
     public void setShadowWidth(float width) {
         mShadowWidth = Utils.convertDpToPixel(width);
@@ -165,8 +163,6 @@ public class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> im
 
     /**
      * Sets whether the candle bars should show?
-     *
-     * @param showCandleBar
      */
     public void setShowCandleBar(boolean showCandleBar) {
         mShowCandleBar = showCandleBar;
@@ -177,7 +173,6 @@ public class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> im
         return mShowCandleBar;
     }
 
-    // TODO
     /**
      * It is necessary to implement ColorsList class that will encapsulate
      * colors list functionality, because It's wrong to copy paste setColor,
@@ -192,8 +187,6 @@ public class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> im
     /**
      * Sets the one and ONLY color that should be used for this DataSet when
      * open == close.
-     *
-     * @param color
      */
     public void setNeutralColor(int color) {
         mNeutralColor = color;
@@ -207,8 +200,6 @@ public class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> im
     /**
      * Sets the one and ONLY color that should be used for this DataSet when
      * open <= close.
-     *
-     * @param color
      */
     public void setIncreasingColor(int color) {
         mIncreasingColor = color;
@@ -222,8 +213,6 @@ public class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> im
     /**
      * Sets the one and ONLY color that should be used for this DataSet when
      * open > close.
-     *
-     * @param color
      */
     public void setDecreasingColor(int color) {
         mDecreasingColor = color;
@@ -241,8 +230,6 @@ public class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> im
 
     /**
      * Sets paint style when open < close
-     *
-     * @param paintStyle
      */
     public void setIncreasingPaintStyle(Paint.Style paintStyle) {
         this.mIncreasingPaintStyle = paintStyle;
@@ -255,8 +242,6 @@ public class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> im
 
     /**
      * Sets paint style when open > close
-     *
-     * @param decreasingPaintStyle
      */
     public void setDecreasingPaintStyle(Paint.Style decreasingPaintStyle) {
         this.mDecreasingPaintStyle = decreasingPaintStyle;
@@ -269,8 +254,6 @@ public class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> im
 
     /**
      * Sets shadow color for all entries
-     *
-     * @param shadowColor
      */
     public void setShadowColor(int shadowColor) {
         this.mShadowColor = shadowColor;
@@ -283,8 +266,6 @@ public class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> im
 
     /**
      * Sets shadow color to be the same color as the candle color
-     *
-     * @param shadowColorSameAsCandle
      */
     public void setShadowColorSameAsCandle(boolean shadowColorSameAsCandle) {
         this.mShadowColorSameAsCandle = shadowColorSameAsCandle;

@@ -2,7 +2,6 @@ package com.github.mikephil.charting.renderer;
 
 import android.graphics.Canvas;
 import android.graphics.Path;
-import android.graphics.PointF;
 
 import com.github.mikephil.charting.charts.RadarChart;
 import com.github.mikephil.charting.components.LimitLine;
@@ -25,7 +24,6 @@ public class YAxisRendererRadarChart extends YAxisRenderer {
 
     @Override
     protected void computeAxisValues(float min, float max) {
-
         float yMin = min;
         float yMax = max;
 
@@ -215,9 +213,7 @@ public class YAxisRendererRadarChart extends YAxisRenderer {
             Path limitPath = mRenderLimitLinesPathBuffer;
             limitPath.reset();
 
-
             for (int j = 0; j < mChart.getData().getMaxEntryCountSet().getEntryCount(); j++) {
-
                 Utils.getPosition(center, r, sliceangle * j + mChart.getRotationAngle(), pOut);
 
                 if (j == 0) {

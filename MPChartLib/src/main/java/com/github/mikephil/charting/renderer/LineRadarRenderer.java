@@ -20,13 +20,8 @@ public abstract class LineRadarRenderer extends LineScatterCandleRadarRenderer {
 
     /**
      * Draws the provided path in filled mode with the provided drawable.
-     *
-     * @param c
-     * @param filledPath
-     * @param drawable
      */
     protected void drawFilledPath(Canvas c, Path filledPath, Drawable drawable) {
-
         if (clipPathSupported()) {
 
             int save = c.save();
@@ -48,11 +43,6 @@ public abstract class LineRadarRenderer extends LineScatterCandleRadarRenderer {
     /**
      * Draws the provided path in filled mode with the provided color and alpha.
      * Special thanks to Angelo Suzuki (https://github.com/tinsukE) for this.
-     *
-     * @param c
-     * @param filledPath
-     * @param fillColor
-     * @param fillAlpha
      */
     protected void drawFilledPath(Canvas c, Path filledPath, int fillColor, int fillAlpha) {
 
@@ -86,8 +76,6 @@ public abstract class LineRadarRenderer extends LineScatterCandleRadarRenderer {
 
     /**
      * Clip path with hardware acceleration only working properly on API level 18 and above.
-     *
-     * @return
      */
     private boolean clipPathSupported() {
         return Utils.getSDKInt() >= 18;

@@ -140,7 +140,6 @@ public class HorizontalBarChart extends BarChart {
 
     @Override
     public void getBarBounds(BarEntry e, RectF outputRect) {
-
         RectF bounds = outputRect;
         IBarDataSet set = mData.getDataSetForEntry(e);
 
@@ -169,10 +168,6 @@ public class HorizontalBarChart extends BarChart {
 
     /**
      * Returns a recyclable MPPointF instance.
-     *
-     * @param e
-     * @param axis
-     * @return
      */
     @Override
     public MPPointF getPosition(Entry e, AxisDependency axis) {
@@ -193,10 +188,6 @@ public class HorizontalBarChart extends BarChart {
     /**
      * Returns the Highlight object (contains x-index and DataSet index) of the selected value at the given touch point
      * inside the BarChart.
-     *
-     * @param x
-     * @param y
-     * @return
      */
     @Override
     public Highlight getHighlightByTouchPoint(float x, float y) {
@@ -215,22 +206,19 @@ public class HorizontalBarChart extends BarChart {
     public float getLowestVisibleX() {
         getTransformer(AxisDependency.LEFT).getValuesByTouchPoint(mViewPortHandler.contentLeft(),
                 mViewPortHandler.contentBottom(), posForGetLowestVisibleX);
-        float result = (float) Math.max(mXAxis.mAxisMinimum, posForGetLowestVisibleX.y);
-        return result;
+        return (float) Math.max(mXAxis.mAxisMinimum, posForGetLowestVisibleX.y);
     }
 
     @Override
     public float getHighestVisibleX() {
         getTransformer(AxisDependency.LEFT).getValuesByTouchPoint(mViewPortHandler.contentLeft(),
                 mViewPortHandler.contentTop(), posForGetHighestVisibleX);
-        float result = (float) Math.min(mXAxis.mAxisMaximum, posForGetHighestVisibleX.y);
-        return result;
+        return (float) Math.min(mXAxis.mAxisMaximum, posForGetHighestVisibleX.y);
     }
 
     /**
      * ###### VIEWPORT METHODS BELOW THIS ######
      */
-
     @Override
     public void setVisibleXRangeMaximum(float maxXRange) {
         float xScale = mXAxis.mAxisRange / (maxXRange);

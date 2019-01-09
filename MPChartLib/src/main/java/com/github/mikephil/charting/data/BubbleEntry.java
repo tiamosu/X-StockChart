@@ -1,4 +1,3 @@
-
 package com.github.mikephil.charting.data;
 
 import android.annotation.SuppressLint;
@@ -80,8 +79,6 @@ public class BubbleEntry extends Entry {
 
     /**
      * Returns the size of this entry (the size of the bubble).
-     *
-     * @return
      */
     public float getSize() {
         return mSize;
@@ -90,5 +87,4 @@ public class BubbleEntry extends Entry {
     public void setSize(float size) {
         this.mSize = size;
     }
-
 }

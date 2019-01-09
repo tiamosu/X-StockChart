@@ -12,7 +12,6 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
 /**
  * Created by ly on 2018/3/15.
  */
-
 public class MyCombinedChartRenderer extends CombinedChartRenderer {
 
     public MyCombinedChartRenderer(CombinedChart chart, ChartAnimator animator, ViewPortHandler viewPortHandler) {
@@ -21,7 +20,6 @@ public class MyCombinedChartRenderer extends CombinedChartRenderer {
 
     @Override
     public void createRenderers() {
-
         mRenderers.clear();
 
         CombinedChart chart = (CombinedChart) mChart.get();
@@ -64,5 +62,4 @@ public class MyCombinedChartRenderer extends CombinedChartRenderer {
             }
         }
     }
-
 }

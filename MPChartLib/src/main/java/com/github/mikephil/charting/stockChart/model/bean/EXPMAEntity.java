@@ -7,7 +7,6 @@ import java.util.ArrayList;
 /**
  * Created by loro on 2017/3/8.
  */
-
 public class EXPMAEntity {
 
     private ArrayList<Float> EXPMAs;
@@ -25,7 +24,6 @@ public class EXPMAEntity {
                     ema = (float) kLineBeens.get(i).getClose();
                 } else {
                     ema = (float) ((yz * kLineBeens.get(i).getClose()) + ((1 - yz) * ema));
-//                    ema = (kLineBeens.get(i).close - ema) * (2 / (n + 1)) + ema;
                 }
                 EXPMAs.add(ema);
             }

@@ -68,8 +68,6 @@ public class BaseView extends LinearLayout {
 
     /**
      * 分时图最后一点的圆圈动画
-     *
-     * @param heartbeatView
      */
     public void playHeartbeatAnimation(final View heartbeatView) {
         AnimationSet swellAnimationSet = new AnimationSet(true);

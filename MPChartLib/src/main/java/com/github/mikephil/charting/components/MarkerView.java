@@ -9,7 +9,6 @@ import android.widget.RelativeLayout;
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.highlight.Highlight;
-import com.github.mikephil.charting.utils.FSize;
 import com.github.mikephil.charting.utils.MPPointF;
 
 import java.lang.ref.WeakReference;
@@ -21,7 +20,6 @@ import java.lang.ref.WeakReference;
  * @author Philipp Jahoda
  */
 public class MarkerView extends RelativeLayout implements IMarker {
-
     private MPPointF mOffset = new MPPointF();
     private MPPointF mOffset2 = new MPPointF();
     private WeakReference<Chart> mWeakChart;
@@ -29,7 +27,6 @@ public class MarkerView extends RelativeLayout implements IMarker {
     /**
      * Constructor. Sets up the MarkerView with a custom layout resource.
      *
-     * @param context
      * @param layoutResource the layout resource to use for the MarkerView
      */
     public MarkerView(Context context, int layoutResource) {
@@ -39,8 +36,6 @@ public class MarkerView extends RelativeLayout implements IMarker {
 
     /**
      * Sets the layout resource for a custom MarkerView.
-     *
-     * @param layoutResource
      */
     private void setupLayoutResource(int layoutResource) {
 
@@ -81,7 +76,6 @@ public class MarkerView extends RelativeLayout implements IMarker {
 
     @Override
     public MPPointF getOffsetForDrawingAtPoint(float posX, float posY) {
-
         MPPointF offset = getOffset();
         mOffset2.x = offset.x;
         mOffset2.y = offset.y;
@@ -108,7 +102,6 @@ public class MarkerView extends RelativeLayout implements IMarker {
 
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
-
         measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
                 MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
         layout(0, 0, getMeasuredWidth(), getMeasuredHeight());
@@ -117,7 +110,6 @@ public class MarkerView extends RelativeLayout implements IMarker {
 
     @Override
     public void draw(Canvas canvas, float posX, float posY) {
-
         MPPointF offset = getOffsetForDrawingAtPoint(posX, posY);
 
         int saveId = canvas.save();

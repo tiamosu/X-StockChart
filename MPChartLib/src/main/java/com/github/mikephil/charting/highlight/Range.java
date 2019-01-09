@@ -5,7 +5,6 @@ package com.github.mikephil.charting.highlight;
  * stack values are -10, 5, 20 -> then ranges are (-10 - 0, 0 - 5, 5 - 25).
  */
 public final class Range {
-
     public float from;
     public float to;
 
@@ -16,16 +15,9 @@ public final class Range {
 
     /**
      * Returns true if this range contains (if the value is in between) the given value, false if not.
-     *
-     * @param value
-     * @return
      */
     public boolean contains(float value) {
-
-        if (value > from && value <= to)
-            return true;
-        else
-            return false;
+        return value > from && value <= to;
     }
 
     public boolean isLarger(float value) {

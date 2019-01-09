@@ -1,4 +1,3 @@
-
 package com.github.mikephil.charting.renderer;
 
 import android.graphics.Canvas;
@@ -128,13 +127,9 @@ public class YAxisRendererHorizontalBarChart extends YAxisRenderer {
 
     /**
      * draws the y-labels on the specified x-position
-     *
-     * @param fixedPosition
-     * @param positions
      */
     @Override
     protected void drawYLabels(Canvas c, float fixedPosition, float[] positions, float offset) {
-
         mAxisLabelPaint.setTypeface(mYAxis.getTypeface());
         mAxisLabelPaint.setTextSize(mYAxis.getTextSize());
         mAxisLabelPaint.setColor(mYAxis.getTextColor());
@@ -219,14 +214,10 @@ public class YAxisRendererHorizontalBarChart extends YAxisRenderer {
     /**
      * Draws the LimitLines associated with this axis to the screen.
      * This is the standard XAxis renderer using the YAxis limit lines.
-     *
-     * @param c
      */
     @Override
     public void renderLimitLines(Canvas c) {
-
         List<LimitLine> limitLines = mYAxis.getLimitLines();
-
         if (limitLines == null || limitLines.size() <= 0) {
             return;
         }
@@ -240,9 +231,7 @@ public class YAxisRendererHorizontalBarChart extends YAxisRenderer {
         limitLinePath.reset();
 
         for (int i = 0; i < limitLines.size(); i++) {
-
             LimitLine l = limitLines.get(i);
-
             if (!l.isEnabled()) {
                 continue;
             }
@@ -274,7 +263,7 @@ public class YAxisRendererHorizontalBarChart extends YAxisRenderer {
             String label = l.getLabel();
 
             // if drawing the limit-value label is enabled
-            if (label != null && !label.equals("")) {
+            if (label != null && !"".equals(label)) {
 
                 mLimitLinePaint.setStyle(l.getTextStyle());
                 mLimitLinePaint.setPathEffect(null);

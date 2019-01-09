@@ -13,19 +13,17 @@ import com.github.mikephil.charting.utils.MPPointF;
  * Created by Administrator on 2016/9/12.
  */
 public class BarBottomMarkerView extends MarkerView {
-
     private TextView markerTv;
     private String date;
 
     /**
      * Constructor. Sets up the MarkerView with a custom layout resource.
      *
-     * @param context
      * @param layoutResource the layout resource to use for the MarkerView
      */
     public BarBottomMarkerView(Context context, int layoutResource) {
         super(context, layoutResource);
-        markerTv = (TextView) findViewById(R.id.marker_tv);
+        markerTv = findViewById(R.id.marker_tv);
         markerTv.setTextSize(10);
     }
 

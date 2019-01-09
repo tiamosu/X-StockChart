@@ -1,9 +1,7 @@
-
 package com.github.mikephil.charting.animation;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
-import android.annotation.SuppressLint;
 
 /**
  * Object responsible for all animations in the Chart. ANIMATIONS ONLY WORK FOR
@@ -50,18 +48,9 @@ public class ChartAnimator {
      * Animates the drawing / rendering of the chart on both x- and y-axis with
      * the specified animation time. If animate(...) is called, no further
      * calling of invalidate() is necessary to refresh the chart.
-     *
-     * @param durationMillisX
-     * @param durationMillisY
-     * @param easingX
-     * @param easingY
      */
     public void animateXY(int durationMillisX, int durationMillisY, EasingFunction easingX,
                           EasingFunction easingY) {
-
-        if (android.os.Build.VERSION.SDK_INT < 11) {
-            return;
-        }
 
         ObjectAnimator animatorY = ObjectAnimator.ofFloat(this, "phaseY", 0f, 1f);
         animatorY.setInterpolator(easingY);
@@ -88,16 +77,8 @@ public class ChartAnimator {
      * Animates the rendering of the chart on the x-axis with the specified
      * animation time. If animate(...) is called, no further calling of
      * invalidate() is necessary to refresh the chart.
-     *
-     * @param durationMillis
-     * @param easing
      */
     public void animateX(int durationMillis, EasingFunction easing) {
-
-        if (android.os.Build.VERSION.SDK_INT < 11) {
-            return;
-        }
-
         ObjectAnimator animatorX = ObjectAnimator.ofFloat(this, "phaseX", 0f, 1f);
         animatorX.setInterpolator(easing);
         animatorX.setDuration(durationMillis);
@@ -109,16 +90,8 @@ public class ChartAnimator {
      * Animates the rendering of the chart on the y-axis with the specified
      * animation time. If animate(...) is called, no further calling of
      * invalidate() is necessary to refresh the chart.
-     *
-     * @param durationMillis
-     * @param easing
      */
     public void animateY(int durationMillis, EasingFunction easing) {
-
-        if (android.os.Build.VERSION.SDK_INT < 11) {
-            return;
-        }
-
         ObjectAnimator animatorY = ObjectAnimator.ofFloat(this, "phaseY", 0f, 1f);
         animatorY.setInterpolator(easing);
         animatorY.setDuration(durationMillis);
@@ -135,19 +108,9 @@ public class ChartAnimator {
      * Animates the drawing / rendering of the chart on both x- and y-axis with
      * the specified animation time. If animate(...) is called, no further
      * calling of invalidate() is necessary to refresh the chart.
-     *
-     * @param durationMillisX
-     * @param durationMillisY
-     * @param easingX
-     * @param easingY
      */
     public void animateXY(int durationMillisX, int durationMillisY, Easing.EasingOption easingX,
                           Easing.EasingOption easingY) {
-
-        if (android.os.Build.VERSION.SDK_INT < 11) {
-            return;
-        }
-
         ObjectAnimator animatorY = ObjectAnimator.ofFloat(this, "phaseY", 0f, 1f);
         animatorY.setInterpolator(Easing.getEasingFunctionFromOption(easingY));
         animatorY.setDuration(
@@ -173,16 +136,8 @@ public class ChartAnimator {
      * Animates the rendering of the chart on the x-axis with the specified
      * animation time. If animate(...) is called, no further calling of
      * invalidate() is necessary to refresh the chart.
-     *
-     * @param durationMillis
-     * @param easing
      */
     public void animateX(int durationMillis, Easing.EasingOption easing) {
-
-        if (android.os.Build.VERSION.SDK_INT < 11) {
-            return;
-        }
-
         ObjectAnimator animatorX = ObjectAnimator.ofFloat(this, "phaseX", 0f, 1f);
         animatorX.setInterpolator(Easing.getEasingFunctionFromOption(easing));
         animatorX.setDuration(durationMillis);
@@ -194,16 +149,8 @@ public class ChartAnimator {
      * Animates the rendering of the chart on the y-axis with the specified
      * animation time. If animate(...) is called, no further calling of
      * invalidate() is necessary to refresh the chart.
-     *
-     * @param durationMillis
-     * @param easing
      */
     public void animateY(int durationMillis, Easing.EasingOption easing) {
-
-        if (android.os.Build.VERSION.SDK_INT < 11) {
-            return;
-        }
-
         ObjectAnimator animatorY = ObjectAnimator.ofFloat(this, "phaseY", 0f, 1f);
         animatorY.setInterpolator(Easing.getEasingFunctionFromOption(easing));
         animatorY.setDuration(durationMillis);
@@ -220,22 +167,12 @@ public class ChartAnimator {
      * Animates the drawing / rendering of the chart on both x- and y-axis with
      * the specified animation time. If animate(...) is called, no further
      * calling of invalidate() is necessary to refresh the chart.
-     *
-     * @param durationMillisX
-     * @param durationMillisY
      */
     public void animateXY(int durationMillisX, int durationMillisY) {
-
-        if (android.os.Build.VERSION.SDK_INT < 11) {
-            return;
-        }
-
         ObjectAnimator animatorY = ObjectAnimator.ofFloat(this, "phaseY", 0f, 1f);
-        animatorY.setDuration(
-                durationMillisY);
+        animatorY.setDuration(durationMillisY);
         ObjectAnimator animatorX = ObjectAnimator.ofFloat(this, "phaseX", 0f, 1f);
-        animatorX.setDuration(
-                durationMillisX);
+        animatorX.setDuration(durationMillisX);
 
         // make sure only one animator produces update-callbacks (which then
         // call invalidate())
@@ -253,15 +190,8 @@ public class ChartAnimator {
      * Animates the rendering of the chart on the x-axis with the specified
      * animation time. If animate(...) is called, no further calling of
      * invalidate() is necessary to refresh the chart.
-     *
-     * @param durationMillis
      */
     public void animateX(int durationMillis) {
-
-        if (android.os.Build.VERSION.SDK_INT < 11) {
-            return;
-        }
-
         ObjectAnimator animatorX = ObjectAnimator.ofFloat(this, "phaseX", 0f, 1f);
         animatorX.setDuration(durationMillis);
         animatorX.addUpdateListener(mListener);
@@ -272,15 +202,8 @@ public class ChartAnimator {
      * Animates the rendering of the chart on the y-axis with the specified
      * animation time. If animate(...) is called, no further calling of
      * invalidate() is necessary to refresh the chart.
-     *
-     * @param durationMillis
      */
     public void animateY(int durationMillis) {
-
-        if (android.os.Build.VERSION.SDK_INT < 11) {
-            return;
-        }
-
         ObjectAnimator animatorY = ObjectAnimator.ofFloat(this, "phaseY", 0f, 1f);
         animatorY.setDuration(durationMillis);
         animatorY.addUpdateListener(mListener);
@@ -289,8 +212,6 @@ public class ChartAnimator {
 
     /**
      * This gets the y-phase that is used to animate the values.
-     *
-     * @return
      */
     public float getPhaseY() {
         return mPhaseY;
@@ -298,8 +219,6 @@ public class ChartAnimator {
 
     /**
      * This modifys the y-phase that is used to animate the values.
-     *
-     * @param phase
      */
     public void setPhaseY(float phase) {
         mPhaseY = phase;
@@ -307,8 +226,6 @@ public class ChartAnimator {
 
     /**
      * This gets the x-phase that is used to animate the values.
-     *
-     * @return
      */
     public float getPhaseX() {
         return mPhaseX;
@@ -316,8 +233,6 @@ public class ChartAnimator {
 
     /**
      * This modifys the x-phase that is used to animate the values.
-     *
-     * @param phase
      */
     public void setPhaseX(float phase) {
         mPhaseX = phase;

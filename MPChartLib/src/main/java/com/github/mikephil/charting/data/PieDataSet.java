@@ -1,4 +1,3 @@
-
 package com.github.mikephil.charting.data;
 
 import com.github.mikephil.charting.interfaces.datasets.IPieDataSet;
@@ -31,14 +30,11 @@ public class PieDataSet extends DataSet<PieEntry> implements IPieDataSet {
 
     public PieDataSet(List<PieEntry> yVals, String label) {
         super(yVals, label);
-//        mShift = Utils.convertDpToPixel(12f);
     }
 
     @Override
     public DataSet<PieEntry> copy() {
-
         List<PieEntry> yVals = new ArrayList<>();
-
         for (int i = 0; i < mValues.size(); i++) {
             yVals.add(mValues.get(i).copy());
         }
@@ -52,7 +48,6 @@ public class PieDataSet extends DataSet<PieEntry> implements IPieDataSet {
 
     @Override
     protected void calcMinMax(PieEntry e) {
-
         if (e == null) {
             return;
         }
@@ -63,11 +58,8 @@ public class PieDataSet extends DataSet<PieEntry> implements IPieDataSet {
     /**
      * Sets the space that is left out between the piechart-slices in dp.
      * Default: 0 --> no space, maximum 20f
-     *
-     * @param spaceDp
      */
     public void setSliceSpace(float spaceDp) {
-
         if (spaceDp > 20) {
             spaceDp = 20f;
         }
@@ -86,8 +78,6 @@ public class PieDataSet extends DataSet<PieEntry> implements IPieDataSet {
     /**
      * When enabled, slice spacing will be 0.0 when the smallest value is going to be
      * smaller than the slice spacing itself.
-     *
-     * @param autoDisable
      */
     public void setAutomaticallyDisableSliceSpacing(boolean autoDisable) {
         mAutomaticallyDisableSliceSpacing = autoDisable;
@@ -96,8 +86,6 @@ public class PieDataSet extends DataSet<PieEntry> implements IPieDataSet {
     /**
      * When enabled, slice spacing will be 0.0 when the smallest value is going to be
      * smaller than the slice spacing itself.
-     *
-     * @return
      */
     @Override
     public boolean isAutomaticallyDisableSliceSpacingEnabled() {
@@ -107,8 +95,6 @@ public class PieDataSet extends DataSet<PieEntry> implements IPieDataSet {
     /**
      * sets the distance the highlighted piechart-slice of this DataSet is
      * "shifted" away from the center of the chart, default 12f
-     *
-     * @param shift
      */
     public void setSelectionShift(float shift) {
         mShift = Utils.convertDpToPixel(shift);

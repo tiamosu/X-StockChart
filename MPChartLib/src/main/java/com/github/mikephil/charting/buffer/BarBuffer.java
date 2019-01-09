@@ -1,11 +1,9 @@
-
 package com.github.mikephil.charting.buffer;
 
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 
 public class BarBuffer extends AbstractBuffer<IBarDataSet> {
-
     protected int mDataSetIndex = 0;
     protected int mDataSetCount = 1;
     protected boolean mContainsStacks = false;
@@ -35,7 +33,6 @@ public class BarBuffer extends AbstractBuffer<IBarDataSet> {
     }
 
     protected void addBar(float left, float top, float right, float bottom) {
-
         buffer[index++] = left;
         buffer[index++] = top;
         buffer[index++] = right;
@@ -44,14 +41,11 @@ public class BarBuffer extends AbstractBuffer<IBarDataSet> {
 
     @Override
     public void feed(IBarDataSet data) {
-
         float size = data.getEntryCount() * phaseX;
         float barWidthHalf = mBarWidth / 2f;
 
         for (int i = 0; i < size; i++) {
-
             BarEntry e = data.getEntryForIndex(i);
-
             if (e == null) {
                 continue;
             }
@@ -61,7 +55,6 @@ public class BarBuffer extends AbstractBuffer<IBarDataSet> {
             float[] vals = e.getYVals();
 
             if (!mContainsStacks || vals == null) {
-
                 float left = x - barWidthHalf;
                 float right = x + barWidthHalf;
                 float bottom, top;
@@ -90,10 +83,7 @@ public class BarBuffer extends AbstractBuffer<IBarDataSet> {
                 float yStart = 0f;
 
                 // fill the stack
-                for (int k = 0; k < vals.length; k++) {
-
-                    float value = vals[k];
-
+                for (float value : vals) {
                     if (value == 0.0f && (posY == 0.0f || negY == 0.0f)) {
                         // Take care of the situation of a 0.0 value, which overlaps a non-zero bar
                         y = value;

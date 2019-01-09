@@ -1,4 +1,3 @@
-
 package com.github.mikephil.charting.data;
 
 import android.graphics.Color;
@@ -80,8 +79,7 @@ public class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> impl
 
     @Override
     public DataSet<BarEntry> copy() {
-
-        List<BarEntry> yVals = new ArrayList<BarEntry>();
+        List<BarEntry> yVals = new ArrayList<>();
         yVals.clear();
 
         for (int i = 0; i < mValues.size(); i++) {
@@ -109,11 +107,9 @@ public class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> impl
      * stacks. All values belonging to a stack are calculated separately.
      */
     private void calcEntryCountIncludingStacks(List<BarEntry> yVals) {
-
         mEntryCountStacks = 0;
 
         for (int i = 0; i < yVals.size(); i++) {
-
             float[] vals = yVals.get(i).getYVals();
 
             if (vals == null) {
@@ -129,9 +125,7 @@ public class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> impl
      * DataSet
      */
     private void calcStackSize(List<BarEntry> yVals) {
-
         for (int i = 0; i < yVals.size(); i++) {
-
             float[] vals = yVals.get(i).getYVals();
 
             if (vals != null && vals.length > mStackSize) {
@@ -142,9 +136,7 @@ public class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> impl
 
     @Override
     protected void calcMinMax(BarEntry e) {
-
         if (e != null && !Float.isNaN(e.getY())) {
-
             if (e.getYVals() == null) {
 
                 if (e.getY() < mYMin) {
@@ -176,14 +168,12 @@ public class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> impl
 
     @Override
     public boolean isStacked() {
-        return mStackSize > 1 ? true : false;
+        return mStackSize > 1;
     }
 
     /**
      * returns the overall entry count, including counting each stack-value
      * individually
-     *
-     * @return
      */
     public int getEntryCountStacks() {
         return mEntryCountStacks;
@@ -193,8 +183,6 @@ public class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> impl
      * Sets the color used for drawing the bar-shadows. The bar shadows is a
      * surface behind the bar that indicates the maximum value. Don't for get to
      * use getResources().getColor(...) to set this. Or Color.rgb(...).
-     *
-     * @param color
      */
     public void setBarShadowColor(int color) {
         mBarShadowColor = color;
@@ -208,8 +196,6 @@ public class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> impl
     /**
      * Sets the width used for drawing borders around the bars.
      * If borderWidth == 0, no border will be drawn.
-     *
-     * @return
      */
     public void setBarBorderWidth(float width) {
         mBarBorderWidth = width;
@@ -218,8 +204,6 @@ public class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> impl
     /**
      * Returns the width used for drawing borders around the bars.
      * If borderWidth == 0, no border will be drawn.
-     *
-     * @return
      */
     @Override
     public float getBarBorderWidth() {
@@ -228,8 +212,6 @@ public class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> impl
 
     /**
      * Sets the color drawing borders around the bars.
-     *
-     * @return
      */
     public void setBarBorderColor(int color) {
         mBarBorderColor = color;
@@ -237,8 +219,6 @@ public class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> impl
 
     /**
      * Returns the color drawing borders around the bars.
-     *
-     * @return
      */
     @Override
     public int getBarBorderColor() {
@@ -248,8 +228,6 @@ public class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> impl
     /**
      * Set the alpha value (transparency) that is used for drawing the highlight
      * indicator bar. min = 0 (fully transparent), max = 255 (fully opaque)
-     *
-     * @param alpha
      */
     public void setHighLightAlpha(int alpha) {
         mHighLightAlpha = alpha;
@@ -262,8 +240,6 @@ public class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> impl
 
     /**
      * Sets labels for different values of bar-stacks, in case there are one.
-     *
-     * @param labels
      */
     public void setStackLabels(String[] labels) {
         mStackLabels = labels;
@@ -277,8 +253,6 @@ public class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> impl
     /**
      * Sets the one and ONLY color that should be used for this DataSet when
      * open == close.
-     *
-     * @param color
      */
     public void setNeutralColor(int color) {
         mNeutralColor = color;
@@ -292,8 +266,6 @@ public class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> impl
     /**
      * Sets the one and ONLY color that should be used for this DataSet when
      * open <= close.
-     *
-     * @param color
      */
     public void setIncreasingColor(int color) {
         mIncreasingColor = color;
@@ -307,8 +279,6 @@ public class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> impl
     /**
      * Sets the one and ONLY color that should be used for this DataSet when
      * open > close.
-     *
-     * @param color
      */
     public void setDecreasingColor(int color) {
         mDecreasingColor = color;
@@ -326,8 +296,6 @@ public class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> impl
 
     /**
      * Sets paint style when open < close
-     *
-     * @param paintStyle
      */
     public void setIncreasingPaintStyle(Paint.Style paintStyle) {
         this.mIncreasingPaintStyle = paintStyle;
@@ -340,8 +308,6 @@ public class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> impl
 
     /**
      * Sets paint style when open > close
-     *
-     * @param decreasingPaintStyle
      */
     public void setDecreasingPaintStyle(Paint.Style decreasingPaintStyle) {
         this.mDecreasingPaintStyle = decreasingPaintStyle;

@@ -49,14 +49,11 @@ public class CircleShapeRenderer implements IShapeRenderer {
             }
         } else {
             renderPaint.setStyle(Paint.Style.FILL);
-
             c.drawCircle(
                     posX,
                     posY,
                     shapeHalf,
                     renderPaint);
         }
-
     }
-
 }

@@ -48,8 +48,6 @@ public abstract class BaseEntry {
 
     /**
      * Returns the y value of this Entry.
-     *
-     * @return
      */
     public float getY() {
         return y;
@@ -57,8 +55,6 @@ public abstract class BaseEntry {
 
     /**
      * Sets the icon drawable
-     *
-     * @param icon
      */
     public void setIcon(Drawable icon) {
         this.mIcon = icon;
@@ -66,8 +62,6 @@ public abstract class BaseEntry {
 
     /**
      * Returns the icon of this Entry.
-     *
-     * @return
      */
     public Drawable getIcon() {
         return mIcon;
@@ -75,8 +69,6 @@ public abstract class BaseEntry {
 
     /**
      * Sets the y-value for the Entry.
-     *
-     * @param y
      */
     public void setY(float y) {
         this.y = y;
@@ -85,8 +77,6 @@ public abstract class BaseEntry {
     /**
      * Returns the data, additional information that this Entry represents, or
      * null, if no data has been specified.
-     *
-     * @return
      */
     public Object getData() {
         return mData;
@@ -94,8 +84,6 @@ public abstract class BaseEntry {
 
     /**
      * Sets additional data this Entry should represent.
-     *
-     * @param data
      */
     public void setData(Object data) {
         this.mData = data;

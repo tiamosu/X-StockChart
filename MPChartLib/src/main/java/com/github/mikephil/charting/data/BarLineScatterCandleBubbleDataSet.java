@@ -1,4 +1,3 @@
-
 package com.github.mikephil.charting.data;
 
 import android.graphics.Color;
@@ -32,8 +31,6 @@ public abstract class BarLineScatterCandleBubbleDataSet<T extends Entry> extends
      * Sets the color that is used for drawing the highlight indicators. Dont
      * forget to resolve the color using getResources().getColor(...) or
      * Color.rgb(...).
-     *
-     * @param color
      */
     public void setHighLightColor(int color) {
         mHighLightColor = color;
@@ -46,8 +43,6 @@ public abstract class BarLineScatterCandleBubbleDataSet<T extends Entry> extends
 
     /**
      * Sets the width of the highlight line in dp.
-     *
-     * @param width
      */
     public void setHighlightLineWidth(float width) {
         mHighlightLineWidth = width;

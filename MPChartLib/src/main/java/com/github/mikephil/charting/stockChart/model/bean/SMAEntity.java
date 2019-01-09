@@ -1,6 +1,5 @@
 package com.github.mikephil.charting.stockChart.model.bean;
 
-
 import com.github.mikephil.charting.stockChart.model.KLineDataModel;
 
 import java.util.ArrayList;
@@ -10,7 +9,6 @@ import static java.lang.Float.NaN;
 /**
  * Created by Administrator on 2018/3/19.
  */
-
 public class SMAEntity {
     private ArrayList<Float> SMAs;
 

@@ -1,4 +1,3 @@
-
 package com.github.mikephil.charting.renderer;
 
 import android.graphics.Canvas;
@@ -7,7 +6,6 @@ import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Path;
 import android.graphics.RectF;
-import android.util.Log;
 
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
@@ -104,8 +102,9 @@ public class XAxisRenderer extends AxisRenderer {
     @Override
     public void renderAxisLabels(Canvas c) {
 
-        if (!mXAxis.isEnabled() || !mXAxis.isDrawLabelsEnabled())
+        if (!mXAxis.isEnabled() || !mXAxis.isDrawLabelsEnabled()) {
             return;
+        }
 
         float yoffset = mXAxis.getYOffset();
 
@@ -148,8 +147,9 @@ public class XAxisRenderer extends AxisRenderer {
     @Override
     public void renderAxisLine(Canvas c) {
 
-        if (!mXAxis.isDrawAxisLineEnabled() || !mXAxis.isEnabled())
+        if (!mXAxis.isDrawAxisLineEnabled() || !mXAxis.isEnabled()) {
             return;
+        }
 
         mAxisLinePaint.setColor(mXAxis.getAxisLineColor());
         mAxisLinePaint.setStrokeWidth(mXAxis.getAxisLineWidth());
@@ -174,15 +174,8 @@ public class XAxisRenderer extends AxisRenderer {
 
     /**
      * draws the x-labels on the specified y-position
-     *
-     * @param pos
      */
     protected void drawLabels(Canvas c, float pos, MPPointF anchor) {
-
-//        if(!isShowLabels()){
-//            return;
-//        }
-
         final float labelRotationAngleDegrees = mXAxis.getLabelRotationAngle();
         boolean centeringEnabled = mXAxis.isCenterAxisLabelsEnabled();
 
@@ -213,8 +206,9 @@ public class XAxisRenderer extends AxisRenderer {
                     if (j == mXAxis.mEntryCount && mXAxis.mEntryCount > 1) {
                         float width = Utils.calcTextWidth(mAxisLabelPaint, label);
 
-                        if (width > mViewPortHandler.offsetRight() * 2 && x + width > mViewPortHandler.getChartWidth())
+                        if (width > mViewPortHandler.offsetRight() * 2 && x + width > mViewPortHandler.getChartWidth()) {
                             x -= width / 2;
+                        }
 
                         // avoid clipping of the first
                     } else if (j == 1) {
@@ -237,8 +231,9 @@ public class XAxisRenderer extends AxisRenderer {
     @Override
     public void renderGridLines(Canvas c) {
 
-        if (!mXAxis.isDrawGridLinesEnabled() || !mXAxis.isEnabled())
+        if (!mXAxis.isDrawGridLinesEnabled() || !mXAxis.isEnabled()) {
             return;
+        }
 
         int clipRestoreCount = c.save();
         c.clipRect(getGridClippingRect());
@@ -278,11 +273,6 @@ public class XAxisRenderer extends AxisRenderer {
 
     /**
      * Draws the grid line at the specified position using the provided path.
-     *
-     * @param c
-     * @param x
-     * @param y
-     * @param gridLinePath
      */
     protected void drawGridLine(Canvas c, float x, float y, Path gridLinePath) {
 
@@ -308,8 +298,9 @@ public class XAxisRenderer extends AxisRenderer {
 
         List<LimitLine> limitLines = mXAxis.getLimitLines();
 
-        if (limitLines == null || limitLines.size() <= 0)
+        if (limitLines == null || limitLines.size() <= 0) {
             return;
+        }
 
         float[] position = mRenderLimitLinesBuffer;
         position[0] = 0;
@@ -319,8 +310,9 @@ public class XAxisRenderer extends AxisRenderer {
 
             LimitLine l = limitLines.get(i);
 
-            if (!l.isEnabled())
+            if (!l.isEnabled()) {
                 continue;
+            }
 
             int clipRestoreCount = c.save();
             mLimitLineClippingRect.set(mViewPortHandler.getContentRect());
@@ -364,7 +356,7 @@ public class XAxisRenderer extends AxisRenderer {
         String label = limitLine.getLabel();
 
         // if drawing the limit-value label is enabled
-        if (label != null && !label.equals("")) {
+        if (label != null && !"".equals(label)) {
 
             mLimitLinePaint.setStyle(limitLine.getTextStyle());
             mLimitLinePaint.setPathEffect(null);

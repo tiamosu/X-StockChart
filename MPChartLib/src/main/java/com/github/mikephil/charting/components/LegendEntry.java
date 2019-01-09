@@ -1,13 +1,12 @@
 package com.github.mikephil.charting.components;
 
-
 import android.graphics.DashPathEffect;
 
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 public class LegendEntry {
-    public LegendEntry() {
 
+    public LegendEntry() {
     }
 
     /**
@@ -72,5 +71,4 @@ public class LegendEntry {
      * The color for drawing the form
      */
     public int formColor = ColorTemplate.COLOR_NONE;
-
 }

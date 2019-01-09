@@ -1,6 +1,5 @@
 package com.github.mikephil.charting.stockChart.model.bean;
 
-
 import com.github.mikephil.charting.stockChart.model.KLineDataModel;
 
 import java.util.ArrayList;
@@ -10,7 +9,6 @@ import static java.lang.Float.NaN;
 /**
  * Created by Administrator on 2018/3/14.
  */
-
 public class SAREntity {
     public SAREntity(ArrayList<KLineDataModel> kLineBeens, int n) {
         this(kLineBeens, n, NaN);
@@ -51,8 +49,6 @@ public class SAREntity {
 
                 //重置最大值之后的计算数值
                 for (int j = index; j < max_index; j++) {
-//                        datas.get(j).extVal["\(self.key(CHSeriesKey.timeline))"] = max_vol_price;
-//                        datas.get(j).extVal["\(self.key(CHSeriesKey.volume))"] = max_vol;
                 }
 
             } else {
@@ -94,5 +90,4 @@ public class SAREntity {
         }
 //            return datas;
     }
-
 }

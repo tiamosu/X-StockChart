@@ -1,4 +1,3 @@
-
 package com.github.mikephil.charting.formatter;
 
 import com.github.mikephil.charting.components.AxisBase;
@@ -54,8 +53,6 @@ public class LargeValueFormatter implements IValueFormatter, IAxisValueFormatter
 
     /**
      * Set an appendix text to be added at the end of the formatted value.
-     *
-     * @param appendix
      */
     public void setAppendix(String appendix) {
         this.mText = appendix;
@@ -76,7 +73,6 @@ public class LargeValueFormatter implements IValueFormatter, IAxisValueFormatter
      * (https://github.com/romangromov) for this piece of code.
      */
     private String makePretty(double number) {
-
         String r = mFormat.format(number);
 
         int numericValue1 = Character.getNumericValue(r.charAt(r.length() - 1));

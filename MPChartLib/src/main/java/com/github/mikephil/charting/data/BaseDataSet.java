@@ -7,15 +7,12 @@ import android.graphics.Typeface;
 
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.formatter.DefaultValueFormatter;
 import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.MPPointF;
 import com.github.mikephil.charting.utils.Utils;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.Inherited;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,8 +96,8 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
      * Default constructor.
      */
     public BaseDataSet() {
-        mColors = new ArrayList<Integer>();
-        mValueColors = new ArrayList<Integer>();
+        mColors = new ArrayList<>();
+        mValueColors = new ArrayList<>();
 
         // default color
         mColors.add(Color.parseColor("#696969"));
@@ -109,8 +106,6 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
 
     /**
      * Constructor with label.
-     *
-     * @param label
      */
     public BaseDataSet(String label) {
         this();
@@ -158,8 +153,6 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
      * the size of the colors array. If you are using colors from the resources,
      * make sure that the colors are already prepared (by calling
      * getResources().getColor(...)) before adding them to the DataSet.
-     *
-     * @param colors
      */
     public void setColors(List<Integer> colors) {
         this.mColors = colors;
@@ -171,8 +164,6 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
      * the size of the colors array. If you are using colors from the resources,
      * make sure that the colors are already prepared (by calling
      * getResources().getColor(...)) before adding them to the DataSet.
-     *
-     * @param colors
      */
     public void setColors(int... colors) {
         this.mColors = ColorTemplate.createColors(colors);
@@ -185,11 +176,8 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
      * "new int[] { R.color.red, R.color.green, ... }" to provide colors for
      * this method. Internally, the colors are resolved using
      * getResources().getColor(...)
-     *
-     * @param colors
      */
     public void setColors(int[] colors, Context c) {
-
         if (mColors == null) {
             mColors = new ArrayList<>();
         }
@@ -203,12 +191,10 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
 
     /**
      * Adds a new color to the colors array of the DataSet.
-     *
-     * @param color
      */
     public void addColor(int color) {
         if (mColors == null) {
-            mColors = new ArrayList<Integer>();
+            mColors = new ArrayList<>();
         }
         mColors.add(color);
     }
@@ -216,8 +202,6 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
     /**
      * Sets the one and ONLY color that should be used for this DataSet.
      * Internally, this recreates the colors array and adds the specified color.
-     *
-     * @param color
      */
     public void setColor(int color) {
         resetColors();
@@ -227,7 +211,6 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
     /**
      * Sets a color with a specific alpha value.
      *
-     * @param color
      * @param alpha from 0-255
      */
     public void setColor(int color, int alpha) {
@@ -236,9 +219,6 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
 
     /**
      * Sets colors with a specific alpha value.
-     *
-     * @param colors
-     * @param alpha
      */
     public void setColors(int[] colors, int alpha) {
         resetColors();
@@ -252,7 +232,7 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
      */
     public void resetColors() {
         if (mColors == null) {
-            mColors = new ArrayList<Integer>();
+            mColors = new ArrayList<>();
         }
         mColors.clear();
     }
@@ -283,10 +263,7 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
 
     @Override
     public void setValueFormatter(IValueFormatter f) {
-
-        if (f == null) {
-            return;
-        } else {
+        if (f != null) {
             mValueFormatter = f;
         }
     }
@@ -403,7 +380,6 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
 
     @Override
     public void setIconsOffset(MPPointF offsetDp) {
-
         mIconsOffset.x = offsetDp.x;
         mIconsOffset.y = offsetDp.y;
     }
@@ -458,21 +434,17 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
 
     @Override
     public int getIndexInEntries(int xIndex) {
-
         for (int i = 0; i < getEntryCount(); i++) {
             if (xIndex == getEntryForIndex(i).getX()) {
                 return i;
             }
         }
-
         return -1;
     }
 
     @Override
     public boolean removeFirst() {
-
         if (getEntryCount() > 0) {
-
             T entry = getEntryForIndex(0);
             return removeEntry(entry);
         } else {
@@ -482,9 +454,7 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
 
     @Override
     public boolean removeLast() {
-
         if (getEntryCount() > 0) {
-
             T e = getEntryForIndex(getEntryCount() - 1);
             return removeEntry(e);
         } else {
@@ -494,27 +464,23 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
 
     @Override
     public boolean removeEntryByXValue(float xValue) {
-
         T e = getEntryForXValue(xValue, Float.NaN);
         return removeEntry(e);
     }
 
     @Override
     public boolean removeEntry(int index) {
-
         T e = getEntryForIndex(index);
         return removeEntry(e);
     }
 
     @Override
     public boolean contains(T e) {
-
         for (int i = 0; i < getEntryCount(); i++) {
             if (getEntryForIndex(i).equals(e)) {
                 return true;
             }
         }
-
         return false;
     }
 }

@@ -1,4 +1,3 @@
-
 package com.github.mikephil.charting.data;
 
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
@@ -32,8 +31,6 @@ public class BarData extends BarLineScatterCandleBubbleData<IBarDataSet> {
     /**
      * Sets the width each bar should have on the x-axis (in values, not pixels).
      * Default 0.85f
-     *
-     * @param mBarWidth
      */
     public void setBarWidth(float mBarWidth) {
         this.mBarWidth = mBarWidth;
@@ -54,7 +51,6 @@ public class BarData extends BarLineScatterCandleBubbleData<IBarDataSet> {
      * @param barSpace   the space between individual bars in values (not pixels) e.g. 0.1f for bar width 1f
      */
     public void groupBars(float fromX, float groupSpace, float barSpace) {
-
         int setCount = mDataSets.size();
         if (setCount <= 1) {
             throw new RuntimeException("BarData needs to hold at least 2 BarDataSets to allow grouping.");
@@ -108,10 +104,6 @@ public class BarData extends BarLineScatterCandleBubbleData<IBarDataSet> {
 
     /**
      * In case of grouped bars, this method returns the space an individual group of bar needs on the x-axis.
-     *
-     * @param groupSpace
-     * @param barSpace
-     * @return
      */
     public float getGroupWidth(float groupSpace, float barSpace) {
         return mDataSets.size() * (mBarWidth + barSpace) + groupSpace;

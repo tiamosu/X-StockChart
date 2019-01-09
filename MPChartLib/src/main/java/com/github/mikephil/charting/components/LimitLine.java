@@ -1,10 +1,8 @@
-
 package com.github.mikephil.charting.components;
 
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
-import android.graphics.Typeface;
 
 import com.github.mikephil.charting.utils.Utils;
 
@@ -83,8 +81,6 @@ public class LimitLine extends ComponentBase {
 
     /**
      * Returns the limit that is set for this line.
-     *
-     * @return
      */
     public float getLimit() {
         return mLimit;
@@ -93,11 +89,8 @@ public class LimitLine extends ComponentBase {
     /**
      * set the line width of the chart (min = 0.2f, max = 12f); default 2f NOTE:
      * thinner line == better performance, thicker line == worse performance
-     *
-     * @param width
      */
     public void setLineWidth(float width) {
-
         if (width < 0.2f) {
             width = 0.2f;
         }
@@ -109,8 +102,6 @@ public class LimitLine extends ComponentBase {
 
     /**
      * returns the width of limit line
-     *
-     * @return
      */
     public float getLineWidth() {
         return mLineWidth;
@@ -119,8 +110,6 @@ public class LimitLine extends ComponentBase {
     /**
      * Sets the linecolor for this LimitLine. Make sure to use
      * getResources().getColor(...)
-     *
-     * @param color
      */
     public void setLineColor(int color) {
         mLineColor = color;
@@ -128,8 +117,6 @@ public class LimitLine extends ComponentBase {
 
     /**
      * Returns the color that is used for this LimitLine
-     *
-     * @return
      */
     public int getLineColor() {
         return mLineColor;
@@ -158,17 +145,13 @@ public class LimitLine extends ComponentBase {
     /**
      * Returns true if the dashed-line effect is enabled, false if not. Default:
      * disabled
-     *
-     * @return
      */
     public boolean isDashedLineEnabled() {
-        return mDashPathEffect == null ? false : true;
+        return mDashPathEffect != null;
     }
 
     /**
      * returns the DashPathEffect that is set for this LimitLine
-     *
-     * @return
      */
     public DashPathEffect getDashPathEffect() {
         return mDashPathEffect;
@@ -177,8 +160,6 @@ public class LimitLine extends ComponentBase {
     /**
      * Sets the color of the value-text that is drawn next to the LimitLine.
      * Default: Paint.Style.FILL_AND_STROKE
-     *
-     * @param style
      */
     public void setTextStyle(Paint.Style style) {
         this.mTextStyle = style;
@@ -186,8 +167,6 @@ public class LimitLine extends ComponentBase {
 
     /**
      * Returns the color of the value-text that is drawn next to the LimitLine.
-     *
-     * @return
      */
     public Paint.Style getTextStyle() {
         return mTextStyle;
@@ -196,8 +175,6 @@ public class LimitLine extends ComponentBase {
     /**
      * Sets the position of the LimitLine value label (either on the right or on
      * the left edge of the chart). Not supported for RadarChart.
-     *
-     * @param pos
      */
     public void setLabelPosition(LimitLabelPosition pos) {
         mLabelPosition = pos;
@@ -205,8 +182,6 @@ public class LimitLine extends ComponentBase {
 
     /**
      * Returns the position of the LimitLine label (value).
-     *
-     * @return
      */
     public LimitLabelPosition getLabelPosition() {
         return mLabelPosition;
@@ -215,8 +190,6 @@ public class LimitLine extends ComponentBase {
     /**
      * Sets the label that is drawn next to the limit line. Provide "" if no
      * label is required.
-     *
-     * @param label
      */
     public void setLabel(String label) {
         mLabel = label;
@@ -224,8 +197,6 @@ public class LimitLine extends ComponentBase {
 
     /**
      * Returns the label that is drawn next to the limit line.
-     *
-     * @return
      */
     public String getLabel() {
         return mLabel;

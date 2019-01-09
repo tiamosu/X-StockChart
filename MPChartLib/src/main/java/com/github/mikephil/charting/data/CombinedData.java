@@ -1,4 +1,3 @@
-
 package com.github.mikephil.charting.data;
 
 import android.util.Log;
@@ -16,7 +15,6 @@ import java.util.List;
  * @author Philipp Jahoda
  */
 public class CombinedData extends BarLineScatterCandleBubbleData<IBarLineScatterCandleBubbleDataSet<? extends Entry>> {
-
     private LineData mLineData;
     private BarData mBarData;
     private ScatterData mScatterData;
@@ -136,12 +134,9 @@ public class CombinedData extends BarLineScatterCandleBubbleData<IBarLineScatter
 
     /**
      * Returns all data objects in row: line-bar-scatter-candle-bubble if not null.
-     *
-     * @return
      */
     public List<BarLineScatterCandleBubbleData> getAllData() {
-
-        List<BarLineScatterCandleBubbleData> data = new ArrayList<BarLineScatterCandleBubbleData>();
+        List<BarLineScatterCandleBubbleData> data = new ArrayList<>();
         if (mLineData != null) {
             data.add(mLineData);
         }
@@ -189,12 +184,10 @@ public class CombinedData extends BarLineScatterCandleBubbleData<IBarLineScatter
     /**
      * Get the Entry for a corresponding highlight object
      *
-     * @param highlight
      * @return the entry that is highlighted
      */
     @Override
     public Entry getEntryForHighlight(Highlight highlight) {
-
         List<BarLineScatterCandleBubbleData> dataObjects = getAllData();
 
         if (highlight.getDataIndex() >= dataObjects.size()) {
@@ -238,9 +231,7 @@ public class CombinedData extends BarLineScatterCandleBubbleData<IBarLineScatter
         boolean success = false;
 
         for (ChartData data : datas) {
-
             success = data.removeDataSet(d);
-
             if (success) {
                 break;
             }

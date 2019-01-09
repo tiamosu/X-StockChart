@@ -1,6 +1,5 @@
 package com.github.mikephil.charting.stockChart.model.bean;
 
-
 import com.github.mikephil.charting.stockChart.model.KLineDataModel;
 
 import java.util.ArrayList;
@@ -9,9 +8,7 @@ import java.util.List;
 /**
  * Created by loro on 2017/3/2.
  */
-
 public class KDJEntity {
-
     private ArrayList<Float> Ks;
     private ArrayList<Float> Ds;
     private ArrayList<Float> Js;
@@ -19,17 +16,16 @@ public class KDJEntity {
     /**
      * 得到KDJ
      *
-     * @param kLineBeens
-     * @param n          N为0时，时间范围取之前所有
+     * @param n N为0时，时间范围取之前所有
      */
     public KDJEntity(List<KLineDataModel> kLineBeens, int n, int m1, int m2) {
-        Ks = new ArrayList<Float>();
-        Ds = new ArrayList<Float>();
-        Js = new ArrayList<Float>();
+        Ks = new ArrayList<>();
+        Ds = new ArrayList<>();
+        Js = new ArrayList<>();
 
-        ArrayList<Float> ks = new ArrayList<Float>();
-        ArrayList<Float> ds = new ArrayList<Float>();
-        ArrayList<Float> js = new ArrayList<Float>();
+        ArrayList<Float> ks = new ArrayList<>();
+        ArrayList<Float> ds = new ArrayList<>();
+        ArrayList<Float> js = new ArrayList<>();
 
         float k = 50.0f;
         float d = 50.0f;
@@ -83,10 +79,8 @@ public class KDJEntity {
     /**
      * 得到某区间内最高价和最低价
      *
-     * @param a          开始位置 可以为0
-     * @param b          结束位置
-     * @param kLineBeens
-     * @return
+     * @param a 开始位置 可以为0
+     * @param b 结束位置
      */
     private Float[] getHighAndLowByK(Integer a, Integer b, ArrayList<KLineDataModel> kLineBeens) {
         if (a < 0) {
@@ -107,7 +101,6 @@ public class KDJEntity {
         wrs[1] = low;
         return wrs;
     }
-
 
     public ArrayList<Float> getK() {
         return Ks;

@@ -24,7 +24,6 @@ import org.greenrobot.eventbus.EventBus;
 /**
  * Created by ly on 2017/7/3.
  */
-
 public class TimeLineChartRenderer extends LineChartRenderer {
 
     public TimeLineChartRenderer(LineDataProvider chart, ChartAnimator animator, ViewPortHandler viewPortHandler) {
@@ -36,7 +35,6 @@ public class TimeLineChartRenderer extends LineChartRenderer {
      */
     @Override
     protected void drawLinear(Canvas c, ILineDataSet dataSet) {
-
         int entryCount = dataSet.getEntryCount();
 
         final boolean isDrawSteppedEnabled = dataSet.isDrawSteppedEnabled();

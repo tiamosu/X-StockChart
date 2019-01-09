@@ -2,7 +2,6 @@ package com.github.mikephil.charting.stockChart.data;
 
 import android.content.Context;
 import android.graphics.Paint;
-import androidx.core.content.ContextCompat;
 
 import com.github.mikephil.charting.R;
 import com.github.mikephil.charting.components.YAxis;
@@ -22,12 +21,13 @@ import com.github.mikephil.charting.stockChart.model.bean.RSIEntity;
 import com.github.mikephil.charting.utils.DataTimeUtil;
 import com.github.mikephil.charting.utils.NumberUtils;
 
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.core.content.ContextCompat;
 
 /**
  * K线数据解析
@@ -105,7 +105,7 @@ public class KLineDataManage {
     /**
      * 解析K线数据
      */
-    public void parseKlineData(JSONObject object, String assetId,boolean landscape) {
+    public void parseKlineData(JSONObject object, String assetId, boolean landscape) {
         this.assetId = assetId;
         this.landscape = landscape;
         if (object != null) {
@@ -168,7 +168,7 @@ public class KLineDataManage {
         deaData = new ArrayList<>();
         difData = new ArrayList<>();
         for (int i = 0; i < macdEntity.getMACD().size(); i++) {
-            macdData.add(new BarEntry(i,i + offSet, macdEntity.getMACD().get(i), macdEntity.getMACD().get(i)));
+            macdData.add(new BarEntry(i, i + offSet, macdEntity.getMACD().get(i), macdEntity.getMACD().get(i)));
             deaData.add(new Entry(i, i + offSet, macdEntity.getDEA().get(i)));
             difData.add(new Entry(i, i + offSet, macdEntity.getDIF().get(i)));
         }
@@ -213,6 +213,7 @@ public class KLineDataManage {
         lineDataBOLL.add(setALine(ColorType.yellow, bollDataMB, false));
         lineDataBOLL.add(setALine(ColorType.purple, bollDataDN, false));
     }
+
     /**
      * 初始化自己计算RSI
      */
@@ -286,7 +287,7 @@ public class KLineDataManage {
     private LineDataSet setALine(ColorType colorType, ArrayList<Entry> lineEntries, String label, boolean highlightEnable) {
         LineDataSet lineDataSetMa = new LineDataSet(lineEntries, label);
         lineDataSetMa.setDrawHorizontalHighlightIndicator(false);
-        lineDataSetMa.setHighlightEnabled(landscape?highlightEnable:landscape);
+        lineDataSetMa.setHighlightEnabled(landscape ? highlightEnable : landscape);
         lineDataSetMa.setHighLightColor(ContextCompat.getColor(mContext, R.color.highLight_Color));
         lineDataSetMa.setDrawValues(false);
         if (colorType == ColorType.blue) {

@@ -1,7 +1,6 @@
 package com.github.mikephil.charting.renderer;
 
 import android.graphics.Canvas;
-import android.util.Log;
 
 import com.github.mikephil.charting.animation.ChartAnimator;
 import com.github.mikephil.charting.charts.Chart;
@@ -10,7 +9,6 @@ import com.github.mikephil.charting.charts.CombinedChart.DrawOrder;
 import com.github.mikephil.charting.data.ChartData;
 import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.highlight.Highlight;
-import com.github.mikephil.charting.interfaces.dataprovider.BarLineScatterCandleBubbleDataProvider;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import java.lang.ref.WeakReference;
@@ -25,7 +23,7 @@ public class CombinedChartRenderer extends DataRenderer {
     /**
      * all rederers for the different kinds of data this combined-renderer can draw
      */
-    protected List<DataRenderer> mRenderers = new ArrayList<DataRenderer>(5);
+    protected List<DataRenderer> mRenderers = new ArrayList<>(5);
 
     protected WeakReference<Chart> mChart;
 
@@ -114,7 +112,7 @@ public class CombinedChartRenderer extends DataRenderer {
         }
     }
 
-    protected List<Highlight> mHighlightBuffer = new ArrayList<Highlight>();
+    protected List<Highlight> mHighlightBuffer = new ArrayList<>();
 
     @Override
     public void drawHighlighted(Canvas c, Highlight[] indices) {
@@ -149,15 +147,12 @@ public class CombinedChartRenderer extends DataRenderer {
                 }
             }
 
-            renderer.drawHighlighted(c, mHighlightBuffer.toArray(new Highlight[mHighlightBuffer.size()]));
+            renderer.drawHighlighted(c, mHighlightBuffer.toArray(new Highlight[0]));
         }
     }
 
     /**
      * Returns the sub-renderer object at the specified index.
-     *
-     * @param index
-     * @return
      */
     public DataRenderer getSubRenderer(int index) {
         if (index >= mRenderers.size() || index < 0) {
@@ -169,8 +164,6 @@ public class CombinedChartRenderer extends DataRenderer {
 
     /**
      * Returns all sub-renderers.
-     *
-     * @return
      */
     public List<DataRenderer> getSubRenderers() {
         return mRenderers;

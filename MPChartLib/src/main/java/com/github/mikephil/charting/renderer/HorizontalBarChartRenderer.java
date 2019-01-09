@@ -1,4 +1,3 @@
-
 package com.github.mikephil.charting.renderer;
 
 import android.graphics.Canvas;
@@ -39,7 +38,6 @@ public class HorizontalBarChartRenderer extends BarChartRenderer {
 
     @Override
     public void initBuffers() {
-
         BarData barData = mChart.getBarData();
         mBarBuffers = new HorizontalBarBuffer[barData.getDataSetCount()];
 
@@ -54,7 +52,6 @@ public class HorizontalBarChartRenderer extends BarChartRenderer {
 
     @Override
     protected void drawDataSet(Canvas c, IBarDataSet dataSet, int index) {
-
         Transformer trans = mChart.getTransformer(dataSet.getAxisDependency());
 
         mBarBorderPaint.setColor(dataSet.getBarBorderColor());

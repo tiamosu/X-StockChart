@@ -1,7 +1,4 @@
-
 package com.github.mikephil.charting.buffer;
-
-import java.util.List;
 
 /**
  * Buffer class to boost performance while drawing. Concept: Replace instead of
@@ -81,8 +78,6 @@ public abstract class AbstractBuffer<T> {
 
     /**
      * Returns the size (length) of the buffer array.
-     *
-     * @return
      */
     public int size() {
         return buffer.length;
@@ -90,9 +85,6 @@ public abstract class AbstractBuffer<T> {
 
     /**
      * Set the phases used for animations.
-     *
-     * @param phaseX
-     * @param phaseY
      */
     public void setPhases(float phaseX, float phaseY) {
         this.phaseX = phaseX;
@@ -102,8 +94,6 @@ public abstract class AbstractBuffer<T> {
     /**
      * Builds up the buffer with the provided data and resets the buffer-index
      * after feed-completion. This needs to run FAST.
-     *
-     * @param data
      */
     public abstract void feed(T data);
 }

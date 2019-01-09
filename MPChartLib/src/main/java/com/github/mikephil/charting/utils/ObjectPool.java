@@ -41,7 +41,6 @@ public class ObjectPool<T extends ObjectPool.Poolable> {
      *
      * @param withCapacity A positive integer value.
      * @param object       An instance of the object that the pool should recycle.
-     * @return
      */
     public static synchronized ObjectPool create(int withCapacity, Poolable object) {
         ObjectPool result = new ObjectPool(withCapacity, object);
@@ -179,9 +178,7 @@ public class ObjectPool<T extends ObjectPool.Poolable> {
         final int oldCapacity = this.desiredCapacity;
         this.desiredCapacity *= 2;
         Object[] temp = new Object[this.desiredCapacity];
-        for (int i = 0; i < oldCapacity; i++) {
-            temp[i] = this.objects[i];
-        }
+        System.arraycopy(this.objects, 0, temp, 0, oldCapacity);
         this.objects = temp;
     }
 
@@ -205,9 +202,7 @@ public class ObjectPool<T extends ObjectPool.Poolable> {
         return this.objectsPointer + 1;
     }
 
-
     public static abstract class Poolable {
-
         public static int NO_OWNER = -1;
         int currentOwnerId = NO_OWNER;
 

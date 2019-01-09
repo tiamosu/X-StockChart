@@ -56,7 +56,6 @@ import androidx.core.content.ContextCompat;
  * 当日分时图view
  */
 public class OneDayView extends BaseView {
-
     private Context mContext;
     TimeLineChart lineChart;
     TimeBarChart barChart;
@@ -250,8 +249,6 @@ public class OneDayView extends BaseView {
 
     /**
      * 是否显示坐标轴label
-     *
-     * @param isShow
      */
     private void setShowLabels(boolean isShow) {
         lineChart.getAxisLeft().setDrawLabels(isShow);
@@ -262,8 +259,6 @@ public class OneDayView extends BaseView {
 
     /**
      * 设置分时数据
-     *
-     * @param mData
      */
     public void setDataToChart(TimeDataManage mData) {
         this.mData = mData;

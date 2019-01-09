@@ -47,15 +47,9 @@ public class BarHighlighter extends ChartHighlighter<BarDataProvider> {
      * selected.
      *
      * @param high the Highlight to work with looking for stacked values
-     * @param set
-     * @param xVal
-     * @param yVal
-     * @return
      */
     public Highlight getStackedHighlight(Highlight high, IBarDataSet set, float xVal, float yVal) {
-
         BarEntry entry = set.getEntryForXValue(xVal, yVal);
-
         if (entry == null) {
             return null;
         }
@@ -65,12 +59,9 @@ public class BarHighlighter extends ChartHighlighter<BarDataProvider> {
             return high;
         } else {
             Range[] ranges = entry.getRanges();
-
             if (ranges.length > 0) {
                 int stackIndex = getClosestStackIndex(ranges, yVal);
-
                 MPPointD pixels = mChart.getTransformer(set.getAxisDependency()).getPixelForValues(high.getX(), ranges[stackIndex].to);
-
                 Highlight stackedHigh = new Highlight(
                         entry.getX(),
                         entry.getY(),
@@ -94,13 +85,8 @@ public class BarHighlighter extends ChartHighlighter<BarDataProvider> {
      * Returns the index of the closest value inside the values array / ranges (stacked barchart) to the value
      * given as
      * a parameter.
-     *
-     * @param ranges
-     * @param value
-     * @return
      */
     protected int getClosestStackIndex(Range[] ranges, float value) {
-
         if (ranges == null || ranges.length == 0) {
             return 0;
         }
@@ -119,40 +105,6 @@ public class BarHighlighter extends ChartHighlighter<BarDataProvider> {
 
         return (value > ranges[length].to) ? length : 0;
     }
-
-//    /**
-//     * Splits up the stack-values of the given bar-entry into Range objects.
-//     *
-//     * @param entry
-//     * @return
-//     */
-//    protected Range[] getRanges(BarEntry entry) {
-//
-//        float[] values = entry.getYVals();
-//
-//        if (values == null || values.length == 0)
-//            return new Range[0];
-//
-//        Range[] ranges = new Range[values.length];
-//
-//        float negRemain = -entry.getNegativeSum();
-//        float posRemain = 0f;
-//
-//        for (int i = 0; i < ranges.length; i++) {
-//
-//            float value = values[i];
-//
-//            if (value < 0) {
-//                ranges[i] = new Range(negRemain, negRemain + Math.abs(value));
-//                negRemain += Math.abs(value);
-//            } else {
-//                ranges[i] = new Range(posRemain, posRemain + value);
-//                posRemain += value;
-//            }
-//        }
-//
-//        return ranges;
-//    }
 
     @Override
     protected float getDistance(float x1, float y1, float x2, float y2) {

@@ -1,4 +1,3 @@
-
 package com.github.mikephil.charting.data;
 
 import android.annotation.SuppressLint;
@@ -56,8 +55,6 @@ public class CandleEntry extends Entry {
      * @param x       The value on the x-axis
      * @param shadowH The (shadow) high value
      * @param shadowL The (shadow) low value
-     * @param open
-     * @param close
      * @param data    Spot for additional data this Entry represents
      */
     public CandleEntry(int mXIndex, float x, float shadowH, float shadowL, float open, float close,
@@ -76,8 +73,6 @@ public class CandleEntry extends Entry {
      * @param x       The value on the x-axis
      * @param shadowH The (shadow) high value
      * @param shadowL The (shadow) low value
-     * @param open
-     * @param close
      * @param icon    Icon image
      */
     public CandleEntry(int mXIndex, float x, float shadowH, float shadowL, float open, float close,
@@ -96,8 +91,6 @@ public class CandleEntry extends Entry {
      * @param x       The value on the x-axis
      * @param shadowH The (shadow) high value
      * @param shadowL The (shadow) low value
-     * @param open
-     * @param close
      * @param icon    Icon image
      * @param data    Spot for additional data this Entry represents
      */
@@ -114,8 +107,6 @@ public class CandleEntry extends Entry {
     /**
      * Returns the overall range (difference) between shadow-high and
      * shadow-low.
-     *
-     * @return
      */
     public float getShadowRange() {
         return Math.abs(mShadowHigh - mShadowLow);
@@ -123,8 +114,6 @@ public class CandleEntry extends Entry {
 
     /**
      * Returns the body size (difference between open and close).
-     *
-     * @return
      */
     public float getBodyRange() {
         return Math.abs(mOpen - mClose);
@@ -141,17 +130,11 @@ public class CandleEntry extends Entry {
 
     @Override
     public CandleEntry copy() {
-
-        CandleEntry c = new CandleEntry(getXIndex(), getX(), mShadowHigh, mShadowLow, mOpen,
-                mClose, getData());
-
-        return c;
+        return new CandleEntry(getXIndex(), getX(), mShadowHigh, mShadowLow, mOpen, mClose, getData());
     }
 
     /**
      * Returns the upper shadows highest value.
-     *
-     * @return
      */
     public float getHigh() {
         return mShadowHigh;
@@ -163,8 +146,6 @@ public class CandleEntry extends Entry {
 
     /**
      * Returns the lower shadows lowest value.
-     *
-     * @return
      */
     public float getLow() {
         return mShadowLow;
@@ -176,8 +157,6 @@ public class CandleEntry extends Entry {
 
     /**
      * Returns the bodys close value.
-     *
-     * @return
      */
     public float getClose() {
         return mClose;
@@ -189,8 +168,6 @@ public class CandleEntry extends Entry {
 
     /**
      * Returns the bodys open value.
-     *
-     * @return
      */
     public float getOpen() {
         return mOpen;

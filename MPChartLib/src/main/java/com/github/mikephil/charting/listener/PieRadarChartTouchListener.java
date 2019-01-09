@@ -1,8 +1,6 @@
-
 package com.github.mikephil.charting.listener;
 
 import android.annotation.SuppressLint;
-import android.graphics.PointF;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -28,7 +26,7 @@ public class PieRadarChartTouchListener extends ChartTouchListener<PieRadarChart
      */
     private float mStartAngle = 0f;
 
-    private ArrayList<AngularVelocitySample> _velocitySamples = new ArrayList<AngularVelocitySample>();
+    private ArrayList<AngularVelocitySample> _velocitySamples = new ArrayList<>();
 
     private long mDecelerationLastTime = 0;
     private float mDecelerationAngularVelocity = 0.f;
@@ -231,9 +229,6 @@ public class PieRadarChartTouchListener extends ChartTouchListener<PieRadarChart
     /**
      * sets the starting angle of the rotation, this is only used by the touch
      * listener, x and y is the touch position
-     *
-     * @param x
-     * @param y
      */
     public void setGestureStartAngle(float x, float y) {
         mStartAngle = mChart.getAngleForPoint(x, y) - mChart.getRawRotationAngle();
@@ -242,9 +237,6 @@ public class PieRadarChartTouchListener extends ChartTouchListener<PieRadarChart
     /**
      * updates the view rotation depending on the given touch position, also
      * takes the starting angle into consideration
-     *
-     * @param x
-     * @param y
      */
     public void updateGestureRotation(float x, float y) {
         mChart.setRotationAngle(mChart.getAngleForPoint(x, y) - mStartAngle);
@@ -258,7 +250,6 @@ public class PieRadarChartTouchListener extends ChartTouchListener<PieRadarChart
     }
 
     public void computeScroll() {
-
         if (mDecelerationAngularVelocity == 0.f) {
             return; // There's no deceleration in progress
         }
@@ -281,7 +272,6 @@ public class PieRadarChartTouchListener extends ChartTouchListener<PieRadarChart
     }
 
     private class AngularVelocitySample {
-
         public long time;
         public float angle;
 

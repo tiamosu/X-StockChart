@@ -1,8 +1,6 @@
-
 package com.github.mikephil.charting.renderer;
 
 import android.graphics.Canvas;
-import android.graphics.PointF;
 
 import com.github.mikephil.charting.charts.RadarChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -22,7 +20,6 @@ public class XAxisRendererRadarChart extends XAxisRenderer {
 
     @Override
     public void renderAxisLabels(Canvas c) {
-
         if (!mXAxis.isEnabled() || !mXAxis.isDrawLabelsEnabled()) {
             return;
         }
@@ -62,8 +59,6 @@ public class XAxisRendererRadarChart extends XAxisRenderer {
 
     /**
      * XAxis LimitLines on RadarChart not yet supported.
-     *
-     * @param c
      */
     @Override
     public void renderLimitLines(Canvas c) {

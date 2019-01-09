@@ -12,7 +12,6 @@ import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.github.mikephil.charting.stockChart.data.KLineDataManage;
 import com.github.mikephil.charting.utils.CommonUtil;
 
-
 /**
  * Created by ly on 2016/9/12.
  */
@@ -56,13 +55,10 @@ public class CandleCombinedChart extends CombinedChart {
             return;
         }
 
-        for (int i = 0; i < mIndicesToHighlight.length; i++) {
-
-            Highlight highlight = mIndicesToHighlight[i];
-
+        for (Highlight highlight : mIndicesToHighlight) {
             IDataSet set = mData.getDataSetByIndex(highlight.getDataSetIndex());
 
-            Entry e = mData.getEntryForHighlight(mIndicesToHighlight[i]);
+            Entry e = mData.getEntryForHighlight(highlight);
             int entryIndex = set.getEntryIndex(e);
 
             // make sure entry not null
@@ -78,9 +74,9 @@ public class CandleCombinedChart extends CombinedChart {
             }
 
             if (pos[0] >= CommonUtil.getWindowWidth(getContext()) / 2) {
-                float yValForXIndex1 = (float) kLineData.getKLineDatas().get((int) mIndicesToHighlight[i].getX()).getClose();
+                float yValForXIndex1 = (float) kLineData.getKLineDatas().get((int) highlight.getX()).getClose();
                 myMarkerViewLeft.setData(yValForXIndex1);
-                myMarkerViewLeft.refreshContent(e, mIndicesToHighlight[i]);
+                myMarkerViewLeft.refreshContent(e, highlight);
                 myMarkerViewLeft.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED), MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
                 myMarkerViewLeft.layout(0, 0, myMarkerViewLeft.getMeasuredWidth(), myMarkerViewLeft.getMeasuredHeight());
                 if (getAxisLeft().getLabelPosition() == YAxis.YAxisLabelPosition.OUTSIDE_CHART) {
@@ -89,9 +85,9 @@ public class CandleCombinedChart extends CombinedChart {
                     myMarkerViewLeft.draw(canvas, mViewPortHandler.contentLeft() + myMarkerViewLeft.getWidth() / 2, pos[1] + myMarkerViewLeft.getHeight() / 2);//+ CommonUtil.dip2px(getContext(),20)   - myMarkerViewLeft.getHeight() / 2
                 }
             } else {
-                float yValForXIndex2 = (float) kLineData.getKLineDatas().get((int) mIndicesToHighlight[i].getX()).getClose();
+                float yValForXIndex2 = (float) kLineData.getKLineDatas().get((int) highlight.getX()).getClose();
                 myMarkerViewRight.setData(yValForXIndex2);
-                myMarkerViewRight.refreshContent(e, mIndicesToHighlight[i]);
+                myMarkerViewRight.refreshContent(e, highlight);
                 myMarkerViewRight.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED), MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
                 myMarkerViewRight.layout(0, 0, myMarkerViewRight.getMeasuredWidth(), myMarkerViewRight.getMeasuredHeight());// - myMarkerViewRight.getHeight() / 2
                 if (getAxisRight().getLabelPosition() == YAxis.YAxisLabelPosition.OUTSIDE_CHART) {

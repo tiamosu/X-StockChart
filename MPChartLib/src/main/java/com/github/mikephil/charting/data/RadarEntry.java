@@ -9,17 +9,15 @@ import android.annotation.SuppressLint;
 public class RadarEntry extends Entry {
 
     public RadarEntry(float value) {
-        super(0,0f, value);
+        super(0, 0f, value);
     }
 
     public RadarEntry(float value, Object data) {
-        super(0,0f, value, data);
+        super(0, 0f, value, data);
     }
 
     /**
      * This is the same as getY(). Returns the value of the RadarEntry.
-     *
-     * @return
      */
     public float getValue() {
         return getY();
@@ -27,8 +25,7 @@ public class RadarEntry extends Entry {
 
     @Override
     public RadarEntry copy() {
-        RadarEntry e = new RadarEntry(getY(), getData());
-        return e;
+        return new RadarEntry(getY(), getData());
     }
 
     @Deprecated

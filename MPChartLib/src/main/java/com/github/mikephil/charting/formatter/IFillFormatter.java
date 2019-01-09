@@ -16,8 +16,6 @@ public interface IFillFormatter {
      * LineDataSet should end.
      *
      * @param dataSet      the ILineDataSet that is currently drawn
-     * @param dataProvider
-     * @return
      */
     float getFillLinePosition(ILineDataSet dataSet, LineDataProvider dataProvider);
 }

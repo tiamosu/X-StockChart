@@ -50,8 +50,6 @@ public class PieEntry extends Entry {
 
     /**
      * This is the same as getY(). Returns the value of the PieEntry.
-     *
-     * @return
      */
     public float getValue() {
         return getY();
@@ -81,7 +79,6 @@ public class PieEntry extends Entry {
 
     @Override
     public PieEntry copy() {
-        PieEntry e = new PieEntry(getY(), label, getData());
-        return e;
+        return new PieEntry(getY(), label, getData());
     }
 }

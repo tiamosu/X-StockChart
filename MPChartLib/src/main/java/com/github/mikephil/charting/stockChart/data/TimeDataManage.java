@@ -7,8 +7,6 @@ import com.github.mikephil.charting.stockChart.model.TimeDataModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +15,6 @@ import static com.github.mikephil.charting.utils.DataTimeUtil.secToDateForFiveDa
 /**
  * 分时数据解析
  */
-
 public class TimeDataManage {
     private ArrayList<TimeDataModel> realTimeDatas = new ArrayList<>();//分时数据
     private double baseValue = 0;//分时图基准值
@@ -27,10 +24,9 @@ public class TimeDataManage {
     private double max = 0;//分时图最大价格
     private double min = 0;//分时图最小价格
     private double perVolMaxTimeLine = 0;
-    private SparseArray<String> fiveDayXLabels = new SparseArray<String>();//专用于五日分时横坐标轴刻度
-    private List<Integer> fiveDayXLabelKey = new ArrayList<Integer>();//专用于五日分时横坐标轴刻度
+    private SparseArray<String> fiveDayXLabels = new SparseArray<>();//专用于五日分时横坐标轴刻度
+    private List<Integer> fiveDayXLabelKey = new ArrayList<>();//专用于五日分时横坐标轴刻度
     private String assetId;
-    private SimpleDateFormat sf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
     private double preClose;//昨收价
 
     /**
@@ -150,8 +146,6 @@ public class TimeDataManage {
 
     /**
      * 当日分时X轴刻度线
-     *
-     * @return
      */
     public SparseArray<String> getOneDayXLabels(boolean landscape) {
         SparseArray<String> xLabels = new SparseArray<String>();
@@ -189,8 +183,6 @@ public class TimeDataManage {
 
     /**
      * 五日分时X轴刻度线
-     *
-     * @return
      */
     public SparseArray<String> getFiveDayXLabels() {
         for (int i = fiveDayXLabels.size(); i < fiveDayXLabelKey.size(); i++) {
@@ -218,5 +210,4 @@ public class TimeDataManage {
         }
         return fiveDayXLabelKey;
     }
-
 }

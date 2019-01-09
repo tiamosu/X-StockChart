@@ -1,4 +1,3 @@
-
 package com.github.mikephil.charting.charts;
 
 import android.content.Context;
@@ -7,6 +6,8 @@ import android.util.AttributeSet;
 import com.github.mikephil.charting.data.ScatterData;
 import com.github.mikephil.charting.interfaces.dataprovider.ScatterDataProvider;
 import com.github.mikephil.charting.renderer.ScatterChartRenderer;
+
+import androidx.annotation.NonNull;
 
 /**
  * The ScatterChart. Draws dots, triangles, squares and custom shapes into the
@@ -62,6 +63,7 @@ public class ScatterChart extends BarLineChartBase<ScatterData> implements Scatt
             this.shapeIdentifier = shapeIdentifier;
         }
 
+        @NonNull
         @Override
         public String toString() {
             return shapeIdentifier;

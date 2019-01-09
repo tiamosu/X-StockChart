@@ -1,7 +1,5 @@
-
 package com.github.mikephil.charting.data;
 
-import android.annotation.TargetApi;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 
@@ -55,8 +53,6 @@ public abstract class LineRadarDataSet<T extends Entry> extends LineScatterCandl
     /**
      * Sets the color that is used for filling the area below the line.
      * Resets an eventually set "fillDrawable".
-     *
-     * @param color
      */
     public void setFillColor(int color) {
         mFillColor = color;
@@ -70,10 +66,7 @@ public abstract class LineRadarDataSet<T extends Entry> extends LineScatterCandl
 
     /**
      * Sets the drawable to be used to fill the area below the line.
-     *
-     * @param drawable
      */
-    @TargetApi(18)
     public void setFillDrawable(Drawable drawable) {
         this.mFillDrawable = drawable;
     }
@@ -86,8 +79,6 @@ public abstract class LineRadarDataSet<T extends Entry> extends LineScatterCandl
     /**
      * sets the alpha value (transparency) that is used for filling the line
      * surface (0-255), default: 85
-     *
-     * @param alpha
      */
     public void setFillAlpha(int alpha) {
         mFillAlpha = alpha;
@@ -96,11 +87,8 @@ public abstract class LineRadarDataSet<T extends Entry> extends LineScatterCandl
     /**
      * set the line width of the chart (min = 0.2f, max = 10f); default 1f NOTE:
      * thinner line == better performance, thicker line == worse performance
-     *
-     * @param width
      */
     public void setLineWidth(float width) {
-
         if (width < 0.0f) {
             width = 0.0f;
         }

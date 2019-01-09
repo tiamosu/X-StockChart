@@ -11,7 +11,6 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.github.mikephil.charting.stockChart.data.TimeDataManage;
 
-
 public class TimeLineChart extends LineChart {
     private LeftMarkerView myMarkerViewLeft;
     private TimeRightMarkerView myMarkerViewRight;
@@ -69,13 +68,10 @@ public class TimeLineChart extends LineChart {
             return;
         }
 
-        for (int i = 0; i < mIndicesToHighlight.length; i++) {
-
-            Highlight highlight = mIndicesToHighlight[i];
-
+        for (Highlight highlight : mIndicesToHighlight) {
             IDataSet set = mData.getDataSetByIndex(highlight.getDataSetIndex());
 
-            Entry e = mData.getEntryForHighlight(mIndicesToHighlight[i]);
+            Entry e = mData.getEntryForHighlight(highlight);
             int entryIndex = set.getEntryIndex(e);
 
             // make sure entry not null
@@ -90,22 +86,22 @@ public class TimeLineChart extends LineChart {
                 continue;
             }
 
-            float yValForXIndex1 = (float) kTimeData.getDatas().get((int) mIndicesToHighlight[i].getX()).getNowPrice();
-            float yValForXIndex2 = (float) kTimeData.getDatas().get((int) mIndicesToHighlight[i].getX()).getPer();
+            float yValForXIndex1 = (float) kTimeData.getDatas().get((int) highlight.getX()).getNowPrice();
+            float yValForXIndex2 = (float) kTimeData.getDatas().get((int) highlight.getX()).getPer();
 
             if (volSelected != null) {
-                volSelected.onVolSelected(kTimeData.getDatas().get((int) mIndicesToHighlight[i].getX()).getVolume());
-                volSelected.onValuesSelected(kTimeData.getDatas().get((int) mIndicesToHighlight[i].getX()).getNowPrice(),
-                        kTimeData.getDatas().get((int) mIndicesToHighlight[i].getX()).getPer(),
-                        kTimeData.getDatas().get((int) mIndicesToHighlight[i].getX()).getVolume(),
-                        kTimeData.getDatas().get((int) mIndicesToHighlight[i].getX()).getAveragePrice());
+                volSelected.onVolSelected(kTimeData.getDatas().get((int) highlight.getX()).getVolume());
+                volSelected.onValuesSelected(kTimeData.getDatas().get((int) highlight.getX()).getNowPrice(),
+                        kTimeData.getDatas().get((int) highlight.getX()).getPer(),
+                        kTimeData.getDatas().get((int) highlight.getX()).getVolume(),
+                        kTimeData.getDatas().get((int) highlight.getX()).getAveragePrice());
             }
 
             myMarkerViewLeft.setData(yValForXIndex1);
             myMarkerViewRight.setData(yValForXIndex2);
 
-            myMarkerViewLeft.refreshContent(e, mIndicesToHighlight[i]);
-            myMarkerViewRight.refreshContent(e, mIndicesToHighlight[i]);
+            myMarkerViewLeft.refreshContent(e, highlight);
+            myMarkerViewRight.refreshContent(e, highlight);
             /*修复bug*/
             // invalidate();
             /*重新计算大小*/

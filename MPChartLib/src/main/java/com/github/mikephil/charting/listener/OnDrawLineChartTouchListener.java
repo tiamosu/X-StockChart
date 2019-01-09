@@ -11,5 +11,4 @@ public class OnDrawLineChartTouchListener extends SimpleOnGestureListener implem
     public boolean onTouch(View v, MotionEvent event) {
         return false;
     }
-
 }

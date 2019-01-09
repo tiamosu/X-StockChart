@@ -1,4 +1,3 @@
-
 package com.github.mikephil.charting.data;
 
 import android.graphics.drawable.Drawable;
@@ -7,6 +6,8 @@ import android.os.ParcelFormatException;
 import android.os.Parcelable;
 
 import com.github.mikephil.charting.utils.Utils;
+
+import androidx.annotation.NonNull;
 
 /**
  * Class representing one entry in the chart. Might contain multiple values.
@@ -20,11 +21,12 @@ public class Entry extends BaseEntry implements Parcelable {
      * the x value
      */
     private float x = 0f;
-    /** the index on the x-axis */
+    /**
+     * the index on the x-axis
+     */
     private int mXIndex = 0;
 
     public Entry() {
-
     }
 
     /**
@@ -33,7 +35,7 @@ public class Entry extends BaseEntry implements Parcelable {
      * @param x the x value
      * @param y the y value (the actual value of the entry)
      */
-    public Entry(int mXIndex,float x, float y) {
+    public Entry(int mXIndex, float x, float y) {
         super(y);
         this.mXIndex = mXIndex;
         this.x = x;
@@ -46,7 +48,7 @@ public class Entry extends BaseEntry implements Parcelable {
      * @param y    the y value (the actual value of the entry)
      * @param data Spot for additional data this Entry represents.
      */
-    public Entry(int mXIndex,float x, float y, Object data) {
+    public Entry(int mXIndex, float x, float y, Object data) {
         super(y, data);
         this.mXIndex = mXIndex;
         this.x = x;
@@ -59,7 +61,7 @@ public class Entry extends BaseEntry implements Parcelable {
      * @param y    the y value (the actual value of the entry)
      * @param icon icon image
      */
-    public Entry(int mXIndex,float x, float y, Drawable icon) {
+    public Entry(int mXIndex, float x, float y, Drawable icon) {
         super(y, icon);
         this.mXIndex = mXIndex;
         this.x = x;
@@ -73,7 +75,7 @@ public class Entry extends BaseEntry implements Parcelable {
      * @param icon icon image
      * @param data Spot for additional data this Entry represents.
      */
-    public Entry(int mXIndex,float x, float y, Drawable icon, Object data) {
+    public Entry(int mXIndex, float x, float y, Drawable icon, Object data) {
         super(y, icon, data);
         this.mXIndex = mXIndex;
         this.x = x;
@@ -81,8 +83,6 @@ public class Entry extends BaseEntry implements Parcelable {
 
     /**
      * Returns the x-value of this Entry object.
-     *
-     * @return
      */
     public float getX() {
         return x;
@@ -90,8 +90,6 @@ public class Entry extends BaseEntry implements Parcelable {
 
     /**
      * Sets the x-value of this Entry object.
-     *
-     * @param x
      */
     public void setX(float x) {
         this.x = x;
@@ -100,8 +98,6 @@ public class Entry extends BaseEntry implements Parcelable {
 
     /**
      * returns the x-index the value of this object is mapped to
-     *
-     * @return
      */
     public int getXIndex() {
         return mXIndex;
@@ -109,8 +105,6 @@ public class Entry extends BaseEntry implements Parcelable {
 
     /**
      * sets the x-index for the entry
-     *
-     * @param x
      */
     public void setXIndex(int x) {
         this.mXIndex = x;
@@ -118,24 +112,17 @@ public class Entry extends BaseEntry implements Parcelable {
 
     /**
      * returns an exact copy of the entry
-     *
-     * @return
      */
     public Entry copy() {
-        Entry e = new Entry(mXIndex,x, getY(), getData());
-        return e;
+        return new Entry(mXIndex, x, getY(), getData());
     }
 
     /**
      * Compares value, xIndex and data of the entries. Returns true if entries
      * are equal in those points, false if not. Does not check by hash-code like
      * it's done by the "equals" method.
-     *
-     * @param e
-     * @return
      */
     public boolean equalTo(Entry e) {
-
         if (e == null) {
             return false;
         }
@@ -154,9 +141,10 @@ public class Entry extends BaseEntry implements Parcelable {
     /**
      * returns a string representation of the entry containing x-index and value
      */
+    @NonNull
     @Override
     public String toString() {
-        return "Entry, mXIndex:"+mXIndex+"x: " + x + " y: " + getY();
+        return "Entry, mXIndex:" + mXIndex + "x: " + x + " y: " + getY();
     }
 
     @Override

@@ -247,8 +247,6 @@ public class FiveDayView extends BaseView {
 
     /**
      * 是否显示坐标轴label
-     *
-     * @param isShow
      */
     private void setShowLabels(boolean isShow) {
         lineChart.getAxisLeft().setDrawLabels(isShow);
@@ -259,8 +257,6 @@ public class FiveDayView extends BaseView {
 
     /**
      * 设置分时数据
-     *
-     * @param mData
      */
     public void setDataToChart(TimeDataManage mData) {
         this.mData = mData;
@@ -493,5 +489,4 @@ public class FiveDayView extends BaseView {
     public void eventBusUnregister() {
         EventBus.getDefault().unregister(this);
     }
-
 }

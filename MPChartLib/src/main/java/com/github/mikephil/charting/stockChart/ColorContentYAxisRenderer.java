@@ -30,8 +30,6 @@ public class ColorContentYAxisRenderer extends YAxisRenderer {
 
     /**
      * 昨收价
-     *
-     * @param closePrice
      */
     public void setClosePrice(double closePrice) {
         mClosePrice = closePrice;

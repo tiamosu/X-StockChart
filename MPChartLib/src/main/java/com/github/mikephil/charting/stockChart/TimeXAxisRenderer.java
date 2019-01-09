@@ -38,7 +38,6 @@ public class TimeXAxisRenderer extends XAxisRenderer {
             /*在图表中的x轴转为像素，方便绘制text*/
             mTrans.pointValuesToPixel(position);
             /*x轴越界*/
-//            if (mViewPortHandler.isInBoundsX(position[0])) {
             String label = mXAxis.getXLabels().valueAt(i);
             /*文本长度*/
             int labelWidth = Utils.calcTextWidth(mAxisLabelPaint, label);
@@ -50,10 +49,8 @@ public class TimeXAxisRenderer extends XAxisRenderer {
             }
             c.drawText(label, position[0], pos + Utils.convertPixelsToDp(mChart.getViewPortHandler().offsetBottom() + 10),
                     mAxisLabelPaint);
-//            }
         }
     }
-
 
     /*x轴垂直线*/
     @Override
@@ -80,5 +77,4 @@ public class TimeXAxisRenderer extends XAxisRenderer {
                     mViewPortHandler.contentBottom(), mGridPaint);
         }
     }
-
 }

@@ -1,6 +1,5 @@
 package com.github.mikephil.charting.stockChart.model.bean;
 
-
 import com.github.mikephil.charting.stockChart.model.KLineDataModel;
 
 import java.util.ArrayList;
@@ -11,7 +10,6 @@ import static java.lang.Float.NaN;
 /**
  * Created by Administrator on 2018/3/14.
  */
-
 public class CCIEntity {
     private ArrayList<Float> CCIs;
 
@@ -21,7 +19,6 @@ public class CCIEntity {
 
     public CCIEntity(List<KLineDataModel> kLineBeen, int n, float defult) {
         CCIs = new ArrayList<>();
-
         float cci = 0.0f;
         float typ = 0.0f;
         float ma = 0.0f;
@@ -60,5 +57,4 @@ public class CCIEntity {
     public ArrayList<Float> getCCIs() {
         return CCIs;
     }
-
 }

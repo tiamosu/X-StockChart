@@ -73,7 +73,5 @@ public class TriangleShapeRenderer implements IShapeRenderer {
             c.drawPath(tri, renderPaint);
             tri.reset();
         }
-
     }
-
 }

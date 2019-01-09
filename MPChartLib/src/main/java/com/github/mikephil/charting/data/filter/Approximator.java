@@ -1,8 +1,4 @@
-
 package com.github.mikephil.charting.data.filter;
-
-import android.annotation.TargetApi;
-import android.os.Build;
 
 import java.util.Arrays;
 
@@ -14,16 +10,13 @@ import java.util.Arrays;
  */
 public class Approximator {
 
-    @TargetApi(Build.VERSION_CODES.GINGERBREAD)
     public float[] reduceWithDouglasPeucker(float[] points, float tolerance) {
-
         int greatestIndex = 0;
         float greatestDistance = 0f;
 
         Line line = new Line(points[0], points[1], points[points.length - 2], points[points.length - 1]);
 
         for (int i = 2; i < points.length - 2; i += 2) {
-
             float distance = line.distance(points[i], points[i + 1]);
 
             if (distance > greatestDistance) {
@@ -33,7 +26,6 @@ public class Approximator {
         }
 
         if (greatestDistance > tolerance) {
-
             float[] reduced1 = reduceWithDouglasPeucker(Arrays.copyOfRange(points, 0, greatestIndex + 2), tolerance);
             float[] reduced2 = reduceWithDouglasPeucker(Arrays.copyOfRange(points, greatestIndex, points.length),
                     tolerance);
@@ -49,11 +41,8 @@ public class Approximator {
 
     /**
      * Combine arrays.
-     *
-     * @param arrays
-     * @return
      */
-    float[] concat(float[]... arrays) {
+    private float[] concat(float[]... arrays) {
         int length = 0;
         for (float[] array : arrays) {
             length += array.length;
@@ -70,7 +59,6 @@ public class Approximator {
     }
 
     private class Line {
-
         private float[] points;
 
         private float sxey;

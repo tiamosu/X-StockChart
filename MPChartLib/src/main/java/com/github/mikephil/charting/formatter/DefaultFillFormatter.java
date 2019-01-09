@@ -1,6 +1,5 @@
 package com.github.mikephil.charting.formatter;
 
-
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
@@ -14,7 +13,6 @@ public class DefaultFillFormatter implements IFillFormatter {
 
     @Override
     public float getFillLinePosition(ILineDataSet dataSet, LineDataProvider dataProvider) {
-
         float fillMin = 0f;
         float chartMaxY = dataProvider.getYChartMax();
         float chartMinY = dataProvider.getYChartMin();

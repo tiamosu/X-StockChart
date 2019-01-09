@@ -1,4 +1,3 @@
-
 package com.github.mikephil.charting.renderer;
 
 import android.graphics.Canvas;
@@ -56,8 +55,6 @@ public class LegendRenderer extends Renderer {
 
     /**
      * Returns the Paint object used for drawing the Legend labels.
-     *
-     * @return
      */
     public Paint getLabelPaint() {
         return mLegendLabelPaint;
@@ -65,8 +62,6 @@ public class LegendRenderer extends Renderer {
 
     /**
      * Returns the Paint object used for drawing the Legend forms.
-     *
-     * @return
      */
     public Paint getFormPaint() {
         return mLegendFormPaint;
@@ -77,8 +72,6 @@ public class LegendRenderer extends Renderer {
 
     /**
      * Prepares the legend and calculates all needed forms, labels and colors.
-     *
-     * @param data
      */
     public void computeLegend(ChartData<?> data) {
 
@@ -426,9 +419,7 @@ public class LegendRenderer extends Renderer {
                         break;
                 }
 
-                for (int i = 0; i < entries.length; i++) {
-
-                    LegendEntry e = entries[i];
+                for (LegendEntry e : entries) {
                     boolean drawingForm = e.form != Legend.LegendForm.NONE;
                     float formSize = Float.isNaN(e.formSize) ? defaultFormSize : Utils.convertDpToPixel(e.formSize);
 
@@ -569,8 +560,6 @@ public class LegendRenderer extends Renderer {
      * Draws the provided label at the given position.
      *
      * @param c     canvas to draw with
-     * @param x
-     * @param y
      * @param label the label to draw
      */
     protected void drawLabel(Canvas c, float x, float y, String label) {

@@ -35,8 +35,6 @@ public class Description extends ComponentBase {
     /**
      * Sets the text to be shown as the description.
      * Never set this to null as this will cause nullpointer exception when drawing with Android Canvas.
-     *
-     * @param text
      */
     public void setText(String text) {
         this.text = text;
@@ -44,8 +42,6 @@ public class Description extends ComponentBase {
 
     /**
      * Returns the description text.
-     *
-     * @return
      */
     public String getText() {
         return text;
@@ -53,9 +49,6 @@ public class Description extends ComponentBase {
 
     /**
      * Sets a custom position for the description text in pixels on the screen.
-     *
-     * @param x - xcoordinate
-     * @param y - ycoordinate
      */
     public void setPosition(float x, float y) {
         if (mPosition == null) {
@@ -68,8 +61,6 @@ public class Description extends ComponentBase {
 
     /**
      * Returns the customized position of the description, or null if none set.
-     *
-     * @return
      */
     public MPPointF getPosition() {
         return mPosition;
@@ -77,8 +68,6 @@ public class Description extends ComponentBase {
 
     /**
      * Sets the text alignment of the description text. Default RIGHT.
-     *
-     * @param align
      */
     public void setTextAlign(Paint.Align align) {
         this.mTextAlign = align;
@@ -86,8 +75,6 @@ public class Description extends ComponentBase {
 
     /**
      * Returns the text alignment of the description.
-     *
-     * @return
      */
     public Paint.Align getTextAlign() {
         return mTextAlign;

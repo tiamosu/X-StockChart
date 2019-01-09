@@ -1,4 +1,3 @@
-
 package com.github.mikephil.charting.data;
 
 import android.graphics.Color;
@@ -101,9 +100,7 @@ public class RadarDataSet extends LineRadarDataSet<RadarEntry> implements IRadar
 
     @Override
     public DataSet<RadarEntry> copy() {
-
-        List<RadarEntry> yVals = new ArrayList<RadarEntry>();
-
+        List<RadarEntry> yVals = new ArrayList<>();
         for (int i = 0; i < mValues.size(); i++) {
             yVals.add(mValues.get(i).copy());
         }
