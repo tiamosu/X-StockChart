@@ -2,14 +2,12 @@ package com.android.stockapp.ui.market.activity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -18,7 +16,6 @@ import com.android.stockapp.R;
 import com.android.stockapp.common.adapter.SimpleFragmentPagerAdapter;
 import com.android.stockapp.common.data.Constants;
 import com.android.stockapp.common.viewpager.NoTouchScrollViewpager;
-import com.android.stockapp.ui.main.MainActivity;
 import com.android.stockapp.ui.market.fragment.ChartFiveDayFragment;
 import com.android.stockapp.ui.market.fragment.ChartKLineFragment;
 import com.android.stockapp.ui.market.fragment.ChartOneDayFragment;
@@ -30,7 +27,6 @@ import butterknife.ButterKnife;
  * 股票详情页
  */
 public class StockDetailActivity extends AppCompatActivity {
-
     @BindView(R.id.tab)
     TabLayout tabLayout;
     @BindView(R.id.view_pager)
@@ -60,13 +56,13 @@ public class StockDetailActivity extends AppCompatActivity {
                     case R.id.item_model:
                         SharedPreferences sp = getSharedPreferences(Constants.SP_FILE,
                                 Context.MODE_PRIVATE);
-                        if(!sp.getBoolean(Constants.DAY_NIGHT_MODE,false)){
+                        if (!sp.getBoolean(Constants.DAY_NIGHT_MODE, false)) {
                             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                            sp.edit().putBoolean(Constants.DAY_NIGHT_MODE,true).apply();
+                            sp.edit().putBoolean(Constants.DAY_NIGHT_MODE, true).apply();
                             Toast.makeText(StockDetailActivity.this, "夜间模式!", Toast.LENGTH_SHORT).show();
-                        }else {
+                        } else {
                             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                            sp.edit().putBoolean(Constants.DAY_NIGHT_MODE,false).apply();
+                            sp.edit().putBoolean(Constants.DAY_NIGHT_MODE, false).apply();
                             Toast.makeText(StockDetailActivity.this, "白天模式!", Toast.LENGTH_SHORT).show();
                         }
                         recreate();
