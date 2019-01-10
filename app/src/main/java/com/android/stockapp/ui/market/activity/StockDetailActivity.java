@@ -40,7 +40,6 @@ public class StockDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_stock_detail);
         ButterKnife.bind(this);
 
-
         toolbar.setTitle("图表");
         toolbar.inflateMenu(R.menu.menu_right);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
