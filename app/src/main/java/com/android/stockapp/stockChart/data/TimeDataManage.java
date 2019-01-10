@@ -10,7 +10,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.github.mikephil.charting.utils.DataTimeUtil.secToDateForFiveDay;
+import static com.android.stockapp.stockChart.utils.DataTimeUtil.secToDateForFiveDay;
 
 /**
  * 分时数据解析

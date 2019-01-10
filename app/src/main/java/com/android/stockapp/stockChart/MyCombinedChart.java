@@ -10,7 +10,7 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.android.stockapp.stockChart.data.KLineDataManage;
 import com.android.stockapp.stockChart.enums.TimeType;
-import com.github.mikephil.charting.utils.DataTimeUtil;
+import com.android.stockapp.stockChart.utils.DataTimeUtil;
 
 /**
  * Created by ly on 2018/3/14.

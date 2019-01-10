@@ -39,7 +39,7 @@ import com.android.stockapp.stockChart.enums.ChartType;
 import com.android.stockapp.stockChart.event.BaseEvent;
 import com.android.stockapp.stockChart.model.CirclePositionTime;
 import com.android.stockapp.stockChart.model.TimeDataModel;
-import com.github.mikephil.charting.utils.CommonUtil;
+import com.android.stockapp.stockChart.utils.CommonUtil;
 import com.github.mikephil.charting.utils.NumberUtils;
 import com.github.mikephil.charting.utils.Transformer;
 import com.github.mikephil.charting.utils.Utils;

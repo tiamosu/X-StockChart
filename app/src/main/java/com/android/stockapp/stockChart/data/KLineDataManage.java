@@ -18,7 +18,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.utils.DataTimeUtil;
+import com.android.stockapp.stockChart.utils.DataTimeUtil;
 import com.github.mikephil.charting.utils.NumberUtils;
 
 import org.json.JSONArray;

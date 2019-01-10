@@ -1,4 +1,4 @@
-package com.github.mikephil.charting.utils;
+package com.android.stockapp.stockChart.utils;
 
 import android.content.Context;
 import android.text.TextPaint;

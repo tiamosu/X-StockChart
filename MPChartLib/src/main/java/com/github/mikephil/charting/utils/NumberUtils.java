@@ -1,7 +1,5 @@
 package com.github.mikephil.charting.utils;
 
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.widget.EditText;
 
 import java.math.BigDecimal;
@@ -67,15 +65,15 @@ public class NumberUtils {
      * 用于格式化显示
      */
     public static String keepPrecisionR(double number, int precision) {
-        String str = "######0";
+        StringBuilder str = new StringBuilder("######0");
         for (int i = 0; i < precision; i++) {
             if (i == 0) {
-                str += ".0";
+                str.append(".0");
             } else {
-                str += "0";
+                str.append("0");
             }
         }
-        DecimalFormat df = new DecimalFormat(str);
+        DecimalFormat df = new DecimalFormat(str.toString());
         return df.format(number);
     }
 
@@ -94,7 +92,7 @@ public class NumberUtils {
             }
         }
         //处理首个数字是.的问题
-        if (".".equals(s.toString().trim().substring(0))) {
+        if (".".equals(s.toString().trim())) {
             s = "0" + s;
             view.setText(s);
             view.setSelection(2);
@@ -118,46 +116,6 @@ public class NumberUtils {
         BigDecimal d2 = new BigDecimal(Integer.toString(1));
         // 四舍五入,保留2位小数
         return d1.divide(d2, 2, BigDecimal.ROUND_HALF_UP).doubleValue();
-    }
-
-    public static void setPricePoint(final EditText editText) {
-        editText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before,
-                                      int count) {
-                if (s.toString().contains(".")) {
-                    if (s.length() - 1 - s.toString().indexOf(".") > 2) {
-                        s = s.toString().subSequence(0,
-                                s.toString().indexOf(".") + 3);
-                        editText.setText(s);
-                        editText.setSelection(s.length());
-                    }
-                }
-                if (".".equals(s.toString().trim().substring(0))) {
-                    s = "0" + s;
-                    editText.setText(s);
-                    editText.setSelection(2);
-                }
-
-                if (s.toString().startsWith("0")
-                        && s.toString().trim().length() > 1) {
-                    if (!".".equals(s.toString().substring(1, 2))) {
-                        editText.setText(s.subSequence(0, 1));
-                        editText.setSelection(1);
-                    }
-                }
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                                          int after) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
     }
 
     public static double String2Double(String strVal) {

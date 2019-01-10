@@ -10,7 +10,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.android.stockapp.stockChart.data.KLineDataManage;
-import com.github.mikephil.charting.utils.CommonUtil;
+import com.android.stockapp.stockChart.utils.CommonUtil;
 
 /**
  * Created by ly on 2016/9/12.

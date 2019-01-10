@@ -9,7 +9,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.android.stockapp.stockChart.data.TimeDataManage;
-import com.github.mikephil.charting.utils.DataTimeUtil;
+import com.android.stockapp.stockChart.utils.DataTimeUtil;
 
 public class TimeBarChart extends BarChart {
     private BarBottomMarkerView markerBottom;
