@@ -380,7 +380,13 @@ public interface IDataSet<T extends Entry> {
      */
     boolean isVisible();
 
+    /**
+     * @return 数值保留几位小数
+     */
     int getPrecision();
 
+    /**
+     * @return 分时类型（五日分时等）
+     */
     int getTimeDayType();
 }
