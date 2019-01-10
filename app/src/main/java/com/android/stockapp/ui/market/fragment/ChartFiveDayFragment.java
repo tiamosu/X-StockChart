@@ -10,9 +10,9 @@ import com.android.stockapp.R;
 import com.android.stockapp.common.data.ChartData;
 import com.android.stockapp.ui.base.BaseFragment;
 import com.android.stockapp.ui.market.activity.StockDetailLandActivity;
-import com.github.mikephil.charting.stockChart.CoupleChartGestureListener;
-import com.github.mikephil.charting.stockChart.data.TimeDataManage;
-import com.github.mikephil.charting.stockChart.view.FiveDayView;
+import com.android.stockapp.stockChart.CoupleChartGestureListener;
+import com.android.stockapp.stockChart.data.TimeDataManage;
+import com.android.stockapp.stockChart.view.FiveDayView;
 
 import org.json.JSONException;
 import org.json.JSONObject;

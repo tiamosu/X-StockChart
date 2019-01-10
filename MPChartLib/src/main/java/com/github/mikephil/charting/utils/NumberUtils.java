@@ -1,11 +1,8 @@
 package com.github.mikephil.charting.utils;
 
-import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
-
-import com.github.mikephil.charting.R;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -161,26 +158,6 @@ public class NumberUtils {
             public void afterTextChanged(Editable s) {
             }
         });
-    }
-
-    /**
-     * 格式化成交量,(开启千位分隔符)
-     *
-     * @param vol 成交量
-     */
-    public static String formatVol(Context context, String assetId, double vol) {
-        DecimalFormat df = new DecimalFormat();
-        df.setMaximumFractionDigits(2);
-        df.setGroupingUsed(true);
-        String str;
-        if (vol >= 100000000) {
-            str = df.format(vol / 100000000) + (assetId.endsWith(".HK") ? context.getResources().getString(R.string.billions_gu) : context.getResources().getString(R.string.billions_shou));
-        } else if (vol >= 10000) {
-            str = df.format(vol / 10000) + (assetId.endsWith(".HK") ? context.getResources().getString(R.string.millions_gu) : context.getResources().getString(R.string.millions_shou));
-        } else {
-            str = df.format(Math.round(vol)) + (assetId.endsWith(".HK") ? context.getResources().getString(R.string.gu) : context.getResources().getString(R.string.shou));
-        }
-        return str;
     }
 
     public static double String2Double(String strVal) {
