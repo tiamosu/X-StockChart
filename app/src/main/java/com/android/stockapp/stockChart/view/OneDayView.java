@@ -9,23 +9,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.android.stockapp.R;
-import com.github.mikephil.charting.charts.Chart;
-import com.github.mikephil.charting.components.AxisBase;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-import com.android.stockapp.stockChart.utils.VolFormatter;
-import com.github.mikephil.charting.highlight.Highlight;
-import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.android.stockapp.stockChart.BarBottomMarkerView;
 import com.android.stockapp.stockChart.ColorContentYAxisRenderer;
 import com.android.stockapp.stockChart.CoupleChartGestureListener;
@@ -40,6 +23,23 @@ import com.android.stockapp.stockChart.event.BaseEvent;
 import com.android.stockapp.stockChart.model.CirclePositionTime;
 import com.android.stockapp.stockChart.model.TimeDataModel;
 import com.android.stockapp.stockChart.utils.CommonUtil;
+import com.android.stockapp.stockChart.utils.VolFormatter;
+import com.github.mikephil.charting.charts.Chart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.NumberUtils;
 import com.github.mikephil.charting.utils.Transformer;
 import com.github.mikephil.charting.utils.Utils;
@@ -244,7 +244,6 @@ public class OneDayView extends BaseView {
                 }
             }
         });
-
     }
 
     /**
@@ -471,7 +470,6 @@ public class OneDayView extends BaseView {
         BarBottomMarkerView bottomMarkerView = new BarBottomMarkerView(mContext, R.layout.my_markerview);
         barChart.setMarker(bottomMarkerView, kDatas);
     }
-
 
     @Override
     public void onEventMainThread(BaseEvent event) {

@@ -148,7 +148,7 @@ public class TimeDataManage {
      * 当日分时X轴刻度线
      */
     public SparseArray<String> getOneDayXLabels(boolean landscape) {
-        SparseArray<String> xLabels = new SparseArray<String>();
+        SparseArray<String> xLabels = new SparseArray<>();
         if (assetId.endsWith(".HK")) {
             if (landscape) {
                 xLabels.put(0, "09:30");

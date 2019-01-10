@@ -4,12 +4,12 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 
+import com.android.stockapp.stockChart.data.TimeDataManage;
+import com.android.stockapp.stockChart.utils.DataTimeUtil;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IDataSet;
-import com.android.stockapp.stockChart.data.TimeDataManage;
-import com.android.stockapp.stockChart.utils.DataTimeUtil;
 
 public class TimeBarChart extends BarChart {
     private BarBottomMarkerView markerBottom;
@@ -72,10 +72,7 @@ public class TimeBarChart extends BarChart {
                 continue;
             }
 
-            String date = "";
-
-            date = DataTimeUtil.secToTime(kTimeData.getDatas().get((int) e.getX()).getTimeMills());//分时图显示的数据
-
+            final String date = DataTimeUtil.secToTime(kTimeData.getDatas().get((int) e.getX()).getTimeMills());//分时图显示的数据
             markerBottom.setData(date);
             markerBottom.refreshContent(e, highlight);
             markerBottom.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED), MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));

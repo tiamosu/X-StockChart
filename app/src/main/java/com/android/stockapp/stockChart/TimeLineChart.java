@@ -4,12 +4,12 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 
+import com.android.stockapp.stockChart.data.TimeDataManage;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IDataSet;
-import com.android.stockapp.stockChart.data.TimeDataManage;
 
 public class TimeLineChart extends LineChart {
     private LeftMarkerView myMarkerViewLeft;
@@ -103,7 +103,6 @@ public class TimeLineChart extends LineChart {
             myMarkerViewLeft.refreshContent(e, highlight);
             myMarkerViewRight.refreshContent(e, highlight);
             /*修复bug*/
-            // invalidate();
             /*重新计算大小*/
             myMarkerViewLeft.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED), MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
             myMarkerViewLeft.layout(0, 0, myMarkerViewLeft.getMeasuredWidth(), myMarkerViewLeft.getMeasuredHeight());
@@ -120,104 +119,6 @@ public class TimeLineChart extends LineChart {
             } else {
                 myMarkerViewRight.draw(canvas, mViewPortHandler.contentRight() - myMarkerViewRight.getWidth() / 2, pos[1] + myMarkerViewRight.getHeight() / 2);//- myMarkerViewRight.getWidth()
             }
-            // callbacks to update the content
-//            mMarker.refreshContent(e, highlight);
-
-            // draw the marker
-//            mMarker.draw(canvas, pos[0], pos[1]);
         }
     }
-
-
-    //    public void setHighlightValue(Highlight h) {
-//        if (mData == null)
-//            mIndicesToHighlight = null;
-//        else {
-//            mIndicesToHighlight = new Highlight[]{h};
-//        }
-//        invalidate();
-//    }
-
-    //调换画数据和右轴数据的位置，防止label数据被覆盖
-//    @Override
-//    protected void onDraw(Canvas canvas) {
-//        super.onDraw(canvas);
-//        if (mData == null)
-//            return;
-//        long starttime = System.currentTimeMillis();
-//
-//        mXAxisRenderer.calcXBounds(this, mXAxis.mAxisLabelModulus);
-//        mRenderer.calcXBounds(this, mXAxis.mAxisLabelModulus);
-//
-//        // execute all drawing commands
-//        drawGridBackground(canvas);
-//
-//        if (mAxisLeft.isEnabled())
-//            mAxisRendererLeft.computeAxis(mAxisLeft.mAxisMinimum, mAxisLeft.mAxisMaximum);
-//        if (mAxisRight.isEnabled())
-//            mAxisRendererRight.computeAxis(mAxisRight.mAxisMinimum, mAxisRight.mAxisMaximum);
-//
-//        mXAxisRenderer.renderAxisLine(canvas);
-//        mAxisRendererLeft.renderAxisLine(canvas);
-//        mAxisRendererRight.renderAxisLine(canvas);
-//
-//        // make sure the graph values and grid cannot be drawn outside the
-//        // content-rect
-//        int clipRestoreCount = canvas.save();
-//        canvas.clipRect(mViewPortHandler.getContentRect());
-//
-//        mXAxisRenderer.renderGridLines(canvas);
-//        mAxisRendererLeft.renderGridLines(canvas);
-//        mAxisRendererRight.renderGridLines(canvas);
-//
-//        if (mXAxis.isDrawLimitLinesBehindDataEnabled())
-//            mXAxisRenderer.renderLimitLines(canvas);
-//
-//        if (mAxisLeft.isDrawLimitLinesBehindDataEnabled())
-//            mAxisRendererLeft.renderLimitLines(canvas);
-//
-//        if (mAxisRight.isDrawLimitLinesBehindDataEnabled())
-//            mAxisRendererRight.renderLimitLines(canvas);
-//
-//        //mRenderer.drawData(canvas);
-//
-//        // if highlighting is enabled
-//        if (valuesToHighlight())
-//            mRenderer.drawHighlighted(canvas, mIndicesToHighlight);
-//
-//        // Removes clipping rectangle
-//        canvas.restoreToCount(clipRestoreCount);
-//
-//        mRenderer.drawExtras(canvas);
-//
-//        clipRestoreCount = canvas.save();
-//        canvas.clipRect(mViewPortHandler.getContentRect());
-//
-//        if (!mXAxis.isDrawLimitLinesBehindDataEnabled())
-//            mXAxisRenderer.renderLimitLines(canvas);
-//
-//        if (!mAxisLeft.isDrawLimitLinesBehindDataEnabled())
-//            mAxisRendererLeft.renderLimitLines(canvas);
-//
-//        if (!mAxisRight.isDrawLimitLinesBehindDataEnabled())
-//            mAxisRendererRight.renderLimitLines(canvas);
-//
-//        canvas.restoreToCount(clipRestoreCount);
-//
-//        mXAxisRenderer.renderAxisLabels(canvas);
-//        mAxisRendererLeft.renderAxisLabels(canvas);
-//        mAxisRendererRight.renderAxisLabels(canvas);
-//
-//        mRenderer.drawData(canvas);
-//
-//        mRenderer.drawValues(canvas);
-//
-//        mLegendRenderer.renderLegend(canvas);
-//
-//        drawMarkers(canvas);
-//
-//        drawDescription(canvas);
-//    }
-
-
 }
