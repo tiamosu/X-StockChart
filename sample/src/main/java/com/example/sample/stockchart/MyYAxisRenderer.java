@@ -45,7 +45,7 @@ public class MyYAxisRenderer extends YAxisRenderer {
         if (mYAxis.isValueLineInside()) {
             for (int i = from; i < to; i++) {
                 String text = mYAxis.getFormattedLabel(i);
-                text = setTextColor(text, averagePos, i);
+                text = getLabelText(text, averagePos, i);
                 if (i == 0) {
                     c.drawText(text, fixedPosition, mViewPortHandler.contentBottom() - Utils.convertDpToPixel(1), mAxisLabelPaint);
                 } else if (i == to - 1) {
@@ -57,13 +57,13 @@ public class MyYAxisRenderer extends YAxisRenderer {
         } else {
             for (int i = from; i < to; i++) {
                 String text = mYAxis.getFormattedLabel(i);
-                text = setTextColor(text, averagePos, i);
+                text = getLabelText(text, averagePos, i);
                 c.drawText(text, fixedPosition, positions[i * 2 + 1] + offset, mAxisLabelPaint);
             }
         }
     }
 
-    private String setTextColor(String text, double averagePos, int pos) {
+    private String getLabelText(String text, double averagePos, int pos) {
         //YLabelEntry的数据是从下往上填充的
         if (mLabelColorArray != null && mLabelColorArray.length >= 3) {
             final int labelColor = pos > averagePos ? mLabelColorArray[0]
