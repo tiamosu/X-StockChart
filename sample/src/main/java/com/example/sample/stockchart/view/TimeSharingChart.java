@@ -51,7 +51,6 @@ public class TimeSharingChart extends LinearLayout {
 
     private TimeSharingXAxis mXAxisBar;
     private YAxis mAxisLeftBar;
-    private YAxis mAxisRightBar;
 
     private int mMaxCount = ChartType.HK_ONE_DAY.getPointNum();//最大可见数量，即分时一天最大数据点数
     private SparseArray<String> mXLabels = new SparseArray<>();//X轴刻度label
@@ -164,15 +163,15 @@ public class TimeSharingChart extends LinearLayout {
         mAxisLeftBar.setValueLineInside(true);
 
         //副图右Y轴
-        mAxisRightBar = mBarChart.getAxisRight();
-        mAxisRightBar.setDrawLabels(false);
-        mAxisRightBar.setDrawGridLines(true);
-        mAxisRightBar.setDrawAxisLine(false);
-        mAxisRightBar.setLabelCount(3, true);
-        mAxisRightBar.setDrawTopBottomGridLine(false);
-        mAxisRightBar.setGridColor(ContextCompat.getColor(mContext, R.color.grid_color));
-        mAxisRightBar.setGridLineWidth(0.7f);
-        mAxisRightBar.enableGridDashedLine(CommonUtil.dip2px(mContext, 4f),
+        final YAxis axisRightBar = mBarChart.getAxisRight();
+        axisRightBar.setDrawLabels(false);
+        axisRightBar.setDrawGridLines(true);
+        axisRightBar.setDrawAxisLine(false);
+        axisRightBar.setLabelCount(3, true);
+        axisRightBar.setDrawTopBottomGridLine(false);
+        axisRightBar.setGridColor(ContextCompat.getColor(mContext, R.color.grid_color));
+        axisRightBar.setGridLineWidth(0.7f);
+        axisRightBar.enableGridDashedLine(CommonUtil.dip2px(mContext, 4f),
                 CommonUtil.dip2px(mContext, 3f), 0);
     }
 
@@ -189,6 +188,7 @@ public class TimeSharingChart extends LinearLayout {
     /**
      * 设置分时数据
      */
+    @SuppressWarnings("SuspiciousNameCombination")
     public void setDataToChart(TimeSharingDataManage mData) {
         if (mData.getDatas().size() == 0) {
             mLineChart.setNoDataText(getResources().getString(R.string.no_data));
