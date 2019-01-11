@@ -83,10 +83,10 @@ public class TimeSharingChart extends LinearLayout {
         mLineChart.setBorderColor(ContextCompat.getColor(mContext, R.color.border_color));
         mLineChart.setBorderWidth(0.7f);
         mLineChart.setNoDataText(getResources().getString(R.string.loading));
+        mLineChart.setDescription(null);
         //图例
         final Legend lineChartLegend = mLineChart.getLegend();
         lineChartLegend.setEnabled(false);
-        mLineChart.setDescription(null);
 
         //副图
         mBarChart.setScaleEnabled(false);
@@ -94,10 +94,10 @@ public class TimeSharingChart extends LinearLayout {
         mBarChart.setBorderColor(ContextCompat.getColor(mContext, R.color.border_color));
         mBarChart.setBorderWidth(0.7f);
         mBarChart.setNoDataText(getResources().getString(R.string.loading));
+        mBarChart.setDescription(null);
         //图例
         final Legend barChartLegend = mBarChart.getLegend();
         barChartLegend.setEnabled(false);
-        mBarChart.setDescription(null);
 
         //主图X轴
         mXAxisLine = (TimeSharingXAxis) mLineChart.getXAxis();
@@ -107,6 +107,7 @@ public class TimeSharingChart extends LinearLayout {
         mXAxisLine.setAvoidFirstLastClipping(true);
         mXAxisLine.setGridColor(ContextCompat.getColor(mContext, R.color.grid_color));
         mXAxisLine.setGridLineWidth(0.7f);
+        mXAxisLine.enableGridDashedLine(5f, 4f, 0);
 
         //主图左Y轴
         mAxisLeftLine = mLineChart.getAxisLeft();
@@ -125,10 +126,7 @@ public class TimeSharingChart extends LinearLayout {
         mAxisRightLine.setDrawTopBottomGridLine(false);
         mAxisRightLine.setDrawGridLines(true);
         mAxisRightLine.setGridLineWidth(0.7f);
-        mAxisRightLine.enableGridDashedLine(
-                CommonUtil.dip2px(mContext, 4),
-                CommonUtil.dip2px(mContext, 3),
-                0);
+        mAxisRightLine.enableGridDashedLine(5f, 4f, 0);
         mAxisRightLine.setDrawAxisLine(false);
         mAxisRightLine.setValueLineInside(true);
         mAxisRightLine.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
@@ -148,6 +146,7 @@ public class TimeSharingChart extends LinearLayout {
         mXAxisBar.setAvoidFirstLastClipping(true);
         mXAxisBar.setGridColor(ContextCompat.getColor(mContext, R.color.grid_color));
         mXAxisBar.setGridLineWidth(0.7f);
+        mXAxisBar.enableGridDashedLine(5f, 4f, 0);
 
         //副图左Y轴
         mAxisLeftBar = mBarChart.getAxisLeft();
@@ -170,10 +169,7 @@ public class TimeSharingChart extends LinearLayout {
         mAxisRightBar.setDrawTopBottomGridLine(false);
         mAxisRightBar.setGridColor(ContextCompat.getColor(mContext, R.color.grid_color));
         mAxisRightBar.setGridLineWidth(0.7f);
-        mAxisRightBar.enableGridDashedLine(
-                CommonUtil.dip2px(mContext, 4),
-                CommonUtil.dip2px(mContext, 3),
-                0);
+        mAxisRightBar.enableGridDashedLine(5f, 4f, 0);
     }
 
     /**

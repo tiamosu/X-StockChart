@@ -31,7 +31,7 @@ public class TimeSharingDataManage {
         if (object != null) {
             mRealTimeDataList.clear();
 
-            preClose = Double.isNaN(object.optDouble("preClose")) ? 0 : object.optDouble("preClose");
+            preClose = object.optDouble("preClose", 0);
             final JSONArray data = object.optJSONArray("data");
             if (data == null) {
                 return;
