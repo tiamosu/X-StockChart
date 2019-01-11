@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.example.sample.R;
-import com.example.sample.stockchart.ColorContentYAxisRenderer;
+import com.example.sample.stockchart.MyYAxisRenderer;
 import com.example.sample.stockchart.TimeSharingLineChart;
 import com.example.sample.stockchart.TimeSharingXAxis;
 import com.example.sample.stockchart.data.TimeSharingDataManage;
@@ -111,7 +111,7 @@ public class TimeSharingChart extends LinearLayout {
 
         //主图左Y轴
         mAxisLeftLine = mLineChart.getAxisLeft();
-        mAxisLeftLine.setLabelCount(5, true);
+        mAxisLeftLine.setLabelCount(3, true);
         mAxisLeftLine.setDrawGridLines(false);
         mAxisLeftLine.setValueLineInside(true);
         mAxisLeftLine.setDrawTopBottomGridLine(false);
@@ -122,7 +122,7 @@ public class TimeSharingChart extends LinearLayout {
 
         //主图右Y轴
         mAxisRightLine = mLineChart.getAxisRight();
-        mAxisRightLine.setLabelCount(5, true);
+        mAxisRightLine.setLabelCount(2, true);
         mAxisRightLine.setDrawTopBottomGridLine(false);
         mAxisRightLine.setDrawGridLines(true);
         mAxisRightLine.setGridLineWidth(0.7f);
@@ -200,7 +200,7 @@ public class TimeSharingChart extends LinearLayout {
 
         //Y轴label渲染颜色
         final Transformer leftYTransformer = mLineChart.getRendererLeftYAxis().getTransformer();
-        final ColorContentYAxisRenderer leftColorContentYAxisRenderer = new ColorContentYAxisRenderer(
+        final MyYAxisRenderer leftColorContentYAxisRenderer = new MyYAxisRenderer(
                 mLineChart.getViewPortHandler(), mAxisLeftLine, leftYTransformer);
         leftColorContentYAxisRenderer.setLabelColor(mColorArray);
         leftColorContentYAxisRenderer.setClosePrice(mData.getPreClose());
@@ -208,7 +208,7 @@ public class TimeSharingChart extends LinearLayout {
 
         //Y轴label渲染颜色
         final Transformer rightYTransformer = mLineChart.getRendererRightYAxis().getTransformer();
-        final ColorContentYAxisRenderer rightColorContentYAxisRenderer = new ColorContentYAxisRenderer(
+        final MyYAxisRenderer rightColorContentYAxisRenderer = new MyYAxisRenderer(
                 mLineChart.getViewPortHandler(), mAxisRightLine, rightYTransformer);
         rightColorContentYAxisRenderer.setLabelColor(mColorArray);
         rightColorContentYAxisRenderer.setClosePrice(mData.getPreClose());
