@@ -14,7 +14,6 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
  */
 public class MyYAxisRenderer extends YAxisRenderer {
     private int[] mLabelColorArray;
-    private double mClosePrice = 0;//昨收价
 
     public MyYAxisRenderer(ViewPortHandler viewPortHandler, YAxis yAxis, Transformer trans) {
         super(viewPortHandler, yAxis, trans);
@@ -25,13 +24,6 @@ public class MyYAxisRenderer extends YAxisRenderer {
      */
     public void setLabelColor(int[] labelColorArray) {
         mLabelColorArray = labelColorArray;
-    }
-
-    /**
-     * 昨收价
-     */
-    public void setClosePrice(double closePrice) {
-        mClosePrice = closePrice;
     }
 
     @Override

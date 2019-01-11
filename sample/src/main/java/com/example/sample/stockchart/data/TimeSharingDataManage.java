@@ -118,10 +118,6 @@ public class TimeSharingDataManage {
         return mRealTimeDataList;
     }
 
-    public double getPreClose() {
-        return preClose;
-    }
-
     /**
      * 当日分时X轴刻度线
      */

@@ -207,7 +207,6 @@ public class TimeSharingChart extends LinearLayout {
         final MyYAxisRenderer leftMyYAxisRenderer = new MyYAxisRenderer(
                 mLineChart.getViewPortHandler(), mAxisLeftLine, leftYTransformer);
         leftMyYAxisRenderer.setLabelColor(mColorArray);
-        leftMyYAxisRenderer.setClosePrice(mData.getPreClose());
         mLineChart.setRendererLeftYAxis(leftMyYAxisRenderer);
 
         //Y轴label渲染颜色
@@ -215,7 +214,6 @@ public class TimeSharingChart extends LinearLayout {
         final MyYAxisRenderer rightMyYAxisRenderer = new MyYAxisRenderer(
                 mLineChart.getViewPortHandler(), mAxisRightLine, rightYTransformer);
         rightMyYAxisRenderer.setLabelColor(mColorArray);
-        rightMyYAxisRenderer.setClosePrice(mData.getPreClose());
         mLineChart.setRendererRightYAxis(rightMyYAxisRenderer);
 
         if (Float.isNaN(mData.getPercentMax())
