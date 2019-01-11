@@ -24,6 +24,6 @@
             android:name=".ui.market.activity.StockDetailLandActivity"
             android:screenOrientation="landscape"
             android:theme="@style/FullscreenTheme"/>
-    </application>
 
+    </application>
 </manifest>

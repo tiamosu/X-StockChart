@@ -9,6 +9,7 @@ import com.android.stockapp.ui.base.BaseApp;
 import androidx.appcompat.app.AppCompatDelegate;
 
 public class MyApplication extends BaseApp {
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -21,7 +22,7 @@ public class MyApplication extends BaseApp {
 
     public void initDayNight() {
         //初始化夜间模式
-        SharedPreferences sp = getSharedPreferences(Constants.SP_FILE, Context.MODE_PRIVATE);
+        final SharedPreferences sp = getSharedPreferences(Constants.SP_FILE, Context.MODE_PRIVATE);
         if (sp.getBoolean(Constants.DAY_NIGHT_MODE, false)) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {

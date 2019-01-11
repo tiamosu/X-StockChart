@@ -3,7 +3,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-    <com.android.stockapp.stockChart.view.FiveDayView
+    <com.android.stockapp.stockchart.view.FiveDayView
         android:id="@+id/chart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

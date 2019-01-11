@@ -7,8 +7,7 @@ import android.os.Looper;
 /**
  * Description:应用程序（基类）
  */
-public class BaseApp extends Application {
-
+public abstract class BaseApp extends Application {
     public static BaseApp mContext = null; //获取到主线程的上下文
     public static Handler mAppHandler = null; //获取到主线程的handler
     public static Looper mAppLooper = null; //获取到主线程的looper
