@@ -4,7 +4,7 @@
       xmlns:tools="http://schemas.android.com/tools">
     <item
         android:id="@+id/item_model"
-        android:title="夜间模式"
+        android:title="白夜模式切换"
         app:showAsAction="never"
         tools:ignore="HardcodedText"/>
 </menu>

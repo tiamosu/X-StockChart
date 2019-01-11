@@ -41,7 +41,6 @@ public class ChartOneDayFragment extends BaseFragment {
         bundle.putBoolean("landscape", land);
         fragment.setArguments(bundle);
         return fragment;
-
     }
 
     @Override

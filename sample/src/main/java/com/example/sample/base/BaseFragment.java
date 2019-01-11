@@ -16,12 +16,11 @@ import butterknife.Unbinder;
 
 public abstract class BaseFragment extends Fragment {
     protected Activity mActivity;
-    protected View mRootView;
     private Unbinder mUnbinder;
 
     protected abstract int getLayoutId();
 
-    protected abstract void onLoadData();
+    protected abstract void onLoadData(View rootView);
 
     @Override
     public void onAttach(Activity activity) {
@@ -31,13 +30,14 @@ public abstract class BaseFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = null;
         if (getLayoutId() > 0) {
-            mRootView = inflater.inflate(getLayoutId(), container, false);
-            mUnbinder = ButterKnife.bind(this, mRootView);
+            rootView = inflater.inflate(getLayoutId(), container, false);
+            mUnbinder = ButterKnife.bind(this, rootView);
 
-            onLoadData();
+            onLoadData(rootView);
         }
-        return mRootView;
+        return rootView;
     }
 
     @Override
