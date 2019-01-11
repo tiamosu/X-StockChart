@@ -39,11 +39,12 @@ public class TimeSharingDataManage {
             for (int i = 0; i < data.length(); i++) {
                 final TimeSharingDataModel timeSharingDataModel = new TimeSharingDataModel();
                 timeSharingDataModel.setTimeMills(data.optJSONArray(i).optLong(0, 0L));
-                timeSharingDataModel.setNowPrice(Double.isNaN(data.optJSONArray(i).optDouble(1)) ? 0 : data.optJSONArray(i).optDouble(1));
-                timeSharingDataModel.setAveragePrice(Double.isNaN(data.optJSONArray(i).optDouble(2)) ? 0 : data.optJSONArray(i).optDouble(2));
-                timeSharingDataModel.setVolume(Double.valueOf(data.optJSONArray(i).optString(3)).intValue());
-                timeSharingDataModel.setOpen(Double.isNaN(data.optJSONArray(i).optDouble(4)) ? 0 : data.optJSONArray(i).optDouble(4));
-                timeSharingDataModel.setPreClose(preClose == 0 ? (preClosePrice == 0 ? timeSharingDataModel.getOpen() : preClosePrice) : preClose);
+                timeSharingDataModel.setNowPrice(data.optJSONArray(i).optDouble(1, 0));
+                timeSharingDataModel.setAveragePrice(data.optJSONArray(i).optDouble(2, 0));
+                timeSharingDataModel.setVolume(Double.valueOf(data.optJSONArray(i).optString(3, "0")).intValue());
+                timeSharingDataModel.setOpen(data.optJSONArray(i).optDouble(4, 0));
+                timeSharingDataModel.setPreClose(preClose != 0 ? preClose :
+                        (preClosePrice == 0 ? timeSharingDataModel.getOpen() : preClosePrice));
 
                 if (i == 0) {
                     preClose = timeSharingDataModel.getPreClose();
@@ -89,24 +90,22 @@ public class TimeSharingDataManage {
 
     //分时图左Y轴最大值
     public float getMax() {
-        return (float) (mBaseValue + mBaseValue * getPercentMax());
+        return (float) mMax;
     }
 
     //分时图左Y轴最小值
     public float getMin() {
-        return (float) (mBaseValue + mBaseValue * getPercentMin());
+        return (float) mMin;
     }
 
     //分时图右Y轴最大涨跌值
     public float getPercentMax() {
-        //0.1表示Y轴最大涨跌值再增加10%，使图线不至于顶到最顶部
-        return (float) ((mMax - mBaseValue) / mBaseValue + Math.abs(mMax - mBaseValue > mMin - mBaseValue ? mMax - mBaseValue : mMin - mBaseValue) / mBaseValue * 0.1);
+        return (float) (mPermaxmin / mBaseValue);
     }
 
     //分时图右Y轴最小涨跌值
     public float getPercentMin() {
-        //0.1表示Y轴最小涨跌值再减小10%，使图线不至于顶到最底部
-        return (float) ((mMin - mBaseValue) / mBaseValue - Math.abs(mMax - mBaseValue > mMin - mBaseValue ? mMax - mBaseValue : mMin - mBaseValue) / mBaseValue * 0.1);
+        return -getPercentMax();
     }
 
     //分时图最大成交量

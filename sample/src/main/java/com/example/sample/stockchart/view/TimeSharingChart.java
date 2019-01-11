@@ -204,19 +204,19 @@ public class TimeSharingChart extends LinearLayout {
 
         //Y轴label渲染颜色
         final Transformer leftYTransformer = mLineChart.getRendererLeftYAxis().getTransformer();
-        final MyYAxisRenderer leftColorContentYAxisRenderer = new MyYAxisRenderer(
+        final MyYAxisRenderer leftMyYAxisRenderer = new MyYAxisRenderer(
                 mLineChart.getViewPortHandler(), mAxisLeftLine, leftYTransformer);
-        leftColorContentYAxisRenderer.setLabelColor(mColorArray);
-        leftColorContentYAxisRenderer.setClosePrice(mData.getPreClose());
-        mLineChart.setRendererLeftYAxis(leftColorContentYAxisRenderer);
+        leftMyYAxisRenderer.setLabelColor(mColorArray);
+        leftMyYAxisRenderer.setClosePrice(mData.getPreClose());
+        mLineChart.setRendererLeftYAxis(leftMyYAxisRenderer);
 
         //Y轴label渲染颜色
         final Transformer rightYTransformer = mLineChart.getRendererRightYAxis().getTransformer();
-        final MyYAxisRenderer rightColorContentYAxisRenderer = new MyYAxisRenderer(
+        final MyYAxisRenderer rightMyYAxisRenderer = new MyYAxisRenderer(
                 mLineChart.getViewPortHandler(), mAxisRightLine, rightYTransformer);
-        rightColorContentYAxisRenderer.setLabelColor(mColorArray);
-        rightColorContentYAxisRenderer.setClosePrice(mData.getPreClose());
-        mLineChart.setRendererRightYAxis(rightColorContentYAxisRenderer);
+        rightMyYAxisRenderer.setLabelColor(mColorArray);
+        rightMyYAxisRenderer.setClosePrice(mData.getPreClose());
+        mLineChart.setRendererRightYAxis(rightMyYAxisRenderer);
 
         if (Float.isNaN(mData.getPercentMax())
                 || Float.isNaN(mData.getPercentMin())
