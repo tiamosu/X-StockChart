@@ -8,9 +8,9 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.example.sample.R;
-import com.example.sample.stockchart.MyYAxisRenderer;
 import com.example.sample.stockchart.TimeSharingLineChart;
 import com.example.sample.stockchart.TimeSharingXAxis;
+import com.example.sample.stockchart.TimeSharingYAxis;
 import com.example.sample.stockchart.data.TimeSharingDataManage;
 import com.example.sample.stockchart.enums.ChartType;
 import com.example.sample.stockchart.model.TimeSharingDataModel;
@@ -28,7 +28,6 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.NumberUtils;
-import com.github.mikephil.charting.utils.Transformer;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -46,11 +45,11 @@ public class TimeSharingChart extends LinearLayout {
     private final TimeSharingBarChart mBarChart;
 
     private TimeSharingXAxis mXAxisLine;
-    private YAxis mAxisRightLine;
-    private YAxis mAxisLeftLine;
+    private TimeSharingYAxis mAxisRightLine;
+    private TimeSharingYAxis mAxisLeftLine;
 
     private TimeSharingXAxis mXAxisBar;
-    private YAxis mAxisLeftBar;
+    private TimeSharingYAxis mAxisLeftBar;
 
     private int mMaxCount = ChartType.HK_ONE_DAY.getPointNum();//最大可见数量，即分时一天最大数据点数
     private SparseArray<String> mXLabels = new SparseArray<>();//X轴刻度label
@@ -110,7 +109,7 @@ public class TimeSharingChart extends LinearLayout {
                 CommonUtil.dip2px(mContext, 3f), 0);
 
         //主图左Y轴
-        mAxisLeftLine = mLineChart.getAxisLeft();
+        mAxisLeftLine = (TimeSharingYAxis) mLineChart.getAxisLeft();
         mAxisLeftLine.setLabelCount(3, true);
         mAxisLeftLine.setDrawGridLines(true);
         mAxisLeftLine.setGridLineWidth(0.7f);
@@ -122,10 +121,11 @@ public class TimeSharingChart extends LinearLayout {
         mAxisLeftLine.setDrawAxisLine(false);
         mAxisLeftLine.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
         mAxisLeftLine.setTextColor(ContextCompat.getColor(mContext, R.color.axis_text));
+        mAxisLeftLine.setLabelColorArray(mColorArray);
         mAxisLeftLine.setValueFormatter((value, axis) -> NumberUtils.keepPrecisionR(value, PRECISION));
 
         //主图右Y轴
-        mAxisRightLine = mLineChart.getAxisRight();
+        mAxisRightLine = (TimeSharingYAxis) mLineChart.getAxisRight();
         mAxisRightLine.setLabelCount(2, true);
         mAxisRightLine.setDrawTopBottomGridLine(false);
         mAxisRightLine.setDrawGridLines(false);
@@ -133,6 +133,7 @@ public class TimeSharingChart extends LinearLayout {
         mAxisRightLine.setValueLineInside(true);
         mAxisRightLine.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
         mAxisRightLine.setTextColor(ContextCompat.getColor(mContext, R.color.axis_text));
+        mAxisRightLine.setLabelColorArray(mColorArray);
         mAxisRightLine.setValueFormatter((value, axis) -> {
             final DecimalFormat mFormat = new DecimalFormat("#0.00%");
             return mFormat.format(value);
@@ -151,7 +152,7 @@ public class TimeSharingChart extends LinearLayout {
                 CommonUtil.dip2px(mContext, 3f), 0);
 
         //副图左Y轴
-        mAxisLeftBar = mBarChart.getAxisLeft();
+        mAxisLeftBar = (TimeSharingYAxis) mBarChart.getAxisLeft();
         mAxisLeftBar.setDrawGridLines(false);
         mAxisLeftBar.setDrawAxisLine(false);
         mAxisLeftBar.setTextColor(ContextCompat.getColor(mContext, R.color.axis_text));
@@ -201,20 +202,6 @@ public class TimeSharingChart extends LinearLayout {
 
         mAxisLeftLine.setAxisMinimum(mData.getMin());
         mAxisLeftLine.setAxisMaximum(mData.getMax());
-
-        //Y轴label渲染颜色
-        final Transformer leftYTransformer = mLineChart.getRendererLeftYAxis().getTransformer();
-        final MyYAxisRenderer leftMyYAxisRenderer = new MyYAxisRenderer(
-                mLineChart.getViewPortHandler(), mAxisLeftLine, leftYTransformer);
-        leftMyYAxisRenderer.setLabelColor(mColorArray);
-        mLineChart.setRendererLeftYAxis(leftMyYAxisRenderer);
-
-        //Y轴label渲染颜色
-        final Transformer rightYTransformer = mLineChart.getRendererRightYAxis().getTransformer();
-        final MyYAxisRenderer rightMyYAxisRenderer = new MyYAxisRenderer(
-                mLineChart.getViewPortHandler(), mAxisRightLine, rightYTransformer);
-        rightMyYAxisRenderer.setLabelColor(mColorArray);
-        mLineChart.setRendererRightYAxis(rightMyYAxisRenderer);
 
         if (Float.isNaN(mData.getPercentMax())
                 || Float.isNaN(mData.getPercentMin())

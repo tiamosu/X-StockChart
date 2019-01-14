@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.YAxis;
 
 /**
  * @author weixia
@@ -30,11 +31,34 @@ public class TimeSharingLineChart extends LineChart {
 
     @Override
     protected void initXAxisRenderer() {
-        mXAxisRenderer = new TimeSharingXAxisRenderer(mViewPortHandler, (TimeSharingXAxis) mXAxis, mLeftAxisTransformer, this);
+        mXAxisRenderer = new TimeSharingXAxisRenderer(mViewPortHandler,
+                (TimeSharingXAxis) mXAxis, mLeftAxisTransformer, this);
+    }
+
+    @Override
+    protected void initYAxisRendererLeft() {
+        mAxisRendererLeft = new TimeSharingYAxisRenderer(mViewPortHandler,
+                (TimeSharingYAxis) mAxisLeft, mLeftAxisTransformer);
+    }
+
+    @Override
+    protected void initYAxisRendererRight() {
+        mAxisRendererRight = new TimeSharingYAxisRenderer(mViewPortHandler,
+                (TimeSharingYAxis) mAxisRight, mRightAxisTransformer);
     }
 
     @Override
     public void initXAxis() {
         mXAxis = new TimeSharingXAxis();
+    }
+
+    @Override
+    protected void initYAxisLeft() {
+        mAxisLeft = new TimeSharingYAxis(YAxis.AxisDependency.LEFT);
+    }
+
+    @Override
+    protected void initYAxisRight() {
+        mAxisRight = new TimeSharingYAxis(YAxis.AxisDependency.RIGHT);
     }
 }

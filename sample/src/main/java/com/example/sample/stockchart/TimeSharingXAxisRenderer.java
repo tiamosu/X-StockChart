@@ -44,15 +44,15 @@ public class TimeSharingXAxisRenderer extends XAxisRenderer {
             /*文本长度*/
             final int labelWidth = Utils.calcTextWidth(mAxisLabelPaint, label);
             /*右出界*/
-            if ((labelWidth / 2 + position[0]) > mChart.getViewPortHandler().contentRight()) {
-                position[0] = mChart.getViewPortHandler().contentRight() - labelWidth / 2;
+            if ((labelWidth / 2 + position[0]) > mViewPortHandler.contentRight()) {
+                position[0] = mViewPortHandler.contentRight() - labelWidth / 2;
             }
             /*左出界*/
-            else if ((position[0] - labelWidth / 2) < mChart.getViewPortHandler().contentLeft()) {
-                position[0] = mChart.getViewPortHandler().contentLeft() + labelWidth / 2;
+            else if ((position[0] - labelWidth / 2) < mViewPortHandler.contentLeft()) {
+                position[0] = mViewPortHandler.contentLeft() + labelWidth / 2;
             }
             c.drawText(label, position[0], pos + Utils.convertPixelsToDp(
-                    mChart.getViewPortHandler().offsetBottom() + 10), mAxisLabelPaint);
+                    mViewPortHandler.offsetBottom() + 10), mAxisLabelPaint);
         }
     }
 

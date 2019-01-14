@@ -39,6 +39,7 @@ import com.github.mikephil.charting.utils.Utils;
  *
  * @author Philipp Jahoda
  */
+@SuppressWarnings("SuspiciousNameCombination")
 @SuppressLint("RtlHardcoded")
 public abstract class BarLineChartBase<T extends BarLineScatterCandleBubbleData<? extends
         IBarLineScatterCandleBubbleDataSet<? extends Entry>>>
@@ -145,21 +146,20 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleBubbleData<
         super(context);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     protected void init() {
         super.init();
 
-        mAxisLeft = new YAxis(AxisDependency.LEFT);
-        mAxisRight = new YAxis(AxisDependency.RIGHT);
+        initYAxisLeft();
+        initYAxisRight();
 
         mLeftAxisTransformer = new Transformer(mViewPortHandler);
         mRightAxisTransformer = new Transformer(mViewPortHandler);
 
-        mAxisRendererLeft = new YAxisRenderer(mViewPortHandler, mAxisLeft, mLeftAxisTransformer);
-        mAxisRendererRight = new YAxisRenderer(mViewPortHandler, mAxisRight, mRightAxisTransformer);
-
+        initYAxisRendererLeft();
+        initYAxisRendererRight();
         initXAxisRenderer();
-//        mXAxisRenderer = new XAxisRenderer(mViewPortHandler, mXAxis, mLeftAxisTransformer);
 
         setHighlighter(new ChartHighlighter(this));
 
@@ -173,6 +173,22 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleBubbleData<
         mBorderPaint.setStyle(Style.STROKE);
         mBorderPaint.setColor(Color.LTGRAY);
         mBorderPaint.setStrokeWidth(Utils.convertDpToPixel(1f));
+    }
+
+    protected void initYAxisLeft() {
+        mAxisLeft = new YAxis(AxisDependency.LEFT);
+    }
+
+    protected void initYAxisRight() {
+        mAxisRight = new YAxis(AxisDependency.RIGHT);
+    }
+
+    protected void initYAxisRendererLeft() {
+        mAxisRendererLeft = new YAxisRenderer(mViewPortHandler, mAxisLeft, mLeftAxisTransformer);
+    }
+
+    protected void initYAxisRendererRight() {
+        mAxisRendererRight = new YAxisRenderer(mViewPortHandler, mAxisRight, mRightAxisTransformer);
     }
 
     protected void initXAxisRenderer() {
@@ -285,7 +301,7 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleBubbleData<
         drawMarkers(canvas);
 
         if (mLogEnabled) {
-            long drawtime = (System.currentTimeMillis() - starttime);
+            final long drawtime = (System.currentTimeMillis() - starttime);
             totalTime += drawtime;
             drawCycles += 1;
             long average = totalTime / drawCycles;
@@ -1334,7 +1350,8 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleBubbleData<
     }
 
     public XAxisRenderer getRendererXAxis() {
-        return mXAxisRenderer;
+        return mXAxisRenderer != null ? mXAxisRenderer
+                : new XAxisRenderer(mViewPortHandler, mXAxis, mLeftAxisTransformer);
     }
 
     /**
@@ -1345,7 +1362,8 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleBubbleData<
     }
 
     public YAxisRenderer getRendererLeftYAxis() {
-        return mAxisRendererLeft;
+        return mAxisRendererLeft != null ? mAxisRendererLeft
+                : new YAxisRenderer(mViewPortHandler, mAxisLeft, mLeftAxisTransformer);
     }
 
     /**
@@ -1356,7 +1374,8 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleBubbleData<
     }
 
     public YAxisRenderer getRendererRightYAxis() {
-        return mAxisRendererRight;
+        return mAxisRendererRight != null ? mAxisRendererRight
+                : new YAxisRenderer(mViewPortHandler, mAxisRight, mRightAxisTransformer);
     }
 
     /**

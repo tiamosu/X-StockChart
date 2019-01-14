@@ -10,13 +10,13 @@ import com.github.mikephil.charting.components.XAxis;
  */
 @SuppressWarnings("WeakerAccess")
 public class TimeSharingXAxis extends XAxis {
-    private SparseArray<String> labels;
+    private SparseArray<String> mLabels;
 
     public SparseArray<String> getXLabels() {
-        return labels;
+        return mLabels;
     }
 
     public void setXLabels(SparseArray<String> labels) {
-        this.labels = labels;
+        this.mLabels = labels;
     }
 }
