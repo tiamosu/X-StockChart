@@ -1350,8 +1350,7 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleBubbleData<
     }
 
     public XAxisRenderer getRendererXAxis() {
-        return mXAxisRenderer != null ? mXAxisRenderer
-                : new XAxisRenderer(mViewPortHandler, mXAxis, mLeftAxisTransformer);
+        return mXAxisRenderer;
     }
 
     /**
@@ -1362,8 +1361,7 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleBubbleData<
     }
 
     public YAxisRenderer getRendererLeftYAxis() {
-        return mAxisRendererLeft != null ? mAxisRendererLeft
-                : new YAxisRenderer(mViewPortHandler, mAxisLeft, mLeftAxisTransformer);
+        return mAxisRendererLeft;
     }
 
     /**
@@ -1374,8 +1372,7 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleBubbleData<
     }
 
     public YAxisRenderer getRendererRightYAxis() {
-        return mAxisRendererRight != null ? mAxisRendererRight
-                : new YAxisRenderer(mViewPortHandler, mAxisRight, mRightAxisTransformer);
+        return mAxisRendererRight;
     }
 
     /**

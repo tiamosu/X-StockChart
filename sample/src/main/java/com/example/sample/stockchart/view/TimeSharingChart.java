@@ -155,9 +155,10 @@ public class TimeSharingChart extends LinearLayout {
         mAxisLeftBar = (TimeSharingYAxis) mBarChart.getAxisLeft();
         mAxisLeftBar.setDrawGridLines(false);
         mAxisLeftBar.setDrawAxisLine(false);
+        mAxisLeftBar.setEnabled(false);
         mAxisLeftBar.setTextColor(ContextCompat.getColor(mContext, R.color.axis_text));
         mAxisLeftBar.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
-        mAxisLeftBar.setDrawLabels(true);
+        mAxisLeftBar.setDrawLabels(false);
         mAxisLeftBar.setLabelCount(2, true);
         mAxisLeftBar.setAxisMinimum(0);
         mAxisLeftBar.setSpaceTop(5);
@@ -233,30 +234,32 @@ public class TimeSharingChart extends LinearLayout {
             barEntries.add(new BarEntry(i, i, mData.getDatas().get(i).getVolume()));
         }
         final LineDataSet d1 = new LineDataSet(lineCJEntries, "分时线");
-        final LineDataSet d2 = new LineDataSet(lineJJEntries, "均价");
+        final ArrayList<ILineDataSet> sets = new ArrayList<>();
         d1.setDrawCircleDashMarker(false);
-        d2.setDrawCircleDashMarker(false);
         d1.setDrawValues(false);
-        d2.setDrawValues(false);
         d1.setLineWidth(0.7f);
-        d2.setLineWidth(0.7f);
         d1.setColor(ContextCompat.getColor(mContext, R.color.minute_blue));
-        d2.setColor(ContextCompat.getColor(mContext, R.color.minute_yellow));
         d1.setDrawFilled(true);
         d1.setFillColor(ContextCompat.getColor(mContext, R.color.fill_Color));
         d1.setHighLightColor(ContextCompat.getColor(mContext, R.color.highLight_Color));
         d1.setHighlightEnabled(false);
-        d2.setHighlightEnabled(false);
         d1.setDrawCircles(false);
-        d2.setDrawCircles(false);
         d1.setAxisDependency(YAxis.AxisDependency.LEFT);
         d1.setPrecision(PRECISION);
         d1.setTimeDayType(1);//设置分时图类型
-        d2.setTimeDayType(1);
-
-        final ArrayList<ILineDataSet> sets = new ArrayList<>();
         sets.add(d1);
-        sets.add(d2);
+
+        if (!mData.isBSChart()) {
+            final LineDataSet d2 = new LineDataSet(lineJJEntries, "均价");
+            d2.setDrawCircleDashMarker(false);
+            d2.setDrawValues(false);
+            d2.setLineWidth(0.7f);
+            d2.setColor(ContextCompat.getColor(mContext, R.color.minute_yellow));
+            d2.setHighlightEnabled(false);
+            d2.setDrawCircles(false);
+            d2.setTimeDayType(1);
+            sets.add(d2);
+        }
         final LineData cd = new LineData(sets);
         mLineChart.setData(cd);
 

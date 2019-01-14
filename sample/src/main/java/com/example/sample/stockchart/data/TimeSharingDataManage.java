@@ -23,6 +23,7 @@ public class TimeSharingDataManage {
     private double mMin = 0;//分时图最小价格
     private double mPerVolMaxTimeLine = 0;
     private double preClose;//昨收价
+    private boolean mIsBSChart;
 
     /**
      * 外部传JSONObject解析获得分时数据集
@@ -116,6 +117,14 @@ public class TimeSharingDataManage {
     //分时图分钟数据集合
     public ArrayList<TimeSharingDataModel> getDatas() {
         return mRealTimeDataList;
+    }
+
+    public boolean isBSChart() {
+        return mIsBSChart;
+    }
+
+    public void setBSChart(boolean BSChart) {
+        mIsBSChart = BSChart;
     }
 
     /**
