@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.example.sample.stockchart.TimeSharingLineChart
+    <com.example.sample.stockchart.view.TimeSharingLineChart
         android:id="@+id/view_chart_time_sharing_line"
         android:layout_width="match_parent"
         android:layout_height="0dp"

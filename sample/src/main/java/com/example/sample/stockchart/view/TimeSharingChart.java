@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.example.sample.R;
-import com.example.sample.stockchart.TimeSharingLineChart;
 import com.example.sample.stockchart.TimeSharingXAxis;
 import com.example.sample.stockchart.TimeSharingYAxis;
 import com.example.sample.stockchart.data.TimeSharingDataManage;

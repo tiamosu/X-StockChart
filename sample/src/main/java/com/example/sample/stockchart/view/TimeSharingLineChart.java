@@ -1,8 +1,13 @@
-package com.example.sample.stockchart;
+package com.example.sample.stockchart.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
 
+import com.example.sample.stockchart.TimeSharingLineChartRenderer;
+import com.example.sample.stockchart.TimeSharingXAxis;
+import com.example.sample.stockchart.TimeSharingXAxisRenderer;
+import com.example.sample.stockchart.TimeSharingYAxis;
+import com.example.sample.stockchart.TimeSharingYAxisRenderer;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.YAxis;
 
