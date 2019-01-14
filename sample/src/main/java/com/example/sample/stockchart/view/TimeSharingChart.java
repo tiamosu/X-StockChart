@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.SparseArray;
-import android.view.View;
 import android.widget.LinearLayout;
 
 import com.example.sample.R;
@@ -65,9 +64,19 @@ public class TimeSharingChart extends LinearLayout {
     public TimeSharingChart(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
-        View.inflate(context, R.layout.view_chart_time_sharing, this);
-        mLineChart = findViewById(R.id.view_chart_time_sharing_line);
-        mBarChart = findViewById(R.id.view_chart_time_sharing_bar);
+        setOrientation(VERTICAL);
+
+        mLineChart = new TimeSharingLineChart(context);
+        final LayoutParams lineChartParams = new LayoutParams(-1, -2);
+        lineChartParams.weight = 2;
+        mLineChart.setLayoutParams(lineChartParams);
+        addView(mLineChart);
+
+        mBarChart = new TimeSharingBarChart(context);
+        final LayoutParams barChartParams = new LayoutParams(-1, -2);
+        barChartParams.weight = 1;
+        mBarChart.setLayoutParams(barChartParams);
+        addView(mBarChart);
 
         mColorArray = new int[]{
                 ContextCompat.getColor(mContext, R.color.up_color),
