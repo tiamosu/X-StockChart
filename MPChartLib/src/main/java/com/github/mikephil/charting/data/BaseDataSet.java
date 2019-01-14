@@ -16,11 +16,14 @@ import com.github.mikephil.charting.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+
 /**
  * Created by Philipp Jahoda on 21/10/15.
  * This is the base dataset of all DataSets. It's purpose is to implement critical methods
  * provided by the IDataSet interface.
  */
+@SuppressWarnings("WeakerAccess")
 public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
 
     /**
@@ -91,6 +94,10 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
     protected int precision = 2;
     //分时图类型，区分当日分时和多日分时
     protected int timeDayType = 1;
+    //是否绘制BS（买卖）两点图
+    protected boolean mDrawBS;
+    //BS（买卖）两点位置
+    protected int[] mBSCircles = new int[2];
 
     /**
      * Default constructor.
@@ -428,10 +435,27 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
         return timeDayType;
     }
 
+    public void setDrawBS(boolean drawBS) {
+        mDrawBS = drawBS;
+    }
+
+    @Override
+    public boolean isDrawBS() {
+        return mDrawBS;
+    }
+
+    @Override
+    public int[] getBSCircles() {
+        return mBSCircles;
+    }
+
+    public void setBSCircles(@NonNull int... BSCircles) {
+        mBSCircles = BSCircles;
+    }
+
     /**
      * ###### ###### DATA RELATED METHODS ###### ######
      */
-
     @Override
     public int getIndexInEntries(int xIndex) {
         for (int i = 0; i < getEntryCount(); i++) {

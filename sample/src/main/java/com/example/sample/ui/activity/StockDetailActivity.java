@@ -64,7 +64,7 @@ public class StockDetailActivity extends BaseActivity {
                 TimeSharingFragment.newInstance(false), TimeSharingFragment.newInstance(true)
         };
         final String[] titles = {
-                "分时图", "买卖两点图"
+                "分时图", "BS两点图"
         };
         mViewpager.setOffscreenPageLimit(fragments.length);
         mViewpager.setAdapter(new SimpleFragmentPagerAdapter(getSupportFragmentManager(), fragments, titles));

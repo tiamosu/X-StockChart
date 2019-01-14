@@ -389,4 +389,14 @@ public interface IDataSet<T extends Entry> {
      * @return 分时类型（五日分时等）
      */
     int getTimeDayType();
+
+    /**
+     * @return 是否绘制BS（买卖）两点图
+     */
+    boolean isDrawBS();
+
+    /**
+     * @return BS（买卖）两点位置
+     */
+    int[] getBSCircles();
 }

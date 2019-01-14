@@ -1,6 +1,7 @@
 package com.example.sample.stockchart.view;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.SparseArray;
@@ -51,6 +52,8 @@ public class TimeSharingChart extends LinearLayout {
     private TimeSharingXAxis mXAxisBar;
     private TimeSharingYAxis mAxisLeftBar;
 
+    private static final int TYPE_LINE_CJ = 0;//最新价/收盘价
+    private static final int TYPE_LINE_JJ = 1;//股票均价
     private int mMaxCount = ChartType.HK_ONE_DAY.getPointNum();//最大可见数量，即分时一天最大数据点数
     private SparseArray<String> mXLabels = new SparseArray<>();//X轴刻度label
     private final int[] mColorArray;
@@ -233,32 +236,10 @@ public class TimeSharingChart extends LinearLayout {
             lineJJEntries.add(new Entry(i, i, (float) mData.getDatas().get(i).getAveragePrice()));
             barEntries.add(new BarEntry(i, i, mData.getDatas().get(i).getVolume()));
         }
-        final LineDataSet d1 = new LineDataSet(lineCJEntries, "分时线");
         final ArrayList<ILineDataSet> sets = new ArrayList<>();
-        d1.setDrawCircleDashMarker(false);
-        d1.setDrawValues(false);
-        d1.setLineWidth(0.7f);
-        d1.setColor(ContextCompat.getColor(mContext, R.color.minute_blue));
-        d1.setDrawFilled(true);
-        d1.setFillColor(ContextCompat.getColor(mContext, R.color.fill_Color));
-        d1.setHighLightColor(ContextCompat.getColor(mContext, R.color.highLight_Color));
-        d1.setHighlightEnabled(false);
-        d1.setDrawCircles(false);
-        d1.setAxisDependency(YAxis.AxisDependency.LEFT);
-        d1.setPrecision(PRECISION);
-        d1.setTimeDayType(1);//设置分时图类型
-        sets.add(d1);
-
+        sets.add(setTimeSharingLine(TYPE_LINE_CJ, lineCJEntries, mData));
         if (!mData.isBSChart()) {
-            final LineDataSet d2 = new LineDataSet(lineJJEntries, "均价");
-            d2.setDrawCircleDashMarker(false);
-            d2.setDrawValues(false);
-            d2.setLineWidth(0.7f);
-            d2.setColor(ContextCompat.getColor(mContext, R.color.minute_yellow));
-            d2.setHighlightEnabled(false);
-            d2.setDrawCircles(false);
-            d2.setTimeDayType(1);
-            sets.add(d2);
+            sets.add(setTimeSharingLine(TYPE_LINE_JJ, lineJJEntries, mData));
         }
         final LineData cd = new LineData(sets);
         mLineChart.setData(cd);
@@ -298,6 +279,37 @@ public class TimeSharingChart extends LinearLayout {
         //moveViewTo(...) 方法会自动调用 invalidate()
         mLineChart.moveViewToX(mData.getDatas().size() - 1);
         mBarChart.moveViewToX(mData.getDatas().size() - 1);
+    }
+
+    private LineDataSet setTimeSharingLine(int type, ArrayList<Entry> entries, TimeSharingDataManage dataManage) {
+        final LineDataSet lineDataSet = new LineDataSet(entries, "ma" + type);
+        lineDataSet.setDrawCircleDashMarker(false);
+        lineDataSet.setDrawValues(false);
+        lineDataSet.setLineWidth(0.7f);
+        lineDataSet.setHighLightColor(ContextCompat.getColor(mContext, R.color.highLight_Color));
+        lineDataSet.setHighlightEnabled(false);
+        lineDataSet.setDrawCircles(false);
+        lineDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
+        lineDataSet.setPrecision(PRECISION);
+        lineDataSet.setTimeDayType(1);//设置分时图类型
+        lineDataSet.setColor(ContextCompat.getColor(mContext, R.color.minute_blue));
+
+        if (type == TYPE_LINE_CJ) {
+            lineDataSet.setDrawFilled(true);
+            lineDataSet.setFillColor(ContextCompat.getColor(mContext, R.color.fill_Color));
+        } else if (type == TYPE_LINE_JJ) {
+            lineDataSet.setColor(ContextCompat.getColor(mContext, R.color.minute_yellow));
+        }
+        if (dataManage.isBSChart()) {
+            lineDataSet.setDrawCircles(true);
+            lineDataSet.setCircleRadius(5f);
+            lineDataSet.setDrawCircleHole(true);
+            lineDataSet.setCircleHoleRadius(2f);
+            lineDataSet.setCircleColors(Color.RED, Color.BLUE, Color.YELLOW);
+            lineDataSet.setDrawBS(true);
+            lineDataSet.setBSCircles(20, 70, 90);
+        }
+        return lineDataSet;
     }
 
     public void dynamicsAddOne(TimeSharingDataModel dataModel, int length) {
