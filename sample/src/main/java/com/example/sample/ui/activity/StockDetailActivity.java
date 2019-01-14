@@ -9,6 +9,7 @@ import com.example.sample.base.BaseActivity;
 import com.example.sample.common.adapter.SimpleFragmentPagerAdapter;
 import com.example.sample.common.data.Constants;
 import com.example.sample.common.viewpager.NoTouchScrollViewpager;
+import com.example.sample.ui.fragment.ChartKLineFragment;
 import com.example.sample.ui.fragment.TimeSharingFragment;
 import com.google.android.material.tabs.TabLayout;
 
@@ -61,10 +62,11 @@ public class StockDetailActivity extends BaseActivity {
         });
 
         final Fragment[] fragments = {
-                TimeSharingFragment.newInstance(false), TimeSharingFragment.newInstance(true)
+                TimeSharingFragment.newInstance(false), TimeSharingFragment.newInstance(true),
+                ChartKLineFragment.newInstance()
         };
         final String[] titles = {
-                "分时图", "BS两点图"
+                "分时图", "BS两点图", "日K图"
         };
         mViewpager.setOffscreenPageLimit(fragments.length);
         mViewpager.setAdapter(new SimpleFragmentPagerAdapter(getSupportFragmentManager(), fragments, titles));
