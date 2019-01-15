@@ -17,13 +17,13 @@ public class TimeSharingDataManage {
     private ArrayList<TimeSharingDataModel> mRealTimeDataList = new ArrayList<>();//分时数据
     private double mBaseValue = 0;//分时图基准值
     private double mPermaxmin = 0;//分时图价格最大区间值
-    private int mAllVolume = 0;//分时图总成交量
     private double mVolMaxTimeLine;//分时图最大成交量
     private double mMax = 0;//分时图最大价格
     private double mMin = 0;//分时图最小价格
     private double mPerVolMaxTimeLine = 0;
     private double preClose;//昨收价
     private boolean mIsBSChart;
+    private int mAllVolume = 0;//分时图总成交量
 
     /**
      * 外部传JSONObject解析获得分时数据集
@@ -59,8 +59,6 @@ public class TimeSharingDataManage {
                 } else {
                     mAllVolume += timeSharingDataModel.getVolume();
                 }
-                timeSharingDataModel.setCha(timeSharingDataModel.getNowPrice() - preClose);
-                timeSharingDataModel.setPer(timeSharingDataModel.getCha() / preClose);
 
                 mMax = Math.max(timeSharingDataModel.getNowPrice(), mMax);
                 mMin = Math.min(timeSharingDataModel.getNowPrice(), mMin);

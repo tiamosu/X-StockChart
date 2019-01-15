@@ -21,9 +21,6 @@ public class TimeSharingDataModel implements Serializable {
     private double open;
     //昨收
     private double preClose;
-    private double per;
-    private double cha;
-    private double total;
     private int color = 0xff000000;
 
     public Long getTimeMills() {
@@ -72,30 +69,6 @@ public class TimeSharingDataModel implements Serializable {
 
     public void setPreClose(double preClose) {
         this.preClose = preClose;
-    }
-
-    public double getPer() {
-        return per;
-    }
-
-    public void setPer(double per) {
-        this.per = per;
-    }
-
-    public double getCha() {
-        return cha;
-    }
-
-    public void setCha(double cha) {
-        this.cha = cha;
-    }
-
-    public double getTotal() {
-        return total;
-    }
-
-    public void setTotal(double total) {
-        this.total = total;
     }
 
     public int getColor() {
