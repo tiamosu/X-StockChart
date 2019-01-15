@@ -192,11 +192,6 @@ public class TimeSharingChart extends LinearLayout {
      */
     @SuppressWarnings("SuspiciousNameCombination")
     public void setDataToChart(TimeSharingDataManage mData) {
-        if (mData.getDatas().size() == 0) {
-            mLineChart.setNoDataText(getResources().getString(R.string.no_data));
-            mBarChart.setNoDataText(getResources().getString(R.string.no_data));
-        }
-
         setMaxCount(ChartType.ONE_DAY.getPointNum());
         setXLabels(mData.getTimeSharingXLabels());
 
