@@ -166,7 +166,6 @@ public class TimeSharingChart extends LinearLayout {
         mAxisLeftBar = (TimeSharingYAxis) mBarChart.getAxisLeft();
         mAxisLeftBar.setDrawGridLines(false);
         mAxisLeftBar.setDrawAxisLine(false);
-        mAxisLeftBar.setEnabled(false);
         mAxisLeftBar.setTextColor(ContextCompat.getColor(mContext, R.color.axis_text));
         mAxisLeftBar.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
         mAxisLeftBar.setDrawLabels(false);
@@ -210,7 +209,6 @@ public class TimeSharingChart extends LinearLayout {
 
         setMaxCount(ChartType.ONE_DAY.getPointNum());
         setXLabels(mData.getTimeSharingXLabels());
-        setShowLabels(true);
 
         mAxisLeftLine.setAxisMinimum(mData.getMin());
         mAxisLeftLine.setAxisMaximum(mData.getMax());

@@ -192,7 +192,7 @@ public class KLineChart extends LinearLayout {
         mAxisLeftBar.setDrawGridLines(false);
         mAxisLeftBar.setDrawAxisLine(false);
         mAxisLeftBar.setTextColor(ContextCompat.getColor(mContext, R.color.axis_text));
-        mAxisLeftBar.setDrawLabels(true);
+        mAxisLeftBar.setDrawLabels(false);
         mAxisLeftBar.setLabelCount(2, true);
         mAxisLeftBar.setValueLineInside(true);
         mAxisLeftBar.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
