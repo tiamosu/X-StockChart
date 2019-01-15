@@ -1,0 +1,70 @@
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
+
+Properties properties = new Properties()
+def localFile = project.rootProject.file("local.properties")
+if (localFile != null && localFile.exists()) {
+    properties.load(localFile.newDataInputStream())
+}
+def projectFile = project.file("project.properties")
+if (projectFile != null && projectFile.exists()) {
+    properties.load(projectFile.newDataInputStream())
+}
+
+def projectGitUrl = properties.getProperty("gitUrl")
+def projectSiteUrl = properties.getProperty("website")
+def projectVersion = properties.getProperty("publishVersion")
+def projectGroupId = properties.getProperty("groupId")
+def projectUserOrg = properties.getProperty("userOrg")
+def projectEmail = properties.getProperty("email")
+def projectDesc = properties.getProperty("desc")
+def projectName = properties.getProperty("name")
+
+group = projectGroupId
+version = projectVersion
+install {
+    repositories.mavenInstaller {
+        pom {
+            project {
+                packaging "aar"
+                name projectName
+                groupId projectGroupId
+                artifactId projectName
+                url projectSiteUrl
+                description projectDesc
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id projectUserOrg
+                        name projectUserOrg
+                        email projectEmail
+                    }
+                }
+                scm {
+                    connection projectGitUrl
+                    developerConnection projectGitUrl
+                    url projectSiteUrl
+                }
+            }
+        }
+    }
+}
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+    configurations = ['archives']
+    pkg {
+        repo = 'maven'
+        name = projectName
+        websiteUrl = projectSiteUrl
+        vcsUrl = projectGitUrl
+        licenses = ["Apache-2.0"]
+        publish = true // 是否是公开项目。
+    }
+}
