@@ -5,7 +5,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.SparseArray;
-import android.widget.LinearLayout;
+import android.view.View;
+import android.view.ViewStub;
 
 import com.example.sample.R;
 import com.example.sample.stockchart.TimeSharingXAxis;
@@ -32,16 +33,18 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
 /**
  * @author weixia
  * @date 2019/1/10.
  */
-public class TimeSharingChart extends LinearLayout {
+public class TimeSharingChart extends ConstraintLayout {
     private final Context mContext;
     private final TimeSharingLineChart mLineChart;
-    private final TimeSharingBarChart mBarChart;
+    private final ViewStub mBarChartViewStub;
+    private TimeSharingBarChart mBarChart;
 
     private TimeSharingXAxis mXAxisLine;
     private TimeSharingYAxis mAxisRightLine;
@@ -63,20 +66,11 @@ public class TimeSharingChart extends LinearLayout {
 
     public TimeSharingChart(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        setOrientation(VERTICAL);
         mContext = context;
 
-        mLineChart = new TimeSharingLineChart(context);
-        final LayoutParams lineChartParams = new LayoutParams(-1, -2);
-        lineChartParams.weight = 2;
-        mLineChart.setLayoutParams(lineChartParams);
-        addView(mLineChart);
-
-        mBarChart = new TimeSharingBarChart(context);
-        final LayoutParams barChartParams = new LayoutParams(-1, -2);
-        barChartParams.weight = 1;
-        mBarChart.setLayoutParams(barChartParams);
-        addView(mBarChart);
+        View.inflate(context, R.layout.view_chart_time_sharing, this);
+        mLineChart = findViewById(R.id.view_chart_time_sharing_line);
+        mBarChartViewStub = findViewById(R.id.view_chart_time_sharing_bar_vs);
 
         mColorArray = new int[]{
                 ContextCompat.getColor(mContext, R.color.up_color),
@@ -86,6 +80,8 @@ public class TimeSharingChart extends LinearLayout {
     }
 
     public void initChart() {
+        mBarChart = (TimeSharingBarChart) mBarChartViewStub.inflate();
+
         //主图
         mLineChart.setScaleEnabled(false);
         mLineChart.setDrawBorders(true);
