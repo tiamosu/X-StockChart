@@ -188,16 +188,6 @@ public class TimeSharingChart extends LinearLayout {
     }
 
     /**
-     * 是否显示坐标轴label
-     */
-    private void setShowLabels(boolean isShow) {
-        mLineChart.getAxisLeft().setDrawLabels(isShow);
-        mLineChart.getAxisRight().setDrawLabels(isShow);
-        mLineChart.getXAxis().setDrawLabels(isShow);
-        mBarChart.getAxisLeft().setDrawLabels(isShow);
-    }
-
-    /**
      * 设置分时数据
      */
     @SuppressWarnings("SuspiciousNameCombination")
@@ -369,7 +359,6 @@ public class TimeSharingChart extends LinearLayout {
 
     public void cleanData() {
         if (mLineChart != null && mLineChart.getLineData() != null) {
-            setShowLabels(false);
             mLineChart.clearValues();
             mBarChart.clearValues();
         }
