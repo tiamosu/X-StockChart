@@ -63,10 +63,10 @@ public class StockDetailActivity extends BaseActivity {
 
         final Fragment[] fragments = {
                 TimeSharingFragment.newInstance(false), TimeSharingFragment.newInstance(true),
-                ChartKLineFragment.newInstance()
+                ChartKLineFragment.newInstance(1), ChartKLineFragment.newInstance(7), ChartKLineFragment.newInstance(30)
         };
         final String[] titles = {
-                "分时图", "BS两点图", "日K图"
+                "分时图", "BS两点图", "日K图", "周K图", "月K图"
         };
         mViewpager.setOffscreenPageLimit(fragments.length);
         mViewpager.setAdapter(new SimpleFragmentPagerAdapter(getSupportFragmentManager(), fragments, titles));

@@ -63,8 +63,8 @@ public class TimeSharingChart extends LinearLayout {
 
     public TimeSharingChart(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        mContext = context;
         setOrientation(VERTICAL);
+        mContext = context;
 
         mLineChart = new TimeSharingLineChart(context);
         final LayoutParams lineChartParams = new LayoutParams(-1, -2);
@@ -245,9 +245,9 @@ public class TimeSharingChart extends LinearLayout {
             barEntries.add(new BarEntry(i, i, mData.getDatas().get(i).getVolume()));
         }
         final ArrayList<ILineDataSet> sets = new ArrayList<>();
-        sets.add(setTimeSharingLine(TYPE_LINE_CJ, lineCJEntries, mData));
+        sets.add(setLine(TYPE_LINE_CJ, lineCJEntries, mData));
         if (!mData.isBSChart()) {
-            sets.add(setTimeSharingLine(TYPE_LINE_JJ, lineJJEntries, mData));
+            sets.add(setLine(TYPE_LINE_JJ, lineJJEntries, mData));
         }
         final LineData cd = new LineData(sets);
         mLineChart.setData(cd);
@@ -289,7 +289,7 @@ public class TimeSharingChart extends LinearLayout {
         mBarChart.moveViewToX(mData.getDatas().size() - 1);
     }
 
-    private LineDataSet setTimeSharingLine(int type, ArrayList<Entry> entries, TimeSharingDataManage dataManage) {
+    private LineDataSet setLine(int type, ArrayList<Entry> entries, TimeSharingDataManage dataManage) {
         final LineDataSet lineDataSet = new LineDataSet(entries, "ma" + type);
         lineDataSet.setDrawCircleDashMarker(false);
         lineDataSet.setDrawValues(false);
