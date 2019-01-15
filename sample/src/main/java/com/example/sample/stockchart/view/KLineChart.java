@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 
 import com.example.sample.R;
 import com.example.sample.stockchart.data.KLineDataManage;
-import com.example.sample.stockchart.interfaces.CoupleChartGestureListener;
+import com.example.sample.stockchart.listener.CoupleChartGestureListener;
 import com.example.sample.stockchart.utils.CommonUtil;
 import com.example.sample.stockchart.utils.VolFormatter;
 import com.github.mikephil.charting.charts.Chart;
