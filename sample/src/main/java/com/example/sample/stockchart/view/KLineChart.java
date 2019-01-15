@@ -504,13 +504,13 @@ public class KLineChart extends LinearLayout {
         } else if (count >= 500) {
             xScale = 8f;
         } else if (count >= 300) {
-            xScale = 5.5f;
+            xScale = 6f;
         } else if (count >= 150) {
-            xScale = 2f;
+            xScale = 3f;
         } else if (count >= 100) {
-            xScale = 1.5f;
+            xScale = 2f;
         } else {
-            xScale = 0.1f;
+            xScale = 1.5f;
         }
         return xScale;
     }
