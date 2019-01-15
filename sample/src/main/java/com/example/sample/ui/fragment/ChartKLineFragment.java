@@ -25,6 +25,7 @@ public class ChartKLineFragment extends BaseFragment {
     KLineChart mChart;
 
     private int mType;//日K：1；周K：7；月K：30
+    private int mIndexType = 1;
     private KLineDataManage mDataManage;
 
     public static ChartKLineFragment newInstance(int type) {
@@ -70,18 +71,11 @@ public class ChartKLineFragment extends BaseFragment {
         mDataManage.parseKlineData(object);
         mChart.setDataToChart(mDataManage);
 
-        mChart.gestureListenerCandle.setCoupleClick(() -> {
-//            final Intent intent = new Intent(getActivity(), StockDetailLandActivity.class);
-//            Objects.requireNonNull(getActivity()).startActivity(intent);
-        });
-
-        mChart.gestureListenerBar.setCoupleClick(() -> {
-//            final Intent intent = new Intent(getActivity(), StockDetailLandActivity.class);
-//            Objects.requireNonNull(getActivity()).startActivity(intent);
-        });
+        mChart.gestureListenerBar.setCoupleClick(() -> loadIndexData(mIndexType < 5 ? ++mIndexType : 1));
     }
 
     private void loadIndexData(int type) {
+        mIndexType = type;
         switch (type) {
             case 1://成交量
                 mChart.doBarChartSwitch(type);

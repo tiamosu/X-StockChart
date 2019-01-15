@@ -110,13 +110,13 @@ public class KLineChart extends LinearLayout {
         mCandleChart.setDrawBorders(true);
         mCandleChart.setBorderWidth(0.7f);
         mCandleChart.setBorderColor(ContextCompat.getColor(mContext, R.color.border_color));
-        mCandleChart.setDragEnabled(false);
-        mCandleChart.setScaleXEnabled(false);
+        mCandleChart.setDragEnabled(true);
+        mCandleChart.setScaleXEnabled(true);
         mCandleChart.setScaleYEnabled(false);
         mCandleChart.setHardwareAccelerationEnabled(true);
         //图例
-        final Legend mChartKlineLegend = mCandleChart.getLegend();
-        mChartKlineLegend.setEnabled(false);
+        final Legend candleChartLegend = mCandleChart.getLegend();
+        candleChartLegend.setEnabled(false);
         mCandleChart.setDragDecelerationEnabled(true);
         mCandleChart.setDragDecelerationFrictionCoef(0.6f);//0.92持续滚动时的速度快慢，[0,1) 0代表立即停止。
         mCandleChart.setDoubleTapToZoomEnabled(false);
@@ -126,13 +126,13 @@ public class KLineChart extends LinearLayout {
         mBarChart.setDrawBorders(true);
         mBarChart.setBorderWidth(0.7f);
         mBarChart.setBorderColor(ContextCompat.getColor(mContext, R.color.border_color));
-        mBarChart.setDragEnabled(false);
-        mBarChart.setScaleXEnabled(false);
+        mBarChart.setDragEnabled(true);
+        mBarChart.setScaleXEnabled(true);
         mBarChart.setScaleYEnabled(false);
         mBarChart.setHardwareAccelerationEnabled(true);
         //图例
-        final Legend mChartChartsLegend = mBarChart.getLegend();
-        mChartChartsLegend.setEnabled(false);
+        final Legend barChartLegend = mBarChart.getLegend();
+        barChartLegend.setEnabled(false);
         mBarChart.setDragDecelerationEnabled(true);
         mBarChart.setDragDecelerationFrictionCoef(0.6f);//设置太快，切换滑动源滑动不同步
         mBarChart.setDoubleTapToZoomEnabled(false);

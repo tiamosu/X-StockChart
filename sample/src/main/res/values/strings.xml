@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">X-StockChart</string>
 
     <string name="loading">加载中&#8230;</string>
     <string name="no_data">暂无数据</string>
