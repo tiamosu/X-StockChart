@@ -7,6 +7,7 @@ import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewStub;
+import android.widget.LinearLayout;
 
 import com.example.sample.R;
 import com.example.sample.stockchart.TimeSharingXAxis;
@@ -15,7 +16,6 @@ import com.example.sample.stockchart.data.TimeSharingDataManage;
 import com.example.sample.stockchart.enums.ChartType;
 import com.example.sample.stockchart.model.TimeSharingDataModel;
 import com.example.sample.stockchart.utils.CommonUtil;
-import com.example.sample.stockchart.utils.VolFormatter;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -33,14 +33,13 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
 /**
  * @author weixia
  * @date 2019/1/10.
  */
-public class TimeSharingChart extends ConstraintLayout {
+public class TimeSharingChart extends LinearLayout {
     private final Context mContext;
     private final TimeSharingLineChart mLineChart;
     private final ViewStub mBarChartViewStub;
@@ -66,6 +65,7 @@ public class TimeSharingChart extends ConstraintLayout {
 
     public TimeSharingChart(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        setOrientation(VERTICAL);
         mContext = context;
 
         View.inflate(context, R.layout.view_chart_time_sharing, this);
@@ -205,8 +205,6 @@ public class TimeSharingChart extends ConstraintLayout {
             mAxisRightLine.setAxisMinimum(mData.getPercentMin());
             mAxisRightLine.setAxisMaximum(mData.getPercentMax());
         }
-
-        mAxisLeftBar.setValueFormatter(new VolFormatter(mContext));
 
         final ArrayList<Entry> lineCJEntries = new ArrayList<>();
         final ArrayList<Entry> lineJJEntries = new ArrayList<>();

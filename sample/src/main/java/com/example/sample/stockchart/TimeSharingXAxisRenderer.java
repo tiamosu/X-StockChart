@@ -26,13 +26,13 @@ public class TimeSharingXAxisRenderer extends XAxisRenderer {
 
     @Override
     protected void drawLabels(Canvas c, float pos, MPPointF anchor) {
-        float[] position = new float[]{0f, 0f};
+        final float[] position = new float[]{0f, 0f};
         final int count = mXAxis.getXLabels().size();
         for (int i = 0; i < count; i++) {
             /*获取label对应key值，也就是x轴坐标0,60,121,182,242*/
             final int ix = mXAxis.getXLabels().keyAt(i);
             if (mXAxis.isCenterAxisLabelsEnabled()) {
-                float offset = mXAxis.getXLabels().keyAt(count - 1) / (count - 1);
+                final float offset = (float) mXAxis.getXLabels().keyAt(count - 1) / (count - 1);
                 position[0] = ix + offset / 2;
             } else {
                 position[0] = ix;
@@ -45,11 +45,11 @@ public class TimeSharingXAxisRenderer extends XAxisRenderer {
             final int labelWidth = Utils.calcTextWidth(mAxisLabelPaint, label);
             /*右出界*/
             if ((labelWidth / 2 + position[0]) > mViewPortHandler.contentRight()) {
-                position[0] = mViewPortHandler.contentRight() - labelWidth / 2;
+                position[0] = mViewPortHandler.contentRight() - (float) labelWidth / 2;
             }
             /*左出界*/
             else if ((position[0] - labelWidth / 2) < mViewPortHandler.contentLeft()) {
-                position[0] = mViewPortHandler.contentLeft() + labelWidth / 2;
+                position[0] = mViewPortHandler.contentLeft() + (float) labelWidth / 2;
             }
             c.drawText(label, position[0], pos + Utils.convertPixelsToDp(
                     mViewPortHandler.offsetBottom() + 10), mAxisLabelPaint);

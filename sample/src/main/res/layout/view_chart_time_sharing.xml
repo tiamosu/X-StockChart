@@ -1,32 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+    android:orientation="vertical"
+    tools:parentTag="android.widget.LinearLayout">
 
     <com.example.sample.stockchart.view.TimeSharingLineChart
         android:id="@+id/view_chart_time_sharing_line"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/view_chart_time_sharing_bar_vs"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_weight="3"/>
+        android:layout_weight="3"/>
 
     <ViewStub
         android:id="@+id/view_chart_time_sharing_bar_vs"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_weight="1"
         android:inflatedId="@+id/view_chart_time_sharing_bar_vs"
         android:layout="@layout/layout_chart_time_sharing_bar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view_chart_time_sharing_line"
-        app:layout_constraintVertical_weight="1"
         tools:visibility="visible"/>
 </merge>
