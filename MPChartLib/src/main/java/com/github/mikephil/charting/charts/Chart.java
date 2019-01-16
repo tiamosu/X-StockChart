@@ -60,6 +60,7 @@ import java.util.List;
  *
  * @author Philipp Jahoda
  */
+@SuppressWarnings("DanglingJavadoc")
 @SuppressLint("NewApi")
 public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Entry>>> extends
         ViewGroup
@@ -368,7 +369,6 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
     /**
      * Draws the description text in the bottom right corner of the chart (per default)
      */
-    @SuppressWarnings("IntegerDivisionInFloatingPointContext")
     protected void drawDescription(Canvas c) {
         // check if description should be drawn
         if (mDescription != null && mDescription.isEnabled()) {
@@ -379,25 +379,25 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
             mDescPaint.setTextAlign(mDescription.getTextAlign());
 
             if (mIsDescriptionCustom) {
-                float xpos = mViewPortHandler.contentLeft();
+                float xPos = mViewPortHandler.contentLeft();
                 if (position == null) {
                     for (int i = 0; i < mDescriptionLabels.length; i++) {
-                        xpos = xpos + Utils.calcTextWidth(mDescPaint, mDescriptionLabels[i]) + 20;
+                        xPos = xPos + Utils.calcTextWidth(mDescPaint, mDescriptionLabels[i]) + 20;
                         mDescPaint.setColor(mDescriptionColors[i]);
-                        c.drawText(mDescriptionLabels[i], xpos,
-                                mViewPortHandler.contentTop() + 5 - Utils.calcTextHeight(mDescPaint, mDescription.toString()) / 2, mDescPaint);
+                        c.drawText(mDescriptionLabels[i], xPos,
+                                mViewPortHandler.contentTop() + 5 - (float) Utils.calcTextHeight(mDescPaint, mDescription.toString()) / 2, mDescPaint);
                     }
                 } else {
                     for (int i = 0; i < mDescriptionLabels.length; i++) {
                         mDescPaint.setColor(mDescriptionColors[i]);
-                        xpos = xpos + Utils.calcTextWidth(mDescPaint, mDescriptionLabels[i]) + 20;
-                        c.drawText(mDescriptionLabels[i], xpos + position.x, position.y, mDescPaint);
+                        xPos = xPos + Utils.calcTextWidth(mDescPaint, mDescriptionLabels[i]) + 20;
+                        c.drawText(mDescriptionLabels[i], xPos + position.x, position.y, mDescPaint);
                     }
                 }
             } else if (!"".equals(mDescription.getText())) {
                 if (position == null) {
                     c.drawText(mDescription.getText(), mViewPortHandler.contentLeft() + Utils.calcTextWidth(mDescPaint, mDescription.getText()) + 10,
-                            mViewPortHandler.contentTop() + 5 - Utils.calcTextHeight(mDescPaint, mDescription.getText()) / 2, mDescPaint);
+                            mViewPortHandler.contentTop() + 5 - (float) Utils.calcTextHeight(mDescPaint, mDescription.getText()) / 2, mDescPaint);
                 } else {
                     c.drawText(mDescription.getText(), position.x, position.y, mDescPaint);
                 }
