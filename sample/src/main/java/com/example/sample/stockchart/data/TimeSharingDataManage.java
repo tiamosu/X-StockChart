@@ -25,6 +25,10 @@ public class TimeSharingDataManage {
     private boolean mIsBSChart;
     private int mAllVolume = 0;//分时图总成交量
 
+    public TimeSharingDataManage() {
+        mRealTimeDataList.add(new TimeSharingDataModel());
+    }
+
     /**
      * 外部传JSONObject解析获得分时数据集
      */

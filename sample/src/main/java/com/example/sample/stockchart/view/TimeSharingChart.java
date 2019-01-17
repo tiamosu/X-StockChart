@@ -80,8 +80,14 @@ public class TimeSharingChart extends LinearLayout {
     }
 
     public void initChart() {
-        mBarChart = (TimeSharingBarChart) mBarChartViewStub.inflate();
+        initChartLine();
+        initChartBar();
 
+        //初始化图表线框显示
+        setDataToChart(new TimeSharingDataManage());
+    }
+
+    private void initChartLine() {
         //主图
         mLineChart.setScaleEnabled(false);
         mLineChart.setDrawBorders(true);
@@ -92,17 +98,6 @@ public class TimeSharingChart extends LinearLayout {
         //图例
         final Legend lineChartLegend = mLineChart.getLegend();
         lineChartLegend.setEnabled(false);
-
-        //副图
-        mBarChart.setScaleEnabled(false);
-        mBarChart.setDrawBorders(true);
-        mBarChart.setBorderColor(ContextCompat.getColor(mContext, R.color.border_color));
-        mBarChart.setBorderWidth(0.7f);
-        mBarChart.setNoDataText(getResources().getString(R.string.loading));
-        mBarChart.setDescription(null);
-        //图例
-        final Legend barChartLegend = mBarChart.getLegend();
-        barChartLegend.setEnabled(false);
 
         //主图X轴
         mXAxisLine = (TimeSharingXAxis) mLineChart.getXAxis();
@@ -145,6 +140,20 @@ public class TimeSharingChart extends LinearLayout {
             final DecimalFormat mFormat = new DecimalFormat("#0.00%");
             return mFormat.format(value);
         });
+    }
+
+    private void initChartBar() {
+        mBarChart = (TimeSharingBarChart) mBarChartViewStub.inflate();
+        //副图
+        mBarChart.setScaleEnabled(false);
+        mBarChart.setDrawBorders(true);
+        mBarChart.setBorderColor(ContextCompat.getColor(mContext, R.color.border_color));
+        mBarChart.setBorderWidth(0.7f);
+        mBarChart.setNoDataText(getResources().getString(R.string.loading));
+        mBarChart.setDescription(null);
+        //图例
+        final Legend barChartLegend = mBarChart.getLegend();
+        barChartLegend.setEnabled(false);
 
         //副图X轴
         mXAxisBar = (TimeSharingXAxis) mBarChart.getXAxis();
@@ -198,8 +207,8 @@ public class TimeSharingChart extends LinearLayout {
                 || Float.isNaN(mData.getPercentMin())
                 || Float.isNaN(mData.getVolMaxTime())) {
             mAxisLeftBar.setAxisMaximum(0);
-            mAxisRightLine.setAxisMinimum(-0.01f);
-            mAxisRightLine.setAxisMaximum(0.01f);
+            mAxisRightLine.setAxisMinimum(0);
+            mAxisRightLine.setAxisMaximum(0);
         } else {
             mAxisLeftBar.setAxisMaximum(mData.getVolMaxTime());
             mAxisRightLine.setAxisMinimum(mData.getPercentMin());
