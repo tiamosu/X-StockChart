@@ -37,7 +37,6 @@ public class TimeBarChartRenderer extends BarChartRenderer {
         // draw the bar shadow before the values
         if (mChart.isDrawBarShadowEnabled()) {
             mShadowPaint.setColor(dataSet.getBarShadowColor());
-
             final BarData barData = mChart.getBarData();
             final float barWidth = barData.getBarWidth();
             final float barWidthHalf = barWidth / 2.0f;
@@ -51,7 +50,6 @@ public class TimeBarChartRenderer extends BarChartRenderer {
 
                 mBarShadowRectBuffer.left = x - barWidthHalf;
                 mBarShadowRectBuffer.right = x + barWidthHalf;
-
                 trans.rectValueToPixel(mBarShadowRectBuffer);
 
                 if (!mViewPortHandler.isInBoundsLeft(mBarShadowRectBuffer.right)) {
@@ -75,7 +73,6 @@ public class TimeBarChartRenderer extends BarChartRenderer {
         buffer.setInverted(mChart.isInverted(dataSet.getAxisDependency()));
         buffer.setBarWidth(mChart.getBarData().getBarWidth());
         buffer.feed(dataSet);
-
         trans.pointValuesToPixel(buffer.buffer);
 
         for (int j = 0; j < buffer.size(); j += 4) {
