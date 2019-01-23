@@ -62,7 +62,6 @@ public class TimeSharingXAxisRenderer extends XAxisRenderer {
         if (!mXAxis.isDrawGridLinesEnabled() || !mXAxis.isEnabled()) {
             return;
         }
-        final float[] position = new float[]{0f, 0f};
 
         mGridPaint.setColor(mXAxis.getGridColor());
         mGridPaint.setStrokeWidth(mXAxis.getGridLineWidth());
@@ -71,6 +70,8 @@ public class TimeSharingXAxisRenderer extends XAxisRenderer {
         if (!mChart.isScaleXEnabled()) {
             count -= 1;
         }
+
+        final float[] position = new float[]{0f, 0f};
         for (int i = 0; i < count; i++) {
             final int ix = mXAxis.getXLabels().keyAt(i);
             position[0] = ix;
