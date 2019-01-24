@@ -99,6 +99,7 @@ public class KLineDataManage {
 
     public KLineDataManage(Context context) {
         mContext = context;
+        kDatas.add(new KLineDataModel());
     }
 
     /**
@@ -376,19 +377,23 @@ public class KLineDataManage {
     }
 
     public BarDataSet getBarDataMACD() {
-        return barDataMACD;
+        return barDataMACD = barDataMACD != null ? barDataMACD
+                : new BarDataSet(new ArrayList<>(), "");
     }
 
     public BarDataSet getVolumeDataSet() {
-        return volumeDataSet;
+        return volumeDataSet = volumeDataSet != null ? volumeDataSet
+                : new BarDataSet(new ArrayList<>(), "");
     }
 
     public CandleDataSet getCandleDataSet() {
-        return candleDataSet;
+        return candleDataSet = candleDataSet != null ? candleDataSet
+                : new CandleDataSet(new ArrayList<>(), "");
     }
 
     public CandleDataSet getBollCandleDataSet() {
-        return bollCandleDataSet;
+        return bollCandleDataSet = bollCandleDataSet != null ? bollCandleDataSet
+                : new CandleDataSet(new ArrayList<>(), "");
     }
 
     public float getOffSet() {

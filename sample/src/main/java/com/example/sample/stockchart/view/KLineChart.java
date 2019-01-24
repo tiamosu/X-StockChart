@@ -106,6 +106,14 @@ public class KLineChart extends LinearLayout {
      * 初始化图表数据
      */
     public void initChart() {
+        initChartLine();
+        initChartBar();
+        initChartEvent();
+
+        setDataToChart(new KLineDataManage(mContext));
+    }
+
+    private void initChartLine() {
         //蜡烛图
         mCandleChart.setDrawBorders(true);
         mCandleChart.setBorderWidth(0.7f);
@@ -121,22 +129,6 @@ public class KLineChart extends LinearLayout {
         mCandleChart.setDragDecelerationFrictionCoef(0.6f);//0.92持续滚动时的速度快慢，[0,1) 0代表立即停止。
         mCandleChart.setDoubleTapToZoomEnabled(false);
         mCandleChart.setNoDataText(getResources().getString(R.string.loading));
-
-        //副图
-        mBarChart.setDrawBorders(true);
-        mBarChart.setBorderWidth(0.7f);
-        mBarChart.setBorderColor(ContextCompat.getColor(mContext, R.color.border_color));
-        mBarChart.setDragEnabled(true);
-        mBarChart.setScaleXEnabled(true);
-        mBarChart.setScaleYEnabled(false);
-        mBarChart.setHardwareAccelerationEnabled(true);
-        //图例
-        final Legend barChartLegend = mBarChart.getLegend();
-        barChartLegend.setEnabled(false);
-        mBarChart.setDragDecelerationEnabled(true);
-        mBarChart.setDragDecelerationFrictionCoef(0.6f);//设置太快，切换滑动源滑动不同步
-        mBarChart.setDoubleTapToZoomEnabled(false);
-        mBarChart.setNoDataText(getResources().getString(R.string.loading));
 
         //蜡烛图X轴
         final XAxis xAxisK = mCandleChart.getXAxis();
@@ -172,6 +164,24 @@ public class KLineChart extends LinearLayout {
         axisRightK.setDrawGridLines(false);
         axisRightK.setDrawAxisLine(false);
         axisRightK.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
+    }
+
+    private void initChartBar() {
+        //副图
+        mBarChart.setDrawBorders(true);
+        mBarChart.setBorderWidth(0.7f);
+        mBarChart.setBorderColor(ContextCompat.getColor(mContext, R.color.border_color));
+        mBarChart.setDragEnabled(true);
+        mBarChart.setScaleXEnabled(true);
+        mBarChart.setScaleYEnabled(false);
+        mBarChart.setHardwareAccelerationEnabled(true);
+        //图例
+        final Legend barChartLegend = mBarChart.getLegend();
+        barChartLegend.setEnabled(false);
+        mBarChart.setDragDecelerationEnabled(true);
+        mBarChart.setDragDecelerationFrictionCoef(0.6f);//设置太快，切换滑动源滑动不同步
+        mBarChart.setDoubleTapToZoomEnabled(false);
+        mBarChart.setNoDataText(getResources().getString(R.string.loading));
 
         //副图X轴
         final XAxis xAxisBar = mBarChart.getXAxis();
@@ -207,7 +217,9 @@ public class KLineChart extends LinearLayout {
         axisRightBar.setGridColor(ContextCompat.getColor(mContext, R.color.grid_color));
         axisRightBar.setGridLineWidth(0.7f);
         axisRightBar.enableGridDashedLine(CommonUtil.dip2px(mContext, 4), CommonUtil.dip2px(mContext, 3), 0);
+    }
 
+    private void initChartEvent() {
         //手势联动监听
         gestureListenerCandle = new CoupleChartGestureListener(mCandleChart, new Chart[]{mBarChart});
         gestureListenerBar = new CoupleChartGestureListener(mBarChart, new Chart[]{mCandleChart});
@@ -236,6 +248,7 @@ public class KLineChart extends LinearLayout {
                 updateText(kLineData.getKLineDatas().size() - 1);
             }
         });
+
         mBarChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
