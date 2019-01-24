@@ -48,7 +48,6 @@ public class KLineChart extends LinearLayout {
     public CoupleChartGestureListener gestureListenerCandle;
 
     private static final int PRECISION = 3;//小数精度
-    private boolean isFirst = true;//是否是第一次加载数据
     private int zbColor[];
 
     private final MyHandle mHandle = new MyHandle(this);
@@ -274,11 +273,8 @@ public class KLineChart extends LinearLayout {
     public void setDataToChart(KLineDataManage data) {
         kLineData = data;
         if (kLineData.getKLineDatas().size() == 0) {
-            mCandleChart.setNoDataText(getResources().getString(R.string.no_data));
-            mBarChart.setNoDataText(getResources().getString(R.string.no_data));
             return;
         }
-        mAxisLeftBar.setValueFormatter(new VolFormatter(mContext));
 
         //蜡烛图数据
         final CandleDataSet candleDataSet = kLineData.getCandleDataSet();
@@ -299,50 +295,46 @@ public class KLineChart extends LinearLayout {
             mBarChart.setData(barChartData);
         }
 
-        if (isFirst) {
-            mBarChart.getXAxis().setValueFormatter((value, axis) -> {
-                final int index = (int) (value - kLineData.getOffSet());
-                if (index < 0 || index >= kLineData.getxVals().size()) {
-                    return "";
-                } else {
-                    return kLineData.getxVals().get(index);
-                }
-            });
-
-            //请注意，修改视口的所有方法需要在为Chart设置数据之后调用。
-            //设置当前视图四周的偏移量。 设置这个，将阻止图表自动计算它的偏移量。使用 resetViewPortOffsets()撤消此设置。
-            final float left_right = CommonUtil.dip2px(mContext, 5);
-            mCandleChart.setViewPortOffsets(
-                    left_right,
-                    CommonUtil.dip2px(mContext, 15),
-                    CommonUtil.dip2px(mContext, 5),
-                    0);
-            mBarChart.setViewPortOffsets(
-                    left_right,
-                    CommonUtil.dip2px(mContext, 15),
-                    CommonUtil.dip2px(mContext, 5),
-                    CommonUtil.dip2px(mContext, 16));
-
-            updateText(kLineData.getKLineDatas().size() - 1);
-
-            final float xScale = calMaxScale(kLineData.getxVals().size());
-            final ViewPortHandler viewPortHandlerCombin = mCandleChart.getViewPortHandler();
-            viewPortHandlerCombin.setMaximumScaleX(50);
-            //根据所给的参数进行放大或缩小。 参数 x 和 y 是变焦中心的坐标（单位：像素）。 记住，1f = 无放缩 。
-            mCandleChart.zoom(xScale, 0, 0, 0);
-
-            final ViewPortHandler viewPortHandlerBar = mBarChart.getViewPortHandler();
-            viewPortHandlerBar.setMaximumScaleX(50);
-            mBarChart.zoom(xScale, 0, 0, 0);
-
-            mCandleChart.getXAxis().setAxisMaximum(kLineData.getKLineDatas().size() < 70 ? 70 : candleChartData.getXMax() + kLineData.getOffSet());
-            mBarChart.getXAxis().setAxisMaximum(kLineData.getKLineDatas().size() < 70 ? 70 : barChartData.getXMax() + kLineData.getOffSet());
-            if (kLineData.getKLineDatas().size() > 70) {
-                //moveViewTo(...) 方法会自动调用 invalidate()
-                mCandleChart.moveViewToX(kLineData.getKLineDatas().size() - 1);
-                mBarChart.moveViewToX(kLineData.getKLineDatas().size() - 1);
+        mBarChart.getXAxis().setValueFormatter((value, axis) -> {
+            final int index = (int) (value - kLineData.getOffSet());
+            if (index < 0 || index >= kLineData.getxVals().size()) {
+                return "";
+            } else {
+                return kLineData.getxVals().get(index);
             }
-            isFirst = false;
+        });
+
+        //请注意，修改视口的所有方法需要在为Chart设置数据之后调用。
+        //设置当前视图四周的偏移量。 设置这个，将阻止图表自动计算它的偏移量。使用 resetViewPortOffsets()撤消此设置。
+        mCandleChart.setViewPortOffsets(
+                CommonUtil.dip2px(mContext, 5),
+                CommonUtil.dip2px(mContext, 15),
+                CommonUtil.dip2px(mContext, 5),
+                0);
+        mBarChart.setViewPortOffsets(
+                CommonUtil.dip2px(mContext, 5),
+                CommonUtil.dip2px(mContext, 15),
+                CommonUtil.dip2px(mContext, 5),
+                CommonUtil.dip2px(mContext, 16));
+
+        updateText(kLineData.getKLineDatas().size() - 1);
+
+        final float xScale = calMaxScale(kLineData.getxVals().size());
+        final ViewPortHandler viewPortHandlerCombin = mCandleChart.getViewPortHandler();
+        viewPortHandlerCombin.setMaximumScaleX(50);
+        //根据所给的参数进行放大或缩小。 参数 x 和 y 是变焦中心的坐标（单位：像素）。 记住，1f = 无放缩 。
+        mCandleChart.zoom(xScale, 0, 0, 0);
+
+        final ViewPortHandler viewPortHandlerBar = mBarChart.getViewPortHandler();
+        viewPortHandlerBar.setMaximumScaleX(50);
+        mBarChart.zoom(xScale, 0, 0, 0);
+
+        mCandleChart.getXAxis().setAxisMaximum(kLineData.getKLineDatas().size() < 70 ? 70 : candleChartData.getXMax() + kLineData.getOffSet());
+        mBarChart.getXAxis().setAxisMaximum(kLineData.getKLineDatas().size() < 70 ? 70 : barChartData.getXMax() + kLineData.getOffSet());
+        if (kLineData.getKLineDatas().size() > 70) {
+            //moveViewTo(...) 方法会自动调用 invalidate()
+            mCandleChart.moveViewToX(kLineData.getKLineDatas().size() - 1);
+            mBarChart.moveViewToX(kLineData.getKLineDatas().size() - 1);
         }
         mHandle.sendEmptyMessageDelayed(0, 100);
     }
