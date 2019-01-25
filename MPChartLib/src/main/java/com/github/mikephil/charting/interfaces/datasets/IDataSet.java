@@ -399,4 +399,9 @@ public interface IDataSet<T extends Entry> {
      * @return BS（买卖）两点位置
      */
     int[] getBSCircles();
+
+    /**
+     * K线蜡烛图中，数值颜色
+     */
+    int getCandleDataColor();
 }

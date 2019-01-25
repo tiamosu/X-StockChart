@@ -16,6 +16,7 @@ import com.github.mikephil.charting.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 
 /**
@@ -98,6 +99,8 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
     protected boolean mDrawBS;
     //BS（买卖）两点位置
     protected int[] mBSCircles = new int[2];
+    //K线蜡烛图数值颜色
+    protected int mCandleDataColor = Color.BLUE;
 
     /**
      * Default constructor.
@@ -451,6 +454,15 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
 
     public void setBSCircles(@NonNull int... BSCircles) {
         mBSCircles = BSCircles;
+    }
+
+    @Override
+    public int getCandleDataColor() {
+        return mCandleDataColor;
+    }
+
+    public void setCandleDataColor(@ColorInt int candleDataColor) {
+        mCandleDataColor = candleDataColor;
     }
 
     /**

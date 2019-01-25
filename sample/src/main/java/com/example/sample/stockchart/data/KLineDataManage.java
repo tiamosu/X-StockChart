@@ -1,6 +1,7 @@
 package com.example.sample.stockchart.data;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Paint;
 
 import com.example.sample.R;
@@ -246,6 +247,7 @@ public class KLineDataManage {
         candleDataSet.setShadowColorSameAsCandle(true);
         candleDataSet.setValueTextSize(10);
         candleDataSet.setDrawValues(true);
+        candleDataSet.setCandleDataColor(Color.RED);
         return candleDataSet;
     }
 
