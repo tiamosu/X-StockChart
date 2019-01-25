@@ -121,17 +121,17 @@ public class KLineChart extends LinearLayout {
         mCandleChart.setScaleXEnabled(true);
         mCandleChart.setScaleYEnabled(false);
         mCandleChart.setHardwareAccelerationEnabled(true);
-        //图例
-        final Legend candleChartLegend = mCandleChart.getLegend();
-        candleChartLegend.setEnabled(false);
         mCandleChart.setDragDecelerationEnabled(true);
         mCandleChart.setDragDecelerationFrictionCoef(0.6f);//0.92持续滚动时的速度快慢，[0,1) 0代表立即停止。
         mCandleChart.setDoubleTapToZoomEnabled(false);
         mCandleChart.setNoDataText(getResources().getString(R.string.loading));
+        //图例
+        final Legend candleChartLegend = mCandleChart.getLegend();
+        candleChartLegend.setEnabled(false);
 
         //蜡烛图X轴
         final XAxis xAxisK = mCandleChart.getXAxis();
-        xAxisK.setDrawLabels(false);
+        xAxisK.setDrawLabels(true);
         xAxisK.setLabelCount(4, true);
         xAxisK.setDrawGridLines(true);
         xAxisK.setDrawAxisLine(false);
@@ -184,14 +184,14 @@ public class KLineChart extends LinearLayout {
 
         //副图X轴
         final XAxis xAxisBar = mBarChart.getXAxis();
-        xAxisBar.setDrawGridLines(true);
-        xAxisBar.setDrawAxisLine(false);
         xAxisBar.setDrawLabels(true);
         xAxisBar.setLabelCount(4, true);
-        xAxisBar.setTextColor(ContextCompat.getColor(mContext, R.color.label_text));
-        xAxisBar.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxisBar.setGridColor(ContextCompat.getColor(mContext, R.color.grid_color));
+        xAxisBar.setDrawGridLines(true);
+        xAxisBar.setDrawAxisLine(false);
         xAxisBar.setGridLineWidth(0.7f);
+        xAxisBar.setTextColor(ContextCompat.getColor(mContext, R.color.label_text));
+        xAxisBar.setGridColor(ContextCompat.getColor(mContext, R.color.grid_color));
+        xAxisBar.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxisBar.setAvoidFirstLastClipping(true);
         xAxisBar.setDrawLimitLinesBehindData(true);
 
@@ -294,7 +294,14 @@ public class KLineChart extends LinearLayout {
         if (chartType1 == 1) {
             mBarChart.setData(barChartData);
         }
-
+        mCandleChart.getXAxis().setValueFormatter((value, axis) -> {
+            final int index = (int) (value - kLineData.getOffSet());
+            if (index < 0 || index >= kLineData.getxVals().size()) {
+                return "";
+            } else {
+                return kLineData.getxVals().get(index);
+            }
+        });
         mBarChart.getXAxis().setValueFormatter((value, axis) -> {
             final int index = (int) (value - kLineData.getOffSet());
             if (index < 0 || index >= kLineData.getxVals().size()) {
@@ -310,7 +317,7 @@ public class KLineChart extends LinearLayout {
                 CommonUtil.dip2px(mContext, 5),
                 CommonUtil.dip2px(mContext, 15),
                 CommonUtil.dip2px(mContext, 5),
-                0);
+                CommonUtil.dip2px(mContext, 16));
         mBarChart.setViewPortOffsets(
                 CommonUtil.dip2px(mContext, 5),
                 CommonUtil.dip2px(mContext, 15),
