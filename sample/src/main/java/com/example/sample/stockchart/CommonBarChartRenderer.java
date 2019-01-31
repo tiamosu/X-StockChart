@@ -102,27 +102,22 @@ public class CommonBarChartRenderer extends BarChartRenderer {
                 if (i == 0) {
                     increasingSet(dataSet, j);
                 } else {
+                    float current, pre;
                     //分时图成交价数据不为空，则取决于成交价判断填充柱形颜色，反之通过自身柱形数据判断填充颜色
                     if (!timePriceList.isEmpty()) {
-                        final float current = timePriceList.get(i).getY();
-                        final float pre = timePriceList.get(i - 1).getY();
-                        if (current > pre) {
-                            increasingSet(dataSet, j);
-                        } else if (current == pre) {
-                            neutralSet(dataSet, j);
-                        } else {
-                            decreasingSet(dataSet, j);
-                        }
+                        current = timePriceList.get(i).getY();
+                        pre = timePriceList.get(i - 1).getY();
                     } else {
-                        final float current = dataSet.getEntryForIndex(i).getY();
-                        final float pre = dataSet.getEntryForIndex(i - 1).getY();
-                        if (current > pre) {
-                            increasingSet(dataSet, j);
-                        } else if (current == pre) {
-                            neutralSet(dataSet, j);
-                        } else {
-                            decreasingSet(dataSet, j);
-                        }
+                        current = dataSet.getEntryForIndex(i).getY();
+                        pre = dataSet.getEntryForIndex(i - 1).getY();
+                    }
+
+                    if (current > pre) {
+                        increasingSet(dataSet, j);
+                    } else if (current == pre) {
+                        neutralSet(dataSet, j);
+                    } else {
+                        decreasingSet(dataSet, j);
                     }
                 }
             }
