@@ -248,6 +248,7 @@ public class TimeSharingChart extends LinearLayout {
         barDataSet.setDecreasingColor(ContextCompat.getColor(mContext, R.color.down_color));
         barDataSet.setIncreasingPaintStyle(Paint.Style.FILL);
         barDataSet.setDecreasingPaintStyle(Paint.Style.FILL);
+        barDataSet.setNeutralPaintStyle(Paint.Style.FILL);
         final BarData barData = new BarData(barDataSet);
         mBarChart.setData(barData);
 
