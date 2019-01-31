@@ -401,7 +401,12 @@ public interface IDataSet<T extends Entry> {
     int[] getBSCircles();
 
     /**
-     * K线蜡烛图中，数值颜色
+     * @return K线蜡烛图中，数值颜色
      */
     int getCandleDataColor();
+
+    /**
+     * @return 分时图成交价数据，用于分时图副图柱形颜色填充判断
+     */
+    List<Entry> getPriceList();
 }

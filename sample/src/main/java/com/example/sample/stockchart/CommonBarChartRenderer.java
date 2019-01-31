@@ -6,6 +6,7 @@ import com.github.mikephil.charting.animation.ChartAnimator;
 import com.github.mikephil.charting.buffer.BarBuffer;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.interfaces.dataprovider.BarDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.renderer.BarChartRenderer;
@@ -13,6 +14,8 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.Transformer;
 import com.github.mikephil.charting.utils.Utils;
 import com.github.mikephil.charting.utils.ViewPortHandler;
+
+import java.util.List;
 
 /**
  * @author weixia
@@ -74,6 +77,7 @@ public class CommonBarChartRenderer extends BarChartRenderer {
         buffer.feed(dataSet);
         trans.pointValuesToPixel(buffer.buffer);
 
+        final List<Entry> timePriceList = dataSet.getPriceList();
         for (int j = 0; j < buffer.size(); j += 4) {
             if (!mViewPortHandler.isInBoundsLeft(buffer.buffer[j + 2])) {
                 continue;
@@ -84,37 +88,34 @@ public class CommonBarChartRenderer extends BarChartRenderer {
 
             final int i = j / 4;
             final Object openClose = dataSet.getEntryForIndex(i).getData();
-            if (openClose == null) {
-                if (i > 0) {
-                    if (dataSet.getEntryForIndex(i).getY() > dataSet.getEntryForIndex(i - 1).getY()) {
-                        mRenderPaint.setColor(dataSet.getIncreasingColor() == ColorTemplate.COLOR_NONE ?
-                                dataSet.getColor(j) :
-                                dataSet.getIncreasingColor());
-                        mRenderPaint.setStyle(dataSet.getIncreasingPaintStyle());
-                    } else {
-                        mRenderPaint.setColor(dataSet.getDecreasingColor() == ColorTemplate.COLOR_NONE ?
-                                dataSet.getColor(j) :
-                                dataSet.getDecreasingColor());
-                        mRenderPaint.setStyle(dataSet.getDecreasingPaintStyle());
-                    }
-                } else {
-                    mRenderPaint.setColor(dataSet.getIncreasingColor() == ColorTemplate.COLOR_NONE ?
-                            dataSet.getColor(j) :
-                            dataSet.getIncreasingColor());
-                    mRenderPaint.setStyle(dataSet.getIncreasingPaintStyle());
-                }
-            } else {//根据开平判断柱状图的颜色填充
-                float value = (Float) openClose;
+            if (openClose != null) {
+                //用于K线图
+                //根据开平判断柱状图的颜色填充
+                final float value = (Float) openClose;
                 if (value > 0) {//表示增加
-                    mRenderPaint.setColor(dataSet.getIncreasingColor() == ColorTemplate.COLOR_NONE ?
-                            dataSet.getColor(j) :
-                            dataSet.getIncreasingColor());
-                    mRenderPaint.setStyle(dataSet.getIncreasingPaintStyle());
+                    increasingSet(dataSet, j);
                 } else if (value <= 0) {
-                    mRenderPaint.setColor(dataSet.getDecreasingColor() == ColorTemplate.COLOR_NONE ?
-                            dataSet.getColor(j) :
-                            dataSet.getDecreasingColor());
-                    mRenderPaint.setStyle(dataSet.getDecreasingPaintStyle());
+                    decreasingSet(dataSet, j);
+                }
+            } else {
+                //用于分时图
+                if (i == 0) {
+                    increasingSet(dataSet, j);
+                } else {
+                    //分时图成交价数据不为空，则取决于成交价判断填充柱形颜色，反之通过自身柱形数据判断填充颜色
+                    if (!timePriceList.isEmpty()) {
+                        if (timePriceList.get(i).getY() > timePriceList.get(i - 1).getY()) {
+                            increasingSet(dataSet, j);
+                        } else {
+                            decreasingSet(dataSet, j);
+                        }
+                    } else {
+                        if (dataSet.getEntryForIndex(i).getY() > dataSet.getEntryForIndex(i - 1).getY()) {
+                            increasingSet(dataSet, j);
+                        } else {
+                            decreasingSet(dataSet, j);
+                        }
+                    }
                 }
             }
 
@@ -126,5 +127,19 @@ public class CommonBarChartRenderer extends BarChartRenderer {
                         buffer.buffer[j + 3], mBarBorderPaint);
             }
         }
+    }
+
+    private void increasingSet(IBarDataSet dataSet, int index) {
+        mRenderPaint.setColor(dataSet.getIncreasingColor() == ColorTemplate.COLOR_NONE ?
+                dataSet.getColor(index) :
+                dataSet.getIncreasingColor());
+        mRenderPaint.setStyle(dataSet.getIncreasingPaintStyle());
+    }
+
+    private void decreasingSet(IBarDataSet dataSet, int index) {
+        mRenderPaint.setColor(dataSet.getDecreasingColor() == ColorTemplate.COLOR_NONE ?
+                dataSet.getColor(index) :
+                dataSet.getDecreasingColor());
+        mRenderPaint.setStyle(dataSet.getDecreasingPaintStyle());
     }
 }

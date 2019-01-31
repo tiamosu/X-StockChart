@@ -239,6 +239,7 @@ public class TimeSharingChart extends LinearLayout {
         mLineChart.setData(cd);
 
         final BarDataSet barDataSet = new BarDataSet(barEntries, "成交量");
+        barDataSet.setPriceData(lineCJEntries);
         barDataSet.setHighLightColor(ContextCompat.getColor(mContext, R.color.highLight_Color));
         barDataSet.setHighlightEnabled(false);
         barDataSet.setDrawValues(false);

@@ -96,11 +96,13 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
     //分时图类型，区分当日分时和多日分时
     protected int timeDayType = 1;
     //是否绘制BS（买卖）两点图
-    protected boolean mDrawBS;
+    protected boolean mIsDrawBS;
     //BS（买卖）两点位置
     protected int[] mBSCircles = new int[2];
     //K线蜡烛图数值颜色
     protected int mCandleDataColor = Color.BLUE;
+    //分时图成交价数据，用于分时图副图柱形颜色填充判断
+    protected List<Entry> mPriceList;
 
     /**
      * Default constructor.
@@ -439,12 +441,12 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
     }
 
     public void setDrawBS(boolean drawBS) {
-        mDrawBS = drawBS;
+        mIsDrawBS = drawBS;
     }
 
     @Override
     public boolean isDrawBS() {
-        return mDrawBS;
+        return mIsDrawBS;
     }
 
     @Override
@@ -463,6 +465,18 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
 
     public void setCandleDataColor(@ColorInt int candleDataColor) {
         mCandleDataColor = candleDataColor;
+    }
+
+    @Override
+    public List<Entry> getPriceList() {
+        if (mPriceList == null) {
+            mPriceList = new ArrayList<>();
+        }
+        return mPriceList;
+    }
+
+    public void setPriceData(List<Entry> entries) {
+        mPriceList = entries;
     }
 
     /**
