@@ -47,6 +47,8 @@ public class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> impl
      */
     private Paint.Style mDecreasingPaintStyle = Paint.Style.FILL;
 
+    private Paint.Style mNeutralPaintStyle = Paint.Style.FILL;
+
     /**
      * color for open == close
      */
@@ -311,5 +313,14 @@ public class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> impl
      */
     public void setDecreasingPaintStyle(Paint.Style decreasingPaintStyle) {
         this.mDecreasingPaintStyle = decreasingPaintStyle;
+    }
+
+    @Override
+    public Paint.Style getNeutralPaintStyle() {
+        return mNeutralPaintStyle;
+    }
+
+    public void setNeutralPaintStyle(Paint.Style neutralPaintStyle) {
+        mNeutralPaintStyle = neutralPaintStyle;
     }
 }

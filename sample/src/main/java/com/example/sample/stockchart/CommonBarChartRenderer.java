@@ -104,14 +104,22 @@ public class CommonBarChartRenderer extends BarChartRenderer {
                 } else {
                     //分时图成交价数据不为空，则取决于成交价判断填充柱形颜色，反之通过自身柱形数据判断填充颜色
                     if (!timePriceList.isEmpty()) {
-                        if (timePriceList.get(i).getY() > timePriceList.get(i - 1).getY()) {
+                        final float current = timePriceList.get(i).getY();
+                        final float pre = timePriceList.get(i - 1).getY();
+                        if (current > pre) {
                             increasingSet(dataSet, j);
+                        } else if (current == pre) {
+                            neutralSet(dataSet, j);
                         } else {
                             decreasingSet(dataSet, j);
                         }
                     } else {
-                        if (dataSet.getEntryForIndex(i).getY() > dataSet.getEntryForIndex(i - 1).getY()) {
+                        final float current = dataSet.getEntryForIndex(i).getY();
+                        final float pre = dataSet.getEntryForIndex(i - 1).getY();
+                        if (current > pre) {
                             increasingSet(dataSet, j);
+                        } else if (current == pre) {
+                            neutralSet(dataSet, j);
                         } else {
                             decreasingSet(dataSet, j);
                         }
@@ -134,6 +142,13 @@ public class CommonBarChartRenderer extends BarChartRenderer {
                 dataSet.getColor(index) :
                 dataSet.getIncreasingColor());
         mRenderPaint.setStyle(dataSet.getIncreasingPaintStyle());
+    }
+
+    private void neutralSet(IBarDataSet dataSet, int index) {
+        mRenderPaint.setColor(dataSet.getNeutralColor() == ColorTemplate.COLOR_NONE ?
+                dataSet.getColor(index) :
+                dataSet.getNeutralColor());
+        mRenderPaint.setStyle(dataSet.getNeutralPaintStyle());
     }
 
     private void decreasingSet(IBarDataSet dataSet, int index) {
