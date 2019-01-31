@@ -181,6 +181,8 @@ public class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
                         mRenderPaint.setColor(dataSet.getNeutralColor());
                     }
 
+                    mRenderPaint.setStyle(dataSet.getNeutralPaintStyle());
+
                     c.drawLine(
                             mBodyBuffers[0], mBodyBuffers[1],
                             mBodyBuffers[2], mBodyBuffers[3],

@@ -59,6 +59,11 @@ public interface ICandleDataSet extends ILineScatterCandleRadarDataSet<CandleEnt
     Paint.Style getDecreasingPaintStyle();
 
     /**
+     * Returns paint style when open = close
+     */
+    Paint.Style getNeutralPaintStyle();
+
+    /**
      * Is the shadow color same as the candle color?
      */
     boolean getShadowColorSameAsCandle();

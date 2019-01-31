@@ -47,6 +47,10 @@ public class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> impl
      */
     private Paint.Style mDecreasingPaintStyle = Paint.Style.FILL;
 
+    /**
+     * paint style when open = close
+     * descreasing candlesticks are traditionally filled
+     */
     private Paint.Style mNeutralPaintStyle = Paint.Style.FILL;
 
     /**

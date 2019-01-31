@@ -244,6 +244,7 @@ public class KLineDataManage {
         candleDataSet.setIncreasingColor(ContextCompat.getColor(mContext, R.color.up_color));
         candleDataSet.setIncreasingPaintStyle(Paint.Style.FILL);
         candleDataSet.setNeutralColor(ContextCompat.getColor(mContext, R.color.equal_color));
+        candleDataSet.setNeutralPaintStyle(Paint.Style.FILL);
         candleDataSet.setShadowColorSameAsCandle(true);
         candleDataSet.setValueTextSize(10);
         candleDataSet.setDrawValues(true);
@@ -262,6 +263,7 @@ public class KLineDataManage {
         candleDataSet.setIncreasingColor(ContextCompat.getColor(mContext, R.color.up_color));
         candleDataSet.setIncreasingPaintStyle(Paint.Style.FILL);
         candleDataSet.setNeutralColor(ContextCompat.getColor(mContext, R.color.equal_color));
+        candleDataSet.setNeutralPaintStyle(Paint.Style.FILL);
         candleDataSet.setDrawValues(false);
         candleDataSet.setShowCandleBar(false);
         return candleDataSet;
@@ -317,6 +319,7 @@ public class KLineDataManage {
         barDataSet.setDecreasingColor(ContextCompat.getColor(mContext, R.color.down_color));
         barDataSet.setIncreasingPaintStyle(Paint.Style.FILL);
         barDataSet.setDecreasingPaintStyle(Paint.Style.FILL);
+        barDataSet.setNeutralPaintStyle(Paint.Style.FILL);
         return barDataSet;
     }
 
