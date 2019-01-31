@@ -21,6 +21,7 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import java.util.List;
 
+@SuppressWarnings("WeakerAccess")
 public class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
 
     protected BarDataProvider mChart;
@@ -56,11 +57,11 @@ public class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
 
     @Override
     public void initBuffers() {
-        BarData barData = mChart.getBarData();
+        final BarData barData = mChart.getBarData();
         mBarBuffers = new BarBuffer[barData.getDataSetCount()];
 
         for (int i = 0; i < mBarBuffers.length; i++) {
-            IBarDataSet set = barData.getDataSetByIndex(i);
+            final IBarDataSet set = barData.getDataSetByIndex(i);
             mBarBuffers[i] = new BarBuffer(set.getEntryCount() * 4 * (set.isStacked() ? set.getStackSize() : 1),
                     barData.getDataSetCount(), set.isStacked());
         }
@@ -68,13 +69,9 @@ public class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
 
     @Override
     public void drawData(Canvas c) {
-
-        BarData barData = mChart.getBarData();
-
+        final BarData barData = mChart.getBarData();
         for (int i = 0; i < barData.getDataSetCount(); i++) {
-
-            IBarDataSet set = barData.getDataSetByIndex(i);
-
+            final IBarDataSet set = barData.getDataSetByIndex(i);
             if (set.isVisible()) {
                 drawDataSet(c, set, i);
             }
@@ -84,44 +81,34 @@ public class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
     protected RectF mBarShadowRectBuffer = new RectF();
 
     protected void drawDataSet(Canvas c, IBarDataSet dataSet, int index) {
-
-        Transformer trans = mChart.getTransformer(dataSet.getAxisDependency());
-
+        final Transformer trans = mChart.getTransformer(dataSet.getAxisDependency());
         mBarBorderPaint.setColor(dataSet.getBarBorderColor());
         mBarBorderPaint.setStrokeWidth(Utils.convertDpToPixel(dataSet.getBarBorderWidth()));
 
         final boolean drawBorder = dataSet.getBarBorderWidth() > 0.f;
-
         float phaseX = mAnimator.getPhaseX();
         float phaseY = mAnimator.getPhaseY();
 
         // draw the bar shadow before the values
         if (mChart.isDrawBarShadowEnabled()) {
             mShadowPaint.setColor(dataSet.getBarShadowColor());
-
-            BarData barData = mChart.getBarData();
-
+            final BarData barData = mChart.getBarData();
             final float barWidth = barData.getBarWidth();
             final float barWidthHalf = barWidth / 2.0f;
             float x;
 
-            for (int i = 0, count = Math.min((int) (Math.ceil((float) (dataSet.getEntryCount()) * phaseX)), dataSet.getEntryCount());
-                 i < count;
-                 i++) {
+            for (int i = 0, count = Math.min((int) (Math.ceil((float) (dataSet.getEntryCount()) * phaseX)),
+                    dataSet.getEntryCount()); i < count; i++) {
 
-                BarEntry e = dataSet.getEntryForIndex(i);
-
+                final BarEntry e = dataSet.getEntryForIndex(i);
                 x = e.getX() + offSet;
-
                 mBarShadowRectBuffer.left = x - barWidthHalf;
                 mBarShadowRectBuffer.right = x + barWidthHalf;
-
                 trans.rectValueToPixel(mBarShadowRectBuffer);
 
                 if (!mViewPortHandler.isInBoundsLeft(mBarShadowRectBuffer.right)) {
                     continue;
                 }
-
                 if (!mViewPortHandler.isInBoundsRight(mBarShadowRectBuffer.left)) {
                     break;
                 }
@@ -134,28 +121,23 @@ public class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
         }
 
         // initialize the buffer
-        BarBuffer buffer = mBarBuffers[index];
+        final BarBuffer buffer = mBarBuffers[index];
         buffer.setPhases(phaseX, phaseY);
         buffer.setDataSet(index);
         buffer.setInverted(mChart.isInverted(dataSet.getAxisDependency()));
         buffer.setBarWidth(mChart.getBarData().getBarWidth());
-
         buffer.feed(dataSet);
-
         trans.pointValuesToPixel(buffer.buffer);
 
         final boolean isSingleColor = dataSet.getColors().size() == 1;
-
         if (isSingleColor) {
             mRenderPaint.setColor(dataSet.getColor());
         }
 
         for (int j = 0; j < buffer.size(); j += 4) {
-
             if (!mViewPortHandler.isInBoundsLeft(buffer.buffer[j + 2])) {
                 continue;
             }
-
             if (!mViewPortHandler.isInBoundsRight(buffer.buffer[j])) {
                 break;
             }
@@ -197,14 +179,12 @@ public class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
             List<IBarDataSet> dataSets = mChart.getBarData().getDataSets();
 
             final float valueOffsetPlus = Utils.convertDpToPixel(4.5f);
-            float posOffset = 0f;
-            float negOffset = 0f;
+            float posOffset;
+            float negOffset;
             boolean drawValueAboveBar = mChart.isDrawValueAboveBarEnabled();
 
             for (int i = 0; i < mChart.getBarData().getDataSetCount(); i++) {
-
                 IBarDataSet dataSet = dataSets.get(i);
-
                 if (!shouldDrawValues(dataSet)) {
                     continue;
                 }

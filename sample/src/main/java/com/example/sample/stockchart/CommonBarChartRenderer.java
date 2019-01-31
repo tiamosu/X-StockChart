@@ -18,9 +18,9 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
  * @author weixia
  * @date 2019/1/15.
  */
-public class TimeBarChartRenderer extends BarChartRenderer {
+public class CommonBarChartRenderer extends BarChartRenderer {
 
-    public TimeBarChartRenderer(BarDataProvider chart, ChartAnimator animator, ViewPortHandler viewPortHandler) {
+    public CommonBarChartRenderer(BarDataProvider chart, ChartAnimator animator, ViewPortHandler viewPortHandler) {
         super(chart, animator, viewPortHandler);
     }
 
@@ -30,7 +30,7 @@ public class TimeBarChartRenderer extends BarChartRenderer {
         mBarBorderPaint.setColor(dataSet.getBarBorderColor());
         mBarBorderPaint.setStrokeWidth(Utils.convertDpToPixel(dataSet.getBarBorderWidth()));
 
-        final boolean drawBorder = dataSet.getBarBorderWidth() > 0.f;
+        final boolean drawBorder = dataSet.getBarBorderWidth() > 0f;
         final float phaseX = mAnimator.getPhaseX();
         final float phaseY = mAnimator.getPhaseY();
 
@@ -42,12 +42,11 @@ public class TimeBarChartRenderer extends BarChartRenderer {
             final float barWidthHalf = barWidth / 2.0f;
             float x;
 
-            for (int i = 0, count = Math.min((int) (Math.ceil((float) (dataSet.getEntryCount()) * phaseX)), dataSet.getEntryCount());
-                 i < count; i++) {
+            for (int i = 0, count = Math.min((int) (Math.ceil((float) (dataSet.getEntryCount()) * phaseX)),
+                    dataSet.getEntryCount()); i < count; i++) {
 
                 final BarEntry e = dataSet.getEntryForIndex(i);
                 x = e.getX() + offSet;
-
                 mBarShadowRectBuffer.left = x - barWidthHalf;
                 mBarShadowRectBuffer.right = x + barWidthHalf;
                 trans.rectValueToPixel(mBarShadowRectBuffer);
@@ -83,11 +82,7 @@ public class TimeBarChartRenderer extends BarChartRenderer {
                 break;
             }
 
-            // Set the color for the currently drawn value. If the index
-            // is out of bounds, reuse colors.
-            mRenderPaint.setColor(dataSet.getColor(j / 4));
-
-            int i = j / 4;
+            final int i = j / 4;
             final Object openClose = dataSet.getEntryForIndex(i).getData();
             if (openClose == null) {
                 if (i > 0) {
