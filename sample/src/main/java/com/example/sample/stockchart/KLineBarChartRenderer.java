@@ -1,13 +1,11 @@
 package com.example.sample.stockchart;
 
 import android.graphics.Canvas;
-import android.util.Log;
 
 import com.github.mikephil.charting.animation.ChartAnimator;
 import com.github.mikephil.charting.buffer.BarBuffer;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.interfaces.dataprovider.BarDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.renderer.BarChartRenderer;
@@ -16,12 +14,11 @@ import com.github.mikephil.charting.utils.Transformer;
 import com.github.mikephil.charting.utils.Utils;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
-import java.util.List;
-
 /**
  * @author weixia
  * @date 2019/1/15.
  */
+@SuppressWarnings("WeakerAccess")
 public class KLineBarChartRenderer extends BarChartRenderer {
 
     public KLineBarChartRenderer(BarDataProvider chart, ChartAnimator animator, ViewPortHandler viewPortHandler) {
@@ -64,7 +61,6 @@ public class KLineBarChartRenderer extends BarChartRenderer {
 
                 mBarShadowRectBuffer.top = mViewPortHandler.contentTop();
                 mBarShadowRectBuffer.bottom = mViewPortHandler.contentBottom();
-
                 c.drawRect(mBarShadowRectBuffer, mShadowPaint);
             }
         }
@@ -78,7 +74,6 @@ public class KLineBarChartRenderer extends BarChartRenderer {
         buffer.feed(dataSet);
         trans.pointValuesToPixel(buffer.buffer);
 
-        final List<Entry> timePriceList = dataSet.getPriceList();
         for (int j = 0; j < buffer.size(); j += 4) {
             if (!mViewPortHandler.isInBoundsLeft(buffer.buffer[j + 2])) {
                 continue;
@@ -88,7 +83,6 @@ public class KLineBarChartRenderer extends BarChartRenderer {
             }
 
             final int i = j / 4;
-            Log.e("weixi", "drawDataSet: " + dataSet.getEntryForIndex(i));
             final Object openClose = dataSet.getEntryForIndex(i).getData();
             if (openClose != null) {
                 //用于K线图
@@ -98,29 +92,6 @@ public class KLineBarChartRenderer extends BarChartRenderer {
                     increasingSet(dataSet, j);
                 } else if (value <= 0) {
                     decreasingSet(dataSet, j);
-                }
-            } else {
-                //用于分时图
-                if (i == 0) {
-                    increasingSet(dataSet, j);
-                } else {
-                    float current, pre;
-                    //分时图成交价数据不为空，则取决于成交价判断填充柱形颜色，反之通过自身柱形数据判断填充颜色
-                    if (!timePriceList.isEmpty()) {
-                        current = timePriceList.get(i).getY();
-                        pre = timePriceList.get(i - 1).getY();
-                    } else {
-                        current = dataSet.getEntryForIndex(i).getY();
-                        pre = dataSet.getEntryForIndex(i - 1).getY();
-                    }
-
-                    if (current > pre) {
-                        increasingSet(dataSet, j);
-                    } else if (current == pre) {
-                        neutralSet(dataSet, j);
-                    } else {
-                        decreasingSet(dataSet, j);
-                    }
                 }
             }
 
