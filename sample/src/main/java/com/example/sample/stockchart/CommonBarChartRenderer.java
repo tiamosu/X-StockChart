@@ -94,10 +94,8 @@ public class CommonBarChartRenderer extends BarChartRenderer {
                 final float value = (Float) openClose;
                 if (value > 0) {//表示增加
                     increasingSet(dataSet, j);
-                } else if (value < 0) {
+                } else if (value <= 0) {
                     decreasingSet(dataSet, j);
-                } else {
-                    neutralSet(dataSet, j);
                 }
             } else {
                 //用于分时图
