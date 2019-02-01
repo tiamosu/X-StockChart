@@ -85,7 +85,6 @@ public class KLineBarChartRenderer extends BarChartRenderer {
             final int i = j / 4;
             final Object openClose = dataSet.getEntryForIndex(i).getData();
             if (openClose != null) {
-                //用于K线图
                 //根据开平判断柱状图的颜色填充
                 final float value = (Float) openClose;
                 if (value > 0) {//表示增加
