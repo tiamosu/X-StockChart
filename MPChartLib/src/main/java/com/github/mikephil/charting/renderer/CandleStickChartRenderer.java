@@ -104,7 +104,6 @@ public class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
                     mShadowBuffers[5] = low * phaseY;
                     mShadowBuffers[7] = mShadowBuffers[3];
                 }
-
                 trans.pointValuesToPixel(mShadowBuffers);
 
                 // draw the shadows

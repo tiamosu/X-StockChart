@@ -1,6 +1,7 @@
 package com.example.sample.stockchart;
 
 import android.graphics.Canvas;
+import android.util.Log;
 
 import com.github.mikephil.charting.animation.ChartAnimator;
 import com.github.mikephil.charting.buffer.BarBuffer;
@@ -21,9 +22,9 @@ import java.util.List;
  * @author weixia
  * @date 2019/1/15.
  */
-public class CommonBarChartRenderer extends BarChartRenderer {
+public class KLineBarChartRenderer extends BarChartRenderer {
 
-    public CommonBarChartRenderer(BarDataProvider chart, ChartAnimator animator, ViewPortHandler viewPortHandler) {
+    public KLineBarChartRenderer(BarDataProvider chart, ChartAnimator animator, ViewPortHandler viewPortHandler) {
         super(chart, animator, viewPortHandler);
     }
 
@@ -87,6 +88,7 @@ public class CommonBarChartRenderer extends BarChartRenderer {
             }
 
             final int i = j / 4;
+            Log.e("weixi", "drawDataSet: " + dataSet.getEntryForIndex(i));
             final Object openClose = dataSet.getEntryForIndex(i).getData();
             if (openClose != null) {
                 //用于K线图

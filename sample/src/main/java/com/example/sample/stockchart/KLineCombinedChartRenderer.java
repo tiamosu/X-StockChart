@@ -32,7 +32,7 @@ public class KLineCombinedChartRenderer extends CombinedChartRenderer {
             switch (order) {
                 case BAR:
                     if (chart.getBarData() != null) {
-                        mRenderers.add(new CommonBarChartRenderer(chart, mAnimator, mViewPortHandler));
+                        mRenderers.add(new KLineBarChartRenderer(chart, mAnimator, mViewPortHandler));
                     }
                     break;
                 case BUBBLE:

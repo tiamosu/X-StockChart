@@ -3,7 +3,7 @@ package com.example.sample.stockchart.view;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.example.sample.stockchart.CommonBarChartRenderer;
+import com.example.sample.stockchart.TimeSharingBarChartRenderer;
 import com.example.sample.stockchart.TimeSharingXAxis;
 import com.example.sample.stockchart.TimeSharingXAxisRenderer;
 import com.example.sample.stockchart.TimeSharingYAxis;
@@ -32,7 +32,7 @@ public class TimeSharingBarChart extends BarChart {
 
     @Override
     public void initMyBarRenderer() {
-        mRenderer = new CommonBarChartRenderer(this, mAnimator, mViewPortHandler);
+        mRenderer = new TimeSharingBarChartRenderer(this, mAnimator, mViewPortHandler);
     }
 
     @Override
