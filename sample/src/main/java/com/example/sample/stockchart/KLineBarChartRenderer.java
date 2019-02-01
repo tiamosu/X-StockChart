@@ -111,13 +111,6 @@ public class KLineBarChartRenderer extends BarChartRenderer {
         mRenderPaint.setStyle(dataSet.getIncreasingPaintStyle());
     }
 
-    private void neutralSet(IBarDataSet dataSet, int index) {
-        mRenderPaint.setColor(dataSet.getNeutralColor() == ColorTemplate.COLOR_NONE ?
-                dataSet.getColor(index) :
-                dataSet.getNeutralColor());
-        mRenderPaint.setStyle(dataSet.getNeutralPaintStyle());
-    }
-
     private void decreasingSet(IBarDataSet dataSet, int index) {
         mRenderPaint.setColor(dataSet.getDecreasingColor() == ColorTemplate.COLOR_NONE ?
                 dataSet.getColor(index) :
