@@ -3,12 +3,13 @@ package com.github.mikephil.charting.buffer;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 
+@SuppressWarnings("WeakerAccess")
 public class BarBuffer extends AbstractBuffer<IBarDataSet> {
-    protected int mDataSetIndex = 0;
-    protected int mDataSetCount = 1;
-    protected boolean mContainsStacks = false;
-    protected boolean mInverted = false;
-    protected float offSet = 0.5f;
+    protected int mDataSetIndex;
+    protected int mDataSetCount;
+    protected boolean mContainsStacks;
+    protected boolean mInverted;
+
     /**
      * width of the bar on the x-axis, in values (not pixels)
      */
@@ -41,22 +42,22 @@ public class BarBuffer extends AbstractBuffer<IBarDataSet> {
 
     @Override
     public void feed(IBarDataSet data) {
-        float size = data.getEntryCount() * phaseX;
-        float barWidthHalf = mBarWidth / 2f;
+        final float size = data.getEntryCount() * phaseX;
+        final float barWidthHalf = mBarWidth / 2f;
 
         for (int i = 0; i < size; i++) {
-            BarEntry e = data.getEntryForIndex(i);
+            final BarEntry e = data.getEntryForIndex(i);
             if (e == null) {
                 continue;
             }
 
-            float x = e.getX() + offSet;
+            final float x = e.getX();
             float y = e.getY();
-            float[] vals = e.getYVals();
+            final float[] vals = e.getYVals();
 
             if (!mContainsStacks || vals == null) {
-                float left = x - barWidthHalf;
-                float right = x + barWidthHalf;
+                final float left = x - barWidthHalf;
+                final float right = x + barWidthHalf;
                 float bottom, top;
 
                 if (mInverted) {
@@ -75,12 +76,10 @@ public class BarBuffer extends AbstractBuffer<IBarDataSet> {
                 }
 
                 addBar(left, top, right, bottom);
-
             } else {
-
                 float posY = 0f;
                 float negY = -e.getNegativeSum();
-                float yStart = 0f;
+                float yStart;
 
                 // fill the stack
                 for (float value : vals) {
@@ -98,8 +97,8 @@ public class BarBuffer extends AbstractBuffer<IBarDataSet> {
                         negY += Math.abs(value);
                     }
 
-                    float left = x - barWidthHalf;
-                    float right = x + barWidthHalf;
+                    final float left = x - barWidthHalf;
+                    final float right = x + barWidthHalf;
                     float bottom, top;
 
                     if (mInverted) {

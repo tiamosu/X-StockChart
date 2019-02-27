@@ -9,24 +9,25 @@ public class HorizontalBarBuffer extends BarBuffer {
         super(size, dataSetCount, containsStacks);
     }
 
+    @SuppressWarnings("SuspiciousNameCombination")
     @Override
     public void feed(IBarDataSet data) {
-        float size = data.getEntryCount() * phaseX;
-        float barWidthHalf = mBarWidth / 2f;
+        final float size = data.getEntryCount() * phaseX;
+        final float barWidthHalf = mBarWidth / 2f;
 
         for (int i = 0; i < size; i++) {
-            BarEntry e = data.getEntryForIndex(i);
+            final BarEntry e = data.getEntryForIndex(i);
             if (e == null) {
                 continue;
             }
 
-            float x = e.getX();
+            final float x = e.getX();
             float y = e.getY();
-            float[] vals = e.getYVals();
+            final float[] vals = e.getYVals();
 
             if (!mContainsStacks || vals == null) {
-                float bottom = x - barWidthHalf;
-                float top = x + barWidthHalf;
+                final float bottom = x - barWidthHalf;
+                final float top = x + barWidthHalf;
                 float left, right;
                 if (mInverted) {
                     left = y >= 0 ? y : 0;
@@ -44,11 +45,10 @@ public class HorizontalBarBuffer extends BarBuffer {
                 }
 
                 addBar(left, top, right, bottom);
-
             } else {
                 float posY = 0f;
                 float negY = -e.getNegativeSum();
-                float yStart = 0f;
+                float yStart;
 
                 // fill the stack
                 for (float value : vals) {
@@ -62,8 +62,8 @@ public class HorizontalBarBuffer extends BarBuffer {
                         negY += Math.abs(value);
                     }
 
-                    float bottom = x - barWidthHalf;
-                    float top = x + barWidthHalf;
+                    final float bottom = x - barWidthHalf;
+                    final float top = x + barWidthHalf;
                     float left, right;
                     if (mInverted) {
                         left = y >= yStart ? y : yStart;

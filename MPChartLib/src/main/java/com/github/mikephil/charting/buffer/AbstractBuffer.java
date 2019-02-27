@@ -7,12 +7,13 @@ package com.github.mikephil.charting.buffer;
  * @param <T> The data the buffer accepts to be fed with.
  * @author Philipp Jahoda
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class AbstractBuffer<T> {
 
     /**
      * index in the buffer
      */
-    protected int index = 0;
+    protected int index;
 
     /**
      * float-buffer that holds the data points to draw, order: x,y,x,y,...
@@ -41,8 +42,6 @@ public abstract class AbstractBuffer<T> {
 
     /**
      * Initialization with buffer-size.
-     *
-     * @param size
      */
     public AbstractBuffer(int size) {
         index = 0;
