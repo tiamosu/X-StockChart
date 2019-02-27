@@ -10,6 +10,7 @@ import com.github.mikephil.charting.highlight.Range;
  *
  * @author Philipp Jahoda
  */
+@SuppressWarnings("WeakerAccess")
 @SuppressLint("ParcelCreator")
 public class BarEntry extends Entry {
 
@@ -36,8 +37,8 @@ public class BarEntry extends Entry {
     /**
      * Constructor for normal bars (not stacked).
      */
-    public BarEntry(int mXIndex, float x, float y) {
-        super(mXIndex, x, y);
+    public BarEntry(int xIndex, float x, float y) {
+        super(xIndex, x, y);
     }
 
     /**
@@ -45,8 +46,8 @@ public class BarEntry extends Entry {
      *
      * @param data - Spot for additional data this Entry represents.
      */
-    public BarEntry(int mXIndex, float x, float y, Object data) {
-        super(mXIndex, x, y, data);
+    public BarEntry(int xIndex, float x, float y, Object data) {
+        super(xIndex, x, y, data);
     }
 
     /**
@@ -54,8 +55,8 @@ public class BarEntry extends Entry {
      *
      * @param icon - icon image
      */
-    public BarEntry(int mXIndex, float x, float y, Drawable icon) {
-        super(mXIndex, x, y, icon);
+    public BarEntry(int xIndex, float x, float y, Drawable icon) {
+        super(xIndex, x, y, icon);
     }
 
     /**
@@ -64,8 +65,8 @@ public class BarEntry extends Entry {
      * @param icon - icon image
      * @param data - Spot for additional data this Entry represents.
      */
-    public BarEntry(int mXIndex, float x, float y, Drawable icon, Object data) {
-        super(mXIndex, x, y, icon, data);
+    public BarEntry(int xIndex, float x, float y, Drawable icon, Object data) {
+        super(xIndex, x, y, icon, data);
     }
 
     /**
@@ -73,8 +74,8 @@ public class BarEntry extends Entry {
      *
      * @param vals - the stack values, use at least 2
      */
-    public BarEntry(int mXIndex, float x, float[] vals) {
-        super(mXIndex, x, calcSum(vals));
+    public BarEntry(int xIndex, float x, float[] vals) {
+        super(xIndex, x, calcSum(vals));
 
         this.mYVals = vals;
         calcPosNegSum();
@@ -87,8 +88,8 @@ public class BarEntry extends Entry {
      * @param vals - the stack values, use at least 2
      * @param data - Spot for additional data this Entry represents.
      */
-    public BarEntry(int mXIndex, float x, float[] vals, Object data) {
-        super(mXIndex, x, calcSum(vals), data);
+    public BarEntry(int xIndex, float x, float[] vals, Object data) {
+        super(xIndex, x, calcSum(vals), data);
 
         this.mYVals = vals;
         calcPosNegSum();
@@ -101,8 +102,8 @@ public class BarEntry extends Entry {
      * @param vals - the stack values, use at least 2
      * @param icon - icon image
      */
-    public BarEntry(int mXIndex, float x, float[] vals, Drawable icon) {
-        super(mXIndex, x, calcSum(vals), icon);
+    public BarEntry(int xIndex, float x, float[] vals, Drawable icon) {
+        super(xIndex, x, calcSum(vals), icon);
 
         this.mYVals = vals;
         calcPosNegSum();
@@ -116,8 +117,8 @@ public class BarEntry extends Entry {
      * @param icon - icon image
      * @param data - Spot for additional data this Entry represents.
      */
-    public BarEntry(int mXIndex, float x, float[] vals, Drawable icon, Object data) {
-        super(mXIndex, x, calcSum(vals), icon, data);
+    public BarEntry(int xIndex, float x, float[] vals, Drawable icon, Object data) {
+        super(xIndex, x, calcSum(vals), icon, data);
 
         this.mYVals = vals;
         calcPosNegSum();
@@ -129,7 +130,7 @@ public class BarEntry extends Entry {
      */
     @Override
     public BarEntry copy() {
-        BarEntry copied = new BarEntry(getXIndex(), getX(), getY(), getData());
+        final BarEntry copied = new BarEntry(getXIndex(), getX(), getY(), getData());
         copied.setVals(mYVals);
         return copied;
     }
@@ -189,12 +190,10 @@ public class BarEntry extends Entry {
 
         float remainder = 0f;
         int index = mYVals.length - 1;
-
         while (index > stackIndex && index >= 0) {
             remainder += mYVals[index];
             index--;
         }
-
         return remainder;
     }
 
@@ -221,7 +220,6 @@ public class BarEntry extends Entry {
 
         float sumNeg = 0f;
         float sumPos = 0f;
-
         for (float f : mYVals) {
             if (f <= 0f) {
                 sumNeg += Math.abs(f);
@@ -241,18 +239,15 @@ public class BarEntry extends Entry {
         if (vals == null) {
             return 0f;
         }
-
         float sum = 0f;
-
         for (float f : vals) {
             sum += f;
         }
-
         return sum;
     }
 
     protected void calcRanges() {
-        float[] values = getYVals();
+        final float[] values = getYVals();
         if (values == null || values.length == 0) {
             return;
         }
@@ -261,11 +256,8 @@ public class BarEntry extends Entry {
 
         float negRemain = -getNegativeSum();
         float posRemain = 0f;
-
         for (int i = 0; i < mRanges.length; i++) {
-
-            float value = values[i];
-
+            final float value = values[i];
             if (value < 0) {
                 mRanges[i] = new Range(negRemain, negRemain - value);
                 negRemain -= value;

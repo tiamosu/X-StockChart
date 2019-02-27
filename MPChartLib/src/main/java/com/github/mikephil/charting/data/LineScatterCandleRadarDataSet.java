@@ -10,9 +10,17 @@ import java.util.List;
 /**
  * Created by Philipp Jahoda on 11/07/15.
  */
-public abstract class LineScatterCandleRadarDataSet<T extends Entry> extends BarLineScatterCandleBubbleDataSet<T> implements ILineScatterCandleRadarDataSet<T> {
+@SuppressWarnings({"WeakerAccess", "unused"})
+public abstract class LineScatterCandleRadarDataSet<T extends Entry>
+        extends BarLineScatterCandleBubbleDataSet<T> implements ILineScatterCandleRadarDataSet<T> {
+
     protected boolean mDrawVerticalHighlightIndicator = true;
     protected boolean mDrawHorizontalHighlightIndicator = true;
+
+    /**
+     * the width of the highlight indicator lines
+     */
+    protected float mHighlightLineWidth;
 
     /**
      * the path effect for dashed highlight-lines
@@ -57,6 +65,18 @@ public abstract class LineScatterCandleRadarDataSet<T extends Entry> extends Bar
     }
 
     /**
+     * Sets the width of the highlight line in dp.
+     */
+    public void setHighlightLineWidth(float width) {
+        mHighlightLineWidth = Utils.convertDpToPixel(width);
+    }
+
+    @Override
+    public float getHighlightLineWidth() {
+        return mHighlightLineWidth;
+    }
+
+    /**
      * Enables the highlight-line to be drawn in dashed mode, e.g. like this "- - - - - -"
      *
      * @param lineLength  the length of the line pieces
@@ -87,5 +107,13 @@ public abstract class LineScatterCandleRadarDataSet<T extends Entry> extends Bar
     @Override
     public DashPathEffect getDashPathEffectHighlight() {
         return mHighlightDashPathEffect;
+    }
+
+    protected void copy(LineScatterCandleRadarDataSet lineScatterCandleRadarDataSet) {
+        super.copy(lineScatterCandleRadarDataSet);
+        lineScatterCandleRadarDataSet.mDrawHorizontalHighlightIndicator = mDrawHorizontalHighlightIndicator;
+        lineScatterCandleRadarDataSet.mDrawVerticalHighlightIndicator = mDrawVerticalHighlightIndicator;
+        lineScatterCandleRadarDataSet.mHighlightLineWidth = mHighlightLineWidth;
+        lineScatterCandleRadarDataSet.mHighlightDashPathEffect = mHighlightDashPathEffect;
     }
 }

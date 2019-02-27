@@ -16,6 +16,7 @@ public abstract class BarLineScatterCandleBubbleData<T extends IBarLineScatterCa
         super();
     }
 
+    @SafeVarargs
     public BarLineScatterCandleBubbleData(T... sets) {
         super(sets);
     }
