@@ -120,7 +120,6 @@ public abstract class PieRadarChartBase<T extends ChartData<? extends IDataSet<?
             switch (mLegend.getOrientation()) {
                 case VERTICAL: {
                     float xLegendOffset = 0.f;
-
                     if (mLegend.getHorizontalAlignment() == Legend.LegendHorizontalAlignment.LEFT
                             || mLegend.getHorizontalAlignment() == Legend.LegendHorizontalAlignment.RIGHT) {
                         if (mLegend.getVerticalAlignment() == Legend.LegendVerticalAlignment.CENTER) {
@@ -246,8 +245,8 @@ public abstract class PieRadarChartBase<T extends ChartData<? extends IDataSet<?
         final double tx = x - c.x, ty = y - c.y;
         final double length = Math.sqrt(tx * tx + ty * ty);
         final double r = Math.acos(ty / length);
-        float angle = (float) Math.toDegrees(r);
 
+        float angle = (float) Math.toDegrees(r);
         if (x > c.x) {
             angle = 360f - angle;
         }

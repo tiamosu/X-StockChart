@@ -21,6 +21,7 @@ import com.github.mikephil.charting.utils.Utils;
  *
  * @author Philipp Jahoda
  */
+@SuppressWarnings("unused")
 public class RadarChart extends PieRadarChartBase<RadarData> {
 
     /**
@@ -167,7 +168,7 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
      * Returns the factor that is needed to transform values into pixels.
      */
     public float getFactor() {
-        RectF content = mViewPortHandler.getContentRect();
+        final RectF content = mViewPortHandler.getContentRect();
         return Math.min(content.width() / 2f, content.height() / 2f) / mYAxis.mAxisRange;
     }
 
@@ -180,26 +181,19 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
 
     @Override
     public int getIndexForAngle(float angle) {
-
         // take the current angle of the chart into consideration
-        float a = Utils.getNormalizedAngle(angle - getRotationAngle());
-
-        float sliceangle = getSliceAngle();
-
-        int max = mData.getMaxEntryCountSet().getEntryCount();
+        final float a = Utils.getNormalizedAngle(angle - getRotationAngle());
+        final float sliceangle = getSliceAngle();
+        final int max = mData.getMaxEntryCountSet().getEntryCount();
 
         int index = 0;
-
         for (int i = 0; i < max; i++) {
-
-            float referenceAngle = sliceangle * (i + 1) - sliceangle / 2f;
-
+            final float referenceAngle = sliceangle * (i + 1) - sliceangle / 2f;
             if (referenceAngle > a) {
                 index = i;
                 break;
             }
         }
-
         return index;
     }
 
@@ -289,7 +283,6 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
      * @param count if count = 1 -> 1 line is skipped in between
      */
     public void setSkipWebLineCount(int count) {
-
         mSkipWebLineCount = Math.max(0, count);
     }
 
@@ -314,7 +307,7 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
 
     @Override
     public float getRadius() {
-        RectF content = mViewPortHandler.getContentRect();
+        final RectF content = mViewPortHandler.getContentRect();
         return Math.min(content.width() / 2f, content.height() / 2f);
     }
 

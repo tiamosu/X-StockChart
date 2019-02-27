@@ -30,12 +30,14 @@ public class ScatterChart extends BarLineChartBase<ScatterData> implements Scatt
         super(context, attrs, defStyle);
     }
 
-
     @Override
     protected void init() {
         super.init();
 
         mRenderer = new ScatterChartRenderer(this, mAnimator, mViewPortHandler);
+
+        getXAxis().setSpaceMin(0.5f);
+        getXAxis().setSpaceMax(0.5f);
     }
 
     @Override
@@ -47,8 +49,8 @@ public class ScatterChart extends BarLineChartBase<ScatterData> implements Scatt
      * Predefined ScatterShapes that allow the specification of a shape a ScatterDataSet should be drawn with.
      * If a ScatterShape is specified for a ScatterDataSet, the required renderer is set.
      */
+    @SuppressWarnings("unused")
     public enum ScatterShape {
-
         SQUARE("SQUARE"),
         CIRCLE("CIRCLE"),
         TRIANGLE("TRIANGLE"),

@@ -62,7 +62,6 @@ public class HorizontalBarChart extends BarChart {
 
     @Override
     public void calculateOffsets() {
-
         float offsetLeft = 0f, offsetRight = 0f, offsetTop = 0f, offsetBottom = 0f;
 
         calculateLegendOffsets(mOffsetsBuffer);
@@ -76,26 +75,18 @@ public class HorizontalBarChart extends BarChart {
         if (mAxisLeft.needsOffset()) {
             offsetTop += mAxisLeft.getRequiredHeightSpace(mAxisRendererLeft.getPaintAxisLabels());
         }
-
         if (mAxisRight.needsOffset()) {
             offsetBottom += mAxisRight.getRequiredHeightSpace(mAxisRendererRight.getPaintAxisLabels());
         }
 
-        float xlabelwidth = mXAxis.mLabelRotatedWidth;
-
+        final float xlabelwidth = mXAxis.mLabelRotatedWidth;
         if (mXAxis.isEnabled()) {
-
             // offsets for x-labels
             if (mXAxis.getPosition() == XAxisPosition.BOTTOM) {
-
                 offsetLeft += xlabelwidth;
-
             } else if (mXAxis.getPosition() == XAxisPosition.TOP) {
-
                 offsetRight += xlabelwidth;
-
             } else if (mXAxis.getPosition() == XAxisPosition.BOTH_SIDED) {
-
                 offsetLeft += xlabelwidth;
                 offsetRight += xlabelwidth;
             }
@@ -106,8 +97,7 @@ public class HorizontalBarChart extends BarChart {
         offsetBottom += getExtraBottomOffset();
         offsetLeft += getExtraLeftOffset();
 
-        float minOffset = Utils.convertDpToPixel(mMinOffset);
-
+        final float minOffset = Utils.convertDpToPixel(mMinOffset);
         mViewPortHandler.restrainViewPort(
                 Math.max(minOffset, offsetLeft),
                 Math.max(minOffset, offsetTop),
@@ -127,10 +117,10 @@ public class HorizontalBarChart extends BarChart {
 
     @Override
     protected void prepareValuePxMatrix() {
-        mRightAxisTransformer.prepareMatrixValuePx(mAxisRight.mAxisMinimum, mAxisRight.mAxisRange, mXAxis.mAxisRange,
-                mXAxis.mAxisMinimum);
-        mLeftAxisTransformer.prepareMatrixValuePx(mAxisLeft.mAxisMinimum, mAxisLeft.mAxisRange, mXAxis.mAxisRange,
-                mXAxis.mAxisMinimum);
+        mRightAxisTransformer.prepareMatrixValuePx(mAxisRight.mAxisMinimum, mAxisRight.mAxisRange,
+                mXAxis.mAxisRange, mXAxis.mAxisMinimum);
+        mLeftAxisTransformer.prepareMatrixValuePx(mAxisLeft.mAxisMinimum, mAxisLeft.mAxisRange,
+                mXAxis.mAxisRange, mXAxis.mAxisMinimum);
     }
 
     @Override
@@ -140,28 +130,23 @@ public class HorizontalBarChart extends BarChart {
 
     @Override
     public void getBarBounds(BarEntry e, RectF outputRect) {
-        RectF bounds = outputRect;
-        IBarDataSet set = mData.getDataSetForEntry(e);
-
+        final IBarDataSet set = mData.getDataSetForEntry(e);
         if (set == null) {
             outputRect.set(Float.MIN_VALUE, Float.MIN_VALUE, Float.MIN_VALUE, Float.MIN_VALUE);
             return;
         }
 
-        float y = e.getY();
-        float x = e.getX();
+        final float y = e.getY();
+        final float x = e.getX();
+        final float barWidth = mData.getBarWidth();
 
-        float barWidth = mData.getBarWidth();
+        final float top = x - barWidth / 2f;
+        final float bottom = x + barWidth / 2f;
+        final float left = y >= 0 ? y : 0;
+        final float right = y <= 0 ? y : 0;
+        outputRect.set(left, top, right, bottom);
 
-        float top = x - barWidth / 2f;
-        float bottom = x + barWidth / 2f;
-        float left = y >= 0 ? y : 0;
-        float right = y <= 0 ? y : 0;
-
-        bounds.set(left, top, right, bottom);
-
-        getTransformer(set.getAxisDependency()).rectValueToPixel(bounds);
-
+        getTransformer(set.getAxisDependency()).rectValueToPixel(outputRect);
     }
 
     protected float[] mGetPositionBuffer = new float[2];
@@ -171,15 +156,13 @@ public class HorizontalBarChart extends BarChart {
      */
     @Override
     public MPPointF getPosition(Entry e, AxisDependency axis) {
-
         if (e == null) {
             return null;
         }
 
-        float[] vals = mGetPositionBuffer;
+        final float[] vals = mGetPositionBuffer;
         vals[0] = e.getY();
         vals[1] = e.getX();
-
         getTransformer(axis).pointValuesToPixel(vals);
 
         return MPPointF.getInstance(vals[0], vals[1]);
@@ -189,9 +172,9 @@ public class HorizontalBarChart extends BarChart {
      * Returns the Highlight object (contains x-index and DataSet index) of the selected value at the given touch point
      * inside the BarChart.
      */
+    @SuppressWarnings("SuspiciousNameCombination")
     @Override
     public Highlight getHighlightByTouchPoint(float x, float y) {
-
         if (mData == null) {
             if (mLogEnabled) {
                 Log.e(LOG_TAG, "Can't select by touch. No data set.");
@@ -219,41 +202,45 @@ public class HorizontalBarChart extends BarChart {
     /**
      * ###### VIEWPORT METHODS BELOW THIS ######
      */
+    @SuppressWarnings("SuspiciousNameCombination")
     @Override
     public void setVisibleXRangeMaximum(float maxXRange) {
-        float xScale = mXAxis.mAxisRange / (maxXRange);
+        final float xScale = mXAxis.mAxisRange / (maxXRange);
         mViewPortHandler.setMinimumScaleY(xScale);
     }
 
+    @SuppressWarnings("SuspiciousNameCombination")
     @Override
     public void setVisibleXRangeMinimum(float minXRange) {
-        float xScale = mXAxis.mAxisRange / (minXRange);
+        final float xScale = mXAxis.mAxisRange / (minXRange);
         mViewPortHandler.setMaximumScaleY(xScale);
     }
 
     @Override
     public void setVisibleXRange(float minXRange, float maxXRange) {
-        float minScale = mXAxis.mAxisRange / minXRange;
-        float maxScale = mXAxis.mAxisRange / maxXRange;
+        final float minScale = mXAxis.mAxisRange / minXRange;
+        final float maxScale = mXAxis.mAxisRange / maxXRange;
         mViewPortHandler.setMinMaxScaleY(minScale, maxScale);
     }
 
+    @SuppressWarnings("SuspiciousNameCombination")
     @Override
     public void setVisibleYRangeMaximum(float maxYRange, AxisDependency axis) {
-        float yScale = getAxisRange(axis) / maxYRange;
+        final float yScale = getAxisRange(axis) / maxYRange;
         mViewPortHandler.setMinimumScaleX(yScale);
     }
 
+    @SuppressWarnings("SuspiciousNameCombination")
     @Override
     public void setVisibleYRangeMinimum(float minYRange, AxisDependency axis) {
-        float yScale = getAxisRange(axis) / minYRange;
+        final float yScale = getAxisRange(axis) / minYRange;
         mViewPortHandler.setMaximumScaleX(yScale);
     }
 
     @Override
     public void setVisibleYRange(float minYRange, float maxYRange, AxisDependency axis) {
-        float minScale = getAxisRange(axis) / minYRange;
-        float maxScale = getAxisRange(axis) / maxYRange;
+        final float minScale = getAxisRange(axis) / minYRange;
+        final float maxScale = getAxisRange(axis) / maxYRange;
         mViewPortHandler.setMinMaxScaleX(minScale, maxScale);
     }
 }
