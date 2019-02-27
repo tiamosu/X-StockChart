@@ -1,8 +1,5 @@
 package com.github.mikephil.charting.formatter;
 
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.utils.ViewPortHandler;
-
 import java.text.DecimalFormat;
 
 /**
@@ -11,7 +8,8 @@ import java.text.DecimalFormat;
  *
  * @author Philipp Jahoda
  */
-public class DefaultValueFormatter implements IValueFormatter {
+@SuppressWarnings({"WeakerAccess", "unused"})
+public class DefaultValueFormatter extends ValueFormatter {
 
     /**
      * DecimalFormat for formatting
@@ -33,19 +31,20 @@ public class DefaultValueFormatter implements IValueFormatter {
      */
     public void setup(int digits) {
         this.mDecimalDigits = digits;
-        StringBuffer b = new StringBuffer();
+
+        final StringBuilder builder = new StringBuilder();
         for (int i = 0; i < digits; i++) {
             if (i == 0) {
-                b.append(".");
+                builder.append(".");
             }
-            b.append("0");
+            builder.append("0");
         }
 
-        mFormat = new DecimalFormat("###,###,###,##0" + b.toString());
+        mFormat = new DecimalFormat("###,###,###,##0" + builder.toString());
     }
 
     @Override
-    public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+    public String getFormattedValue(float value) {
         // put more logic here ...
         // avoid memory allocations here (for performance reasons)
         return mFormat.format(value);

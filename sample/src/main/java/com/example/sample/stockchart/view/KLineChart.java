@@ -125,9 +125,10 @@ public class KLineChart extends LinearLayout {
         mCandleChart.setDragDecelerationFrictionCoef(0.6f);//0.92持续滚动时的速度快慢，[0,1) 0代表立即停止。
         mCandleChart.setDoubleTapToZoomEnabled(false);
         mCandleChart.setNoDataText(getResources().getString(R.string.loading));
+        mCandleChart.setDescription(null);
         //图例
-        final Legend candleChartLegend = mCandleChart.getLegend();
-        candleChartLegend.setEnabled(false);
+        final Legend legend = mCandleChart.getLegend();
+        legend.setEnabled(false);
 
         //蜡烛图X轴
         final XAxis xAxisK = mCandleChart.getXAxis();
@@ -174,9 +175,10 @@ public class KLineChart extends LinearLayout {
         mBarChart.setScaleXEnabled(true);
         mBarChart.setScaleYEnabled(false);
         mBarChart.setHardwareAccelerationEnabled(true);
+        mBarChart.setDescription(null);
         //图例
-        final Legend barChartLegend = mBarChart.getLegend();
-        barChartLegend.setEnabled(false);
+        final Legend legend = mBarChart.getLegend();
+        legend.setEnabled(false);
         mBarChart.setDragDecelerationEnabled(true);
         mBarChart.setDragDecelerationFrictionCoef(0.6f);//设置太快，切换滑动源滑动不同步
         mBarChart.setDoubleTapToZoomEnabled(false);
@@ -528,11 +530,11 @@ public class KLineChart extends LinearLayout {
     }
 
     public void updateText(int index) {
-        mCandleChart.setDescriptionCustom(zbColor, new String[]{
-                "MA5:" + NumberUtils.keepPrecision(kLineData.getKLineDatas().get(index).getMa5(), 3),
-                "MA10:" + NumberUtils.keepPrecision(kLineData.getKLineDatas().get(index).getMa10(), 3),
-                "MA20:" + NumberUtils.keepPrecision(kLineData.getKLineDatas().get(index).getMa20(), 3)
-        });
+//        mCandleChart.setDescriptionCustom(zbColor, new String[]{
+//                "MA5:" + NumberUtils.keepPrecision(kLineData.getKLineDatas().get(index).getMa5(), 3),
+//                "MA10:" + NumberUtils.keepPrecision(kLineData.getKLineDatas().get(index).getMa10(), 3),
+//                "MA20:" + NumberUtils.keepPrecision(kLineData.getKLineDatas().get(index).getMa20(), 3)
+//        });
         chartSwitch(index);
     }
 
@@ -540,40 +542,40 @@ public class KLineChart extends LinearLayout {
     private void chartSwitch(int index) {
         switch (chartType1) {
             case 1:
-                mBarChart.setDescriptionCustom(ContextCompat.getColor(mContext, R.color.label_text),
-                        getResources().getString(R.string.vol_name) + formatVol(mContext, kLineData.getKLineDatas().get(index).getVolume()));
+//                mBarChart.setDescriptionCustom(ContextCompat.getColor(mContext, R.color.label_text),
+//                        getResources().getString(R.string.vol_name) + formatVol(mContext, kLineData.getKLineDatas().get(index).getVolume()));
                 break;
             case 2:
-                mBarChart.setDescriptionCustom(zbColor, new String[]{
-                        "DIFF:" + (kLineData.getDifData().size() <= index ? "--" : NumberUtils.keepPrecision(kLineData.getDifData().get(index).getY(), 3)),
-                        "DEA:" + (kLineData.getDeaData().size() <= index ? "--" : NumberUtils.keepPrecision(kLineData.getDeaData().get(index).getY(), 3)),
-                        "MACD:" + (kLineData.getMacdData().size() <= index ? "--" : NumberUtils.keepPrecision(kLineData.getMacdData().get(index).getY(), 3))
-                });
+//                mBarChart.setDescriptionCustom(zbColor, new String[]{
+//                        "DIFF:" + (kLineData.getDifData().size() <= index ? "--" : NumberUtils.keepPrecision(kLineData.getDifData().get(index).getY(), 3)),
+//                        "DEA:" + (kLineData.getDeaData().size() <= index ? "--" : NumberUtils.keepPrecision(kLineData.getDeaData().get(index).getY(), 3)),
+//                        "MACD:" + (kLineData.getMacdData().size() <= index ? "--" : NumberUtils.keepPrecision(kLineData.getMacdData().get(index).getY(), 3))
+//                });
                 break;
             case 3:
-                mBarChart.setDescriptionCustom(zbColor, new String[]{
-                        "K:" + (kLineData.getkData().size() <= index ? "--" : NumberUtils.keepPrecision(kLineData.getkData().get(index).getY(), 3)),
-                        "D:" + (kLineData.getdData().size() <= index ? "--" : NumberUtils.keepPrecision(kLineData.getdData().get(index).getY(), 3)),
-                        "J:" + (kLineData.getjData().size() <= index ? "--" : NumberUtils.keepPrecision(kLineData.getjData().get(index).getY(), 3))
-                });
+//                mBarChart.setDescriptionCustom(zbColor, new String[]{
+//                        "K:" + (kLineData.getkData().size() <= index ? "--" : NumberUtils.keepPrecision(kLineData.getkData().get(index).getY(), 3)),
+//                        "D:" + (kLineData.getdData().size() <= index ? "--" : NumberUtils.keepPrecision(kLineData.getdData().get(index).getY(), 3)),
+//                        "J:" + (kLineData.getjData().size() <= index ? "--" : NumberUtils.keepPrecision(kLineData.getjData().get(index).getY(), 3))
+//                });
                 break;
             case 4:
-                mBarChart.setDescriptionCustom(zbColor, new String[]{
-                        "UPPER:" + (kLineData.getBollDataUP().size() <= index ? "--" : NumberUtils.keepPrecision(kLineData.getBollDataUP().get(index).getY(), 3)),
-                        "MID:" + (kLineData.getBollDataMB().size() <= index ? "--" : NumberUtils.keepPrecision(kLineData.getBollDataMB().get(index).getY(), 3)),
-                        "LOWER:" + (kLineData.getBollDataDN().size() <= index ? "--" : NumberUtils.keepPrecision(kLineData.getBollDataDN().get(index).getY(), 3))
-                });
+//                mBarChart.setDescriptionCustom(zbColor, new String[]{
+//                        "UPPER:" + (kLineData.getBollDataUP().size() <= index ? "--" : NumberUtils.keepPrecision(kLineData.getBollDataUP().get(index).getY(), 3)),
+//                        "MID:" + (kLineData.getBollDataMB().size() <= index ? "--" : NumberUtils.keepPrecision(kLineData.getBollDataMB().get(index).getY(), 3)),
+//                        "LOWER:" + (kLineData.getBollDataDN().size() <= index ? "--" : NumberUtils.keepPrecision(kLineData.getBollDataDN().get(index).getY(), 3))
+//                });
                 break;
             case 5:
-                mBarChart.setDescriptionCustom(zbColor, new String[]{
-                        "RSI6:" + (kLineData.getRsiData6().size() <= index ? "--" : NumberUtils.keepPrecision(kLineData.getRsiData6().get(index).getY(), 3)),
-                        "RSI12:" + (kLineData.getRsiData12().size() <= index ? "--" : NumberUtils.keepPrecision(kLineData.getRsiData12().get(index).getY(), 3)),
-                        "RSI24:" + (kLineData.getRsiData24().size() <= index ? "--" : NumberUtils.keepPrecision(kLineData.getRsiData24().get(index).getY(), 3))
-                });
+//                mBarChart.setDescriptionCustom(zbColor, new String[]{
+//                        "RSI6:" + (kLineData.getRsiData6().size() <= index ? "--" : NumberUtils.keepPrecision(kLineData.getRsiData6().get(index).getY(), 3)),
+//                        "RSI12:" + (kLineData.getRsiData12().size() <= index ? "--" : NumberUtils.keepPrecision(kLineData.getRsiData12().get(index).getY(), 3)),
+//                        "RSI24:" + (kLineData.getRsiData24().size() <= index ? "--" : NumberUtils.keepPrecision(kLineData.getRsiData24().get(index).getY(), 3))
+//                });
                 break;
             default:
-                mBarChart.setDescriptionCustom(ContextCompat.getColor(mContext, R.color.label_text),
-                        getResources().getString(R.string.vol_name) + formatVol(mContext, kLineData.getKLineDatas().get(index).getVolume()));
+//                mBarChart.setDescriptionCustom(ContextCompat.getColor(mContext, R.color.label_text),
+//                        getResources().getString(R.string.vol_name) + formatVol(mContext, kLineData.getKLineDatas().get(index).getVolume()));
                 break;
         }
     }
