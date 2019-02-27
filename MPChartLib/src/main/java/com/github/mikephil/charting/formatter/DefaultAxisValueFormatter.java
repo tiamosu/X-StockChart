@@ -1,13 +1,12 @@
 package com.github.mikephil.charting.formatter;
 
-import com.github.mikephil.charting.components.AxisBase;
-
 import java.text.DecimalFormat;
 
 /**
  * Created by philipp on 02/06/16.
  */
-public class DefaultAxisValueFormatter implements IAxisValueFormatter {
+@SuppressWarnings("WeakerAccess")
+public class DefaultAxisValueFormatter extends ValueFormatter {
 
     /**
      * decimalformat for formatting
@@ -17,7 +16,7 @@ public class DefaultAxisValueFormatter implements IAxisValueFormatter {
     /**
      * the number of decimal digits this formatter uses
      */
-    protected int digits = 0;
+    protected int digits;
 
     /**
      * Constructor that specifies to how many digits the value should be
@@ -26,19 +25,19 @@ public class DefaultAxisValueFormatter implements IAxisValueFormatter {
     public DefaultAxisValueFormatter(int digits) {
         this.digits = digits;
 
-        StringBuffer b = new StringBuffer();
+        final StringBuilder builder = new StringBuilder();
         for (int i = 0; i < digits; i++) {
             if (i == 0) {
-                b.append(".");
+                builder.append(".");
             }
-            b.append("0");
+            builder.append("0");
         }
 
-        mFormat = new DecimalFormat("###,###,###,##0" + b.toString());
+        mFormat = new DecimalFormat("###,###,###,##0" + builder.toString());
     }
 
     @Override
-    public String getFormattedValue(float value, AxisBase axis) {
+    public String getFormattedValue(float value) {
         // avoid memory allocations here (for performance)
         return mFormat.format(value);
     }

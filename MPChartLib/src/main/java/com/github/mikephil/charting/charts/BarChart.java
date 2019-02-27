@@ -19,6 +19,7 @@ import com.github.mikephil.charting.renderer.BarChartRenderer;
  *
  * @author Philipp Jahoda
  */
+@SuppressWarnings("unused")
 public class BarChart extends BarLineChartBase<BarData> implements BarDataProvider {
 
     /**
@@ -62,7 +63,7 @@ public class BarChart extends BarLineChartBase<BarData> implements BarDataProvid
         getXAxis().setSpaceMax(0.5f);
     }
 
-    public void initMyBarRenderer() {
+    protected void initMyBarRenderer() {
         mRenderer = new BarChartRenderer(this, mAnimator, mViewPortHandler);
     }
 
@@ -76,7 +77,8 @@ public class BarChart extends BarLineChartBase<BarData> implements BarDataProvid
 
         // calculate axis range (min / max) according to provided data
         mAxisLeft.calculate(mData.getYMin(YAxis.AxisDependency.LEFT), mData.getYMax(YAxis.AxisDependency.LEFT));
-        mAxisRight.calculate(mData.getYMin(YAxis.AxisDependency.RIGHT), mData.getYMax(YAxis.AxisDependency.RIGHT));
+        mAxisRight.calculate(mData.getYMin(YAxis.AxisDependency.RIGHT), mData.getYMax(YAxis.AxisDependency
+                .RIGHT));
     }
 
     /**
@@ -90,7 +92,7 @@ public class BarChart extends BarLineChartBase<BarData> implements BarDataProvid
             Log.e(LOG_TAG, "Can't select by touch. No data set.");
             return null;
         } else {
-            Highlight h = getHighlighter().getHighlight(x, y);
+            final Highlight h = getHighlighter().getHighlight(x, y);
             if (h == null || !isHighlightFullBarEnabled()) {
                 return h;
             }
@@ -107,9 +109,8 @@ public class BarChart extends BarLineChartBase<BarData> implements BarDataProvid
      * found in the charts data.  Performance-intensive code should use void getBarBounds(BarEntry, RectF) instead.
      */
     public RectF getBarBounds(BarEntry e) {
-        RectF bounds = new RectF();
+        final RectF bounds = new RectF();
         getBarBounds(e, bounds);
-
         return bounds;
     }
 
@@ -118,25 +119,21 @@ public class BarChart extends BarLineChartBase<BarData> implements BarDataProvid
      * The rect will be assigned Float.MIN_VALUE in all locations if the Entry could not be found in the charts data.
      */
     public void getBarBounds(BarEntry e, RectF outputRect) {
-        RectF bounds = outputRect;
-        IBarDataSet set = mData.getDataSetForEntry(e);
-
+        final IBarDataSet set = mData.getDataSetForEntry(e);
         if (set == null) {
-            bounds.set(Float.MIN_VALUE, Float.MIN_VALUE, Float.MIN_VALUE, Float.MIN_VALUE);
+            outputRect.set(Float.MIN_VALUE, Float.MIN_VALUE, Float.MIN_VALUE, Float.MIN_VALUE);
             return;
         }
 
-        float y = e.getY();
-        float x = e.getX();
+        final float y = e.getY();
+        final float x = e.getX();
+        final float barWidth = mData.getBarWidth();
 
-        float barWidth = mData.getBarWidth();
-
-        float left = x - barWidth / 2f;
-        float right = x + barWidth / 2f;
-        float top = y >= 0 ? y : 0;
-        float bottom = y <= 0 ? y : 0;
-
-        bounds.set(left, top, right, bottom);
+        final float left = x - barWidth / 2f;
+        final float right = x + barWidth / 2f;
+        final float top = y >= 0 ? y : 0;
+        final float bottom = y <= 0 ? y : 0;
+        outputRect.set(left, top, right, bottom);
 
         getTransformer(set.getAxisDependency()).rectValueToPixel(outputRect);
     }
@@ -225,7 +222,6 @@ public class BarChart extends BarLineChartBase<BarData> implements BarDataProvid
      * @param barSpace   the space between individual bars in values (not pixels) e.g. 0.1f for bar width 1f
      */
     public void groupBars(float fromX, float groupSpace, float barSpace) {
-
         if (getBarData() == null) {
             throw new RuntimeException("You need to set data for the chart before grouping bars.");
         } else {

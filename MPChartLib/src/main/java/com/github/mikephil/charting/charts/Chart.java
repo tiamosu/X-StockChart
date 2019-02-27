@@ -419,6 +419,7 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
     /**
      * Returns true if values can be highlighted via tap gesture, false if not.
      */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean isHighlightPerTapEnabled() {
         return mHighLightPerTapEnabled;
     }

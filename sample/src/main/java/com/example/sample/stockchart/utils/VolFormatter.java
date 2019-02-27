@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.example.sample.R;
 import com.github.mikephil.charting.components.AxisBase;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 
 import java.text.DecimalFormat;
 
@@ -12,7 +12,7 @@ import java.text.DecimalFormat;
  * @author weixia
  * @date 2019/1/10.
  */
-public final class VolFormatter implements IAxisValueFormatter {
+public final class VolFormatter extends ValueFormatter {
     private Context mContext;
 
     public VolFormatter(Context context) {

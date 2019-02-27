@@ -22,6 +22,7 @@ import com.github.mikephil.charting.data.CandleDataSet;
 import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.NumberUtils;
@@ -156,7 +157,12 @@ public class KLineChart extends LinearLayout {
         axisLeftK.setValueLineInside(true);
         axisLeftK.setDrawTopBottomGridLine(false);
         axisLeftK.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
-        axisLeftK.setValueFormatter((value, axis) -> NumberUtils.keepPrecisionR(value, PRECISION));
+        axisLeftK.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+                return NumberUtils.keepPrecisionR(value, PRECISION);
+            }
+        });
 
         //蜡烛图右Y轴
         final YAxis axisRightK = mCandleChart.getAxisRight();
@@ -296,20 +302,26 @@ public class KLineChart extends LinearLayout {
         if (chartType1 == 1) {
             mBarChart.setData(barChartData);
         }
-        mCandleChart.getXAxis().setValueFormatter((value, axis) -> {
-            final int index = (int) (value - kLineData.getOffSet());
-            if (index < 0 || index >= kLineData.getxVals().size()) {
-                return "";
-            } else {
-                return kLineData.getxVals().get(index);
+        mCandleChart.getXAxis().setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+                final int index = (int) (value - kLineData.getOffSet());
+                if (index < 0 || index >= kLineData.getxVals().size()) {
+                    return "";
+                } else {
+                    return kLineData.getxVals().get(index);
+                }
             }
         });
-        mBarChart.getXAxis().setValueFormatter((value, axis) -> {
-            final int index = (int) (value - kLineData.getOffSet());
-            if (index < 0 || index >= kLineData.getxVals().size()) {
-                return "";
-            } else {
-                return kLineData.getxVals().get(index);
+        mBarChart.getXAxis().setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+                final int index = (int) (value - kLineData.getOffSet());
+                if (index < 0 || index >= kLineData.getxVals().size()) {
+                    return "";
+                } else {
+                    return kLineData.getxVals().get(index);
+                }
             }
         });
 
@@ -422,7 +434,12 @@ public class KLineChart extends LinearLayout {
 
             mAxisLeftBar.resetAxisMaximum();
             mAxisLeftBar.resetAxisMinimum();
-            mAxisLeftBar.setValueFormatter((value, axis) -> NumberUtils.keepPrecision(value, PRECISION));
+            mAxisLeftBar.setValueFormatter(new ValueFormatter() {
+                @Override
+                public String getFormattedValue(float value) {
+                    return NumberUtils.keepPrecision(value, PRECISION);
+                }
+            });
 
             final CombinedData combinedData = mBarChart.getData();
             combinedData.setData(new LineData(kLineData.getLineDataMACD()));
@@ -449,7 +466,12 @@ public class KLineChart extends LinearLayout {
 
             mAxisLeftBar.resetAxisMaximum();
             mAxisLeftBar.resetAxisMinimum();
-            mAxisLeftBar.setValueFormatter((value, axis) -> NumberUtils.keepPrecision(value, PRECISION));
+            mAxisLeftBar.setValueFormatter(new ValueFormatter() {
+                @Override
+                public String getFormattedValue(float value) {
+                    return NumberUtils.keepPrecision(value, PRECISION);
+                }
+            });
 
             final CombinedData combinedData = mBarChart.getData();
             combinedData.setData(new LineData(kLineData.getLineDataKDJ()));
@@ -475,7 +497,12 @@ public class KLineChart extends LinearLayout {
 
             mAxisLeftBar.resetAxisMaximum();
             mAxisLeftBar.resetAxisMinimum();
-            mAxisLeftBar.setValueFormatter((value, axis) -> NumberUtils.keepPrecision(value, PRECISION));
+            mAxisLeftBar.setValueFormatter(new ValueFormatter() {
+                @Override
+                public String getFormattedValue(float value) {
+                    return NumberUtils.keepPrecision(value, PRECISION);
+                }
+            });
 
             final CombinedData combinedData = mBarChart.getData();
             combinedData.setData(new CandleData(kLineData.getBollCandleDataSet()));
@@ -502,7 +529,12 @@ public class KLineChart extends LinearLayout {
 
             mAxisLeftBar.resetAxisMaximum();
             mAxisLeftBar.resetAxisMinimum();
-            mAxisLeftBar.setValueFormatter((value, axis) -> NumberUtils.keepPrecision(value, PRECISION));
+            mAxisLeftBar.setValueFormatter(new ValueFormatter() {
+                @Override
+                public String getFormattedValue(float value) {
+                    return NumberUtils.keepPrecision(value, PRECISION);
+                }
+            });
 
             final CombinedData combinedData = mBarChart.getData();
             combinedData.setData(new LineData(kLineData.getLineDataRSI()));

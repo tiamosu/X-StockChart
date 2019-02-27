@@ -9,6 +9,7 @@ import com.github.mikephil.charting.utils.Utils;
  *
  * @author Philipp Jahoda
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class XAxis extends AxisBase {
 
     /**

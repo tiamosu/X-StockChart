@@ -25,6 +25,7 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.NumberUtils;
@@ -124,7 +125,12 @@ public class TimeSharingChart extends LinearLayout {
         mAxisLeftLine.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
         mAxisLeftLine.setTextColor(ContextCompat.getColor(mContext, R.color.axis_text));
         mAxisLeftLine.setLabelColorArray(mColorArray);
-        mAxisLeftLine.setValueFormatter((value, axis) -> NumberUtils.keepPrecisionR(value, PRECISION));
+        mAxisLeftLine.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+                return NumberUtils.keepPrecisionR(value, PRECISION);
+            }
+        });
 
         //主图右Y轴
         mAxisRightLine = (TimeSharingYAxis) mLineChart.getAxisRight();
@@ -136,9 +142,12 @@ public class TimeSharingChart extends LinearLayout {
         mAxisRightLine.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
         mAxisRightLine.setTextColor(ContextCompat.getColor(mContext, R.color.axis_text));
         mAxisRightLine.setLabelColorArray(mColorArray);
-        mAxisRightLine.setValueFormatter((value, axis) -> {
-            final DecimalFormat mFormat = new DecimalFormat("#0.00%");
-            return mFormat.format(value);
+        mAxisRightLine.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+                final DecimalFormat mFormat = new DecimalFormat("#0.00%");
+                return mFormat.format(value);
+            }
         });
     }
 

@@ -5,7 +5,7 @@ import android.graphics.DashPathEffect;
 import android.util.Log;
 
 import com.github.mikephil.charting.formatter.DefaultAxisValueFormatter;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.Utils;
 
 import java.util.ArrayList;
@@ -16,12 +16,13 @@ import java.util.List;
  *
  * @author Philipp Jahoda
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class AxisBase extends ComponentBase {
 
     /**
      * custom formatter that is used instead of the auto-formatter if set
      */
-    protected IAxisValueFormatter mAxisValueFormatter;
+    protected ValueFormatter mAxisValueFormatter;
 
     private int mGridColor = Color.GRAY;
 
@@ -112,6 +113,11 @@ public abstract class AxisBase extends ComponentBase {
     protected boolean mDrawLimitLineBehindData = false;
 
     /**
+     * flag indicating the grid lines layer depth
+     */
+    protected boolean mDrawGridLinesBehindData = true;
+
+    /**
      * Extra spacing for `axisMinimum` to be added to automatically calculated `axisMinimum`
      */
     protected float mSpaceMin = 0.f;
@@ -180,6 +186,7 @@ public abstract class AxisBase extends ComponentBase {
     /**
      * Returns true if the line alongside the axis should be drawn.
      */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean isDrawAxisLineEnabled() {
         return mDrawAxisLine;
     }
@@ -281,8 +288,8 @@ public abstract class AxisBase extends ComponentBase {
         if (count > 25) {
             count = 25;
         }
-        if (count < 1) {
-            count = 1;
+        if (count < 2) {
+            count = 2;
         }
 
         mLabelCount = count;
@@ -398,19 +405,29 @@ public abstract class AxisBase extends ComponentBase {
     }
 
     /**
+     * If this is set to false, the grid lines are draw on top of the actual data,
+     * otherwise behind. Default: true
+     */
+    public void setDrawGridLinesBehindData(boolean enabled) {
+        mDrawGridLinesBehindData = enabled;
+    }
+
+    public boolean isDrawGridLinesBehindDataEnabled() {
+        return mDrawGridLinesBehindData;
+    }
+
+    /**
      * Returns the longest formatted label (in terms of characters), this axis
      * contains.
      */
     public String getLongestLabel() {
         String longest = "";
         for (int i = 0; i < mEntries.length; i++) {
-            String text = getFormattedLabel(i);
-
+            final String text = getFormattedLabel(i);
             if (text != null && longest.length() < text.length()) {
                 longest = text;
             }
         }
-
         return longest;
     }
 
@@ -418,7 +435,7 @@ public abstract class AxisBase extends ComponentBase {
         if (index < 0 || index >= mEntries.length) {
             return "";
         } else {
-            return getValueFormatter().getFormattedValue(mEntries[index], this);
+            return getValueFormatter().getAxisLabel(mEntries[index], this);
         }
     }
 
@@ -429,7 +446,7 @@ public abstract class AxisBase extends ComponentBase {
      * that are drawn inside
      * the chart. Use chart.getDefaultValueFormatter() to use the formatter calculated by the chart.
      */
-    public void setValueFormatter(IAxisValueFormatter f) {
+    public void setValueFormatter(ValueFormatter f) {
         if (f == null) {
             mAxisValueFormatter = new DefaultAxisValueFormatter(mDecimals);
         } else {
@@ -440,7 +457,7 @@ public abstract class AxisBase extends ComponentBase {
     /**
      * Returns the formatter used for formatting the axis labels.
      */
-    public IAxisValueFormatter getValueFormatter() {
+    public ValueFormatter getValueFormatter() {
         if (mAxisValueFormatter == null ||
                 (mAxisValueFormatter instanceof DefaultAxisValueFormatter &&
                         ((DefaultAxisValueFormatter) mAxisValueFormatter).getDecimalDigits() != mDecimals)) {
@@ -637,13 +654,11 @@ public abstract class AxisBase extends ComponentBase {
      * @param dataMax the max value according to chart data
      */
     public void calculate(float dataMin, float dataMax) {
-
         // if custom, use value as is, else use data value
         float min = mCustomAxisMin ? mAxisMinimum : (dataMin - mSpaceMin);
         float max = mCustomAxisMax ? mAxisMaximum : (dataMax + mSpaceMax);
-
         // temporary range (before calculations)
-        float range = Math.abs(max - min);
+        final float range = Math.abs(max - min);
 
         // in case all values are equal
         if (range == 0f) {
