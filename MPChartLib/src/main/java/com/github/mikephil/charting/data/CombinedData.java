@@ -14,6 +14,7 @@ import java.util.List;
  *
  * @author Philipp Jahoda
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class CombinedData extends BarLineScatterCandleBubbleData<IBarLineScatterCandleBubbleDataSet<? extends Entry>> {
     private LineData mLineData;
     private BarData mBarData;
@@ -50,9 +51,9 @@ public class CombinedData extends BarLineScatterCandleBubbleData<IBarLineScatter
         notifyDataChanged();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void calcMinMax() {
-
         if (mDataSets == null) {
             mDataSets = new ArrayList<>();
         }
@@ -68,47 +69,37 @@ public class CombinedData extends BarLineScatterCandleBubbleData<IBarLineScatter
         mRightAxisMax = -Float.MAX_VALUE;
         mRightAxisMin = Float.MAX_VALUE;
 
-        List<BarLineScatterCandleBubbleData> allData = getAllData();
-
+        final List<BarLineScatterCandleBubbleData> allData = getAllData();
         for (ChartData data : allData) {
-
             data.calcMinMax();
 
-            List<IBarLineScatterCandleBubbleDataSet<? extends Entry>> sets = data.getDataSets();
+            final List<IBarLineScatterCandleBubbleDataSet<? extends Entry>> sets = data.getDataSets();
             mDataSets.addAll(sets);
 
             if (data.getYMax() > mYMax) {
                 mYMax = data.getYMax();
             }
-
             if (data.getYMin() < mYMin) {
                 mYMin = data.getYMin();
             }
-
             if (data.getXMax() > mXMax) {
                 mXMax = data.getXMax();
             }
-
             if (data.getXMin() < mXMin) {
                 mXMin = data.getXMin();
             }
-
             if (data.mLeftAxisMax > mLeftAxisMax) {
                 mLeftAxisMax = data.mLeftAxisMax;
             }
-
             if (data.mLeftAxisMin < mLeftAxisMin) {
                 mLeftAxisMin = data.mLeftAxisMin;
             }
-
             if (data.mRightAxisMax > mRightAxisMax) {
                 mRightAxisMax = data.mRightAxisMax;
             }
-
             if (data.mRightAxisMin < mRightAxisMin) {
                 mRightAxisMin = data.mRightAxisMin;
             }
-
         }
     }
 
@@ -136,7 +127,7 @@ public class CombinedData extends BarLineScatterCandleBubbleData<IBarLineScatter
      * Returns all data objects in row: line-bar-scatter-candle-bubble if not null.
      */
     public List<BarLineScatterCandleBubbleData> getAllData() {
-        List<BarLineScatterCandleBubbleData> data = new ArrayList<>();
+        final List<BarLineScatterCandleBubbleData> data = new ArrayList<>();
         if (mLineData != null) {
             data.add(mLineData);
         }
@@ -186,48 +177,61 @@ public class CombinedData extends BarLineScatterCandleBubbleData<IBarLineScatter
      *
      * @return the entry that is highlighted
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Entry getEntryForHighlight(Highlight highlight) {
-        List<BarLineScatterCandleBubbleData> dataObjects = getAllData();
-
-        if (highlight.getDataIndex() >= dataObjects.size()) {
+        if (highlight.getDataIndex() >= getAllData().size()) {
             return null;
         }
 
-        if (highlight.getDataIndex() < 0) {
-            return null;
-        }
-
-        ChartData data = dataObjects.get(highlight.getDataIndex());
-
+        final ChartData data = getDataByIndex(highlight.getDataIndex());
         if (highlight.getDataSetIndex() >= data.getDataSetCount()) {
             return null;
-        } else {
-            // The value of the highlighted entry could be NaN -
-            //   if we are not interested in highlighting a specific value.
-
-            List<Entry> entries = data.getDataSetByIndex(highlight.getDataSetIndex())
-                    .getEntriesForXValue(highlight.getX());
-            for (Entry entry : entries) {
-                if (entry.getY() == highlight.getY() ||
-                        Float.isNaN(highlight.getY())) {
-                    return entry;
-                }
-            }
-
-            return null;
         }
+
+        // The value of the highlighted entry could be NaN -
+        //   if we are not interested in highlighting a specific value.
+
+        final List<Entry> entries = data.getDataSetByIndex(highlight.getDataSetIndex())
+                .getEntriesForXValue(highlight.getX());
+        for (Entry entry : entries) {
+            if (entry.getY() == highlight.getY() ||
+                    Float.isNaN(highlight.getY())) {
+                return entry;
+            }
+        }
+        return null;
     }
 
+    /**
+     * Get dataset for highlight
+     *
+     * @param highlight current highlight
+     * @return dataset related to highlight
+     */
+    public IBarLineScatterCandleBubbleDataSet<? extends Entry> getDataSetByHighlight(Highlight highlight) {
+        if (highlight.getDataIndex() >= getAllData().size()) {
+            return null;
+        }
+
+        final BarLineScatterCandleBubbleData data = getDataByIndex(highlight.getDataIndex());
+        if (highlight.getDataSetIndex() >= data.getDataSetCount()) {
+            return null;
+        }
+
+        return (IBarLineScatterCandleBubbleDataSet<? extends Entry>)
+                data.getDataSets().get(highlight.getDataSetIndex());
+    }
+
+    @SuppressWarnings("SuspiciousMethodCalls")
     public int getDataIndex(ChartData data) {
         return getAllData().indexOf(data);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public boolean removeDataSet(IBarLineScatterCandleBubbleDataSet<? extends Entry> d) {
-
-        List<BarLineScatterCandleBubbleData> datas = getAllData();
-
+        final List<BarLineScatterCandleBubbleData> datas = getAllData();
         boolean success = false;
 
         for (ChartData data : datas) {
@@ -236,7 +240,6 @@ public class CombinedData extends BarLineScatterCandleBubbleData<IBarLineScatter
                 break;
             }
         }
-
         return success;
     }
 

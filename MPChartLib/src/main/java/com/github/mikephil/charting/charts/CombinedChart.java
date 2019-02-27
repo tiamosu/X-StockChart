@@ -1,6 +1,7 @@
 package com.github.mikephil.charting.charts;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.util.Log;
 
@@ -8,11 +9,13 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BubbleData;
 import com.github.mikephil.charting.data.CandleData;
 import com.github.mikephil.charting.data.CombinedData;
+import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.ScatterData;
 import com.github.mikephil.charting.highlight.CombinedHighlighter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.dataprovider.CombinedDataProvider;
+import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.github.mikephil.charting.renderer.CombinedChartRenderer;
 
 /**
@@ -21,6 +24,7 @@ import com.github.mikephil.charting.renderer.CombinedChartRenderer;
  *
  * @author Philipp Jahoda
  */
+@SuppressWarnings("unused")
 public class CombinedChart extends BarLineChartBase<CombinedData> implements CombinedDataProvider {
 
     /**
@@ -80,7 +84,7 @@ public class CombinedChart extends BarLineChartBase<CombinedData> implements Com
         initRenderer();
     }
 
-    public void initRenderer() {
+    protected void initRenderer() {
         mRenderer = new CombinedChartRenderer(this, mAnimator, mViewPortHandler);
     }
 
@@ -108,7 +112,7 @@ public class CombinedChart extends BarLineChartBase<CombinedData> implements Com
             Log.e(LOG_TAG, "Can't select by touch. No data set.");
             return null;
         } else {
-            Highlight h = getHighlighter().getHighlight(x, y);
+            final Highlight h = getHighlighter().getHighlight(x, y);
             if (h == null || !isHighlightFullBarEnabled()) {
                 return h;
             }
@@ -221,5 +225,42 @@ public class CombinedChart extends BarLineChartBase<CombinedData> implements Com
             return;
         }
         mDrawOrder = order;
+    }
+
+    /**
+     * draws all MarkerViews on the highlighted positions
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    protected void drawMarkers(Canvas canvas) {
+        // if there is no marker view or drawing marker is disabled
+        if (mMarker == null || !isDrawMarkersEnabled() || !valuesToHighlight()) {
+            return;
+        }
+
+        for (Highlight highlight : mIndicesToHighlight) {
+            final IDataSet set = mData.getDataSetByHighlight(highlight);
+            final Entry e = mData.getEntryForHighlight(highlight);
+            if (e == null) {
+                continue;
+            }
+
+            final int entryIndex = set.getEntryIndex(e);
+            // make sure entry not null
+            if (entryIndex > set.getEntryCount() * mAnimator.getPhaseX()) {
+                continue;
+            }
+
+            final float[] pos = getMarkerPosition(highlight);
+            // check bounds
+            if (!mViewPortHandler.isInBounds(pos[0], pos[1])) {
+                continue;
+            }
+
+            // callbacks to update the content
+            mMarker.refreshContent(e, highlight);
+            // draw the marker
+            mMarker.draw(canvas, pos[0], pos[1]);
+        }
     }
 }

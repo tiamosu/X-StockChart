@@ -12,6 +12,7 @@ import com.github.mikephil.charting.renderer.CandleStickChartRenderer;
  *
  * @author Philipp Jahoda
  */
+@SuppressWarnings("unused")
 public class CandleStickChart extends BarLineChartBase<CandleData> implements CandleDataProvider {
 
     public CandleStickChart(Context context) {

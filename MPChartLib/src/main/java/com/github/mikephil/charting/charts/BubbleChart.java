@@ -15,6 +15,7 @@ import com.github.mikephil.charting.renderer.BubbleChartRenderer;
  *
  * @author Philipp Jahoda
  */
+@SuppressWarnings("unused")
 public class BubbleChart extends BarLineChartBase<BubbleData> implements BubbleDataProvider {
 
     public BubbleChart(Context context) {
