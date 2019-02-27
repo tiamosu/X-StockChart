@@ -11,6 +11,7 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
 /**
  * Created by Philipp Jahoda on 09/06/16.
  */
+@SuppressWarnings("WeakerAccess")
 public abstract class BarLineScatterCandleBubbleRenderer extends DataRenderer {
 
     /**
@@ -25,6 +26,7 @@ public abstract class BarLineScatterCandleBubbleRenderer extends DataRenderer {
     /**
      * Returns true if the DataSet values should be drawn, false if not.
      */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     protected boolean shouldDrawValues(IDataSet set) {
         return set.isVisible() && (set.isDrawValuesEnabled() || set.isDrawIconsEnabled());
     }
@@ -32,13 +34,12 @@ public abstract class BarLineScatterCandleBubbleRenderer extends DataRenderer {
     /**
      * Checks if the provided entry object is in bounds for drawing considering the current animation phase.
      */
+    @SuppressWarnings("unchecked")
     protected boolean isInBoundsX(Entry e, IBarLineScatterCandleBubbleDataSet set) {
         if (e == null) {
             return false;
         }
-
-        float entryIndex = set.getEntryIndex(e);
-
+        final float entryIndex = set.getEntryIndex(e);
         return !(entryIndex >= set.getEntryCount() * mAnimator.getPhaseX());
     }
 
@@ -65,14 +66,14 @@ public abstract class BarLineScatterCandleBubbleRenderer extends DataRenderer {
         /**
          * Calculates the minimum and maximum x values as well as the range between them.
          */
+        @SuppressWarnings("unchecked")
         public void set(BarLineScatterCandleBubbleDataProvider chart, IBarLineScatterCandleBubbleDataSet dataSet) {
-            float phaseX = Math.max(0.f, Math.min(1.f, mAnimator.getPhaseX()));
+            final float phaseX = Math.max(0.f, Math.min(1.f, mAnimator.getPhaseX()));
+            final float low = chart.getLowestVisibleX();
+            final float high = chart.getHighestVisibleX();
 
-            float low = chart.getLowestVisibleX();
-            float high = chart.getHighestVisibleX();
-
-            Entry entryFrom = dataSet.getEntryForXValue(low, Float.NaN, DataSet.Rounding.DOWN);
-            Entry entryTo = dataSet.getEntryForXValue(high, Float.NaN, DataSet.Rounding.UP);
+            final Entry entryFrom = dataSet.getEntryForXValue(low, Float.NaN, DataSet.Rounding.DOWN);
+            final Entry entryTo = dataSet.getEntryForXValue(high, Float.NaN, DataSet.Rounding.UP);
 
             min = entryFrom == null ? 0 : dataSet.getEntryIndex(entryFrom);
             max = entryTo == null ? 0 : dataSet.getEntryIndex(entryTo);

@@ -1,6 +1,7 @@
 package com.github.mikephil.charting.renderer;
 
 import android.graphics.Canvas;
+import android.util.Log;
 
 import com.github.mikephil.charting.animation.ChartAnimator;
 import com.github.mikephil.charting.charts.Chart;
@@ -18,6 +19,7 @@ import java.util.List;
 /**
  * Renderer class that is responsible for rendering multiple different data-types.
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class CombinedChartRenderer extends DataRenderer {
 
     /**
@@ -38,18 +40,15 @@ public class CombinedChartRenderer extends DataRenderer {
      * consideration.
      */
     public void createRenderers() {
-
         mRenderers.clear();
 
-        CombinedChart chart = (CombinedChart) mChart.get();
+        final CombinedChart chart = (CombinedChart) mChart.get();
         if (chart == null) {
             return;
         }
 
-        DrawOrder[] orders = chart.getDrawOrder();
-
+        final DrawOrder[] orders = chart.getDrawOrder();
         for (DrawOrder order : orders) {
-
             switch (order) {
                 case BAR:
                     if (chart.getBarData() != null) {
@@ -82,7 +81,6 @@ public class CombinedChartRenderer extends DataRenderer {
 
     @Override
     public void initBuffers() {
-
         for (DataRenderer renderer : mRenderers) {
             renderer.initBuffers();
         }
@@ -90,15 +88,18 @@ public class CombinedChartRenderer extends DataRenderer {
 
     @Override
     public void drawData(Canvas c) {
-
         for (DataRenderer renderer : mRenderers) {
             renderer.drawData(c);
         }
     }
 
     @Override
-    public void drawValues(Canvas c) {
+    public void drawValue(Canvas c, String valueText, float x, float y, int color) {
+        Log.e("MPAndroidChart", "Erroneous call to drawValue() in CombinedChartRenderer!");
+    }
 
+    @Override
+    public void drawValues(Canvas c) {
         for (DataRenderer renderer : mRenderers) {
             renderer.drawValues(c);
         }
@@ -106,7 +107,6 @@ public class CombinedChartRenderer extends DataRenderer {
 
     @Override
     public void drawExtras(Canvas c) {
-
         for (DataRenderer renderer : mRenderers) {
             renderer.drawExtras(c);
         }
@@ -116,14 +116,13 @@ public class CombinedChartRenderer extends DataRenderer {
 
     @Override
     public void drawHighlighted(Canvas c, Highlight[] indices) {
-        Chart chart = mChart.get();
+        final Chart chart = mChart.get();
         if (chart == null) {
             return;
         }
 
         for (DataRenderer renderer : mRenderers) {
             ChartData data = null;
-
             if (renderer instanceof BarChartRenderer) {
                 data = ((BarChartRenderer) renderer).mChart.getBarData();
             } else if (renderer instanceof LineChartRenderer) {
@@ -136,7 +135,7 @@ public class CombinedChartRenderer extends DataRenderer {
                 data = ((BubbleChartRenderer) renderer).mChart.getBubbleData();
             }
 
-            int dataIndex = data == null ? -1
+            final int dataIndex = data == null ? -1
                     : ((CombinedData) chart.getData()).getAllData().indexOf(data);
 
             mHighlightBuffer.clear();

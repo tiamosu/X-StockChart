@@ -7,6 +7,7 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
  *
  * @author Philipp Jahoda
  */
+@SuppressWarnings("WeakerAccess")
 public abstract class Renderer {
 
     /**
