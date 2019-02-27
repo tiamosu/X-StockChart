@@ -98,8 +98,16 @@ public class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> impl
         barDataSet.mStackSize = mStackSize;
         barDataSet.mBarShadowColor = mBarShadowColor;
         barDataSet.mBarBorderWidth = mBarBorderWidth;
-        barDataSet.mStackLabels = mStackLabels;
+        barDataSet.mBarBorderColor = mBarBorderColor;
         barDataSet.mHighLightAlpha = mHighLightAlpha;
+        barDataSet.mEntryCountStacks = mEntryCountStacks;
+        barDataSet.mIncreasingPaintStyle = mIncreasingPaintStyle;
+        barDataSet.mDecreasingPaintStyle = mDecreasingPaintStyle;
+        barDataSet.mNeutralPaintStyle = mNeutralPaintStyle;
+        barDataSet.mNeutralColor = mNeutralColor;
+        barDataSet.mIncreasingColor = mIncreasingColor;
+        barDataSet.mDecreasingColor = mDecreasingColor;
+        barDataSet.mStackLabels = mStackLabels;
     }
 
     /**
