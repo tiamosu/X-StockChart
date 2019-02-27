@@ -16,6 +16,7 @@ import com.github.mikephil.charting.utils.Utils;
  *
  * @author Philipp Jahoda
  */
+@SuppressWarnings({"FieldCanBeLocal", "WeakerAccess", "unused"})
 public class YAxis extends AxisBase {
 
     /**
@@ -37,6 +38,16 @@ public class YAxis extends AxisBase {
      * flag that indicates if the zero-line should be drawn regardless of other grid lines
      */
     protected boolean mDrawZeroLine = false;
+
+    /**
+     * flag indicating that auto scale min restriction should be used
+     */
+    private boolean mUseAutoScaleRestrictionMin = false;
+
+    /**
+     * flag indicating that auto scale max restriction should be used
+     */
+    private boolean mUseAutoScaleRestrictionMax = false;
 
     /**
      * Color of the zero line
@@ -305,16 +316,14 @@ public class YAxis extends AxisBase {
     public float getRequiredWidthSpace(Paint p) {
         p.setTextSize(mTextSize);
 
-        String label = getLongestLabel();
+        final String label = getLongestLabel();
         float width = (float) Utils.calcTextWidth(p, label) + getXOffset() * 2f;
 
         float minWidth = getMinWidth();
         float maxWidth = getMaxWidth();
-
         if (minWidth > 0.f) {
             minWidth = Utils.convertDpToPixel(minWidth);
         }
-
         if (maxWidth > 0.f && maxWidth != Float.POSITIVE_INFINITY) {
             maxWidth = Utils.convertDpToPixel(maxWidth);
         }
@@ -330,7 +339,7 @@ public class YAxis extends AxisBase {
     public float getRequiredHeightSpace(Paint p) {
         p.setTextSize(mTextSize);
 
-        String label = getLongestLabel();
+        final String label = getLongestLabel();
         return (float) Utils.calcTextHeight(p, label) + getYOffset() * 2f;
     }
 
@@ -342,14 +351,42 @@ public class YAxis extends AxisBase {
                 && getLabelPosition() == YAxisLabelPosition.OUTSIDE_CHART;
     }
 
+    /**
+     * Returns true if autoscale restriction for axis min value is enabled
+     */
+    @Deprecated
+    public boolean isUseAutoScaleMinRestriction() {
+        return mUseAutoScaleRestrictionMin;
+    }
+
+    /**
+     * Sets autoscale restriction for axis min value as enabled/disabled
+     */
+    @Deprecated
+    public void setUseAutoScaleMinRestriction(boolean isEnabled) {
+        mUseAutoScaleRestrictionMin = isEnabled;
+    }
+
+    /**
+     * Returns true if autoscale restriction for axis max value is enabled
+     */
+    @Deprecated
+    public boolean isUseAutoScaleMaxRestriction() {
+        return mUseAutoScaleRestrictionMax;
+    }
+
+    /**
+     * Sets autoscale restriction for axis max value as enabled/disabled
+     */
+    @Deprecated
+    public void setUseAutoScaleMaxRestriction(boolean isEnabled) {
+        mUseAutoScaleRestrictionMax = isEnabled;
+    }
+
     @Override
     public void calculate(float dataMin, float dataMax) {
-
-        // if custom, use value as is, else use data value
-        float min = mCustomAxisMin ? mAxisMinimum : dataMin;
-        float max = mCustomAxisMax ? mAxisMaximum : dataMax;
-
-        // temporary range (before calculations)
+        float min = dataMin;
+        float max = dataMax;
         float range = Math.abs(max - min);
 
         // in case all values are equal
@@ -358,21 +395,13 @@ public class YAxis extends AxisBase {
             min = min - 1f;
         }
 
-        // bottom-space only effects non-custom min
-        if (!mCustomAxisMin) {
+        // recalculate
+        range = Math.abs(max - min);
 
-            float bottomSpace = range / 100f * getSpaceBottom();
-            this.mAxisMinimum = (min - bottomSpace);
-        }
+        // calc extra spacing
+        this.mAxisMinimum = mCustomAxisMin ? this.mAxisMinimum : min - (range / 100f) * getSpaceBottom();
+        this.mAxisMaximum = mCustomAxisMax ? this.mAxisMaximum : max + (range / 100f) * getSpaceTop();
 
-        // top-space only effects non-custom max
-        if (!mCustomAxisMax) {
-
-            float topSpace = range / 100f * getSpaceTop();
-            this.mAxisMaximum = (max + topSpace);
-        }
-
-        // calc actual range
-        this.mAxisRange = Math.abs(this.mAxisMaximum - this.mAxisMinimum);
+        this.mAxisRange = Math.abs(this.mAxisMinimum - this.mAxisMaximum);
     }
 }

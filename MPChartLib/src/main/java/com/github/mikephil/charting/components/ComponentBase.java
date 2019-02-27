@@ -10,6 +10,7 @@ import com.github.mikephil.charting.utils.Utils;
  *
  * @author Philipp Jahoda
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class ComponentBase {
 
     /**
@@ -40,12 +41,7 @@ public abstract class ComponentBase {
     /**
      * the text color to use for the labels
      */
-    protected int mTextColor = Color.GRAY;
-
-
-    public ComponentBase() {
-
-    }
+    protected int mTextColor = Color.BLACK;
 
     /**
      * Returns the used offset on the x-axis for drawing the axis or legend

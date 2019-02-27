@@ -8,6 +8,7 @@ import com.github.mikephil.charting.utils.Utils;
 /**
  * Created by Philipp Jahoda on 17/09/16.
  */
+@SuppressWarnings("unused")
 public class Description extends ComponentBase {
 
     /**
@@ -29,7 +30,7 @@ public class Description extends ComponentBase {
         super();
 
         // default size
-        mTextSize = Utils.convertDpToPixel(10f);
+        mTextSize = Utils.convertDpToPixel(8f);
     }
 
     /**

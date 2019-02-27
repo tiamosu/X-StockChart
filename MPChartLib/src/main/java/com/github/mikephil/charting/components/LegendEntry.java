@@ -4,10 +4,8 @@ import android.graphics.DashPathEffect;
 
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+@SuppressWarnings("WeakerAccess")
 public class LegendEntry {
-
-    public LegendEntry() {
-    }
 
     /**
      * @param label              The legend entry text. A `null` label will start a group.
@@ -29,6 +27,9 @@ public class LegendEntry {
         this.formLineWidth = formLineWidth;
         this.formLineDashEffect = formLineDashEffect;
         this.formColor = formColor;
+    }
+
+    public LegendEntry() {
     }
 
     /**

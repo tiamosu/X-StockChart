@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.data.Entry;
@@ -13,14 +14,13 @@ import com.github.mikephil.charting.utils.MPPointF;
 
 import java.lang.ref.WeakReference;
 
-import androidx.core.content.ContextCompat;
-
 /**
  * View that can be displayed when selecting values in the chart. Extend this class to provide custom layouts for your
  * markers.
  *
  * @author Philipp Jahoda
  */
+@SuppressWarnings({"unused", "FieldCanBeLocal", "WeakerAccess"})
 public class MarkerImage implements IMarker {
     private Context mContext;
     private Drawable mDrawable;
@@ -39,7 +39,12 @@ public class MarkerImage implements IMarker {
      */
     public MarkerImage(Context context, int drawableResourceId) {
         mContext = context;
-        mDrawable = ContextCompat.getDrawable(mContext, drawableResourceId);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mDrawable = mContext.getResources().getDrawable(drawableResourceId, null);
+        } else {
+            mDrawable = mContext.getResources().getDrawable(drawableResourceId);
+        }
     }
 
     public void setOffset(MPPointF offset) {
@@ -82,11 +87,11 @@ public class MarkerImage implements IMarker {
 
     @Override
     public MPPointF getOffsetForDrawingAtPoint(float posX, float posY) {
-        MPPointF offset = getOffset();
+        final MPPointF offset = getOffset();
         mOffset2.x = offset.x;
         mOffset2.y = offset.y;
 
-        Chart chart = getChartView();
+        final Chart chart = getChartView();
 
         float width = mSize.width;
         float height = mSize.height;
@@ -123,15 +128,14 @@ public class MarkerImage implements IMarker {
             return;
         }
 
-        MPPointF offset = getOffsetForDrawingAtPoint(posX, posY);
+        final MPPointF offset = getOffsetForDrawingAtPoint(posX, posY);
 
         float width = mSize.width;
         float height = mSize.height;
-
-        if (width == 0.f && mDrawable != null) {
+        if (width == 0.f) {
             width = mDrawable.getIntrinsicWidth();
         }
-        if (height == 0.f && mDrawable != null) {
+        if (height == 0.f) {
             height = mDrawable.getIntrinsicHeight();
         }
 

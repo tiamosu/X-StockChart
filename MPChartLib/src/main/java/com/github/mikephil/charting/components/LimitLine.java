@@ -13,12 +13,13 @@ import com.github.mikephil.charting.utils.Utils;
  *
  * @author Philipp Jahoda
  */
+@SuppressWarnings("unused")
 public class LimitLine extends ComponentBase {
 
     /**
      * limit / maximum (the y-value or xIndex)
      */
-    private float mLimit = 0f;
+    private float mLimit;
 
     /**
      * the width of the limit line

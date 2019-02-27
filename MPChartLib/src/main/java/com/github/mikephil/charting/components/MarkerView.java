@@ -19,6 +19,7 @@ import java.lang.ref.WeakReference;
  *
  * @author Philipp Jahoda
  */
+@SuppressWarnings("unused")
 public class MarkerView extends RelativeLayout implements IMarker {
     private MPPointF mOffset = new MPPointF();
     private MPPointF mOffset2 = new MPPointF();
@@ -38,9 +39,7 @@ public class MarkerView extends RelativeLayout implements IMarker {
      * Sets the layout resource for a custom MarkerView.
      */
     private void setupLayoutResource(int layoutResource) {
-
-        View inflated = LayoutInflater.from(getContext()).inflate(layoutResource, this);
-
+        final View inflated = LayoutInflater.from(getContext()).inflate(layoutResource, this);
         inflated.setLayoutParams(new LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
         inflated.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED), MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
 
@@ -76,14 +75,13 @@ public class MarkerView extends RelativeLayout implements IMarker {
 
     @Override
     public MPPointF getOffsetForDrawingAtPoint(float posX, float posY) {
-        MPPointF offset = getOffset();
+        final MPPointF offset = getOffset();
         mOffset2.x = offset.x;
         mOffset2.y = offset.y;
 
-        Chart chart = getChartView();
-
-        float width = getWidth();
-        float height = getHeight();
+        final Chart chart = getChartView();
+        final float width = getWidth();
+        final float height = getHeight();
 
         if (posX + mOffset2.x < 0) {
             mOffset2.x = -posX;
@@ -110,9 +108,8 @@ public class MarkerView extends RelativeLayout implements IMarker {
 
     @Override
     public void draw(Canvas canvas, float posX, float posY) {
-        MPPointF offset = getOffsetForDrawingAtPoint(posX, posY);
-
-        int saveId = canvas.save();
+        final MPPointF offset = getOffsetForDrawingAtPoint(posX, posY);
+        final int saveId = canvas.save();
         // translate to the correct position and draw
         canvas.translate(posX + offset.x, posY + offset.y);
         draw(canvas);
