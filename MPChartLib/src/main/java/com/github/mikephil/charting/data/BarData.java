@@ -9,6 +9,7 @@ import java.util.List;
  *
  * @author Philipp Jahoda
  */
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class BarData extends BarLineScatterCandleBubbleData<IBarDataSet> {
 
     /**
@@ -51,34 +52,28 @@ public class BarData extends BarLineScatterCandleBubbleData<IBarDataSet> {
      * @param barSpace   the space between individual bars in values (not pixels) e.g. 0.1f for bar width 1f
      */
     public void groupBars(float fromX, float groupSpace, float barSpace) {
-        int setCount = mDataSets.size();
+        final int setCount = mDataSets.size();
         if (setCount <= 1) {
             throw new RuntimeException("BarData needs to hold at least 2 BarDataSets to allow grouping.");
         }
 
-        IBarDataSet max = getMaxEntryCountSet();
-        int maxEntryCount = max.getEntryCount();
-
-        float groupSpaceWidthHalf = groupSpace / 2f;
-        float barSpaceHalf = barSpace / 2f;
-        float barWidthHalf = mBarWidth / 2f;
-
-        float interval = getGroupWidth(groupSpace, barSpace);
+        final IBarDataSet max = getMaxEntryCountSet();
+        final int maxEntryCount = max.getEntryCount();
+        final float groupSpaceWidthHalf = groupSpace / 2f;
+        final float barSpaceHalf = barSpace / 2f;
+        final float barWidthHalf = mBarWidth / 2f;
+        final float interval = getGroupWidth(groupSpace, barSpace);
 
         for (int i = 0; i < maxEntryCount; i++) {
-
-            float start = fromX;
+            final float start = fromX;
             fromX += groupSpaceWidthHalf;
 
             for (IBarDataSet set : mDataSets) {
-
                 fromX += barSpaceHalf;
                 fromX += barWidthHalf;
 
                 if (i < set.getEntryCount()) {
-
-                    BarEntry entry = set.getEntryForIndex(i);
-
+                    final BarEntry entry = set.getEntryForIndex(i);
                     if (entry != null) {
                         entry.setX(fromX);
                     }
@@ -89,9 +84,9 @@ public class BarData extends BarLineScatterCandleBubbleData<IBarDataSet> {
             }
 
             fromX += groupSpaceWidthHalf;
-            float end = fromX;
-            float innerInterval = end - start;
-            float diff = interval - innerInterval;
+            final float end = fromX;
+            final float innerInterval = end - start;
+            final float diff = interval - innerInterval;
 
             // correct rounding errors
             if (diff > 0 || diff < 0) {

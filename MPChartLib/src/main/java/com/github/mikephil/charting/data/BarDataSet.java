@@ -9,6 +9,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> implements IBarDataSet {
 
     /**
@@ -70,9 +71,7 @@ public class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> impl
     /**
      * array of labels used to describe the different values of the stacked bars
      */
-    private String[] mStackLabels = new String[]{
-            "Stack"
-    };
+    private String[] mStackLabels = new String[]{"Stack"};
 
     public BarDataSet(List<BarEntry> yVals, String label) {
         super(yVals, label);
@@ -85,27 +84,22 @@ public class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> impl
 
     @Override
     public DataSet<BarEntry> copy() {
-        List<BarEntry> yVals = new ArrayList<>();
-        yVals.clear();
-
+        final List<BarEntry> entries = new ArrayList<>();
         for (int i = 0; i < mValues.size(); i++) {
-            yVals.add(mValues.get(i).copy());
+            entries.add(mValues.get(i).copy());
         }
-
-        BarDataSet copied = new BarDataSet(yVals, getLabel());
-        copied.mColors = mColors;
-        copied.mStackSize = mStackSize;
-        copied.mBarShadowColor = mBarShadowColor;
-        copied.mStackLabels = mStackLabels;
-        copied.mHighLightColor = mHighLightColor;
-        copied.mHighLightAlpha = mHighLightAlpha;
-        copied.mNeutralColor = mNeutralColor;
-        copied.mIncreasingColor = mIncreasingColor;
-        copied.mDecreasingColor = mDecreasingColor;
-        copied.mIncreasingPaintStyle = mIncreasingPaintStyle;
-        copied.mDecreasingPaintStyle = mDecreasingPaintStyle;
-
+        final BarDataSet copied = new BarDataSet(entries, getLabel());
+        copy(copied);
         return copied;
+    }
+
+    protected void copy(BarDataSet barDataSet) {
+        super.copy(barDataSet);
+        barDataSet.mStackSize = mStackSize;
+        barDataSet.mBarShadowColor = mBarShadowColor;
+        barDataSet.mBarBorderWidth = mBarBorderWidth;
+        barDataSet.mStackLabels = mStackLabels;
+        barDataSet.mHighLightAlpha = mHighLightAlpha;
     }
 
     /**
@@ -116,8 +110,7 @@ public class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> impl
         mEntryCountStacks = 0;
 
         for (int i = 0; i < yVals.size(); i++) {
-            float[] vals = yVals.get(i).getYVals();
-
+            final float[] vals = yVals.get(i).getYVals();
             if (vals == null) {
                 mEntryCountStacks++;
             } else {
@@ -132,8 +125,7 @@ public class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> impl
      */
     private void calcStackSize(List<BarEntry> yVals) {
         for (int i = 0; i < yVals.size(); i++) {
-            float[] vals = yVals.get(i).getYVals();
-
+            final float[] vals = yVals.get(i).getYVals();
             if (vals != null && vals.length > mStackSize) {
                 mStackSize = vals.length;
             }
@@ -144,20 +136,16 @@ public class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> impl
     protected void calcMinMax(BarEntry e) {
         if (e != null && !Float.isNaN(e.getY())) {
             if (e.getYVals() == null) {
-
                 if (e.getY() < mYMin) {
                     mYMin = e.getY();
                 }
-
                 if (e.getY() > mYMax) {
                     mYMax = e.getY();
                 }
             } else {
-
                 if (-e.getNegativeSum() < mYMin) {
                     mYMin = -e.getNegativeSum();
                 }
-
                 if (e.getPositiveSum() > mYMax) {
                     mYMax = e.getPositiveSum();
                 }

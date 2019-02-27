@@ -7,7 +7,8 @@ import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.DataSet;
 import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.formatter.IValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.model.GradientColor;
 import com.github.mikephil.charting.utils.MPPointF;
 
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
 /**
  * Created by Philipp Jahoda on 21/10/15.
  */
+@SuppressWarnings({"DanglingJavadoc", "unused"})
 public interface IDataSet<T extends Entry> {
 
     /** ###### ###### DATA RELATED METHODS ###### ###### */
@@ -168,12 +170,14 @@ public interface IDataSet<T extends Entry> {
      * Removes the Entry object closest to the given x-value from the DataSet.
      * Returns true if an Entry was removed, false if no Entry could be removed.
      */
+    @SuppressWarnings("UnusedReturnValue")
     boolean removeEntryByXValue(float xValue);
 
     /**
      * Removes the Entry object at the given index in the values array from the DataSet.
      * Returns true if an Entry was removed, false if no Entry could be removed.
      */
+    @SuppressWarnings("UnusedReturnValue")
     boolean removeEntry(int index);
 
     /**
@@ -224,6 +228,21 @@ public interface IDataSet<T extends Entry> {
     int getColor();
 
     /**
+     * Returns the Gradient color model
+     */
+    GradientColor getGradientColor();
+
+    /**
+     * Returns the Gradient colors
+     */
+    List<GradientColor> getGradientColors();
+
+    /**
+     * Returns the Gradient colors
+     */
+    GradientColor getGradientColor(int index);
+
+    /**
      * Returns the color at the given index of the DataSet's color array.
      * Performs a IndexOutOfBounds check by modulus.
      */
@@ -247,12 +266,12 @@ public interface IDataSet<T extends Entry> {
      * the chart. Use chart.getDefaultValueFormatter() to use the formatter
      * calculated by the chart.
      */
-    void setValueFormatter(IValueFormatter f);
+    void setValueFormatter(ValueFormatter f);
 
     /**
      * Returns the formatter used for drawing the values inside the chart.
      */
-    IValueFormatter getValueFormatter();
+    ValueFormatter getValueFormatter();
 
     /**
      * Returns true if the valueFormatter object of this DataSet is null.

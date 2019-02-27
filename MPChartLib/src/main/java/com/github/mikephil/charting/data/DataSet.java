@@ -13,12 +13,13 @@ import androidx.annotation.NonNull;
  *
  * @author Philipp Jahoda
  */
+@SuppressWarnings("WeakerAccess")
 public abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
 
     /**
      * the entries that this DataSet represents / holds together
      */
-    protected List<T> mValues = null;
+    protected List<T> mValues;
 
     /**
      * maximum y-value in the value array
@@ -39,7 +40,6 @@ public abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
      * minimum x-value in the value array
      */
     protected float mXMin = Float.MAX_VALUE;
-
 
     /**
      * Creates a new DataSet object with the given values (entries) it represents. Also, a
@@ -82,11 +82,9 @@ public abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
         mYMax = -Float.MAX_VALUE;
         mYMin = Float.MAX_VALUE;
 
-        int indexFrom = getEntryIndex(fromX, Float.NaN, Rounding.DOWN);
-        int indexTo = getEntryIndex(toX, Float.NaN, Rounding.UP);
-
+        final int indexFrom = getEntryIndex(fromX, Float.NaN, Rounding.DOWN);
+        final int indexTo = getEntryIndex(toX, Float.NaN, Rounding.UP);
         for (int i = indexFrom; i <= indexTo; i++) {
-
             // only recalculate y
             calcMinMaxY(mValues.get(i));
         }
@@ -147,13 +145,19 @@ public abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
      */
     public abstract DataSet<T> copy();
 
+    /**
+     */
+    protected void copy(DataSet dataSet) {
+        super.copy(dataSet);
+    }
+
     @NonNull
     @Override
     public String toString() {
-        StringBuffer buffer = new StringBuffer();
+        final StringBuilder buffer = new StringBuilder();
         buffer.append(toSimpleString());
         for (int i = 0; i < mValues.size(); i++) {
-            buffer.append(mValues.get(i).toString() + " ");
+            buffer.append(mValues.get(i).toString()).append(" ");
         }
         return buffer.toString();
     }
@@ -163,10 +167,7 @@ public abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
      * the number of Entries.
      */
     public String toSimpleString() {
-        StringBuffer buffer = new StringBuffer();
-        buffer.append("DataSet, label: " + (getLabel() == null ? "" : getLabel()) + ", entries: " + mValues.size() +
-                "\n");
-        return buffer.toString();
+        return "DataSet, label: " + (getLabel() == null ? "" : getLabel()) + ", entries: " + mValues.size() + "\n";
     }
 
     @Override
@@ -236,21 +237,19 @@ public abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
         if (e == null) {
             return false;
         }
-
         if (mValues == null) {
             return false;
         }
 
         // remove the entry
-        boolean removed = mValues.remove(e);
-
+        final boolean removed = mValues.remove(e);
         if (removed) {
             calcMinMax();
         }
-
         return removed;
     }
 
+    @SuppressWarnings("SuspiciousMethodCalls")
     @Override
     public int getEntryIndex(Entry e) {
         return mValues.indexOf(e);
@@ -258,7 +257,7 @@ public abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
 
     @Override
     public T getEntryForXValue(float xValue, float closestToY, Rounding rounding) {
-        int index = getEntryIndex(xValue, closestToY, rounding);
+        final int index = getEntryIndex(xValue, closestToY, rounding);
         if (index > -1) {
             return mValues.get(index);
         }
@@ -272,7 +271,7 @@ public abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
 
     @Override
     public T getEntryForIndex(int index) {
-        return mValues.size() == 0 ? null : mValues.get(index);
+        return mValues.get(index);
     }
 
     @Override
@@ -286,8 +285,7 @@ public abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
         int closest = high;
 
         while (low < high) {
-            int m = (low + high) / 2;
-
+            final int m = (low + high) / 2;
             final float d1 = mValues.get(m).getX() - xValue,
                     d2 = mValues.get(m + 1).getX() - xValue,
                     ad1 = Math.abs(d1), ad2 = Math.abs(d2);
@@ -302,7 +300,6 @@ public abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
                 high = m;
             } else {
                 // We have multiple sequential x-value with same distance
-
                 if (d1 >= 0.0) {
                     // Search in a lower place
                     high = m;
@@ -315,49 +312,47 @@ public abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
             closest = high;
         }
 
-        if (closest != -1) {
-            float closestXValue = mValues.get(closest).getX();
-            if (rounding == Rounding.UP) {
-                // If rounding up, and found x-value is lower than specified x, and we can go upper...
-                if (closestXValue < xValue && closest < mValues.size() - 1) {
-                    ++closest;
+        float closestXValue = mValues.get(closest).getX();
+        if (rounding == Rounding.UP) {
+            // If rounding up, and found x-value is lower than specified x, and we can go upper...
+            if (closestXValue < xValue && closest < mValues.size() - 1) {
+                ++closest;
+            }
+        } else if (rounding == Rounding.DOWN) {
+            // If rounding down, and found x-value is upper than specified x, and we can go lower...
+            if (closestXValue > xValue && closest > 0) {
+                --closest;
+            }
+        }
+
+        // Search by closest to y-value
+        if (!Float.isNaN(closestToY)) {
+            while (closest > 0 && mValues.get(closest - 1).getX() == closestXValue) {
+                closest -= 1;
+            }
+
+            float closestYValue = mValues.get(closest).getY();
+            int closestYIndex = closest;
+
+            while (true) {
+                closest += 1;
+                if (closest >= mValues.size()) {
+                    break;
                 }
-            } else if (rounding == Rounding.DOWN) {
-                // If rounding down, and found x-value is upper than specified x, and we can go lower...
-                if (closestXValue > xValue && closest > 0) {
-                    --closest;
+
+                final Entry value = mValues.get(closest);
+
+                if (value.getX() != closestXValue) {
+                    break;
+                }
+
+                if (Math.abs(value.getY() - closestToY) < Math.abs(closestYValue - closestToY)) {
+                    closestYValue = closestToY;
+                    closestYIndex = closest;
                 }
             }
 
-            // Search by closest to y-value
-            if (!Float.isNaN(closestToY)) {
-                while (closest > 0 && mValues.get(closest - 1).getX() == closestXValue) {
-                    closest -= 1;
-                }
-
-                float closestYValue = mValues.get(closest).getY();
-                int closestYIndex = closest;
-
-                while (true) {
-                    closest += 1;
-                    if (closest >= mValues.size()) {
-                        break;
-                    }
-
-                    final Entry value = mValues.get(closest);
-
-                    if (value.getX() != closestXValue) {
-                        break;
-                    }
-
-                    if (Math.abs(value.getY() - closestToY) < Math.abs(closestYValue - closestToY)) {
-                        closestYValue = closestToY;
-                        closestYIndex = closest;
-                    }
-                }
-
-                closest = closestYIndex;
-            }
+            closest = closestYIndex;
         }
 
         return closest;
@@ -365,8 +360,7 @@ public abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
 
     @Override
     public List<T> getEntriesForXValue(float xValue) {
-        List<T> entries = new ArrayList<>();
-
+        final List<T> entries = new ArrayList<>();
         int low = 0;
         int high = mValues.size() - 1;
 
@@ -391,7 +385,6 @@ public abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
                         break;
                     }
                 }
-
                 break;
             } else {
                 if (xValue > entry.getX()) {

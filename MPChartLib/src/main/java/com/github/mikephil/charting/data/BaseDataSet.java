@@ -7,8 +7,9 @@ import android.graphics.Typeface;
 
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.formatter.IValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IDataSet;
+import com.github.mikephil.charting.model.GradientColor;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.MPPointF;
 import com.github.mikephil.charting.utils.Utils;
@@ -24,18 +25,22 @@ import androidx.annotation.NonNull;
  * This is the base dataset of all DataSets. It's purpose is to implement critical methods
  * provided by the IDataSet interface.
  */
-@SuppressWarnings("WeakerAccess")
+@SuppressWarnings({"WeakerAccess", "unused", "DanglingJavadoc"})
 public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
 
     /**
      * List representing all colors that are used for this DataSet
      */
-    protected List<Integer> mColors = null;
+    protected List<Integer> mColors;
+
+    protected GradientColor mGradientColor = null;
+
+    protected List<GradientColor> mGradientColors = null;
 
     /**
      * List representing all colors that are used for drawing the actual values for this DataSet
      */
-    protected List<Integer> mValueColors = null;
+    protected List<Integer> mValueColors;
 
     /**
      * label that describes the DataSet or the data the DataSet represents
@@ -55,7 +60,7 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
     /**
      * custom formatter that is used instead of the auto-formatter if set
      */
-    protected transient IValueFormatter mValueFormatter;
+    protected transient ValueFormatter mValueFormatter;
 
     /**
      * the typeface used for the value text
@@ -91,6 +96,7 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
      * flag that indicates if the DataSet is visible or not
      */
     protected boolean mVisible = true;
+
     //数值的精确度位数
     protected int precision = 2;
     //分时图类型，区分当日分时和多日分时
@@ -112,7 +118,7 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
         mValueColors = new ArrayList<>();
 
         // default color
-        mColors.add(Color.parseColor("#696969"));
+        mColors.add(Color.rgb(140, 234, 255));
         mValueColors.add(Color.BLACK);
     }
 
@@ -130,7 +136,6 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
     public void notifyDataSetChanged() {
         calcMinMax();
     }
-
 
     /**
      * ###### ###### COLOR GETTING RELATED METHODS ##### ######
@@ -153,6 +158,21 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
     @Override
     public int getColor(int index) {
         return mColors.get(index % mColors.size());
+    }
+
+    @Override
+    public GradientColor getGradientColor() {
+        return mGradientColor;
+    }
+
+    @Override
+    public List<GradientColor> getGradientColors() {
+        return mGradientColors;
+    }
+
+    @Override
+    public GradientColor getGradientColor(int index) {
+        return mGradientColors.get(index % mGradientColors.size());
     }
 
     /**
@@ -193,7 +213,6 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
         if (mColors == null) {
             mColors = new ArrayList<>();
         }
-
         mColors.clear();
 
         for (int color : colors) {
@@ -218,6 +237,20 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
     public void setColor(int color) {
         resetColors();
         mColors.add(color);
+    }
+
+    /**
+     * Sets the start and end color for gradient color, ONLY color that should be used for this DataSet.
+     */
+    public void setGradientColor(int startColor, int endColor) {
+        mGradientColor = new GradientColor(startColor, endColor);
+    }
+
+    /**
+     * Sets the start and end color for gradient colors, ONLY color that should be used for this DataSet.
+     */
+    public void setGradientColors(List<GradientColor> gradientColors) {
+        this.mGradientColors = gradientColors;
     }
 
     /**
@@ -274,14 +307,14 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
     }
 
     @Override
-    public void setValueFormatter(IValueFormatter f) {
+    public void setValueFormatter(ValueFormatter f) {
         if (f != null) {
             mValueFormatter = f;
         }
     }
 
     @Override
-    public IValueFormatter getValueFormatter() {
+    public ValueFormatter getValueFormatter() {
         if (needsFormatter()) {
             return Utils.getDefaultValueFormatter();
         }
@@ -495,7 +528,7 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
     @Override
     public boolean removeFirst() {
         if (getEntryCount() > 0) {
-            T entry = getEntryForIndex(0);
+            final T entry = getEntryForIndex(0);
             return removeEntry(entry);
         } else {
             return false;
@@ -505,7 +538,7 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
     @Override
     public boolean removeLast() {
         if (getEntryCount() > 0) {
-            T e = getEntryForIndex(getEntryCount() - 1);
+            final T e = getEntryForIndex(getEntryCount() - 1);
             return removeEntry(e);
         } else {
             return false;
@@ -514,13 +547,13 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
 
     @Override
     public boolean removeEntryByXValue(float xValue) {
-        T e = getEntryForXValue(xValue, Float.NaN);
+        final T e = getEntryForXValue(xValue, Float.NaN);
         return removeEntry(e);
     }
 
     @Override
     public boolean removeEntry(int index) {
-        T e = getEntryForIndex(index);
+        final T e = getEntryForIndex(index);
         return removeEntry(e);
     }
 
@@ -532,5 +565,24 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
             }
         }
         return false;
+    }
+
+    protected void copy(BaseDataSet baseDataSet) {
+        baseDataSet.mAxisDependency = mAxisDependency;
+        baseDataSet.mColors = mColors;
+        baseDataSet.mDrawIcons = mDrawIcons;
+        baseDataSet.mDrawValues = mDrawValues;
+        baseDataSet.mForm = mForm;
+        baseDataSet.mFormLineDashEffect = mFormLineDashEffect;
+        baseDataSet.mFormLineWidth = mFormLineWidth;
+        baseDataSet.mFormSize = mFormSize;
+        baseDataSet.mGradientColor = mGradientColor;
+        baseDataSet.mGradientColors = mGradientColors;
+        baseDataSet.mHighlightEnabled = mHighlightEnabled;
+        baseDataSet.mIconsOffset = mIconsOffset;
+        baseDataSet.mValueColors = mValueColors;
+        baseDataSet.mValueFormatter = mValueFormatter;
+        baseDataSet.mValueTextSize = mValueTextSize;
+        baseDataSet.mVisible = mVisible;
     }
 }
