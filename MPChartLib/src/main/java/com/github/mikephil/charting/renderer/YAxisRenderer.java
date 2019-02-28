@@ -131,6 +131,7 @@ public class YAxisRenderer extends AxisRenderer {
     }
 
     protected Path mRenderGridLinesPath = new Path();
+    private float[] mPositionsTemp;
 
     @Override
     public void renderGridLines(Canvas c) {
@@ -142,7 +143,16 @@ public class YAxisRenderer extends AxisRenderer {
             final int clipRestoreCount = c.save();
             c.clipRect(getGridClippingRect());
 
-            final float[] positions = getTransformedPositions();
+            float[] positions = getTransformedPositions();
+            //--------处理gridLines丢失---------
+            if (positions.length == 0) {
+                if (mPositionsTemp != null) {
+                    positions = mPositionsTemp;
+                }
+            } else {
+                mPositionsTemp = positions;
+            }
+            //--------------------------------
 
             mGridPaint.setColor(mYAxis.getGridColor());
             mGridPaint.setStrokeWidth(mYAxis.getGridLineWidth());
@@ -152,10 +162,21 @@ public class YAxisRenderer extends AxisRenderer {
             gridLinePath.reset();
 
             // draw the grid
-            for (int i = 0; i < positions.length; i += 2) {
-                // draw a path because lines don't support dashing on lower android versions
-                c.drawPath(linePath(gridLinePath, i, positions), mGridPaint);
-                gridLinePath.reset();
+            if (mYAxis.isDrawTopBottomGridLine()) {
+                for (int i = 0; i < positions.length; i += 2) {
+                    // draw a path because lines don't support dashing on lower android versions
+                    c.drawPath(linePath(gridLinePath, i, positions), mGridPaint);
+                    gridLinePath.reset();
+                }
+            } else {
+                for (int i = 0; i < positions.length; i += 2) {
+                    // draw a path because lines don't support dashing on lower android versions
+                    if (i == 0 || i == positions.length - 2) {
+                        continue;
+                    }
+                    c.drawPath(linePath(gridLinePath, i, positions), mGridPaint);
+                    gridLinePath.reset();
+                }
             }
 
             c.restoreToCount(clipRestoreCount);
