@@ -65,8 +65,6 @@ public class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet
 
     private boolean mDrawCircleHole = true;
 
-    private boolean mDrawCircleDashMarker = true;
-
     private SparseArray<String> mXLabels;
 
     public LineDataSet(List<Entry> yVals, String label) {
@@ -107,7 +105,6 @@ public class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet
         lineDataSet.mDrawCircles = mDrawCircles;
         lineDataSet.mDrawCircleHole = mDrawCircleHole;
 
-        lineDataSet.mDrawCircleDashMarker = mDrawCircleDashMarker;
         lineDataSet.mXLabels = mXLabels;
     }
 
@@ -363,10 +360,6 @@ public class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet
         return mDrawCircleHole;
     }
 
-    public void setDrawCircleDashMarker(boolean enabled) {
-        mDrawCircleDashMarker = enabled;
-    }
-
     @Override
     public SparseArray<String> getXLabels() {
         return mXLabels;
@@ -374,11 +367,6 @@ public class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet
 
     public void setXLabels(SparseArray<String> xLabels) {
         this.mXLabels = xLabels;
-    }
-
-    @Override
-    public boolean isDrawCircleDashMarkerEnabled() {
-        return mDrawCircleDashMarker;
     }
 
     /**

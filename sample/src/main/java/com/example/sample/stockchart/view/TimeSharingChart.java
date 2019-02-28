@@ -287,14 +287,12 @@ public class TimeSharingChart extends LinearLayout {
 
     private LineDataSet setLine(int type, ArrayList<Entry> entries, TimeSharingDataManage dataManage) {
         final LineDataSet lineDataSet = new LineDataSet(entries, "ma" + type);
-        lineDataSet.setDrawCircleDashMarker(false);
         lineDataSet.setDrawValues(false);
         lineDataSet.setLineWidth(0.7f);
         lineDataSet.setHighLightColor(ContextCompat.getColor(mContext, R.color.highLight_Color));
         lineDataSet.setHighlightEnabled(false);
         lineDataSet.setDrawCircles(false);
         lineDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
-        lineDataSet.setPrecision(PRECISION);
         lineDataSet.setTimeDayType(1);//设置分时图类型
         lineDataSet.setColor(ContextCompat.getColor(mContext, R.color.minute_blue));
 

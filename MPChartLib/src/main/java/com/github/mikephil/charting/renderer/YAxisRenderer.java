@@ -113,9 +113,11 @@ public class YAxisRenderer extends AxisRenderer {
             for (int i = from; i < to; i++) {
                 final String text = mYAxis.getFormattedLabel(i);
                 if (i == 0) {
-                    c.drawText(text, fixedPosition, mViewPortHandler.contentBottom() - Utils.convertDpToPixel(1), mAxisLabelPaint);
+                    c.drawText(text, fixedPosition, mViewPortHandler.contentBottom()
+                            - Utils.convertDpToPixel(1), mAxisLabelPaint);
                 } else if (i == to - 1) {
-                    c.drawText(text, fixedPosition, mViewPortHandler.contentTop() + Utils.convertDpToPixel(8), mAxisLabelPaint);
+                    c.drawText(text, fixedPosition, mViewPortHandler.contentTop()
+                            + Utils.convertDpToPixel(8), mAxisLabelPaint);
                 } else {
                     c.drawText(text, fixedPosition, positions[i * 2 + 1] + offset, mAxisLabelPaint);
                 }

@@ -97,8 +97,6 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
      */
     protected boolean mVisible = true;
 
-    //数值的精确度位数
-    protected int mPrecision = 2;
     //分时图类型，区分当日分时和多日分时
     protected int mTimeDayType = 1;
     //是否绘制BS（买卖）两点图
@@ -454,16 +452,6 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
         mAxisDependency = dependency;
     }
 
-    //设置数据的精确度位数
-    public void setPrecision(int precision) {
-        this.mPrecision = precision;
-    }
-
-    @Override
-    public int getPrecision() {
-        return mPrecision;
-    }
-
     public void setTimeDayType(int timeDayType) {
         this.mTimeDayType = timeDayType;
     }
@@ -587,7 +575,6 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
         baseDataSet.mValueTextSize = mValueTextSize;
         baseDataSet.mVisible = mVisible;
 
-        baseDataSet.mPrecision = mPrecision;
         baseDataSet.mTimeDayType = mTimeDayType;
         baseDataSet.mIsDrawBS = mIsDrawBS;
         baseDataSet.mBSCircles = mBSCircles;

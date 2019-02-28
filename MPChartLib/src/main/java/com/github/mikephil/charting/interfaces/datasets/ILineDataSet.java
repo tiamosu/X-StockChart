@@ -82,8 +82,6 @@ public interface ILineDataSet extends ILineRadarDataSet<Entry> {
      */
     IFillFormatter getFillFormatter();
 
-    //是否画最后一点的值和边框
-    boolean isDrawCircleDashMarkerEnabled();
-
+    //X轴显示数据
     SparseArray<String> getXLabels();
 }
