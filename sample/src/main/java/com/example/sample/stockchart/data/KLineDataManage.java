@@ -37,7 +37,7 @@ import androidx.core.content.ContextCompat;
 public class KLineDataManage {
     private Context mContext;
     private ArrayList<KLineDataModel> kDatas = new ArrayList<>();
-    private float offSet = 0.99f;//K线图最右边偏移量
+    private float offSet = 0.55f;//K线图最右边偏移量
 
     //MA参数
     private int N1 = 5;

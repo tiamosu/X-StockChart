@@ -38,7 +38,6 @@ public class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
 
     protected Paint mShadowPaint;
     protected Paint mBarBorderPaint;
-    protected float offSet = 0.5f;
 
     public BarChartRenderer(BarDataProvider chart, ChartAnimator animator,
                             ViewPortHandler viewPortHandler) {

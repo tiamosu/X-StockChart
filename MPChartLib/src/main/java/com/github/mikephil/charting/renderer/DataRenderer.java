@@ -64,9 +64,9 @@ public abstract class DataRenderer extends Renderer {
         mHighlightPaint.setColor(Color.rgb(255, 187, 115));
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     protected boolean isDrawingValuesAllowed(ChartInterface chart) {
-        return chart.getData().getEntryCount() < chart.getMaxVisibleCount()
-                * mViewPortHandler.getScaleX();
+        return chart.getData().getEntryCount() < chart.getMaxVisibleCount() * mViewPortHandler.getScaleX();
     }
 
     /**

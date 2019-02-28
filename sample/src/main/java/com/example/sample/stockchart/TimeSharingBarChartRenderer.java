@@ -49,7 +49,7 @@ public class TimeSharingBarChartRenderer extends BarChartRenderer {
                     dataSet.getEntryCount()); i < count; i++) {
 
                 final BarEntry e = dataSet.getEntryForIndex(i);
-                x = e.getX() + offSet;
+                x = e.getX();
                 mBarShadowRectBuffer.left = x - barWidthHalf;
                 mBarShadowRectBuffer.right = x + barWidthHalf;
                 trans.rectValueToPixel(mBarShadowRectBuffer);
