@@ -98,9 +98,9 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
     protected boolean mVisible = true;
 
     //数值的精确度位数
-    protected int precision = 2;
+    protected int mPrecision = 2;
     //分时图类型，区分当日分时和多日分时
-    protected int timeDayType = 1;
+    protected int mTimeDayType = 1;
     //是否绘制BS（买卖）两点图
     protected boolean mIsDrawBS;
     //BS（买卖）两点位置
@@ -456,21 +456,21 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
 
     //设置数据的精确度位数
     public void setPrecision(int precision) {
-        this.precision = precision;
+        this.mPrecision = precision;
     }
 
     @Override
     public int getPrecision() {
-        return precision;
+        return mPrecision;
     }
 
     public void setTimeDayType(int timeDayType) {
-        this.timeDayType = timeDayType;
+        this.mTimeDayType = timeDayType;
     }
 
     @Override
     public int getTimeDayType() {
-        return timeDayType;
+        return mTimeDayType;
     }
 
     public void setDrawBS(boolean drawBS) {
@@ -568,21 +568,30 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
     }
 
     protected void copy(BaseDataSet baseDataSet) {
-        baseDataSet.mAxisDependency = mAxisDependency;
         baseDataSet.mColors = mColors;
-        baseDataSet.mDrawIcons = mDrawIcons;
-        baseDataSet.mDrawValues = mDrawValues;
-        baseDataSet.mForm = mForm;
-        baseDataSet.mFormLineDashEffect = mFormLineDashEffect;
-        baseDataSet.mFormLineWidth = mFormLineWidth;
-        baseDataSet.mFormSize = mFormSize;
         baseDataSet.mGradientColor = mGradientColor;
         baseDataSet.mGradientColors = mGradientColors;
-        baseDataSet.mHighlightEnabled = mHighlightEnabled;
-        baseDataSet.mIconsOffset = mIconsOffset;
         baseDataSet.mValueColors = mValueColors;
+        baseDataSet.mLabel = mLabel;
+        baseDataSet.mAxisDependency = mAxisDependency;
+        baseDataSet.mHighlightEnabled = mHighlightEnabled;
         baseDataSet.mValueFormatter = mValueFormatter;
+        baseDataSet.mValueTypeface = mValueTypeface;
+        baseDataSet.mForm = mForm;
+        baseDataSet.mFormSize = mFormSize;
+        baseDataSet.mFormLineWidth = mFormLineWidth;
+        baseDataSet.mFormLineDashEffect = mFormLineDashEffect;
+        baseDataSet.mDrawValues = mDrawValues;
+        baseDataSet.mDrawIcons = mDrawIcons;
+        baseDataSet.mIconsOffset = mIconsOffset;
         baseDataSet.mValueTextSize = mValueTextSize;
         baseDataSet.mVisible = mVisible;
+
+        baseDataSet.mPrecision = mPrecision;
+        baseDataSet.mTimeDayType = mTimeDayType;
+        baseDataSet.mIsDrawBS = mIsDrawBS;
+        baseDataSet.mBSCircles = mBSCircles;
+        baseDataSet.mCandleDataColor = mCandleDataColor;
+        baseDataSet.mPriceList = mPriceList;
     }
 }
