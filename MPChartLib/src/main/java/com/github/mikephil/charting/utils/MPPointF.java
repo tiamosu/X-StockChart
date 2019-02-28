@@ -8,6 +8,7 @@ import java.util.List;
 /**
  * Created by Tony Patino on 6/24/16.
  */
+@SuppressWarnings({"unchecked", "unused", "WeakerAccess"})
 public class MPPointF extends ObjectPool.Poolable {
 
     private static ObjectPool<MPPointF> pool;
@@ -29,7 +30,7 @@ public class MPPointF extends ObjectPool.Poolable {
     }
 
     public static MPPointF getInstance(float x, float y) {
-        MPPointF result = pool.get();
+        final MPPointF result = pool.get();
         result.x = x;
         result.y = y;
         return result;
@@ -40,7 +41,7 @@ public class MPPointF extends ObjectPool.Poolable {
     }
 
     public static MPPointF getInstance(MPPointF copy) {
-        MPPointF result = pool.get();
+        final MPPointF result = pool.get();
         result.x = copy.x;
         result.y = copy.y;
         return result;
@@ -58,9 +59,8 @@ public class MPPointF extends ObjectPool.Poolable {
         /**
          * Return a new point from the data in the specified parcel.
          */
-        @Override
         public MPPointF createFromParcel(Parcel in) {
-            MPPointF r = new MPPointF(0, 0);
+            final MPPointF r = new MPPointF(0, 0);
             r.my_readFromParcel(in);
             return r;
         }
@@ -68,7 +68,6 @@ public class MPPointF extends ObjectPool.Poolable {
         /**
          * Return an array of rectangles of the specified size.
          */
-        @Override
         public MPPointF[] newArray(int size) {
             return new MPPointF[size];
         }

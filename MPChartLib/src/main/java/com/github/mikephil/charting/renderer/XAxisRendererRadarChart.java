@@ -14,8 +14,7 @@ public class XAxisRendererRadarChart extends XAxisRenderer {
 
     public XAxisRendererRadarChart(ViewPortHandler viewPortHandler, XAxis xAxis, RadarChart chart) {
         super(viewPortHandler, xAxis, null);
-
-        mChart = chart;
+        this.mChart = chart;
     }
 
     @Override
@@ -31,19 +30,16 @@ public class XAxisRendererRadarChart extends XAxisRenderer {
         mAxisLabelPaint.setTextSize(mXAxis.getTextSize());
         mAxisLabelPaint.setColor(mXAxis.getTextColor());
 
-        float sliceangle = mChart.getSliceAngle();
-
+        final float sliceangle = mChart.getSliceAngle();
         // calculate the factor that is needed for transforming the value to
         // pixels
-        float factor = mChart.getFactor();
+        final float factor = mChart.getFactor();
 
-        MPPointF center = mChart.getCenterOffsets();
-        MPPointF pOut = MPPointF.getInstance(0, 0);
+        final MPPointF center = mChart.getCenterOffsets();
+        final MPPointF pOut = MPPointF.getInstance(0, 0);
         for (int i = 0; i < mChart.getData().getMaxEntryCountSet().getEntryCount(); i++) {
-
-            String label = mXAxis.getValueFormatter().getFormattedValue(i, mXAxis);
-
-            float angle = (sliceangle * i + mChart.getRotationAngle()) % 360f;
+            final String label = mXAxis.getValueFormatter().getAxisLabel(i, mXAxis);
+            final float angle = (sliceangle * i + mChart.getRotationAngle()) % 360f;
 
             Utils.getPosition(center, mChart.getYRange() * factor
                     + mXAxis.mLabelRotatedWidth / 2f, angle, pOut);

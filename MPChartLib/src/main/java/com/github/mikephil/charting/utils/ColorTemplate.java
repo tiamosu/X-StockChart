@@ -13,6 +13,7 @@ import java.util.List;
  *
  * @author Philipp Jahoda
  */
+@SuppressWarnings("unused")
 public class ColorTemplate {
 
     /**
@@ -88,7 +89,7 @@ public class ColorTemplate {
      * @param colors an integer array of resource id's of colors
      */
     public static List<Integer> createColors(Resources r, int[] colors) {
-        List<Integer> result = new ArrayList<>();
+        final List<Integer> result = new ArrayList<>();
         for (int i : colors) {
             result.add(r.getColor(i));
         }
@@ -100,7 +101,7 @@ public class ColorTemplate {
      * colors.
      */
     public static List<Integer> createColors(int[] colors) {
-        List<Integer> result = new ArrayList<>();
+        final List<Integer> result = new ArrayList<>();
         for (int i : colors) {
             result.add(i);
         }

@@ -12,6 +12,7 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
 /**
  * Created by Philipp Jahoda on 25/01/16.
  */
+@SuppressWarnings("WeakerAccess")
 public abstract class LineRadarRenderer extends LineScatterCandleRadarRenderer {
 
     public LineRadarRenderer(ChartAnimator animator, ViewPortHandler viewPortHandler) {
@@ -23,8 +24,7 @@ public abstract class LineRadarRenderer extends LineScatterCandleRadarRenderer {
      */
     protected void drawFilledPath(Canvas c, Path filledPath, Drawable drawable) {
         if (clipPathSupported()) {
-
-            int save = c.save();
+            final int save = c.save();
             c.clipPath(filledPath);
 
             drawable.setBounds((int) mViewPortHandler.contentLeft(),
@@ -45,22 +45,16 @@ public abstract class LineRadarRenderer extends LineScatterCandleRadarRenderer {
      * Special thanks to Angelo Suzuki (https://github.com/tinsukE) for this.
      */
     protected void drawFilledPath(Canvas c, Path filledPath, int fillColor, int fillAlpha) {
-
-        int color = (fillAlpha << 24) | (fillColor & 0xffffff);
-
+        final int color = (fillAlpha << 24) | (fillColor & 0xffffff);
         if (clipPathSupported()) {
-
-            int save = c.save();
-
+            final int save = c.save();
             c.clipPath(filledPath);
-
             c.drawColor(color);
             c.restoreToCount(save);
         } else {
-
             // save
-            Paint.Style previous = mRenderPaint.getStyle();
-            int previousColor = mRenderPaint.getColor();
+            final Paint.Style previous = mRenderPaint.getStyle();
+            final int previousColor = mRenderPaint.getColor();
 
             // set
             mRenderPaint.setStyle(Paint.Style.FILL);

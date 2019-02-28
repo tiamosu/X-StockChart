@@ -10,12 +10,13 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
 /**
  * Created by Philipp Jahoda on 11/07/15.
  */
+@SuppressWarnings("WeakerAccess")
 public abstract class LineScatterCandleRadarRenderer extends BarLineScatterCandleBubbleRenderer {
 
     /**
      * path that is used for drawing highlight-lines (drawLines(...) cannot be used because of dashes)
      */
-    protected Path mHighlightLinePath = new Path();
+    private Path mHighlightLinePath = new Path();
 
     public LineScatterCandleRadarRenderer(ChartAnimator animator, ViewPortHandler viewPortHandler) {
         super(animator, viewPortHandler);
@@ -29,33 +30,27 @@ public abstract class LineScatterCandleRadarRenderer extends BarLineScatterCandl
      * @param set the currently drawn dataset
      */
     protected void drawHighlightLines(Canvas c, float x, float y, ILineScatterCandleRadarDataSet set) {
-
         // set color and stroke-width
         mHighlightPaint.setColor(set.getHighLightColor());
         mHighlightPaint.setStrokeWidth(set.getHighlightLineWidth());
-
         // draw highlighted lines (if enabled)
         mHighlightPaint.setPathEffect(set.getDashPathEffectHighlight());
 
         // draw vertical highlight lines
         if (set.isVerticalHighlightIndicatorEnabled()) {
-
             // create vertical path
             mHighlightLinePath.reset();
             mHighlightLinePath.moveTo(x, mViewPortHandler.contentTop());
             mHighlightLinePath.lineTo(x, mViewPortHandler.contentBottom());
-
             c.drawPath(mHighlightLinePath, mHighlightPaint);
         }
 
         // draw horizontal highlight lines
         if (set.isHorizontalHighlightIndicatorEnabled()) {
-
             // create horizontal path
             mHighlightLinePath.reset();
             mHighlightLinePath.moveTo(mViewPortHandler.contentLeft(), y);
             mHighlightLinePath.lineTo(mViewPortHandler.contentRight(), y);
-
             c.drawPath(mHighlightLinePath, mHighlightPaint);
         }
     }

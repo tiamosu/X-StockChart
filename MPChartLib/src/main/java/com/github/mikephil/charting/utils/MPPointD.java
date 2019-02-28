@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
  *
  * @author Philipp Jahoda
  */
+@SuppressWarnings({"unchecked", "unused"})
 public class MPPointD extends ObjectPool.Poolable {
 
     private static ObjectPool<MPPointD> pool;
@@ -19,7 +20,7 @@ public class MPPointD extends ObjectPool.Poolable {
     }
 
     public static MPPointD getInstance(double x, double y) {
-        MPPointD result = pool.get();
+        final MPPointD result = pool.get();
         result.x = x;
         result.y = y;
         return result;
@@ -36,7 +37,6 @@ public class MPPointD extends ObjectPool.Poolable {
     public double x;
     public double y;
 
-    @Override
     protected ObjectPool.Poolable instantiate() {
         return new MPPointD(0, 0);
     }
@@ -50,7 +50,6 @@ public class MPPointD extends ObjectPool.Poolable {
      * returns a string representation of the object
      */
     @NonNull
-    @Override
     public String toString() {
         return "MPPointD, x: " + x + ", y: " + y;
     }

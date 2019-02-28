@@ -19,6 +19,7 @@ import java.util.List;
  *
  * @author Philipp Jahoda
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class Transformer {
 
     /**
@@ -42,9 +43,8 @@ public class Transformer {
      * scale factors from the charts size and offsets.
      */
     public void prepareMatrixValuePx(float xChartMin, float deltaX, float deltaY, float yChartMin) {
-        float scaleX = ((mViewPortHandler.contentWidth()) / deltaX);
-        float scaleY = ((mViewPortHandler.contentHeight()) / deltaY);
-
+        float scaleX = (mViewPortHandler.contentWidth() / deltaX);
+        float scaleY = (mViewPortHandler.contentHeight() / deltaY);
         if (Float.isInfinite(scaleX)) {
             scaleX = 0;
         }
@@ -62,9 +62,7 @@ public class Transformer {
      * Prepares the matrix that contains all offsets.
      */
     public void prepareMatrixOffset(boolean inverted) {
-
         mMatrixOffset.reset();
-
         if (!inverted) {
             mMatrixOffset.postTranslate(mViewPortHandler.offsetLeft(),
                     mViewPortHandler.getChartHeight() - mViewPortHandler.offsetBottom());
@@ -85,16 +83,12 @@ public class Transformer {
                                                     float phaseY, int from, int to) {
 
         final int count = (int) ((to - from) * phaseX + 1) * 2;
-
         if (valuePointsForGenerateTransformedValuesScatter.length != count) {
             valuePointsForGenerateTransformedValuesScatter = new float[count];
         }
-        float[] valuePoints = valuePointsForGenerateTransformedValuesScatter;
-
+        final float[] valuePoints = valuePointsForGenerateTransformedValuesScatter;
         for (int j = 0; j < count; j += 2) {
-
-            Entry e = data.getEntryForIndex(j / 2 + from);
-
+            final Entry e = data.getEntryForIndex(j / 2 + from);
             if (e != null) {
                 valuePoints[j] = e.getX();
                 valuePoints[j + 1] = e.getY() * phaseY;
@@ -105,7 +99,6 @@ public class Transformer {
         }
 
         getValueToPixelMatrix().mapPoints(valuePoints);
-
         return valuePoints;
     }
 
@@ -116,18 +109,13 @@ public class Transformer {
      * y values transformed with all matrices for the BUBBLECHART.
      */
     public float[] generateTransformedValuesBubble(IBubbleDataSet data, float phaseY, int from, int to) {
-
         final int count = (to - from + 1) * 2; // (int) Math.ceil((to - from) * phaseX) * 2;
-
         if (valuePointsForGenerateTransformedValuesBubble.length != count) {
             valuePointsForGenerateTransformedValuesBubble = new float[count];
         }
-        float[] valuePoints = valuePointsForGenerateTransformedValuesBubble;
-
+        final float[] valuePoints = valuePointsForGenerateTransformedValuesBubble;
         for (int j = 0; j < count; j += 2) {
-
-            Entry e = data.getEntryForIndex(j / 2 + from);
-
+            final Entry e = data.getEntryForIndex(j / 2 + from);
             if (e != null) {
                 valuePoints[j] = e.getX();
                 valuePoints[j + 1] = e.getY() * phaseY;
@@ -138,7 +126,6 @@ public class Transformer {
         }
 
         getValueToPixelMatrix().mapPoints(valuePoints);
-
         return valuePoints;
     }
 
@@ -153,16 +140,12 @@ public class Transformer {
                                                  int min, int max) {
 
         final int count = ((int) ((max - min) * phaseX) + 1) * 2;
-
         if (valuePointsForGenerateTransformedValuesLine.length != count) {
             valuePointsForGenerateTransformedValuesLine = new float[count];
         }
-        float[] valuePoints = valuePointsForGenerateTransformedValuesLine;
-
+        final float[] valuePoints = valuePointsForGenerateTransformedValuesLine;
         for (int j = 0; j < count; j += 2) {
-
-            Entry e = data.getEntryForIndex(j / 2 + min);
-
+            final Entry e = data.getEntryForIndex(j / 2 + min);
             if (e != null) {
                 valuePoints[j] = e.getX();
                 valuePoints[j + 1] = e.getY() * phaseY;
@@ -173,7 +156,6 @@ public class Transformer {
         }
 
         getValueToPixelMatrix().mapPoints(valuePoints);
-
         return valuePoints;
     }
 
@@ -187,22 +169,12 @@ public class Transformer {
                                                    float phaseX, float phaseY, int from, int to) {
 
         final int count = (int) ((to - from) * phaseX + 1) * 2;
-
         if (valuePointsForGenerateTransformedValuesCandle.length != count) {
             valuePointsForGenerateTransformedValuesCandle = new float[count];
         }
-        float[] valuePoints = valuePointsForGenerateTransformedValuesCandle;
-
+        final float[] valuePoints = valuePointsForGenerateTransformedValuesCandle;
         for (int j = 0; j < count; j += 2) {
-
-            CandleEntry e = null;
-            try {
-                e = data.getEntryForIndex(j / 2 + from);
-            } catch (Exception e1) {
-                e1.printStackTrace();
-                continue;
-            }
-
+            final CandleEntry e = data.getEntryForIndex(j / 2 + from);
             if (e != null) {
                 valuePoints[j] = e.getX();
                 valuePoints[j + 1] = e.getHigh() * phaseY;
@@ -213,7 +185,6 @@ public class Transformer {
         }
 
         getValueToPixelMatrix().mapPoints(valuePoints);
-
         return valuePoints;
     }
 
@@ -222,7 +193,6 @@ public class Transformer {
      * to value-touch-offset
      */
     public void pathValueToPixel(Path path) {
-
         path.transform(mMatrixValueToPx);
         path.transform(mViewPortHandler.getMatrixTouch());
         path.transform(mMatrixOffset);
@@ -269,6 +239,7 @@ public class Transformer {
         mMatrixOffset.mapRect(r);
     }
 
+    @SuppressWarnings("SuspiciousNameCombination")
     public void rectToPixelPhaseHorizontal(RectF r, float phaseY) {
         // multiply the height of the rect with the phase
         r.left *= phaseY;
@@ -291,6 +262,7 @@ public class Transformer {
     /**
      * Transform a rectangle with all matrices with potential animation phases.
      */
+    @SuppressWarnings("SuspiciousNameCombination")
     public void rectValueToPixelHorizontal(RectF r, float phaseY) {
         // multiply the height of the rect with the phase
         r.left *= phaseY;
@@ -305,7 +277,7 @@ public class Transformer {
      * transforms multiple rects with all matrices
      */
     public void rectValuesToPixel(List<RectF> rects) {
-        Matrix m = getValueToPixelMatrix();
+        final Matrix m = getValueToPixelMatrix();
         for (int i = 0; i < rects.size(); i++) {
             m.mapRect(rects.get(i));
         }
@@ -318,7 +290,7 @@ public class Transformer {
      * into values on the chart.
      */
     public void pixelsToValue(float[] pixels) {
-        Matrix tmp = mPixelToValueMatrixBuffer;
+        final Matrix tmp = mPixelToValueMatrixBuffer;
         tmp.reset();
 
         // invert all matrixes to convert back to the original value
@@ -345,7 +317,7 @@ public class Transformer {
      * getPixelForValues(...).
      */
     public MPPointD getValuesByTouchPoint(float x, float y) {
-        MPPointD result = MPPointD.getInstance(0, 0);
+        final MPPointD result = MPPointD.getInstance(0, 0);
         getValuesByTouchPoint(x, y, result);
         return result;
     }

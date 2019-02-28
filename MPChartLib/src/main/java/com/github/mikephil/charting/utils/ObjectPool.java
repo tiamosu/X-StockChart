@@ -15,6 +15,7 @@ import java.util.List;
  * <p>
  * Created by Tony Patino on 6/20/16.
  */
+@SuppressWarnings("unused")
 public class ObjectPool<T extends ObjectPool.Poolable> {
 
     private static int ids = 0;
@@ -25,7 +26,6 @@ public class ObjectPool<T extends ObjectPool.Poolable> {
     private int objectsPointer;
     private T modelObject;
     private float replenishPercentage;
-
 
     /**
      * Returns the id of the given pool instance.
@@ -42,11 +42,11 @@ public class ObjectPool<T extends ObjectPool.Poolable> {
      * @param withCapacity A positive integer value.
      * @param object       An instance of the object that the pool should recycle.
      */
+    @SuppressWarnings("unchecked")
     public static synchronized ObjectPool create(int withCapacity, Poolable object) {
-        ObjectPool result = new ObjectPool(withCapacity, object);
+        final ObjectPool result = new ObjectPool(withCapacity, object);
         result.poolId = ids;
         ids++;
-
         return result;
     }
 
@@ -88,7 +88,6 @@ public class ObjectPool<T extends ObjectPool.Poolable> {
 
     private void refillPool(float percentage) {
         int portionOfCapacity = (int) (desiredCapacity * percentage);
-
         if (portionOfCapacity < 1) {
             portionOfCapacity = 1;
         } else if (portionOfCapacity > desiredCapacity) {
@@ -108,16 +107,15 @@ public class ObjectPool<T extends ObjectPool.Poolable> {
      *
      * @return An instance of Poolable object T
      */
+    @SuppressWarnings("unchecked")
     public synchronized T get() {
-
         if (this.objectsPointer == -1 && this.replenishPercentage > 0.0f) {
             this.refillPool();
         }
 
-        T result = (T) objects[this.objectsPointer];
+        final T result = (T) objects[this.objectsPointer];
         result.currentOwnerId = Poolable.NO_OWNER;
         this.objectsPointer--;
-
         return result;
     }
 
@@ -160,7 +158,7 @@ public class ObjectPool<T extends ObjectPool.Poolable> {
 
         // Not relying on recycle(T object) because this is more performant.
         for (int i = 0; i < objectsListSize; i++) {
-            T object = objects.get(i);
+            final T object = objects.get(i);
             if (object.currentOwnerId != Poolable.NO_OWNER) {
                 if (object.currentOwnerId == this.poolId) {
                     throw new IllegalArgumentException("The object passed is already stored in this pool!");
@@ -177,8 +175,10 @@ public class ObjectPool<T extends ObjectPool.Poolable> {
     private void resizePool() {
         final int oldCapacity = this.desiredCapacity;
         this.desiredCapacity *= 2;
-        Object[] temp = new Object[this.desiredCapacity];
-        System.arraycopy(this.objects, 0, temp, 0, oldCapacity);
+        final Object[] temp = new Object[this.desiredCapacity];
+        if (oldCapacity >= 0) {
+            System.arraycopy(this.objects, 0, temp, 0, oldCapacity);
+        }
         this.objects = temp;
     }
 
@@ -202,11 +202,11 @@ public class ObjectPool<T extends ObjectPool.Poolable> {
         return this.objectsPointer + 1;
     }
 
+    @SuppressWarnings("WeakerAccess")
     public static abstract class Poolable {
         public static int NO_OWNER = -1;
         int currentOwnerId = NO_OWNER;
 
         protected abstract Poolable instantiate();
-
     }
 }

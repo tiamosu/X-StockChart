@@ -16,6 +16,7 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
  *
  * @author Philipp Jahoda
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class AxisRenderer extends Renderer {
 
     /**
@@ -55,7 +56,6 @@ public abstract class AxisRenderer extends Renderer {
         this.mAxis = axis;
 
         if (mViewPortHandler != null) {
-
             mAxisLabelPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
             mGridPaint = new Paint();
@@ -111,20 +111,16 @@ public abstract class AxisRenderer extends Renderer {
      * @param max - the maximum value in the data object for this axis
      */
     public void computeAxis(float min, float max, boolean inverted) {
-
         // calculate the starting and entry point of the y-labels (depending on
         // zoom / contentrect bounds)
         if (mViewPortHandler != null && mViewPortHandler.contentWidth() > 10 && !mViewPortHandler.isFullyZoomedOutY()) {
-
-            MPPointD p1 = mTrans.getValuesByTouchPoint(mViewPortHandler.contentLeft(), mViewPortHandler.contentTop());
-            MPPointD p2 = mTrans.getValuesByTouchPoint(mViewPortHandler.contentLeft(), mViewPortHandler.contentBottom());
+            final MPPointD p1 = mTrans.getValuesByTouchPoint(mViewPortHandler.contentLeft(), mViewPortHandler.contentTop());
+            final MPPointD p2 = mTrans.getValuesByTouchPoint(mViewPortHandler.contentLeft(), mViewPortHandler.contentBottom());
 
             if (!inverted) {
-
                 min = (float) p2.y;
                 max = (float) p1.y;
             } else {
-
                 min = (float) p1.y;
                 max = (float) p2.y;
             }
@@ -140,11 +136,8 @@ public abstract class AxisRenderer extends Renderer {
      * Sets up the axis values. Computes the desired number of labels between the two given extremes.
      */
     protected void computeAxisValues(float min, float max) {
-        float yMin = min;
-        float yMax = max;
-
-        int labelCount = mAxis.getLabelCount();
-        double range = Math.abs(yMax - yMin);
+        final int labelCount = mAxis.getLabelCount();
+        final double range = Math.abs(max - min);
 
         if (labelCount == 0 || range <= 0 || Double.isInfinite(range)) {
             mAxis.mEntries = new float[]{};
@@ -154,7 +147,7 @@ public abstract class AxisRenderer extends Renderer {
         }
 
         // Find out how much spacing (in y value space) between axis values
-        double rawInterval = range / labelCount;
+        final double rawInterval = range / labelCount;
         double interval = Utils.roundToNextSignificant(rawInterval);
 
         // If granularity is enabled, then do not allow the interval to go below specified granularity.
@@ -164,7 +157,7 @@ public abstract class AxisRenderer extends Renderer {
         }
 
         // Normalize interval
-        double intervalMagnitude = Utils.roundToNextSignificant(Math.pow(10, (int) Math.log10(interval)));
+        final double intervalMagnitude = Utils.roundToNextSignificant(Math.pow(10, (int) Math.log10(interval)));
         int intervalSigDigit = (int) (interval / intervalMagnitude);
         if (intervalSigDigit > 5) {
             // Use one order of magnitude higher, to avoid intervals like 0.9 or
@@ -173,10 +166,8 @@ public abstract class AxisRenderer extends Renderer {
         }
 
         int n = mAxis.isCenterAxisLabelsEnabled() ? 1 : 0;
-
         // force label count
         if (mAxis.isForceLabelsEnabled()) {
-
             interval = (float) range / (float) (labelCount - 1);
             mAxis.mEntryCount = labelCount;
 
@@ -186,27 +177,21 @@ public abstract class AxisRenderer extends Renderer {
             }
 
             float v = min;
-
             for (int i = 0; i < labelCount; i++) {
                 mAxis.mEntries[i] = v;
                 v += interval;
             }
 
             n = labelCount;
-
-            // no forced count
         } else {
-
-            double first = interval == 0.0 ? 0.0 : Math.ceil(yMin / interval) * interval;
+            double first = interval == 0.0 ? 0.0 : Math.ceil(min / interval) * interval;
             if (mAxis.isCenterAxisLabelsEnabled()) {
                 first -= interval;
             }
 
-            double last = interval == 0.0 ? 0.0 : Utils.nextUp(Math.floor(yMax / interval) * interval);
-
+            final double last = interval == 0.0 ? 0.0 : Utils.nextUp(Math.floor(max / interval) * interval);
             double f;
             int i;
-
             if (interval != 0.0) {
                 for (f = first; f <= last; f += interval) {
                     ++n;
@@ -221,7 +206,6 @@ public abstract class AxisRenderer extends Renderer {
             }
 
             for (f = first, i = 0; i < n; f += interval, ++i) {
-
                 if (f == 0.0) // Fix for negative zero case (Where value == -0.0, and 0.0 == -0.0)
                 {
                     f = 0.0;
@@ -239,13 +223,11 @@ public abstract class AxisRenderer extends Renderer {
         }
 
         if (mAxis.isCenterAxisLabelsEnabled()) {
-
             if (mAxis.mCenteredEntries.length < n) {
                 mAxis.mCenteredEntries = new float[n];
             }
 
-            float offset = (float) interval / 2f;
-
+            final float offset = (float) interval / 2f;
             for (int i = 0; i < n; i++) {
                 mAxis.mCenteredEntries[i] = mAxis.mEntries[i] + offset;
             }

@@ -18,8 +18,11 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import java.util.List;
 
+@SuppressWarnings("WeakerAccess")
 public class YAxisRenderer extends AxisRenderer {
+
     protected YAxis mYAxis;
+
     protected Paint mZeroLinePaint;
 
     public YAxisRenderer(ViewPortHandler viewPortHandler, YAxis yAxis, Transformer trans) {
@@ -47,16 +50,18 @@ public class YAxisRenderer extends AxisRenderer {
         }
 
         final float[] positions = getTransformedPositions();
+
         mAxisLabelPaint.setTypeface(mYAxis.getTypeface());
         mAxisLabelPaint.setTextSize(mYAxis.getTextSize());
         mAxisLabelPaint.setColor(mYAxis.getTextColor());
 
         final float xoffset = mYAxis.getXOffset();
         final float yoffset = Utils.calcTextHeight(mAxisLabelPaint, "A") / 2.5f + mYAxis.getYOffset();
+
         final AxisDependency dependency = mYAxis.getAxisDependency();
         final YAxisLabelPosition labelPosition = mYAxis.getLabelPosition();
+        float xPos;
 
-        float xPos = 0f;
         if (dependency == AxisDependency.LEFT) {
             if (labelPosition == YAxisLabelPosition.OUTSIDE_CHART) {
                 mAxisLabelPaint.setTextAlign(Align.RIGHT);
@@ -101,29 +106,17 @@ public class YAxisRenderer extends AxisRenderer {
      */
     protected void drawYLabels(Canvas c, float fixedPosition, float[] positions, float offset) {
         final int from = mYAxis.isDrawBottomYLabelEntryEnabled() ? 0 : 1;
-        final int to = mYAxis.isDrawTopYLabelEntryEnabled() ? mYAxis.mEntryCount : (mYAxis.mEntryCount - 1);
+        final int to = mYAxis.isDrawTopYLabelEntryEnabled()
+                ? mYAxis.mEntryCount
+                : (mYAxis.mEntryCount - 1);
 
         // draw
-        if (mYAxis.isValueLineInside()) {
-            for (int i = from; i < to; i++) {
-                final String text = mYAxis.getFormattedLabel(i);
-                if (i == 0) {
-                    c.drawText(text, fixedPosition, mViewPortHandler.contentBottom() - Utils.convertDpToPixel(1), mAxisLabelPaint);
-                } else if (i == to - 1) {
-                    c.drawText(text, fixedPosition, mViewPortHandler.contentTop() + Utils.convertDpToPixel(8), mAxisLabelPaint);
-                } else {
-                    c.drawText(text, fixedPosition, positions[i * 2 + 1] + offset, mAxisLabelPaint);
-                }
-            }
-        } else {
-            for (int i = from; i < to; i++) {
-                final String text = mYAxis.getFormattedLabel(i);
-                c.drawText(text, fixedPosition, positions[i * 2 + 1] + offset, mAxisLabelPaint);
-            }
+        for (int i = from; i < to; i++) {
+            final String text = mYAxis.getFormattedLabel(i);
+            c.drawText(text, fixedPosition, positions[i * 2 + 1] + offset, mAxisLabelPaint);
         }
     }
 
-    float[] positionsTemp;
     protected Path mRenderGridLinesPath = new Path();
 
     @Override
@@ -136,16 +129,7 @@ public class YAxisRenderer extends AxisRenderer {
             final int clipRestoreCount = c.save();
             c.clipRect(getGridClippingRect());
 
-            float[] positions = getTransformedPositions();
-            //--------处理gridLines丢失---------
-            if (positions.length == 0) {
-                if (positionsTemp != null) {
-                    positions = positionsTemp;
-                }
-            } else {
-                positionsTemp = positions;
-            }
-            //--------------------------------
+            final float[] positions = getTransformedPositions();
 
             mGridPaint.setColor(mYAxis.getGridColor());
             mGridPaint.setStrokeWidth(mYAxis.getGridLineWidth());
@@ -155,21 +139,10 @@ public class YAxisRenderer extends AxisRenderer {
             gridLinePath.reset();
 
             // draw the grid
-            if (mYAxis.isDrawTopBottomGridLine()) {
-                for (int i = 0; i < positions.length; i += 2) {
-                    // draw a path because lines don't support dashing on lower android versions
-                    c.drawPath(linePath(gridLinePath, i, positions), mGridPaint);
-                    gridLinePath.reset();
-                }
-            } else {
-                for (int i = 0; i < positions.length; i += 2) {
-                    // draw a path because lines don't support dashing on lower android versions
-                    if (i == 0 || i == positions.length - 2) {
-                        continue;
-                    }
-                    c.drawPath(linePath(gridLinePath, i, positions), mGridPaint);
-                    gridLinePath.reset();
-                }
+            for (int i = 0; i < positions.length; i += 2) {
+                // draw a path because lines don't support dashing on lower android versions
+                c.drawPath(linePath(gridLinePath, i, positions), mGridPaint);
+                gridLinePath.reset();
             }
 
             c.restoreToCount(clipRestoreCount);
@@ -207,8 +180,7 @@ public class YAxisRenderer extends AxisRenderer {
         if (mGetTransformedPositionsBuffer.length != mYAxis.mEntryCount * 2) {
             mGetTransformedPositionsBuffer = new float[mYAxis.mEntryCount * 2];
         }
-        float[] positions = mGetTransformedPositionsBuffer;
-
+        final float[] positions = mGetTransformedPositionsBuffer;
         for (int i = 0; i < positions.length; i += 2) {
             // only fill y values, x values are not needed for y-labels
             positions[i + 1] = mYAxis.mEntries[i / 2];
@@ -232,6 +204,7 @@ public class YAxisRenderer extends AxisRenderer {
 
         // draw zero line
         final MPPointD pos = mTrans.getPixelForValues(0f, 0f);
+
         mZeroLinePaint.setColor(mYAxis.getZeroLineColor());
         mZeroLinePaint.setStrokeWidth(mYAxis.getZeroLineWidth());
 
@@ -292,10 +265,10 @@ public class YAxisRenderer extends AxisRenderer {
 
             c.drawPath(limitLinePath, mLimitLinePaint);
             limitLinePath.reset();
-
+            // c.drawLines(pts, mLimitLinePaint);
             final String label = l.getLabel();
             // if drawing the limit-value label is enabled
-            if (label != null && !"".equals(label)) {
+            if (label != null && !label.equals("")) {
                 mLimitLinePaint.setStyle(l.getTextStyle());
                 mLimitLinePaint.setPathEffect(null);
                 mLimitLinePaint.setColor(l.getTextColor());
@@ -313,13 +286,11 @@ public class YAxisRenderer extends AxisRenderer {
                     c.drawText(label,
                             mViewPortHandler.contentRight() - xOffset,
                             pts[1] - yOffset + labelLineHeight, mLimitLinePaint);
-
                 } else if (position == LimitLine.LimitLabelPosition.RIGHT_BOTTOM) {
                     mLimitLinePaint.setTextAlign(Align.RIGHT);
                     c.drawText(label,
                             mViewPortHandler.contentRight() - xOffset,
                             pts[1] + yOffset, mLimitLinePaint);
-
                 } else if (position == LimitLine.LimitLabelPosition.LEFT_TOP) {
                     mLimitLinePaint.setTextAlign(Align.LEFT);
                     c.drawText(label,

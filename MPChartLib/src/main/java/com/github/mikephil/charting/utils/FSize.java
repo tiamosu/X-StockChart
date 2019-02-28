@@ -6,6 +6,7 @@ import java.util.List;
  * Class for describing width and height dimensions in some arbitrary
  * unit. Replacement for the android.Util.SizeF which is available only on API >= 21.
  */
+@SuppressWarnings({"unchecked", "unused", "WeakerAccess"})
 public final class FSize extends ObjectPool.Poolable {
     public float width;
     public float height;
@@ -17,13 +18,12 @@ public final class FSize extends ObjectPool.Poolable {
         pool.setReplenishPercentage(0.5f);
     }
 
-    @Override
     protected ObjectPool.Poolable instantiate() {
         return new FSize(0, 0);
     }
 
     public static FSize getInstance(final float width, final float height) {
-        FSize result = pool.get();
+        final FSize result = pool.get();
         result.width = width;
         result.height = height;
         return result;
