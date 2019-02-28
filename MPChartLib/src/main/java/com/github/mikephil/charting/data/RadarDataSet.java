@@ -8,6 +8,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class RadarDataSet extends LineRadarDataSet<RadarEntry> implements IRadarDataSet {
 
     /// flag indicating whether highlight circle should be drawn or not
@@ -100,15 +101,23 @@ public class RadarDataSet extends LineRadarDataSet<RadarEntry> implements IRadar
 
     @Override
     public DataSet<RadarEntry> copy() {
-        List<RadarEntry> yVals = new ArrayList<>();
+        final List<RadarEntry> entries = new ArrayList<>();
         for (int i = 0; i < mValues.size(); i++) {
-            yVals.add(mValues.get(i).copy());
+            entries.add(mValues.get(i).copy());
         }
-
-        RadarDataSet copied = new RadarDataSet(yVals, getLabel());
-        copied.mColors = mColors;
-        copied.mHighLightColor = mHighLightColor;
-
+        final RadarDataSet copied = new RadarDataSet(entries, getLabel());
+        copy(copied);
         return copied;
+    }
+
+    protected void copy(RadarDataSet radarDataSet) {
+        super.copy(radarDataSet);
+        radarDataSet.mDrawHighlightCircleEnabled = mDrawHighlightCircleEnabled;
+        radarDataSet.mHighlightCircleFillColor = mHighlightCircleFillColor;
+        radarDataSet.mHighlightCircleStrokeColor = mHighlightCircleStrokeColor;
+        radarDataSet.mHighlightCircleStrokeAlpha = mHighlightCircleStrokeAlpha;
+        radarDataSet.mHighlightCircleInnerRadius = mHighlightCircleInnerRadius;
+        radarDataSet.mHighlightCircleOuterRadius = mHighlightCircleOuterRadius;
+        radarDataSet.mHighlightCircleStrokeWidth = mHighlightCircleStrokeWidth;
     }
 }

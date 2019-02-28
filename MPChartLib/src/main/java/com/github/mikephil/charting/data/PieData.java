@@ -11,6 +11,7 @@ import com.github.mikephil.charting.interfaces.datasets.IPieDataSet;
  *
  * @author Philipp Jahoda
  */
+@SuppressWarnings("unused")
 public class PieData extends ChartData<IPieDataSet> {
 
     public PieData() {

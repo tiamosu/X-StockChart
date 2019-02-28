@@ -11,6 +11,7 @@ import java.util.List;
  *
  * @author Philipp Jahoda
  */
+@SuppressWarnings("unused")
 public class RadarData extends ChartData<IRadarDataSet> {
 
     private List<String> mLabels;

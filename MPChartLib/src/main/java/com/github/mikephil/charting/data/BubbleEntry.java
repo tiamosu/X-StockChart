@@ -1,6 +1,5 @@
 package com.github.mikephil.charting.data;
 
-import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
 
 /**
@@ -10,13 +9,13 @@ import android.graphics.drawable.Drawable;
  *
  * @author Philipp Jahoda
  */
-@SuppressLint("ParcelCreator")
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class BubbleEntry extends Entry {
 
     /**
      * size value
      */
-    private float mSize = 0f;
+    private float mSize;
 
     /**
      * Constructor.
@@ -25,8 +24,8 @@ public class BubbleEntry extends Entry {
      * @param y    The value on the y-axis.
      * @param size The size of the bubble.
      */
-    public BubbleEntry(int mXIndex, float x, float y, float size) {
-        super(mXIndex, x, y);
+    public BubbleEntry(int xIndex, float x, float y, float size) {
+        super(xIndex, x, y);
         this.mSize = size;
     }
 
@@ -38,8 +37,8 @@ public class BubbleEntry extends Entry {
      * @param size The size of the bubble.
      * @param data Spot for additional data this Entry represents.
      */
-    public BubbleEntry(int mXIndex, float x, float y, float size, Object data) {
-        super(mXIndex, x, y, data);
+    public BubbleEntry(int xIndex, float x, float y, float size, Object data) {
+        super(xIndex, x, y, data);
         this.mSize = size;
     }
 
@@ -51,8 +50,8 @@ public class BubbleEntry extends Entry {
      * @param size The size of the bubble.
      * @param icon Icon image
      */
-    public BubbleEntry(int mXIndex, float x, float y, float size, Drawable icon) {
-        super(mXIndex, x, y, icon);
+    public BubbleEntry(int xIndex, float x, float y, float size, Drawable icon) {
+        super(xIndex, x, y, icon);
         this.mSize = size;
     }
 
@@ -65,16 +64,14 @@ public class BubbleEntry extends Entry {
      * @param icon Icon image
      * @param data Spot for additional data this Entry represents.
      */
-    public BubbleEntry(int mXIndex, float x, float y, float size, Drawable icon, Object data) {
-        super(mXIndex, x, y, icon, data);
+    public BubbleEntry(int xIndex, float x, float y, float size, Drawable icon, Object data) {
+        super(xIndex, x, y, icon, data);
         this.mSize = size;
     }
 
     @Override
     public BubbleEntry copy() {
-
-        BubbleEntry c = new BubbleEntry(getXIndex(), getX(), getY(), mSize, getData());
-        return c;
+        return new BubbleEntry(getXIndex(), getX(), getY(), mSize, getData());
     }
 
     /**

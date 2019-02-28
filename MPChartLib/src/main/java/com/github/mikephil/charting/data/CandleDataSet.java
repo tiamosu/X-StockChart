@@ -14,6 +14,7 @@ import java.util.List;
  *
  * @author Philipp Jahoda
  */
+@SuppressWarnings({"WeakerAccess", "unused", "DanglingJavadoc"})
 public class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> implements ICandleDataSet {
 
     /**
@@ -60,23 +61,23 @@ public class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> im
     /**
      * color for open == close
      */
-    protected int mNeutralColor = ColorTemplate.COLOR_NONE;
+    protected int mNeutralColor = ColorTemplate.COLOR_SKIP;
 
     /**
      * color for open < close
      */
-    protected int mIncreasingColor = ColorTemplate.COLOR_NONE;
+    protected int mIncreasingColor = ColorTemplate.COLOR_SKIP;
 
     /**
      * color for open > close
      */
-    protected int mDecreasingColor = ColorTemplate.COLOR_NONE;
+    protected int mDecreasingColor = ColorTemplate.COLOR_SKIP;
 
     /**
      * shadow line color, set -1 for backward compatibility and uses default
      * color
      */
-    protected int mShadowColor = ColorTemplate.COLOR_NONE;
+    protected int mShadowColor = ColorTemplate.COLOR_SKIP;
 
     public CandleDataSet(List<CandleEntry> yVals, String label) {
         super(yVals, label);
@@ -84,24 +85,29 @@ public class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> im
 
     @Override
     public DataSet<CandleEntry> copy() {
-        List<CandleEntry> yVals = new ArrayList<>();
-        yVals.clear();
-
+        final List<CandleEntry> entries = new ArrayList<>();
         for (int i = 0; i < mValues.size(); i++) {
-            yVals.add(mValues.get(i).copy());
+            entries.add(mValues.get(i).copy());
         }
-
-        CandleDataSet copied = new CandleDataSet(yVals, getLabel());
-        copied.mColors = mColors;
-        copied.mShadowWidth = mShadowWidth;
-        copied.mShowCandleBar = mShowCandleBar;
-        copied.mBarSpace = mBarSpace;
-        copied.mHighLightColor = mHighLightColor;
-        copied.mIncreasingPaintStyle = mIncreasingPaintStyle;
-        copied.mDecreasingPaintStyle = mDecreasingPaintStyle;
-        copied.mShadowColor = mShadowColor;
-
+        final CandleDataSet copied = new CandleDataSet(entries, getLabel());
+        copy(copied);
         return copied;
+    }
+
+    protected void copy(CandleDataSet candleDataSet) {
+        super.copy(candleDataSet);
+        candleDataSet.mShadowWidth = mShadowWidth;
+        candleDataSet.mShowCandleBar = mShowCandleBar;
+        candleDataSet.mBarSpace = mBarSpace;
+        candleDataSet.mShadowColorSameAsCandle = mShadowColorSameAsCandle;
+        candleDataSet.mIncreasingPaintStyle = mIncreasingPaintStyle;
+        candleDataSet.mDecreasingPaintStyle = mDecreasingPaintStyle;
+        candleDataSet.mNeutralPaintStyle = mNeutralPaintStyle;
+        candleDataSet.mNeutralColor = mNeutralColor;
+        candleDataSet.mIncreasingColor = mIncreasingColor;
+        candleDataSet.mDecreasingColor = mDecreasingColor;
+        candleDataSet.mShadowColor = mShadowColor;
+        candleDataSet.mHighLightColor = mHighLightColor;
     }
 
     @Override
@@ -121,15 +127,12 @@ public class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> im
         if (e.getHigh() < mYMin) {
             mYMin = e.getHigh();
         }
-
         if (e.getHigh() > mYMax) {
             mYMax = e.getHigh();
         }
-
         if (e.getLow() < mYMin) {
             mYMin = e.getLow();
         }
-
         if (e.getLow() > mYMax) {
             mYMax = e.getLow();
         }

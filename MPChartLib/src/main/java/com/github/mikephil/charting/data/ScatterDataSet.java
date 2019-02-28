@@ -15,6 +15,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class ScatterDataSet extends LineScatterCandleRadarDataSet<Entry> implements IScatterDataSet {
 
     /**
@@ -46,24 +47,21 @@ public class ScatterDataSet extends LineScatterCandleRadarDataSet<Entry> impleme
 
     @Override
     public DataSet<Entry> copy() {
-        List<Entry> yVals = new ArrayList<>();
+        final List<Entry> entries = new ArrayList<>();
         for (int i = 0; i < mValues.size(); i++) {
-            yVals.add(mValues.get(i).copy());
+            entries.add(mValues.get(i).copy());
         }
-
-        ScatterDataSet copied = new ScatterDataSet(yVals, getLabel());
-        copied.mDrawValues = mDrawValues;
-        copied.mValueColors = mValueColors;
-        copied.mColors = mColors;
-        copied.mShapeSize = mShapeSize;
-        copied.mShapeRenderer = mShapeRenderer;
-        copied.mScatterShapeHoleRadius = mScatterShapeHoleRadius;
-        copied.mScatterShapeHoleColor = mScatterShapeHoleColor;
-        copied.mHighlightLineWidth = mHighlightLineWidth;
-        copied.mHighLightColor = mHighLightColor;
-        copied.mHighlightDashPathEffect = mHighlightDashPathEffect;
-
+        final ScatterDataSet copied = new ScatterDataSet(entries, getLabel());
+        copy(copied);
         return copied;
+    }
+
+    protected void copy(ScatterDataSet scatterDataSet) {
+        super.copy(scatterDataSet);
+        scatterDataSet.mShapeSize = mShapeSize;
+        scatterDataSet.mShapeRenderer = mShapeRenderer;
+        scatterDataSet.mScatterShapeHoleRadius = mScatterShapeHoleRadius;
+        scatterDataSet.mScatterShapeHoleColor = mScatterShapeHoleColor;
     }
 
     /**
@@ -142,7 +140,6 @@ public class ScatterDataSet extends LineScatterCandleRadarDataSet<Entry> impleme
             case CHEVRON_DOWN:
                 return new ChevronDownShapeRenderer();
         }
-
         return null;
     }
 }

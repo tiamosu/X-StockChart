@@ -6,6 +6,7 @@ import com.github.mikephil.charting.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class BubbleDataSet extends BarLineScatterCandleBubbleDataSet<BubbleEntry> implements IBubbleDataSet {
     protected float mMaxSize;
     protected boolean mNormalizeSize = true;
@@ -31,7 +32,6 @@ public class BubbleDataSet extends BarLineScatterCandleBubbleDataSet<BubbleEntry
         super.calcMinMax(e);
 
         final float size = e.getSize();
-
         if (size > mMaxSize) {
             mMaxSize = size;
         }
@@ -39,16 +39,18 @@ public class BubbleDataSet extends BarLineScatterCandleBubbleDataSet<BubbleEntry
 
     @Override
     public DataSet<BubbleEntry> copy() {
-        List<BubbleEntry> yVals = new ArrayList<>();
+        final List<BubbleEntry> entries = new ArrayList<>();
         for (int i = 0; i < mValues.size(); i++) {
-            yVals.add(mValues.get(i).copy());
+            entries.add(mValues.get(i).copy());
         }
-
-        BubbleDataSet copied = new BubbleDataSet(yVals, getLabel());
-        copied.mColors = mColors;
-        copied.mHighLightColor = mHighLightColor;
-
+        final BubbleDataSet copied = new BubbleDataSet(entries, getLabel());
+        copy(copied);
         return copied;
+    }
+
+    protected void copy(BubbleDataSet bubbleDataSet) {
+        bubbleDataSet.mHighlightCircleWidth = mHighlightCircleWidth;
+        bubbleDataSet.mNormalizeSize = mNormalizeSize;
     }
 
     @Override

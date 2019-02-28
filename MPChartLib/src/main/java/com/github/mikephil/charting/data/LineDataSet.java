@@ -15,6 +15,7 @@ import com.github.mikephil.charting.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings({"unused", "DanglingJavadoc", "WeakerAccess"})
 public class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet {
 
     /**
@@ -30,7 +31,7 @@ public class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet
     /**
      * the color of the inner circles
      */
-    private int mCircleColorHole = Color.WHITE;
+    private int mCircleHoleColor = Color.WHITE;
 
     /**
      * the radius of the circle-shaped value indicators
@@ -66,13 +67,10 @@ public class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet
 
     private boolean mDrawCircleDashMarker = true;
 
-    private SparseArray<String> xLabels;
+    private SparseArray<String> mXLabels;
 
     public LineDataSet(List<Entry> yVals, String label) {
         super(yVals, label);
-
-        // mCircleRadius = Utils.convertDpToPixel(4f);
-        // mLineWidth = Utils.convertDpToPixel(1f);
 
         if (mCircleColors == null) {
             mCircleColors = new ArrayList<>();
@@ -87,23 +85,30 @@ public class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet
 
     @Override
     public DataSet<Entry> copy() {
-        List<Entry> yVals = new ArrayList<>();
+        final List<Entry> entries = new ArrayList<>();
         for (int i = 0; i < mValues.size(); i++) {
-            yVals.add(mValues.get(i).copy());
+            entries.add(mValues.get(i).copy());
         }
-
-        LineDataSet copied = new LineDataSet(yVals, getLabel());
-        copied.mMode = mMode;
-        copied.mColors = mColors;
-        copied.mCircleRadius = mCircleRadius;
-        copied.mCircleHoleRadius = mCircleHoleRadius;
-        copied.mCircleColors = mCircleColors;
-        copied.mDashPathEffect = mDashPathEffect;
-        copied.mDrawCircles = mDrawCircles;
-        copied.mDrawCircleHole = mDrawCircleHole;
-        copied.mHighLightColor = mHighLightColor;
-
+        final LineDataSet copied = new LineDataSet(entries, getLabel());
+        copy(copied);
         return copied;
+    }
+
+    protected void copy(LineDataSet lineDataSet) {
+        super.copy(lineDataSet);
+        lineDataSet.mMode = mMode;
+        lineDataSet.mCircleColors = mCircleColors;
+        lineDataSet.mCircleHoleColor = mCircleHoleColor;
+        lineDataSet.mCircleRadius = mCircleRadius;
+        lineDataSet.mCircleHoleRadius = mCircleHoleRadius;
+        lineDataSet.mCubicIntensity = mCubicIntensity;
+        lineDataSet.mDashPathEffect = mDashPathEffect;
+        lineDataSet.mFillFormatter = mFillFormatter;
+        lineDataSet.mDrawCircles = mDrawCircles;
+        lineDataSet.mDrawCircleHole = mDrawCircleHole;
+
+        lineDataSet.mDrawCircleDashMarker = mDrawCircleDashMarker;
+        lineDataSet.mXLabels = mXLabels;
     }
 
     /**
@@ -337,13 +342,13 @@ public class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet
     /**
      * Sets the color of the inner circle of the line-circles.
      */
-    public void setCircleColorHole(int color) {
-        mCircleColorHole = color;
+    public void setCircleHoleColor(int color) {
+        mCircleHoleColor = color;
     }
 
     @Override
     public int getCircleHoleColor() {
-        return mCircleColorHole;
+        return mCircleHoleColor;
     }
 
     /**
@@ -364,11 +369,11 @@ public class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet
 
     @Override
     public SparseArray<String> getXLabels() {
-        return xLabels;
+        return mXLabels;
     }
 
     public void setXLabels(SparseArray<String> xLabels) {
-        this.xLabels = xLabels;
+        this.mXLabels = xLabels;
     }
 
     @Override

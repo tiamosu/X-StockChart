@@ -15,12 +15,14 @@ import androidx.annotation.NonNull;
  *
  * @author Philipp Jahoda
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class Entry extends BaseEntry implements Parcelable {
 
     /**
      * the x value
      */
     private float x = 0f;
+
     /**
      * the index on the x-axis
      */
@@ -35,9 +37,9 @@ public class Entry extends BaseEntry implements Parcelable {
      * @param x the x value
      * @param y the y value (the actual value of the entry)
      */
-    public Entry(int mXIndex, float x, float y) {
+    public Entry(int xIndex, float x, float y) {
         super(y);
-        this.mXIndex = mXIndex;
+        this.mXIndex = xIndex;
         this.x = x;
     }
 
@@ -48,9 +50,9 @@ public class Entry extends BaseEntry implements Parcelable {
      * @param y    the y value (the actual value of the entry)
      * @param data Spot for additional data this Entry represents.
      */
-    public Entry(int mXIndex, float x, float y, Object data) {
+    public Entry(int xIndex, float x, float y, Object data) {
         super(y, data);
-        this.mXIndex = mXIndex;
+        this.mXIndex = xIndex;
         this.x = x;
     }
 
@@ -61,9 +63,9 @@ public class Entry extends BaseEntry implements Parcelable {
      * @param y    the y value (the actual value of the entry)
      * @param icon icon image
      */
-    public Entry(int mXIndex, float x, float y, Drawable icon) {
+    public Entry(int xIndex, float x, float y, Drawable icon) {
         super(y, icon);
-        this.mXIndex = mXIndex;
+        this.mXIndex = xIndex;
         this.x = x;
     }
 
@@ -75,9 +77,9 @@ public class Entry extends BaseEntry implements Parcelable {
      * @param icon icon image
      * @param data Spot for additional data this Entry represents.
      */
-    public Entry(int mXIndex, float x, float y, Drawable icon, Object data) {
+    public Entry(int xIndex, float x, float y, Drawable icon, Object data) {
         super(y, icon, data);
-        this.mXIndex = mXIndex;
+        this.mXIndex = xIndex;
         this.x = x;
     }
 
@@ -126,15 +128,12 @@ public class Entry extends BaseEntry implements Parcelable {
         if (e == null) {
             return false;
         }
-
         if (e.getData() != this.getData()) {
             return false;
         }
-
         if (Math.abs(e.x - this.x) > Utils.FLOAT_EPSILON) {
             return false;
         }
-
         return !(Math.abs(e.getY() - this.getY()) > Utils.FLOAT_EPSILON);
     }
 

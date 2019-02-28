@@ -4,6 +4,7 @@ import com.github.mikephil.charting.interfaces.datasets.IBubbleDataSet;
 
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class BubbleData extends BarLineScatterCandleBubbleData<IBubbleDataSet> {
 
     public BubbleData() {

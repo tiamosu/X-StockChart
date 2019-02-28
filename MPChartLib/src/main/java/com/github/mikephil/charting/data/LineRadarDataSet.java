@@ -1,5 +1,6 @@
 package com.github.mikephil.charting.data;
 
+import android.annotation.TargetApi;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 
@@ -13,6 +14,7 @@ import java.util.List;
  *
  * @author Philipp Jahoda
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class LineRadarDataSet<T extends Entry> extends LineScatterCandleRadarDataSet<T> implements ILineRadarDataSet<T> {
 
     /**
@@ -67,6 +69,7 @@ public abstract class LineRadarDataSet<T extends Entry> extends LineScatterCandl
     /**
      * Sets the drawable to be used to fill the area below the line.
      */
+    @TargetApi(18)
     public void setFillDrawable(Drawable drawable) {
         this.mFillDrawable = drawable;
     }
@@ -111,5 +114,14 @@ public abstract class LineRadarDataSet<T extends Entry> extends LineScatterCandl
     @Override
     public boolean isDrawFilledEnabled() {
         return mDrawFilled;
+    }
+
+    protected void copy(LineRadarDataSet lineRadarDataSet) {
+        super.copy(lineRadarDataSet);
+        lineRadarDataSet.mFillColor = mFillColor;
+        lineRadarDataSet.mFillDrawable = mFillDrawable;
+        lineRadarDataSet.mFillAlpha = mFillAlpha;
+        lineRadarDataSet.mLineWidth = mLineWidth;
+        lineRadarDataSet.mDrawFilled = mDrawFilled;
     }
 }

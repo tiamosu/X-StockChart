@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 /**
  * Created by Philipp Jahoda on 02/06/16.
  */
+@SuppressWarnings("WeakerAccess")
 public abstract class BaseEntry {
 
     /**
@@ -23,7 +24,6 @@ public abstract class BaseEntry {
     private Drawable mIcon = null;
 
     public BaseEntry() {
-
     }
 
     public BaseEntry(float y) {
