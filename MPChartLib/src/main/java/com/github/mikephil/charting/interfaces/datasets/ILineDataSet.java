@@ -53,6 +53,7 @@ public interface ILineDataSet extends ILineRadarDataSet<Entry> {
     /**
      * Returns true if drawing circles for this DataSet is enabled, false if not
      */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     boolean isDrawCirclesEnabled();
 
     /**
@@ -64,9 +65,6 @@ public interface ILineDataSet extends ILineRadarDataSet<Entry> {
      * Returns true if drawing the circle-holes is enabled, false if not.
      */
     boolean isDrawCircleHoleEnabled();
-
-    //是否画最后一点的值和边框
-    boolean isDrawCircleDashMarkerEnabled();
 
     /**
      * Returns the DashPathEffect that is used for drawing the lines.
@@ -84,6 +82,8 @@ public interface ILineDataSet extends ILineRadarDataSet<Entry> {
      */
     IFillFormatter getFillFormatter();
 
-    //获取
+    //是否画最后一点的值和边框
+    boolean isDrawCircleDashMarkerEnabled();
+
     SparseArray<String> getXLabels();
 }

@@ -3,7 +3,7 @@ package com.github.mikephil.charting.interfaces.dataprovider;
 import android.graphics.RectF;
 
 import com.github.mikephil.charting.data.ChartData;
-import com.github.mikephil.charting.formatter.IValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.MPPointF;
 
 /**
@@ -12,6 +12,7 @@ import com.github.mikephil.charting.utils.MPPointF;
  *
  * @author Philipp Jahoda
  */
+@SuppressWarnings("unused")
 public interface ChartInterface {
 
     /**
@@ -51,7 +52,7 @@ public interface ChartInterface {
 
     RectF getContentRect();
 
-    IValueFormatter getDefaultValueFormatter();
+    ValueFormatter getDefaultValueFormatter();
 
     ChartData getData();
 
