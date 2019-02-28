@@ -112,66 +112,66 @@ public class BubbleChartRenderer extends BarLineScatterCandleBubbleRenderer {
         if (bubbleData == null) {
             return;
         }
-
         // if values are drawn
-        if (isDrawingValuesAllowed(mChart)) {
-            final List<IBubbleDataSet> dataSets = bubbleData.getDataSets();
-            final float lineHeight = Utils.calcTextHeight(mValuePaint, "1");
+        if (!isDrawingValuesAllowed(mChart)) {
+            return;
+        }
+        final List<IBubbleDataSet> dataSets = bubbleData.getDataSets();
+        final float lineHeight = Utils.calcTextHeight(mValuePaint, "1");
 
-            for (int i = 0; i < dataSets.size(); i++) {
-                final IBubbleDataSet dataSet = dataSets.get(i);
-                if (!shouldDrawValues(dataSet) || dataSet.getEntryCount() < 1) {
+        for (int i = 0; i < dataSets.size(); i++) {
+            final IBubbleDataSet dataSet = dataSets.get(i);
+            if (!shouldDrawValues(dataSet) || dataSet.getEntryCount() < 1) {
+                continue;
+            }
+
+            // apply the text-styling defined by the DataSet
+            applyValueTextStyle(dataSet);
+
+            final float phaseX = Math.max(0.f, Math.min(1.f, mAnimator.getPhaseX()));
+            final float phaseY = mAnimator.getPhaseY();
+
+            mXBounds.set(mChart, dataSet);
+
+            final float[] positions = mChart.getTransformer(dataSet.getAxisDependency())
+                    .generateTransformedValuesBubble(dataSet, phaseY, mXBounds.min, mXBounds.max);
+
+            final float alpha = phaseX == 1 ? phaseY : phaseX;
+            final ValueFormatter formatter = dataSet.getValueFormatter();
+            final MPPointF iconsOffset = MPPointF.getInstance(dataSet.getIconsOffset());
+            iconsOffset.x = Utils.convertDpToPixel(iconsOffset.x);
+            iconsOffset.y = Utils.convertDpToPixel(iconsOffset.y);
+
+            for (int j = 0; j < positions.length; j += 2) {
+                int valueTextColor = dataSet.getValueTextColor(j / 2 + mXBounds.min);
+                valueTextColor = Color.argb(Math.round(255.f * alpha), Color.red(valueTextColor),
+                        Color.green(valueTextColor), Color.blue(valueTextColor));
+
+                final float x = positions[j];
+                final float y = positions[j + 1];
+                if (!mViewPortHandler.isInBoundsRight(x)) {
+                    break;
+                }
+                if ((!mViewPortHandler.isInBoundsLeft(x) || !mViewPortHandler.isInBoundsY(y))) {
                     continue;
                 }
-
-                // apply the text-styling defined by the DataSet
-                applyValueTextStyle(dataSet);
-
-                final float phaseX = Math.max(0.f, Math.min(1.f, mAnimator.getPhaseX()));
-                final float phaseY = mAnimator.getPhaseY();
-
-                mXBounds.set(mChart, dataSet);
-
-                final float[] positions = mChart.getTransformer(dataSet.getAxisDependency())
-                        .generateTransformedValuesBubble(dataSet, phaseY, mXBounds.min, mXBounds.max);
-
-                final float alpha = phaseX == 1 ? phaseY : phaseX;
-                final ValueFormatter formatter = dataSet.getValueFormatter();
-                final MPPointF iconsOffset = MPPointF.getInstance(dataSet.getIconsOffset());
-                iconsOffset.x = Utils.convertDpToPixel(iconsOffset.x);
-                iconsOffset.y = Utils.convertDpToPixel(iconsOffset.y);
-
-                for (int j = 0; j < positions.length; j += 2) {
-                    int valueTextColor = dataSet.getValueTextColor(j / 2 + mXBounds.min);
-                    valueTextColor = Color.argb(Math.round(255.f * alpha), Color.red(valueTextColor),
-                            Color.green(valueTextColor), Color.blue(valueTextColor));
-
-                    final float x = positions[j];
-                    final float y = positions[j + 1];
-                    if (!mViewPortHandler.isInBoundsRight(x)) {
-                        break;
-                    }
-                    if ((!mViewPortHandler.isInBoundsLeft(x) || !mViewPortHandler.isInBoundsY(y))) {
-                        continue;
-                    }
-                    final BubbleEntry entry = dataSet.getEntryForIndex(j / 2 + mXBounds.min);
-                    if (dataSet.isDrawValuesEnabled()) {
-                        drawValue(c, formatter.getBubbleLabel(entry), x, y + (0.5f * lineHeight), valueTextColor);
-                    }
-                    if (entry.getIcon() != null && dataSet.isDrawIconsEnabled()) {
-                        final Drawable icon = entry.getIcon();
-                        Utils.drawImage(
-                                c,
-                                icon,
-                                (int) (x + iconsOffset.x),
-                                (int) (y + iconsOffset.y),
-                                icon.getIntrinsicWidth(),
-                                icon.getIntrinsicHeight());
-                    }
+                final BubbleEntry entry = dataSet.getEntryForIndex(j / 2 + mXBounds.min);
+                if (dataSet.isDrawValuesEnabled()) {
+                    drawValue(c, formatter.getBubbleLabel(entry), x, y + (0.5f * lineHeight), valueTextColor);
                 }
-
-                MPPointF.recycleInstance(iconsOffset);
+                if (entry.getIcon() != null && dataSet.isDrawIconsEnabled()) {
+                    final Drawable icon = entry.getIcon();
+                    Utils.drawImage(
+                            c,
+                            icon,
+                            (int) (x + iconsOffset.x),
+                            (int) (y + iconsOffset.y),
+                            icon.getIntrinsicWidth(),
+                            icon.getIntrinsicHeight());
+                }
             }
+
+            MPPointF.recycleInstance(iconsOffset);
         }
     }
 

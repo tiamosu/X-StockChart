@@ -299,7 +299,7 @@ public class YAxisRenderer extends AxisRenderer {
 
             c.drawPath(limitLinePath, mLimitLinePaint);
             limitLinePath.reset();
-            // c.drawLines(pts, mLimitLinePaint);
+
             final String label = l.getLabel();
             // if drawing the limit-value label is enabled
             if (label != null && !label.equals("")) {

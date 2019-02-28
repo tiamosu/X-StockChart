@@ -1475,13 +1475,12 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
         }
 
         // This may cause the chart view to mutate properties affecting the view port --
-        //   lets do this before we try to run any pending jobs on the view port itself
+        // lets do this before we try to run any pending jobs on the view port itself
         notifyDataSetChanged();
 
         for (Runnable r : mJobs) {
             post(r);
         }
-
         mJobs.clear();
 
         super.onSizeChanged(w, h, oldw, oldh);
