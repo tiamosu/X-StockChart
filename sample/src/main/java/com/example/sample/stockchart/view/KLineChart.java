@@ -214,13 +214,11 @@ public class KLineChart extends LinearLayout {
                     highlight.setDataIndex(0);
                     mBarChart.highlightValues(new Highlight[]{highlight});
                 }
-                updateText(e.getXIndex());
             }
 
             @Override
             public void onNothingSelected() {
                 mBarChart.highlightValues(null);
-                updateText(kLineData.getKLineDatas().size() - 1);
             }
         });
 
@@ -231,14 +229,11 @@ public class KLineChart extends LinearLayout {
                 final Highlight highlight = new Highlight(h.getX(), 0, h.getStackIndex());
                 highlight.setDataIndex(1);
                 mCandleChart.highlightValues(new Highlight[]{highlight});
-
-                updateText(e.getXIndex());
             }
 
             @Override
             public void onNothingSelected() {
                 mCandleChart.highlightValues(null);
-                updateText(kLineData.getKLineDatas().size() - 1);
             }
         });
     }
@@ -260,7 +255,6 @@ public class KLineChart extends LinearLayout {
                 return NumberUtils.keepPrecisionR(value, PRECISION);
             }
         });
-//        candleDataSet.setPrecision(PRECISION);
         final CombinedData candleChartData = new CombinedData();
         candleChartData.setData(new CandleData(candleDataSet));
         candleChartData.setData(new LineData(data.getLineDataMA()));
@@ -308,11 +302,9 @@ public class KLineChart extends LinearLayout {
                 CommonUtil.dip2px(mContext, 15));
         mBarChart.setViewPortOffsets(
                 CommonUtil.dip2px(mContext, 5),
-                CommonUtil.dip2px(mContext, 0),
+                CommonUtil.dip2px(mContext, 5),
                 CommonUtil.dip2px(mContext, 5),
                 CommonUtil.dip2px(mContext, 5));
-
-        updateText(data.getKLineDatas().size() - 1);
 
         final float offset = data.getOffSet();
         final float dataSize = data.getKLineDatas().size();
@@ -338,57 +330,6 @@ public class KLineChart extends LinearLayout {
 
         mCandleChart.notifyDataSetChanged();
         mBarChart.notifyDataSetChanged();
-    }
-
-    public void updateText(int index) {
-//        mCandleChart.setDescriptionCustom(zbColor, new String[]{
-//                "MA5:" + NumberUtils.keepPrecision(kLineData.getKLineDatas().get(index).getMa5(), 3),
-//                "MA10:" + NumberUtils.keepPrecision(kLineData.getKLineDatas().get(index).getMa10(), 3),
-//                "MA20:" + NumberUtils.keepPrecision(kLineData.getKLineDatas().get(index).getMa20(), 3)
-//        });
-        chartSwitch(index);
-    }
-
-    //副图切换
-    private void chartSwitch(int index) {
-        switch (chartType1) {
-            case 1:
-//                mBarChart.setDescriptionCustom(ContextCompat.getColor(mContext, R.color.label_text),
-//                        getResources().getString(R.string.vol_name) + formatVol(mContext, kLineData.getKLineDatas().get(index).getVolume()));
-                break;
-            case 2:
-//                mBarChart.setDescriptionCustom(zbColor, new String[]{
-//                        "DIFF:" + (kLineData.getDifData().size() <= index ? "--" : NumberUtils.keepPrecision(kLineData.getDifData().get(index).getY(), 3)),
-//                        "DEA:" + (kLineData.getDeaData().size() <= index ? "--" : NumberUtils.keepPrecision(kLineData.getDeaData().get(index).getY(), 3)),
-//                        "MACD:" + (kLineData.getMacdData().size() <= index ? "--" : NumberUtils.keepPrecision(kLineData.getMacdData().get(index).getY(), 3))
-//                });
-                break;
-            case 3:
-//                mBarChart.setDescriptionCustom(zbColor, new String[]{
-//                        "K:" + (kLineData.getkData().size() <= index ? "--" : NumberUtils.keepPrecision(kLineData.getkData().get(index).getY(), 3)),
-//                        "D:" + (kLineData.getdData().size() <= index ? "--" : NumberUtils.keepPrecision(kLineData.getdData().get(index).getY(), 3)),
-//                        "J:" + (kLineData.getjData().size() <= index ? "--" : NumberUtils.keepPrecision(kLineData.getjData().get(index).getY(), 3))
-//                });
-                break;
-            case 4:
-//                mBarChart.setDescriptionCustom(zbColor, new String[]{
-//                        "UPPER:" + (kLineData.getBollDataUP().size() <= index ? "--" : NumberUtils.keepPrecision(kLineData.getBollDataUP().get(index).getY(), 3)),
-//                        "MID:" + (kLineData.getBollDataMB().size() <= index ? "--" : NumberUtils.keepPrecision(kLineData.getBollDataMB().get(index).getY(), 3)),
-//                        "LOWER:" + (kLineData.getBollDataDN().size() <= index ? "--" : NumberUtils.keepPrecision(kLineData.getBollDataDN().get(index).getY(), 3))
-//                });
-                break;
-            case 5:
-//                mBarChart.setDescriptionCustom(zbColor, new String[]{
-//                        "RSI6:" + (kLineData.getRsiData6().size() <= index ? "--" : NumberUtils.keepPrecision(kLineData.getRsiData6().get(index).getY(), 3)),
-//                        "RSI12:" + (kLineData.getRsiData12().size() <= index ? "--" : NumberUtils.keepPrecision(kLineData.getRsiData12().get(index).getY(), 3)),
-//                        "RSI24:" + (kLineData.getRsiData24().size() <= index ? "--" : NumberUtils.keepPrecision(kLineData.getRsiData24().get(index).getY(), 3))
-//                });
-                break;
-            default:
-//                mBarChart.setDescriptionCustom(ContextCompat.getColor(mContext, R.color.label_text),
-//                        getResources().getString(R.string.vol_name) + formatVol(mContext, kLineData.getKLineDatas().get(index).getVolume()));
-                break;
-        }
     }
 
     protected int chartType1 = 1;
@@ -418,7 +359,6 @@ public class KLineChart extends LinearLayout {
             default:
                 break;
         }
-        chartSwitch(kLineData.getKLineDatas().size() - 1);
     }
 
     /**
