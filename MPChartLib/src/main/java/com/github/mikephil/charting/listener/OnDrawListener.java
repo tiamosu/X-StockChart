@@ -8,6 +8,7 @@ import com.github.mikephil.charting.data.Entry;
  *
  * @author Philipp
  */
+@SuppressWarnings("unused")
 public interface OnDrawListener {
 
     /**

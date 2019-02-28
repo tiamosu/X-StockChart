@@ -10,6 +10,7 @@ import com.github.mikephil.charting.highlight.Highlight;
 /**
  * Created by philipp on 12/06/15.
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class ChartTouchListener<T extends Chart<?>> extends GestureDetector.SimpleOnGestureListener implements View.OnTouchListener {
 
     public enum ChartGesture {
@@ -29,7 +30,6 @@ public abstract class ChartTouchListener<T extends Chart<?>> extends GestureDete
     protected static final int PINCH_ZOOM = 4;
     protected static final int POST_ZOOM = 5;
     protected static final int ROTATE = 6;
-    protected static final int HIGH_TLIGHT = 7;
 
     /**
      * integer field that holds the current touch-state
@@ -61,7 +61,7 @@ public abstract class ChartTouchListener<T extends Chart<?>> extends GestureDete
      * Calls the OnChartGestureListener to do the start callback
      */
     public void startAction(MotionEvent me) {
-        OnChartGestureListener l = mChart.getOnChartGestureListener();
+        final OnChartGestureListener l = mChart.getOnChartGestureListener();
         if (l != null) {
             l.onChartGestureStart(me, mLastGesture);
         }
@@ -71,7 +71,7 @@ public abstract class ChartTouchListener<T extends Chart<?>> extends GestureDete
      * Calls the OnChartGestureListener to do the end callback
      */
     public void endAction(MotionEvent me) {
-        OnChartGestureListener l = mChart.getOnChartGestureListener();
+        final OnChartGestureListener l = mChart.getOnChartGestureListener();
         if (l != null) {
             l.onChartGestureEnd(me, mLastGesture);
         }
@@ -98,7 +98,6 @@ public abstract class ChartTouchListener<T extends Chart<?>> extends GestureDete
         return mLastGesture;
     }
 
-
     /**
      * Perform a highlight operation.
      */
@@ -116,8 +115,8 @@ public abstract class ChartTouchListener<T extends Chart<?>> extends GestureDete
      * returns the distance between two points
      */
     protected static float distance(float eventX, float startX, float eventY, float startY) {
-        float dx = eventX - startX;
-        float dy = eventY - startY;
+        final float dx = eventX - startX;
+        final float dy = eventY - startY;
         return (float) Math.sqrt(dx * dx + dy * dy);
     }
 }

@@ -3,6 +3,7 @@ package com.github.mikephil.charting.matrix;
 /**
  * Simple 3D vector class. Handles basic vector math for 3D vectors.
  */
+@SuppressWarnings({"unused", "WeakerAccess"})
 public final class Vector3 {
     public float x;
     public float y;
@@ -103,15 +104,14 @@ public final class Vector3 {
     }
 
     public final float distance2(Vector3 other) {
-        float dx = x - other.x;
-        float dy = y - other.y;
-        float dz = z - other.z;
+        final float dx = x - other.x;
+        final float dy = y - other.y;
+        final float dz = z - other.z;
         return (dx * dx) + (dy * dy) + (dz * dz);
     }
 
     public final float normalize() {
         final float magnitude = length();
-
         // TODO: I'm choosing safety over speed here.
         if (magnitude != 0.0f) {
             x /= magnitude;

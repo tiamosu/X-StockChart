@@ -9,6 +9,7 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
 /**
  * Created by Philipp Jahoda on 19/02/16.
  */
+@SuppressWarnings({"unchecked", "WeakerAccess"})
 public class MoveViewJob extends ViewPortJob {
 
     private static ObjectPool<MoveViewJob> pool;
@@ -19,7 +20,7 @@ public class MoveViewJob extends ViewPortJob {
     }
 
     public static MoveViewJob getInstance(ViewPortHandler viewPortHandler, float xValue, float yValue, Transformer trans, View v) {
-        MoveViewJob result = pool.get();
+        final MoveViewJob result = pool.get();
         result.mViewPortHandler = viewPortHandler;
         result.xValue = xValue;
         result.yValue = yValue;
@@ -38,7 +39,6 @@ public class MoveViewJob extends ViewPortJob {
 
     @Override
     public void run() {
-
         pts[0] = xValue;
         pts[1] = yValue;
 

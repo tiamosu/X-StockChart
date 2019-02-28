@@ -2,7 +2,6 @@ package com.github.mikephil.charting.jobs;
 
 import android.animation.Animator;
 import android.animation.ValueAnimator;
-import android.annotation.SuppressLint;
 import android.graphics.Matrix;
 import android.view.View;
 
@@ -15,7 +14,7 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
 /**
  * Created by Philipp Jahoda on 19/02/16.
  */
-@SuppressLint("NewApi")
+@SuppressWarnings({"unchecked", "WeakerAccess", "unused"})
 public class AnimatedZoomJob extends AnimatedViewPortJob implements Animator.AnimatorListener {
 
     private static ObjectPool<AnimatedZoomJob> pool;
@@ -24,8 +23,11 @@ public class AnimatedZoomJob extends AnimatedViewPortJob implements Animator.Ani
         pool = ObjectPool.create(8, new AnimatedZoomJob(null, null, null, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
     }
 
-    public static AnimatedZoomJob getInstance(ViewPortHandler viewPortHandler, View v, Transformer trans, YAxis axis, float xAxisRange, float scaleX, float scaleY, float xOrigin, float yOrigin, float zoomCenterX, float zoomCenterY, float zoomOriginX, float zoomOriginY, long duration) {
-        AnimatedZoomJob result = pool.get();
+    public static AnimatedZoomJob getInstance(ViewPortHandler viewPortHandler, View v, Transformer trans,
+                                              YAxis axis, float xAxisRange, float scaleX, float scaleY,
+                                              float xOrigin, float yOrigin, float zoomCenterX, float zoomCenterY,
+                                              float zoomOriginX, float zoomOriginY, long duration) {
+        final AnimatedZoomJob result = pool.get();
         result.mViewPortHandler = viewPortHandler;
         result.xValue = scaleX;
         result.yValue = scaleY;
@@ -33,6 +35,8 @@ public class AnimatedZoomJob extends AnimatedViewPortJob implements Animator.Ani
         result.view = v;
         result.xOrigin = xOrigin;
         result.yOrigin = yOrigin;
+        result.yAxis = axis;
+        result.xAxisRange = xAxisRange;
         result.resetAnimator();
         result.animator.setDuration(duration);
         return result;
@@ -48,7 +52,6 @@ public class AnimatedZoomJob extends AnimatedViewPortJob implements Animator.Ani
 
     protected float xAxisRange;
 
-    @SuppressLint("NewApi")
     public AnimatedZoomJob(ViewPortHandler viewPortHandler, View v, Transformer trans, YAxis axis, float xAxisRange, float scaleX, float scaleY, float xOrigin, float yOrigin, float zoomCenterX, float zoomCenterY, float zoomOriginX, float zoomOriginY, long duration) {
         super(viewPortHandler, scaleX, scaleY, trans, v, xOrigin, yOrigin, duration);
 
@@ -65,17 +68,15 @@ public class AnimatedZoomJob extends AnimatedViewPortJob implements Animator.Ani
 
     @Override
     public void onAnimationUpdate(ValueAnimator animation) {
+        final float scaleX = xOrigin + (xValue - xOrigin) * phase;
+        final float scaleY = yOrigin + (yValue - yOrigin) * phase;
 
-        float scaleX = xOrigin + (xValue - xOrigin) * phase;
-        float scaleY = yOrigin + (yValue - yOrigin) * phase;
-
-        Matrix save = mOnAnimationUpdateMatrixBuffer;
+        final Matrix save = mOnAnimationUpdateMatrixBuffer;
         mViewPortHandler.setZoom(scaleX, scaleY, save);
         mViewPortHandler.refresh(save, view, false);
 
-        float valsInView = yAxis.mAxisRange / mViewPortHandler.getScaleY();
-        float xsInView = xAxisRange / mViewPortHandler.getScaleX();
-
+        final float valsInView = yAxis.mAxisRange / mViewPortHandler.getScaleY();
+        final float xsInView = xAxisRange / mViewPortHandler.getScaleX();
         pts[0] = zoomOriginX + ((zoomCenterX - xsInView / 2f) - zoomOriginX) * phase;
         pts[1] = zoomOriginY + ((zoomCenterY + valsInView / 2f) - zoomOriginY) * phase;
 
@@ -93,22 +94,18 @@ public class AnimatedZoomJob extends AnimatedViewPortJob implements Animator.Ani
 
     @Override
     public void onAnimationCancel(Animator animation) {
-
     }
 
     @Override
     public void onAnimationRepeat(Animator animation) {
-
     }
 
     @Override
     public void recycleSelf() {
-
     }
 
     @Override
     public void onAnimationStart(Animator animation) {
-
     }
 
     @Override

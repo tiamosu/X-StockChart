@@ -15,13 +15,14 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
  *
  * @author Philipp Jahoda
  */
+@SuppressWarnings({"unused", "WeakerAccess"})
 public abstract class ViewPortJob extends ObjectPool.Poolable implements Runnable {
 
     protected float[] pts = new float[2];
 
     protected ViewPortHandler mViewPortHandler;
-    protected float xValue = 0f;
-    protected float yValue = 0f;
+    protected float xValue;
+    protected float yValue;
     protected Transformer mTrans;
     protected View view;
 
