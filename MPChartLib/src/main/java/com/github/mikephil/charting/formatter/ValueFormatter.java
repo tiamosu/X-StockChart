@@ -12,6 +12,7 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
 /**
  * Class to format all values before they are drawn as labels.
  */
+@SuppressWarnings({"unused", "deprecation"})
 public abstract class ValueFormatter implements IAxisValueFormatter, IValueFormatter {
 
     /**
@@ -29,6 +30,7 @@ public abstract class ValueFormatter implements IAxisValueFormatter, IValueForma
 
     /**
      * <b>DO NOT USE</b>, only for backwards compatibility and will be removed in future versions.
+     *
      * @param value           the value to be formatted
      * @param entry           the entry the value belongs to - in e.g. BarChart, this is of class BarEntry
      * @param dataSetIndex    the index of the DataSet the entry in focus belongs to
@@ -133,5 +135,4 @@ public abstract class ValueFormatter implements IAxisValueFormatter, IValueForma
     public String getCandleLabel(CandleEntry candleEntry) {
         return getFormattedValue(candleEntry.getHigh());
     }
-
 }

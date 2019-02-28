@@ -7,6 +7,7 @@ import java.util.Collection;
 /**
  * This formatter is used for passing an array of x-axis labels, on whole x steps.
  */
+@SuppressWarnings("unused")
 public class IndexAxisValueFormatter implements IAxisValueFormatter {
     private String[] mValues = new String[]{};
     private int mValueCount = 0;
@@ -42,11 +43,10 @@ public class IndexAxisValueFormatter implements IAxisValueFormatter {
 
     @Override
     public String getFormattedValue(float value, AxisBase axis) {
-        int index = Math.round(value);
+        final int index = Math.round(value);
         if (index < 0 || index >= mValueCount || index != (int) value) {
             return "";
         }
-
         return mValues[index];
     }
 

@@ -1,5 +1,6 @@
 package com.github.mikephil.charting.exception;
 
+@SuppressWarnings("unused")
 public class DrawingDataSetNotCreatedException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;

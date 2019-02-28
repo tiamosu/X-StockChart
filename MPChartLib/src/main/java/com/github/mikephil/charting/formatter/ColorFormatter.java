@@ -9,6 +9,7 @@ import com.github.mikephil.charting.interfaces.datasets.IDataSet;
  *
  * @author Philipp Jahoda
  */
+@SuppressWarnings("unused")
 public interface ColorFormatter {
 
     /**
