@@ -2,34 +2,34 @@ package com.github.mikephil.charting.renderer;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 
 import com.github.mikephil.charting.animation.ChartAnimator;
 import com.github.mikephil.charting.data.CandleData;
 import com.github.mikephil.charting.data.CandleEntry;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.dataprovider.CandleDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.ICandleDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.MPPointD;
-import com.github.mikephil.charting.utils.NumberUtils;
+import com.github.mikephil.charting.utils.MPPointF;
 import com.github.mikephil.charting.utils.Transformer;
 import com.github.mikephil.charting.utils.Utils;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
 
     protected CandleDataProvider mChart;
-    private float offSet = 0.5f;
+    private static final float OFFSET = 0.5f;
+
     private float[] mShadowBuffers = new float[8];
     private float[] mBodyBuffers = new float[4];
     private float[] mRangeBuffers = new float[4];
     private float[] mOpenBuffers = new float[4];
     private float[] mCloseBuffers = new float[4];
-
-    private final AtomicBoolean mInitialized = new AtomicBoolean(false);
 
     public CandleStickChartRenderer(CandleDataProvider chart, ChartAnimator animator,
                                     ViewPortHandler viewPortHandler) {
@@ -67,15 +67,13 @@ public class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
             CandleEntry e = null;
             try {
                 e = dataSet.getEntryForIndex(j);
-            } catch (Exception e1) {
-                e1.printStackTrace();
+            } catch (Exception ignored) {
             }
-
             if (e == null) {
                 continue;
             }
 
-            final float xPos = e.getX() + offSet;
+            final float xPos = e.getX();
             final float open = e.getOpen();
             final float close = e.getClose();
             final float high = e.getHigh();
@@ -107,66 +105,72 @@ public class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
                 trans.pointValuesToPixel(mShadowBuffers);
 
                 // draw the shadows
-                int shadowsColor;
                 if (dataSet.getShadowColorSameAsCandle()) {
                     if (open > close) {
-                        shadowsColor = dataSet.getDecreasingColor() == ColorTemplate.COLOR_NONE
-                                ? dataSet.getColor(j)
-                                : dataSet.getDecreasingColor();
+                        if (dataSet.getDecreasingColor() == ColorTemplate.COLOR_NONE) {
+                            mRenderPaint.setColor(dataSet.getColor(j));
+                        } else {
+                            mRenderPaint.setColor(dataSet.getDecreasingColor());
+                        }
                     } else if (open < close) {
-                        shadowsColor = dataSet.getIncreasingColor() == ColorTemplate.COLOR_NONE
-                                ? dataSet.getColor(j)
-                                : dataSet.getIncreasingColor();
+                        if (dataSet.getIncreasingColor() == ColorTemplate.COLOR_NONE) {
+                            mRenderPaint.setColor(dataSet.getColor(j));
+                        } else {
+                            mRenderPaint.setColor(dataSet.getIncreasingColor());
+                        }
                     } else {
-                        shadowsColor = dataSet.getNeutralColor() == ColorTemplate.COLOR_NONE
-                                ? dataSet.getColor(j)
-                                : dataSet.getNeutralColor();
+                        if (dataSet.getNeutralColor() == ColorTemplate.COLOR_NONE) {
+                            mRenderPaint.setColor(dataSet.getColor(j));
+                        } else {
+                            mRenderPaint.setColor(dataSet.getNeutralColor());
+                        }
                     }
                 } else {
-                    shadowsColor = dataSet.getShadowColor() == ColorTemplate.COLOR_NONE
-                            ? dataSet.getColor(j)
-                            : dataSet.getShadowColor();
+                    if (dataSet.getShadowColor() == ColorTemplate.COLOR_NONE) {
+                        mRenderPaint.setColor(dataSet.getColor(j));
+                    } else {
+                        mRenderPaint.setColor(dataSet.getShadowColor());
+                    }
                 }
-                mRenderPaint.setColor(shadowsColor);
                 mRenderPaint.setStyle(Paint.Style.STROKE);
                 c.drawLines(mShadowBuffers, mRenderPaint);
 
                 // calculate the body
-                mBodyBuffers[0] = xPos - offSet + barSpace;
+                mBodyBuffers[0] = xPos - OFFSET + barSpace;
                 mBodyBuffers[1] = close * phaseY;
-                mBodyBuffers[2] = (xPos + offSet - barSpace);
+                mBodyBuffers[2] = (xPos + OFFSET - barSpace);
                 mBodyBuffers[3] = open * phaseY;
                 trans.pointValuesToPixel(mBodyBuffers);
 
                 // draw body differently for increasing and decreasing entry
                 if (open > close) { // decreasing
-                    mRenderPaint.setColor(
-                            dataSet.getDecreasingColor() == ColorTemplate.COLOR_NONE
-                                    ? dataSet.getColor(j)
-                                    : dataSet.getDecreasingColor()
-                    );
+                    if (dataSet.getDecreasingColor() == ColorTemplate.COLOR_NONE) {
+                        mRenderPaint.setColor(dataSet.getColor(j));
+                    } else {
+                        mRenderPaint.setColor(dataSet.getDecreasingColor());
+                    }
                     mRenderPaint.setStyle(dataSet.getDecreasingPaintStyle());
                     c.drawRect(
                             mBodyBuffers[0], mBodyBuffers[3],
                             mBodyBuffers[2], mBodyBuffers[1],
                             mRenderPaint);
                 } else if (open < close) {
-                    mRenderPaint.setColor(
-                            dataSet.getIncreasingColor() == ColorTemplate.COLOR_NONE
-                                    ? dataSet.getColor(j)
-                                    : dataSet.getIncreasingColor()
-                    );
+                    if (dataSet.getIncreasingColor() == ColorTemplate.COLOR_NONE) {
+                        mRenderPaint.setColor(dataSet.getColor(j));
+                    } else {
+                        mRenderPaint.setColor(dataSet.getIncreasingColor());
+                    }
                     mRenderPaint.setStyle(dataSet.getIncreasingPaintStyle());
                     c.drawRect(
                             mBodyBuffers[0], mBodyBuffers[1],
                             mBodyBuffers[2], mBodyBuffers[3],
                             mRenderPaint);
                 } else { // equal values
-                    mRenderPaint.setColor(
-                            dataSet.getNeutralColor() == ColorTemplate.COLOR_NONE
-                                    ? dataSet.getColor(j)
-                                    : dataSet.getNeutralColor()
-                    );
+                    if (dataSet.getNeutralColor() == ColorTemplate.COLOR_NONE) {
+                        mRenderPaint.setColor(dataSet.getColor(j));
+                    } else {
+                        mRenderPaint.setColor(dataSet.getNeutralColor());
+                    }
                     mRenderPaint.setStyle(dataSet.getNeutralPaintStyle());
                     c.drawLine(
                             mBodyBuffers[0], mBodyBuffers[1],
@@ -179,12 +183,12 @@ public class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
                 mRangeBuffers[2] = xPos;
                 mRangeBuffers[3] = low * phaseY;
 
-                mOpenBuffers[0] = xPos - offSet + barSpace;
+                mOpenBuffers[0] = xPos - OFFSET + barSpace;
                 mOpenBuffers[1] = open * phaseY;
                 mOpenBuffers[2] = xPos;
                 mOpenBuffers[3] = open * phaseY;
 
-                mCloseBuffers[0] = xPos + offSet - barSpace;
+                mCloseBuffers[0] = xPos + OFFSET - barSpace;
                 mCloseBuffers[1] = close * phaseY;
                 mCloseBuffers[2] = xPos;
                 mCloseBuffers[3] = close * phaseY;
@@ -227,31 +231,36 @@ public class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
 
     @Override
     public void drawValues(Canvas c) {
+        // if values are drawn
+//        if (!isDrawingValuesAllowed(mChart)) {
+//            return;
+//        }
         final List<ICandleDataSet> dataSets = mChart.getCandleData().getDataSets();
-
         for (int i = 0; i < dataSets.size(); i++) {
             final ICandleDataSet dataSet = dataSets.get(i);
-            if (!dataSet.isDrawValuesEnabled() || dataSet.getEntryCount() == 0) {
+            if (!shouldDrawValues(dataSet) || dataSet.getEntryCount() < 1) {
                 continue;
             }
-
-            if (mInitialized.compareAndSet(false, true)) {
-                final int color = dataSet.getCandleDataColor();
-                mValuePaint.setColor(color);
-            }
-
             // apply the text-styling defined by the DataSet
             applyValueTextStyle(dataSet);
 
             final Transformer trans = mChart.getTransformer(dataSet.getAxisDependency());
+            mXBounds.set(mChart, dataSet);
+
             final float[] positions = trans.generateTransformedValuesCandle(
                     dataSet, mAnimator.getPhaseX(), mAnimator.getPhaseY(), mXBounds.min, mXBounds.max);
+            final float yOffset = Utils.convertDpToPixel(5f);
+
+            final ValueFormatter formatter = dataSet.getValueFormatter();
+            final MPPointF iconsOffset = MPPointF.getInstance(dataSet.getIconsOffset());
+            iconsOffset.x = Utils.convertDpToPixel(iconsOffset.x);
+            iconsOffset.y = Utils.convertDpToPixel(iconsOffset.y);
 
             //计算最大值和最小值
             float maxValue = 0, minValue = 0;
             int maxIndex = 0, minIndex = 0;
             CandleEntry maxEntry = null, minEntry = null;
-            boolean firstInit = true;
+            boolean isFirstInit = true;
             for (int j = 0; j < positions.length; j += 2) {
                 final float x = positions[j];
                 final float y = positions[j + 1];
@@ -263,10 +272,10 @@ public class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
                 }
 
                 final CandleEntry entry = dataSet.getEntryForIndex(j / 2 + mXBounds.min);
-                if (firstInit) {
+                if (isFirstInit) {
+                    isFirstInit = false;
                     maxValue = entry.getHigh();
                     minValue = entry.getLow();
-                    firstInit = false;
                     maxEntry = entry;
                     minEntry = entry;
                 } else {
@@ -281,94 +290,128 @@ public class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
                         minEntry = entry;
                     }
                 }
+                if (dataSet.isDrawValuesEnabled()) {
+//                    drawValue(c, formatter.getCandleLabel(entry), x, y - yOffset, dataSet.getValueTextColor(j / 2));
+                }
+                if (entry.getIcon() != null && dataSet.isDrawIconsEnabled()) {
+                    final Drawable icon = entry.getIcon();
+                    Utils.drawImage(
+                            c,
+                            icon,
+                            (int) (x + iconsOffset.x),
+                            (int) (y + iconsOffset.y),
+                            icon.getIntrinsicWidth(),
+                            icon.getIntrinsicHeight());
+                }
             }
+            MPPointF.recycleInstance(iconsOffset);
 
             //绘制最大值和最小值
             if (maxIndex > minIndex) {
                 //画右边
-                final String highString = NumberUtils.keepPrecisionR(minValue, dataSet.getPrecision());
+                final String highString = formatter.getFormattedValue(minValue);
                 //计算显示位置
                 //计算文本宽度
                 final int highStringWidth = Utils.calcTextWidth(mValuePaint, "← " + highString);
                 final int highStringHeight = Utils.calcTextHeight(mValuePaint, "← " + highString);
 
                 final float[] tPosition = new float[2];
-                tPosition[0] = minEntry.getX() + offSet;
+                tPosition[0] = minEntry.getX();
                 tPosition[1] = minEntry.getLow();
                 trans.pointValuesToPixel(tPosition);
                 if (tPosition[0] + highStringWidth / 2 > mViewPortHandler.contentRight()) {
-                    c.drawText(highString + " →",
+                    drawValue(c,
+                            highString + " →",
                             tPosition[0] - (float) highStringWidth / 2,
-                            tPosition[1] + (float) highStringHeight / 2, mValuePaint);
+                            tPosition[1] + (float) highStringHeight / 2,
+                            dataSet.getCandleDataColor());
                 } else {
-                    c.drawText("← " + highString,
+                    drawValue(c,
+                            "← " + highString,
                             tPosition[0] + (float) highStringWidth / 2,
-                            tPosition[1] + (float) highStringHeight / 2, mValuePaint);
+                            tPosition[1] + (float) highStringHeight / 2,
+                            dataSet.getCandleDataColor());
                 }
             } else {
                 //画左边
-                final String highString = NumberUtils.keepPrecisionR(minValue, dataSet.getPrecision());
-                //计算显示位置
+                final String highString = formatter.getFormattedValue(minValue);
                 final int highStringWidth = Utils.calcTextWidth(mValuePaint, highString + " →");
                 final int highStringHeight = Utils.calcTextHeight(mValuePaint, highString + " →");
 
                 final float[] tPosition = new float[2];
-                tPosition[0] = minEntry == null ? 0f : minEntry.getX() + offSet;
+                tPosition[0] = minEntry == null ? 0f : minEntry.getX();
                 tPosition[1] = minEntry == null ? 0f : minEntry.getLow();
                 trans.pointValuesToPixel(tPosition);
                 if (tPosition[0] - highStringWidth / 2 < mViewPortHandler.contentLeft()) {
-                    c.drawText("← " + highString,
+                    drawValue(c,
+                            "← " + highString,
                             tPosition[0] + (float) highStringWidth / 2,
-                            tPosition[1] + (float) highStringHeight / 2, mValuePaint);
+                            tPosition[1] + (float) highStringHeight / 2,
+                            dataSet.getCandleDataColor());
                 } else {
-                    c.drawText(highString + " →",
+                    drawValue(c,
+                            highString + " →",
                             tPosition[0] - (float) highStringWidth / 2,
-                            tPosition[1] + (float) highStringHeight / 2, mValuePaint);
+                            tPosition[1] + (float) highStringHeight / 2,
+                            dataSet.getCandleDataColor());
                 }
             }
 
             //这里画的是上面两个点
             if (maxIndex > minIndex) {
                 //画左边
-                final String highString = NumberUtils.keepPrecisionR(maxValue, dataSet.getPrecision());
+                final String highString = formatter.getFormattedValue(maxValue);
                 final int highStringWidth = Utils.calcTextWidth(mValuePaint, highString + " →");
                 final int highStringHeight = Utils.calcTextHeight(mValuePaint, highString + " →");
 
                 final float[] tPosition = new float[2];
-                tPosition[0] = maxEntry.getX() + offSet;
+                tPosition[0] = maxEntry.getX();
                 tPosition[1] = maxEntry.getHigh();
                 trans.pointValuesToPixel(tPosition);
                 if ((tPosition[0] - highStringWidth / 2) < mViewPortHandler.contentLeft()) {
-                    c.drawText("← " + highString,
+                    drawValue(c,
+                            "← " + highString,
                             tPosition[0] + (float) highStringWidth / 2,
-                            tPosition[1] + (float) highStringHeight / 2, mValuePaint);
+                            tPosition[1] + (float) highStringHeight / 2,
+                            dataSet.getCandleDataColor());
                 } else {
-                    c.drawText(highString + " →",
+                    drawValue(c,
+                            highString + " →",
                             tPosition[0] - (float) highStringWidth / 2,
-                            tPosition[1] + (float) highStringHeight / 2, mValuePaint);
+                            tPosition[1] + (float) highStringHeight / 2,
+                            dataSet.getCandleDataColor());
                 }
             } else {
                 //画右边
-                final String highString = NumberUtils.keepPrecisionR(maxValue, dataSet.getPrecision());
-                //计算显示位置
+                final String highString = formatter.getFormattedValue(maxValue);
                 final int highStringWidth = Utils.calcTextWidth(mValuePaint, "← " + highString);
                 final int highStringHeight = Utils.calcTextHeight(mValuePaint, "← " + highString);
 
                 final float[] tPosition = new float[2];
-                tPosition[0] = maxEntry == null ? 0f : maxEntry.getX() + offSet;
+                tPosition[0] = maxEntry == null ? 0f : maxEntry.getX();
                 tPosition[1] = maxEntry == null ? 0f : maxEntry.getHigh();
                 trans.pointValuesToPixel(tPosition);
                 if (tPosition[0] + highStringWidth / 2 > mViewPortHandler.contentRight()) {
-                    c.drawText(highString + " →",
+                    drawValue(c,
+                            highString + " →",
                             tPosition[0] - (float) highStringWidth / 2,
-                            tPosition[1] + (float) highStringHeight / 2, mValuePaint);
+                            tPosition[1] + (float) highStringHeight / 2,
+                            dataSet.getCandleDataColor());
                 } else {
-                    c.drawText("← " + highString,
+                    drawValue(c,
+                            "← " + highString,
                             tPosition[0] + (float) highStringWidth / 2,
-                            tPosition[1] + (float) highStringHeight / 2, mValuePaint);
+                            tPosition[1] + (float) highStringHeight / 2,
+                            dataSet.getCandleDataColor());
                 }
             }
         }
+    }
+
+    @Override
+    public void drawValue(Canvas c, String valueText, float x, float y, int color) {
+        mValuePaint.setColor(color);
+        c.drawText(valueText, x, y, mValuePaint);
     }
 
     @Override
@@ -378,7 +421,6 @@ public class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
     @Override
     public void drawHighlighted(Canvas c, Highlight[] indices) {
         final CandleData candleData = mChart.getCandleData();
-
         for (Highlight high : indices) {
             final ICandleDataSet set = candleData.getDataSetByIndex(high.getDataSetIndex());
             if (set == null || !set.isHighlightEnabled()) {
@@ -392,9 +434,9 @@ public class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
 
             final float lowValue = e.getLow() * mAnimator.getPhaseY();
             final float highValue = e.getHigh() * mAnimator.getPhaseY();
-            final float y = e.getClose() * mAnimator.getPhaseY();
+            final float y = (lowValue + highValue) / 2f;
 
-            final MPPointD pix = mChart.getTransformer(set.getAxisDependency()).getPixelForValues(e.getX() + offSet, y);
+            final MPPointD pix = mChart.getTransformer(set.getAxisDependency()).getPixelForValues(e.getX(), y);
             high.setDraw((float) pix.x, (float) pix.y);
 
             // draw the lines

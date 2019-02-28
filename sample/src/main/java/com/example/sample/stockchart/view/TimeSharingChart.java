@@ -26,7 +26,6 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.ValueFormatter;
-import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.NumberUtils;
 
@@ -315,62 +314,6 @@ public class TimeSharingChart extends LinearLayout {
             lineDataSet.setBSCircles(20, 70, 90);
         }
         return lineDataSet;
-    }
-
-    public void dynamicsAddOne(TimeSharingDataModel dataModel, int length) {
-        final int index = length - 1;
-        final LineData lineData = mLineChart.getData();
-        final ILineDataSet d1 = lineData.getDataSetByIndex(0);
-        d1.addEntry(new Entry(index, index, (float) dataModel.getNowPrice()));
-        final ILineDataSet d2 = lineData.getDataSetByIndex(1);
-        d2.addEntry(new Entry(index, index, (float) dataModel.getAveragePrice()));
-
-        final BarData barData = mBarChart.getData();
-        final IBarDataSet barDataSet = barData.getDataSetByIndex(0);
-        barDataSet.addEntry(new BarEntry(index, index, dataModel.getVolume()));
-        lineData.notifyDataChanged();
-        mLineChart.notifyDataSetChanged();
-        barData.notifyDataChanged();
-        mBarChart.notifyDataSetChanged();
-        mLineChart.setVisibleXRange(mMaxCount, mMaxCount);
-        mBarChart.setVisibleXRange(mMaxCount, mMaxCount);
-        //动态添加或移除数据后， 调用invalidate()刷新图表之前 必须调用 notifyDataSetChanged() .
-        mLineChart.moveViewToX(index);
-        mBarChart.moveViewToX(index);
-    }
-
-    public void dynamicsUpdateOne(TimeSharingDataModel dataModel, int length) {
-        final int index = length - 1;
-        final LineData lineData = mLineChart.getData();
-        final ILineDataSet d1 = lineData.getDataSetByIndex(0);
-        final Entry e = d1.getEntryForIndex(index);
-        d1.removeEntry(e);
-        d1.addEntry(new Entry(index, index, (float) dataModel.getNowPrice()));
-
-        final ILineDataSet d2 = lineData.getDataSetByIndex(1);
-        final Entry e2 = d2.getEntryForIndex(index);
-        d2.removeEntry(e2);
-        d2.addEntry(new Entry(index, index, (float) dataModel.getAveragePrice()));
-
-        final BarData barData = mBarChart.getData();
-        final IBarDataSet barDataSet = barData.getDataSetByIndex(0);
-        barDataSet.removeEntry(index);
-        barDataSet.addEntry(new BarEntry(index, index, dataModel.getVolume()));
-
-        lineData.notifyDataChanged();
-        mLineChart.notifyDataSetChanged();
-        mLineChart.moveViewToX(index);
-
-        barData.notifyDataChanged();
-        mBarChart.notifyDataSetChanged();
-        mBarChart.moveViewToX(index);
-    }
-
-    public void cleanData() {
-        if (mLineChart != null && mLineChart.getLineData() != null) {
-            mLineChart.clearValues();
-            mBarChart.clearValues();
-        }
     }
 
     public void setXLabels(SparseArray<String> xLabels) {
