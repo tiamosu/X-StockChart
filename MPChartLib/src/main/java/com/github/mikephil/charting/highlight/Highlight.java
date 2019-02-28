@@ -14,12 +14,12 @@ public class Highlight {
     /**
      * the x-value of the highlighted value
      */
-    private float mX = Float.NaN;
+    private float mX;
 
     /**
      * the y-value of the highlighted value
      */
-    private float mY = Float.NaN;
+    private float mY;
 
     /**
      * the x-pixel of the highlight
@@ -61,14 +61,12 @@ public class Highlight {
      */
     private float mDrawY;
 
-    //用这个会造成同一条
     public Highlight(float x, float y, int dataSetIndex) {
         this.mX = x;
         this.mY = y;
         this.mDataSetIndex = dataSetIndex;
     }
 
-    //用这个
     public Highlight(float x, int dataSetIndex, int stackIndex) {
         this(x, Float.NaN, dataSetIndex);
         this.mStackIndex = stackIndex;

@@ -4,6 +4,7 @@ package com.github.mikephil.charting.highlight;
  * Created by Philipp Jahoda on 24/07/15. Class that represents the range of one value in a stacked bar entry. e.g.
  * stack values are -10, 5, 20 -> then ranges are (-10 - 0, 0 - 5, 5 - 25).
  */
+@SuppressWarnings("unused")
 public final class Range {
     public float from;
     public float to;

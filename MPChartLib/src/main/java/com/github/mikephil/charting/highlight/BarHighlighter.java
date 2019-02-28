@@ -10,6 +10,7 @@ import com.github.mikephil.charting.utils.MPPointD;
 /**
  * Created by Philipp Jahoda on 22/07/15.
  */
+@SuppressWarnings("WeakerAccess")
 public class BarHighlighter extends ChartHighlighter<BarDataProvider> {
 
     public BarHighlighter(BarDataProvider chart) {
@@ -18,19 +19,15 @@ public class BarHighlighter extends ChartHighlighter<BarDataProvider> {
 
     @Override
     public Highlight getHighlight(float x, float y) {
-        Highlight high = super.getHighlight(x, y);
-
+        final Highlight high = super.getHighlight(x, y);
         if (high == null) {
             return null;
         }
 
-        MPPointD pos = getValsForTouch(x, y);
-
-        BarData barData = mChart.getBarData();
-
-        IBarDataSet set = barData.getDataSetByIndex(high.getDataSetIndex());
+        final MPPointD pos = getValsForTouch(x, y);
+        final BarData barData = mChart.getBarData();
+        final IBarDataSet set = barData.getDataSetByIndex(high.getDataSetIndex());
         if (set.isStacked()) {
-
             return getStackedHighlight(high,
                     set,
                     (float) pos.x,
@@ -38,7 +35,6 @@ public class BarHighlighter extends ChartHighlighter<BarDataProvider> {
         }
 
         MPPointD.recycleInstance(pos);
-
         return high;
     }
 
@@ -49,7 +45,7 @@ public class BarHighlighter extends ChartHighlighter<BarDataProvider> {
      * @param high the Highlight to work with looking for stacked values
      */
     public Highlight getStackedHighlight(Highlight high, IBarDataSet set, float xVal, float yVal) {
-        BarEntry entry = set.getEntryForXValue(xVal, yVal);
+        final BarEntry entry = set.getEntryForXValue(xVal, yVal);
         if (entry == null) {
             return null;
         }
@@ -58,11 +54,11 @@ public class BarHighlighter extends ChartHighlighter<BarDataProvider> {
         if (entry.getYVals() == null) {
             return high;
         } else {
-            Range[] ranges = entry.getRanges();
+            final Range[] ranges = entry.getRanges();
             if (ranges.length > 0) {
-                int stackIndex = getClosestStackIndex(ranges, yVal);
-                MPPointD pixels = mChart.getTransformer(set.getAxisDependency()).getPixelForValues(high.getX(), ranges[stackIndex].to);
-                Highlight stackedHigh = new Highlight(
+                final int stackIndex = getClosestStackIndex(ranges, yVal);
+                final MPPointD pixels = mChart.getTransformer(set.getAxisDependency()).getPixelForValues(high.getX(), ranges[stackIndex].to);
+                final Highlight stackedHigh = new Highlight(
                         entry.getX(),
                         entry.getY(),
                         (float) pixels.x,
@@ -73,11 +69,9 @@ public class BarHighlighter extends ChartHighlighter<BarDataProvider> {
                 );
 
                 MPPointD.recycleInstance(pixels);
-
                 return stackedHigh;
             }
         }
-
         return null;
     }
 
@@ -92,7 +86,6 @@ public class BarHighlighter extends ChartHighlighter<BarDataProvider> {
         }
 
         int stackIndex = 0;
-
         for (Range range : ranges) {
             if (range.contains(value)) {
                 return stackIndex;
@@ -101,8 +94,7 @@ public class BarHighlighter extends ChartHighlighter<BarDataProvider> {
             }
         }
 
-        int length = Math.max(ranges.length - 1, 0);
-
+        final int length = Math.max(ranges.length - 1, 0);
         return (value > ranges[length].to) ? length : 0;
     }
 

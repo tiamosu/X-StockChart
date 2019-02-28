@@ -11,6 +11,7 @@ import java.util.List;
 /**
  * Created by philipp on 12/06/16.
  */
+@SuppressWarnings("WeakerAccess")
 public class RadarHighlighter extends PieRadarHighlighter<RadarChart> {
 
     public RadarHighlighter(RadarChart chart) {
@@ -19,15 +20,13 @@ public class RadarHighlighter extends PieRadarHighlighter<RadarChart> {
 
     @Override
     protected Highlight getClosestHighlight(int index, float x, float y) {
-        List<Highlight> highlights = getHighlightsAtIndex(index);
-        float distanceToCenter = mChart.distanceToCenter(x, y) / mChart.getFactor();
-
+        final List<Highlight> highlights = getHighlightsAtIndex(index);
+        final float distanceToCenter = mChart.distanceToCenter(x, y) / mChart.getFactor();
         Highlight closest = null;
         float distance = Float.MAX_VALUE;
-
         for (int i = 0; i < highlights.size(); i++) {
-            Highlight high = highlights.get(i);
-            float cdistance = Math.abs(high.getY() - distanceToCenter);
+            final Highlight high = highlights.get(i);
+            final float cdistance = Math.abs(high.getY() - distanceToCenter);
             if (cdistance < distance) {
                 closest = high;
                 distance = cdistance;
@@ -46,16 +45,16 @@ public class RadarHighlighter extends PieRadarHighlighter<RadarChart> {
     protected List<Highlight> getHighlightsAtIndex(int index) {
         mHighlightBuffer.clear();
 
-        float phaseX = mChart.getAnimator().getPhaseX();
-        float phaseY = mChart.getAnimator().getPhaseY();
-        float sliceangle = mChart.getSliceAngle();
-        float factor = mChart.getFactor();
+        final float phaseX = mChart.getAnimator().getPhaseX();
+        final float phaseY = mChart.getAnimator().getPhaseY();
+        final float sliceangle = mChart.getSliceAngle();
+        final float factor = mChart.getFactor();
+        final MPPointF pOut = MPPointF.getInstance(0, 0);
 
-        MPPointF pOut = MPPointF.getInstance(0, 0);
         for (int i = 0; i < mChart.getData().getDataSetCount(); i++) {
-            IDataSet<?> dataSet = mChart.getData().getDataSetByIndex(i);
+            final IDataSet<?> dataSet = mChart.getData().getDataSetByIndex(i);
             final Entry entry = dataSet.getEntryForIndex(index);
-            float y = (entry.getY() - mChart.getYChartMin());
+            final float y = (entry.getY() - mChart.getYChartMin());
 
             Utils.getPosition(
                     mChart.getCenterOffsets(), y * factor * phaseY,

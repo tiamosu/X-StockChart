@@ -20,16 +20,17 @@ public class HorizontalBarHighlighter extends BarHighlighter {
         super(chart);
     }
 
+    @SuppressWarnings("SuspiciousNameCombination")
     @Override
     public Highlight getHighlight(float x, float y) {
-        BarData barData = mChart.getBarData();
-        MPPointD pos = getValsForTouch(y, x);
-        Highlight high = getHighlightForX((float) pos.y, y, x);
+        final BarData barData = mChart.getBarData();
+        final MPPointD pos = getValsForTouch(y, x);
+        final Highlight high = getHighlightForX((float) pos.y, y, x);
         if (high == null) {
             return null;
         }
 
-        IBarDataSet set = barData.getDataSetByIndex(high.getDataSetIndex());
+        final IBarDataSet set = barData.getDataSetByIndex(high.getDataSetIndex());
         if (set.isStacked()) {
             return getStackedHighlight(high,
                     set,
@@ -44,8 +45,7 @@ public class HorizontalBarHighlighter extends BarHighlighter {
 
     @Override
     protected List<Highlight> buildHighlights(IDataSet set, int dataSetIndex, float xVal, DataSet.Rounding rounding) {
-        ArrayList<Highlight> highlights = new ArrayList<>();
-
+        final ArrayList<Highlight> highlights = new ArrayList<>();
         //noinspection unchecked
         List<Entry> entries = set.getEntriesForXValue(xVal);
         if (entries.size() == 0) {
@@ -62,7 +62,7 @@ public class HorizontalBarHighlighter extends BarHighlighter {
         }
 
         for (Entry e : entries) {
-            MPPointD pixels = mChart.getTransformer(
+            final MPPointD pixels = mChart.getTransformer(
                     set.getAxisDependency()).getPixelForValues(e.getY(), e.getX());
 
             highlights.add(new Highlight(

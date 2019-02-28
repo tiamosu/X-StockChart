@@ -14,6 +14,7 @@ import java.util.List;
 /**
  * Created by Philipp Jahoda on 21/07/15.
  */
+@SuppressWarnings("WeakerAccess")
 public class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider> implements IHighlighter {
 
     /**
@@ -32,8 +33,8 @@ public class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider> 
 
     @Override
     public Highlight getHighlight(float x, float y) {
-        MPPointD pos = getValsForTouch(x, y);
-        float xVal = (float) pos.x;
+        final MPPointD pos = getValsForTouch(x, y);
+        final float xVal = (float) pos.x;
         MPPointD.recycleInstance(pos);
 
         return getHighlightForX(xVal, x, y);
@@ -45,27 +46,22 @@ public class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider> 
      */
     protected MPPointD getValsForTouch(float x, float y) {
         // take any transformer to determine the x-axis value
-        MPPointD pos = mChart.getTransformer(YAxis.AxisDependency.LEFT).getValuesByTouchPoint(x, y);
-        return pos;
+        return mChart.getTransformer(YAxis.AxisDependency.LEFT).getValuesByTouchPoint(x, y);
     }
 
     /**
      * Returns the corresponding Highlight for a given xVal and x- and y-touch position in pixels.
      */
     protected Highlight getHighlightForX(float xVal, float x, float y) {
-        List<Highlight> closestValues = getHighlightsAtXValue(xVal, x, y);
+        final List<Highlight> closestValues = getHighlightsAtXValue(xVal, x, y);
         if (closestValues.isEmpty()) {
             return null;
         }
 
-        float leftAxisMinDist = getMinimumDistance(closestValues, y, YAxis.AxisDependency.LEFT);
-        float rightAxisMinDist = getMinimumDistance(closestValues, y, YAxis.AxisDependency.RIGHT);
-
-        YAxis.AxisDependency axis = leftAxisMinDist < rightAxisMinDist ? YAxis.AxisDependency.LEFT : YAxis.AxisDependency.RIGHT;
-
-        Highlight detail = getClosestHighlightByPixel(closestValues, x, y, axis, mChart.getMaxHighlightDistance());
-
-        return detail;
+        final float leftAxisMinDist = getMinimumDistance(closestValues, y, YAxis.AxisDependency.LEFT);
+        final float rightAxisMinDist = getMinimumDistance(closestValues, y, YAxis.AxisDependency.RIGHT);
+        final YAxis.AxisDependency axis = leftAxisMinDist < rightAxisMinDist ? YAxis.AxisDependency.LEFT : YAxis.AxisDependency.RIGHT;
+        return getClosestHighlightByPixel(closestValues, x, y, axis, mChart.getMaxHighlightDistance());
     }
 
     /**
@@ -75,15 +71,14 @@ public class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider> 
     protected float getMinimumDistance(List<Highlight> closestValues, float pos, YAxis.AxisDependency axis) {
         float distance = Float.MAX_VALUE;
         for (int i = 0; i < closestValues.size(); i++) {
-            Highlight high = closestValues.get(i);
+            final Highlight high = closestValues.get(i);
             if (high.getAxis() == axis) {
-                float tempDistance = Math.abs(getHighlightPos(high) - pos);
+                final float tempDistance = Math.abs(getHighlightPos(high) - pos);
                 if (tempDistance < distance) {
                     distance = tempDistance;
                 }
             }
         }
-
         return distance;
     }
 
@@ -102,30 +97,28 @@ public class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider> 
     protected List<Highlight> getHighlightsAtXValue(float xVal, float x, float y) {
         mHighlightBuffer.clear();
 
-        BarLineScatterCandleBubbleData data = getData();
+        final BarLineScatterCandleBubbleData data = getData();
         if (data == null) {
             return mHighlightBuffer;
         }
 
         for (int i = 0, dataSetCount = data.getDataSetCount(); i < dataSetCount; i++) {
-            IDataSet dataSet = data.getDataSetByIndex(i);
-
+            final IDataSet dataSet = data.getDataSetByIndex(i);
             // don't include DataSets that cannot be highlighted
             if (!dataSet.isHighlightEnabled()) {
                 continue;
             }
-
             mHighlightBuffer.addAll(buildHighlights(dataSet, i, xVal, DataSet.Rounding.CLOSEST));
         }
-
         return mHighlightBuffer;
     }
 
     /**
      * An array of `Highlight` objects corresponding to the selected xValue and dataSetIndex.
      */
+    @SuppressWarnings("SameParameterValue")
     protected List<Highlight> buildHighlights(IDataSet set, int dataSetIndex, float xVal, DataSet.Rounding rounding) {
-        ArrayList<Highlight> highlights = new ArrayList<>();
+        final ArrayList<Highlight> highlights = new ArrayList<>();
         //noinspection unchecked
         List<Entry> entries = set.getEntriesForXValue(xVal);
         if (entries.size() == 0) {
@@ -142,7 +135,7 @@ public class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider> 
         }
 
         for (Entry e : entries) {
-            MPPointD pixels = mChart.getTransformer(
+            final MPPointD pixels = mChart.getTransformer(
                     set.getAxisDependency()).getPixelForValues(e.getX(), e.getY());
 
             highlights.add(new Highlight(
@@ -167,22 +160,16 @@ public class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider> 
 
         Highlight closest = null;
         float distance = minSelectionDistance;
-
         for (int i = 0; i < closestValues.size(); i++) {
-
-            Highlight high = closestValues.get(i);
-
+            final Highlight high = closestValues.get(i);
             if (axis == null || high.getAxis() == axis) {
-
-                float cDistance = getDistance(x, y, high.getXPx(), high.getYPx());
-
+                final float cDistance = getDistance(x, y, high.getXPx(), high.getYPx());
                 if (cDistance < distance) {
                     closest = high;
                     distance = cDistance;
                 }
             }
         }
-
         return closest;
     }
 
