@@ -4,16 +4,15 @@
 
 先上效果图：
 
-![Image text](screenshot/1.png)
+![Image text](screenshot/time_1.png)
 
-![Image text](screenshot/2.png)
+![Image text](screenshot/time_2.png)
 
-![Image text](screenshot/3.png)
+![Image text](screenshot/k_1.png)
 
-![Image text](screenshot/4.png)
+![Image text](screenshot/k_2.png)
 
-![Image text](screenshot/5.png)
-
+![Image text](screenshot/k_3.png)
 
 ## 简介
 
