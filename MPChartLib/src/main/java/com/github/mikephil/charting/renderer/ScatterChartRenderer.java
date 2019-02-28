@@ -89,60 +89,61 @@ public class ScatterChartRenderer extends LineScatterCandleRadarRenderer {
     @Override
     public void drawValues(Canvas c) {
         // if values are drawn
-        if (isDrawingValuesAllowed(mChart)) {
-            final List<IScatterDataSet> dataSets = mChart.getScatterData().getDataSets();
-            for (int i = 0; i < mChart.getScatterData().getDataSetCount(); i++) {
-                final IScatterDataSet dataSet = dataSets.get(i);
-                if (!shouldDrawValues(dataSet) || dataSet.getEntryCount() < 1) {
+        if (!isDrawingValuesAllowed(mChart)) {
+            return;
+        }
+        final List<IScatterDataSet> dataSets = mChart.getScatterData().getDataSets();
+        for (int i = 0; i < mChart.getScatterData().getDataSetCount(); i++) {
+            final IScatterDataSet dataSet = dataSets.get(i);
+            if (!shouldDrawValues(dataSet) || dataSet.getEntryCount() < 1) {
+                continue;
+            }
+
+            // apply the text-styling defined by the DataSet
+            applyValueTextStyle(dataSet);
+
+            mXBounds.set(mChart, dataSet);
+
+            final float[] positions = mChart.getTransformer(dataSet.getAxisDependency())
+                    .generateTransformedValuesScatter(dataSet,
+                            mAnimator.getPhaseX(), mAnimator.getPhaseY(), mXBounds.min, mXBounds.max);
+
+            final float shapeSize = Utils.convertDpToPixel(dataSet.getScatterShapeSize());
+
+            final ValueFormatter formatter = dataSet.getValueFormatter();
+
+            final MPPointF iconsOffset = MPPointF.getInstance(dataSet.getIconsOffset());
+            iconsOffset.x = Utils.convertDpToPixel(iconsOffset.x);
+            iconsOffset.y = Utils.convertDpToPixel(iconsOffset.y);
+
+            for (int j = 0; j < positions.length; j += 2) {
+                if (!mViewPortHandler.isInBoundsRight(positions[j])) {
+                    break;
+                }
+                // make sure the lines don't do shitty things outside bounds
+                if ((!mViewPortHandler.isInBoundsLeft(positions[j])
+                        || !mViewPortHandler.isInBoundsY(positions[j + 1]))) {
                     continue;
                 }
 
-                // apply the text-styling defined by the DataSet
-                applyValueTextStyle(dataSet);
-
-                mXBounds.set(mChart, dataSet);
-
-                final float[] positions = mChart.getTransformer(dataSet.getAxisDependency())
-                        .generateTransformedValuesScatter(dataSet,
-                                mAnimator.getPhaseX(), mAnimator.getPhaseY(), mXBounds.min, mXBounds.max);
-
-                final float shapeSize = Utils.convertDpToPixel(dataSet.getScatterShapeSize());
-
-                final ValueFormatter formatter = dataSet.getValueFormatter();
-
-                final MPPointF iconsOffset = MPPointF.getInstance(dataSet.getIconsOffset());
-                iconsOffset.x = Utils.convertDpToPixel(iconsOffset.x);
-                iconsOffset.y = Utils.convertDpToPixel(iconsOffset.y);
-
-                for (int j = 0; j < positions.length; j += 2) {
-                    if (!mViewPortHandler.isInBoundsRight(positions[j])) {
-                        break;
-                    }
-                    // make sure the lines don't do shitty things outside bounds
-                    if ((!mViewPortHandler.isInBoundsLeft(positions[j])
-                            || !mViewPortHandler.isInBoundsY(positions[j + 1]))) {
-                        continue;
-                    }
-
-                    final Entry entry = dataSet.getEntryForIndex(j / 2 + mXBounds.min);
-                    if (dataSet.isDrawValuesEnabled()) {
-                        drawValue(c, formatter.getPointLabel(entry), positions[j], positions[j + 1] - shapeSize, dataSet.getValueTextColor(j / 2 + mXBounds.min));
-                    }
-
-                    if (entry.getIcon() != null && dataSet.isDrawIconsEnabled()) {
-                        final Drawable icon = entry.getIcon();
-                        Utils.drawImage(
-                                c,
-                                icon,
-                                (int) (positions[j] + iconsOffset.x),
-                                (int) (positions[j + 1] + iconsOffset.y),
-                                icon.getIntrinsicWidth(),
-                                icon.getIntrinsicHeight());
-                    }
+                final Entry entry = dataSet.getEntryForIndex(j / 2 + mXBounds.min);
+                if (dataSet.isDrawValuesEnabled()) {
+                    drawValue(c, formatter.getPointLabel(entry), positions[j], positions[j + 1] - shapeSize, dataSet.getValueTextColor(j / 2 + mXBounds.min));
                 }
 
-                MPPointF.recycleInstance(iconsOffset);
+                if (entry.getIcon() != null && dataSet.isDrawIconsEnabled()) {
+                    final Drawable icon = entry.getIcon();
+                    Utils.drawImage(
+                            c,
+                            icon,
+                            (int) (positions[j] + iconsOffset.x),
+                            (int) (positions[j + 1] + iconsOffset.y),
+                            icon.getIntrinsicWidth(),
+                            icon.getIntrinsicHeight());
+                }
             }
+
+            MPPointF.recycleInstance(iconsOffset);
         }
     }
 
