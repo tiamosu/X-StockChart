@@ -104,7 +104,7 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
     //BS（买卖）两点位置
     protected int[] mBSCircles = new int[2];
     //K线蜡烛图数值颜色
-    protected int mCandleDataColor = Color.BLUE;
+    protected int mCandleDataTextColor = Color.BLUE;
     //分时图成交价数据，用于分时图副图柱形颜色填充判断
     protected List<Entry> mPriceList;
 
@@ -480,12 +480,12 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
     }
 
     @Override
-    public int getCandleDataColor() {
-        return mCandleDataColor;
+    public int getCandleDataTextColor() {
+        return mCandleDataTextColor;
     }
 
-    public void setCandleDataColor(@ColorInt int candleDataColor) {
-        mCandleDataColor = candleDataColor;
+    public void setCandleDataTextColor(@ColorInt int candleDataTextColor) {
+        mCandleDataTextColor = candleDataTextColor;
     }
 
     @Override
@@ -578,7 +578,7 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
         baseDataSet.mTimeDayType = mTimeDayType;
         baseDataSet.mIsDrawBS = mIsDrawBS;
         baseDataSet.mBSCircles = mBSCircles;
-        baseDataSet.mCandleDataColor = mCandleDataColor;
+        baseDataSet.mCandleDataTextColor = mCandleDataTextColor;
         baseDataSet.mPriceList = mPriceList;
     }
 }

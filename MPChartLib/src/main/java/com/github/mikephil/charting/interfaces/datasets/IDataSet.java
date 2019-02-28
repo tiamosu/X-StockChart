@@ -417,7 +417,7 @@ public interface IDataSet<T extends Entry> {
     /**
      * @return K线蜡烛图中，数值颜色
      */
-    int getCandleDataColor();
+    int getCandleDataTextColor();
 
     /**
      * @return 分时图成交价数据，用于分时图副图柱形颜色填充判断

@@ -324,13 +324,13 @@ public class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
                             highString + " →",
                             tPosition[0] - (float) highStringWidth / 2,
                             tPosition[1] + (float) highStringHeight / 2,
-                            dataSet.getCandleDataColor());
+                            dataSet.getCandleDataTextColor());
                 } else {
                     drawValue(c,
                             "← " + highString,
                             tPosition[0] + (float) highStringWidth / 2,
                             tPosition[1] + (float) highStringHeight / 2,
-                            dataSet.getCandleDataColor());
+                            dataSet.getCandleDataTextColor());
                 }
             } else {
                 //画左边
@@ -347,13 +347,13 @@ public class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
                             "← " + highString,
                             tPosition[0] + (float) highStringWidth / 2,
                             tPosition[1] + (float) highStringHeight / 2,
-                            dataSet.getCandleDataColor());
+                            dataSet.getCandleDataTextColor());
                 } else {
                     drawValue(c,
                             highString + " →",
                             tPosition[0] - (float) highStringWidth / 2,
                             tPosition[1] + (float) highStringHeight / 2,
-                            dataSet.getCandleDataColor());
+                            dataSet.getCandleDataTextColor());
                 }
             }
 
@@ -373,13 +373,13 @@ public class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
                             "← " + highString,
                             tPosition[0] + (float) highStringWidth / 2,
                             tPosition[1] + (float) highStringHeight / 2,
-                            dataSet.getCandleDataColor());
+                            dataSet.getCandleDataTextColor());
                 } else {
                     drawValue(c,
                             highString + " →",
                             tPosition[0] - (float) highStringWidth / 2,
                             tPosition[1] + (float) highStringHeight / 2,
-                            dataSet.getCandleDataColor());
+                            dataSet.getCandleDataTextColor());
                 }
             } else {
                 //画右边
@@ -396,13 +396,13 @@ public class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
                             highString + " →",
                             tPosition[0] - (float) highStringWidth / 2,
                             tPosition[1] + (float) highStringHeight / 2,
-                            dataSet.getCandleDataColor());
+                            dataSet.getCandleDataTextColor());
                 } else {
                     drawValue(c,
                             "← " + highString,
                             tPosition[0] + (float) highStringWidth / 2,
                             tPosition[1] + (float) highStringHeight / 2,
-                            dataSet.getCandleDataColor());
+                            dataSet.getCandleDataTextColor());
                 }
             }
         }
