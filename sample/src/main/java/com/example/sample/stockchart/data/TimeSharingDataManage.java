@@ -14,27 +14,21 @@ import java.util.ArrayList;
  * @date 2019/1/10.
  */
 public class TimeSharingDataManage {
-    private ArrayList<TimeSharingDataModel> mRealTimeDataList = new ArrayList<>();//分时数据
+    private ArrayList<TimeSharingDataModel> mDatas = new ArrayList<>();//分时数据
     private double mBaseValue = 0;//分时图基准值
     private double mPermaxmin = 0;//分时图价格最大区间值
     private double mVolMaxTimeLine;//分时图最大成交量
     private double mMax = 0;//分时图最大价格
     private double mMin = 0;//分时图最小价格
-    private double mPerVolMaxTimeLine = 0;
     private double preClose;//昨收价
     private boolean mIsBSChart;
-    private int mAllVolume = 0;//分时图总成交量
-
-    public TimeSharingDataManage() {
-        mRealTimeDataList.add(new TimeSharingDataModel());
-    }
 
     /**
      * 外部传JSONObject解析获得分时数据集
      */
     public void parseTimeData(JSONObject object, double preClosePrice) {
         if (object != null) {
-            mRealTimeDataList.clear();
+            mDatas.clear();
 
             preClose = object.optDouble("preClose", 0);
             final JSONArray data = object.optJSONArray("data");
@@ -42,53 +36,33 @@ public class TimeSharingDataManage {
                 return;
             }
             for (int i = 0; i < data.length(); i++) {
-                final TimeSharingDataModel timeSharingDataModel = new TimeSharingDataModel();
-                timeSharingDataModel.setTimeMills(data.optJSONArray(i).optLong(0, 0L));
-                timeSharingDataModel.setNowPrice(data.optJSONArray(i).optDouble(1, 0));
-                timeSharingDataModel.setAveragePrice(data.optJSONArray(i).optDouble(2, 0));
-                timeSharingDataModel.setVolume(Double.valueOf(data.optJSONArray(i).optString(3, "0")).intValue());
-                timeSharingDataModel.setOpen(data.optJSONArray(i).optDouble(4, 0));
-                timeSharingDataModel.setPreClose(preClose != 0 ? preClose :
-                        (preClosePrice == 0 ? timeSharingDataModel.getOpen() : preClosePrice));
+                final TimeSharingDataModel dataModel = new TimeSharingDataModel();
+                dataModel.setTimeMills(data.optJSONArray(i).optLong(0, 0L));
+                dataModel.setNowPrice(data.optJSONArray(i).optDouble(1, 0));
+                dataModel.setAveragePrice(data.optJSONArray(i).optDouble(2, 0));
+                dataModel.setVolume(Double.valueOf(data.optJSONArray(i).optString(3, "0")).intValue());
+                dataModel.setOpen(data.optJSONArray(i).optDouble(4, 0));
+                dataModel.setPreClose(preClose != 0 ? preClose :
+                        (preClosePrice == 0 ? dataModel.getOpen() : preClosePrice));
 
                 if (i == 0) {
-                    preClose = timeSharingDataModel.getPreClose();
-                    mAllVolume = timeSharingDataModel.getVolume();
-                    mMax = timeSharingDataModel.getNowPrice();
-                    mMin = timeSharingDataModel.getNowPrice();
+                    preClose = dataModel.getPreClose();
+                    mMax = dataModel.getNowPrice();
+                    mMin = dataModel.getNowPrice();
                     mVolMaxTimeLine = 0;
                     if (mBaseValue == 0) {
-                        mBaseValue = timeSharingDataModel.getPreClose();
+                        mBaseValue = dataModel.getPreClose();
                     }
-                } else {
-                    mAllVolume += timeSharingDataModel.getVolume();
                 }
 
-                mMax = Math.max(timeSharingDataModel.getNowPrice(), mMax);
-                mMin = Math.min(timeSharingDataModel.getNowPrice(), mMin);
+                mMax = Math.max(dataModel.getNowPrice(), mMax);
+                mMin = Math.min(dataModel.getNowPrice(), mMin);
 
-                mPerVolMaxTimeLine = mVolMaxTimeLine;
-                mVolMaxTimeLine = Math.max(timeSharingDataModel.getVolume(), mVolMaxTimeLine);
-                mRealTimeDataList.add(timeSharingDataModel);
+                mVolMaxTimeLine = Math.max(dataModel.getVolume(), mVolMaxTimeLine);
+                mDatas.add(dataModel);
             }
             mPermaxmin = (mMax - mMin) / 2;
         }
-    }
-
-    public void removeLastData() {
-        final TimeSharingDataModel realTimeData = getRealTimeData().get(getRealTimeData().size() - 1);
-        mAllVolume -= realTimeData.getVolume();
-        mVolMaxTimeLine = mPerVolMaxTimeLine;
-        getRealTimeData().remove(getRealTimeData().size() - 1);
-    }
-
-    private synchronized ArrayList<TimeSharingDataModel> getRealTimeData() {
-        return mRealTimeDataList;
-    }
-
-    public void resetTimeData() {
-        mBaseValue = 0;
-        getRealTimeData().clear();
     }
 
     //分时图左Y轴最大值
@@ -118,7 +92,7 @@ public class TimeSharingDataManage {
 
     //分时图分钟数据集合
     public ArrayList<TimeSharingDataModel> getDatas() {
-        return mRealTimeDataList;
+        return mDatas;
     }
 
     public boolean isBSChart() {

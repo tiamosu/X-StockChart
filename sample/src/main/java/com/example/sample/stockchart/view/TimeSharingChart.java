@@ -83,8 +83,10 @@ public class TimeSharingChart extends LinearLayout {
         initChartLine();
         initChartBar();
 
-        //初始化图表线框显示
-        setDataToChart(new TimeSharingDataManage());
+        //初始化图表线框显示（需要添加一条数据才能显示图表框）
+        final TimeSharingDataManage manage = new TimeSharingDataManage();
+        manage.getDatas().add(new TimeSharingDataModel());
+        setDataToChart(manage);
     }
 
     private void initChartLine() {

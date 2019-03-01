@@ -17,7 +17,6 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.CandleDataSet;
 import com.github.mikephil.charting.data.CandleEntry;
 import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.NumberUtils;
@@ -36,22 +35,15 @@ import androidx.core.content.ContextCompat;
  */
 public class KLineDataManage {
     private Context mContext;
-    private ArrayList<KLineDataModel> kDatas = new ArrayList<>();
+    private ArrayList<KLineDataModel> mDatas = new ArrayList<>();
     private float offSet = 0.55f;//K线图最右边偏移量
 
     //MA参数
     private int N1 = 5;
     private int N2 = 10;
     private int N3 = 20;
-    //EMA参数
-    public int EMAN1 = 5;
-    public int EMAN2 = 10;
-    public int EMAN3 = 30;
-    //SMA参数
-    public int SMAN = 14;
     //BOLL参数
     private int BOLLN = 26;
-
     //MACD参数
     private int SHORT = 12;
     private int LONG = 26;
@@ -60,8 +52,6 @@ public class KLineDataManage {
     private int KDJN = 9;
     private int KDJM1 = 3;
     private int KDJM2 = 3;
-    //CCI参数
-    public int CCIN = 14;
     //RSI参数
     private int RSIN1 = 6;
     private int RSIN2 = 12;
@@ -96,11 +86,9 @@ public class KLineDataManage {
     private ArrayList<Entry> rsiData6 = new ArrayList<>();
     private ArrayList<Entry> rsiData12 = new ArrayList<>();
     private ArrayList<Entry> rsiData24 = new ArrayList<>();
-    private double preClosePrice;//K线图昨收价
 
     public KLineDataManage(Context context) {
         mContext = context;
-        kDatas.add(new KLineDataModel());
     }
 
     /**
@@ -110,7 +98,7 @@ public class KLineDataManage {
         if (object == null) {
             return;
         }
-        kDatas.clear();
+        mDatas.clear();
         lineDataMA.clear();
         final JSONArray data = object.optJSONArray("data");
         if (data != null) {
@@ -121,33 +109,32 @@ public class KLineDataManage {
             ArrayList<Entry> line10Entries = new ArrayList<>();
             ArrayList<Entry> line20Entries = new ArrayList<>();
             for (int i = 0; i < data.length(); i++) {
-                final KLineDataModel klineDatamodel = new KLineDataModel();
-                klineDatamodel.setDateMills(data.optJSONArray(i).optLong(0, 0L));
-                klineDatamodel.setOpen(data.optJSONArray(i).optDouble(1));
-                klineDatamodel.setHigh(data.optJSONArray(i).optDouble(2));
-                klineDatamodel.setLow(data.optJSONArray(i).optDouble(3));
-                klineDatamodel.setClose(data.optJSONArray(i).optDouble(4));
-                klineDatamodel.setVolume(NumberUtils.stringNoE10ForVol(data.optJSONArray(i).optDouble(5, 0)));
-                klineDatamodel.setTotal(NumberUtils.stringNoE10ForVol(data.optJSONArray(i).optDouble(6, 0)));
-                klineDatamodel.setMa5(data.optJSONArray(i).optDouble(7));
-                klineDatamodel.setMa10(data.optJSONArray(i).optDouble(8));
-                klineDatamodel.setMa20(data.optJSONArray(i).optDouble(9));
-                klineDatamodel.setMa30(data.optJSONArray(i).optDouble(10));
-                klineDatamodel.setMa60(data.optJSONArray(i).optDouble(11));
-                klineDatamodel.setPreClose(data.optJSONArray(i).optDouble(12));
-                preClosePrice = klineDatamodel.getPreClose();
-                kDatas.add(klineDatamodel);
+                final KLineDataModel dataModel = new KLineDataModel();
+                dataModel.setDateMills(data.optJSONArray(i).optLong(0, 0L));
+                dataModel.setOpen(data.optJSONArray(i).optDouble(1));
+                dataModel.setHigh(data.optJSONArray(i).optDouble(2));
+                dataModel.setLow(data.optJSONArray(i).optDouble(3));
+                dataModel.setClose(data.optJSONArray(i).optDouble(4));
+                dataModel.setVolume(NumberUtils.stringNoE10ForVol(data.optJSONArray(i).optDouble(5, 0)));
+                dataModel.setTotal(NumberUtils.stringNoE10ForVol(data.optJSONArray(i).optDouble(6, 0)));
+                dataModel.setMa5(data.optJSONArray(i).optDouble(7));
+                dataModel.setMa10(data.optJSONArray(i).optDouble(8));
+                dataModel.setMa20(data.optJSONArray(i).optDouble(9));
+                dataModel.setMa30(data.optJSONArray(i).optDouble(10));
+                dataModel.setMa60(data.optJSONArray(i).optDouble(11));
+                dataModel.setPreClose(data.optJSONArray(i).optDouble(12));
+                mDatas.add(dataModel);
 
-                xVal.add(DataTimeUtil.secToDate(getKLineDatas().get(i).getDateMills()));
-                candleEntries.add(new CandleEntry(i, i + offSet, (float) getKLineDatas().get(i).getHigh(),
-                        (float) getKLineDatas().get(i).getLow(), (float) getKLineDatas().get(i).getOpen(), (float) getKLineDatas().get(i).getClose()));
+                xVal.add(DataTimeUtil.secToDate(dataModel.getDateMills()));
+                candleEntries.add(new CandleEntry(i, i + offSet, (float) dataModel.getHigh(),
+                        (float) dataModel.getLow(), (float) dataModel.getOpen(), (float) dataModel.getClose()));
 
-                float color = getKLineDatas().get(i).getOpen() > getKLineDatas().get(i).getClose() ? 0f : 1f;
-                barEntries.add(new BarEntry(i, i + offSet, (float) getKLineDatas().get(i).getVolume(), color));
+                float color = dataModel.getOpen() > dataModel.getClose() ? 0f : 1f;
+                barEntries.add(new BarEntry(i, i + offSet, (float) dataModel.getVolume(), color));
 
-                line5Entries.add(new Entry(i, i + offSet, (float) getKLineDatas().get(i).getMa5()));
-                line10Entries.add(new Entry(i, i + offSet, (float) getKLineDatas().get(i).getMa10()));
-                line20Entries.add(new Entry(i, i + offSet, (float) getKLineDatas().get(i).getMa20()));
+                line5Entries.add(new Entry(i, i + offSet, (float) dataModel.getMa5()));
+                line10Entries.add(new Entry(i, i + offSet, (float) dataModel.getMa10()));
+                line20Entries.add(new Entry(i, i + offSet, (float) dataModel.getMa20()));
             }
             candleDataSet = setACandle(candleEntries);
             bollCandleDataSet = setBOLLCandle(candleEntries);
@@ -162,7 +149,7 @@ public class KLineDataManage {
      * 初始化自己计算MACD
      */
     public void initMACD() {
-        final MACDEntity macdEntity = new MACDEntity(getKLineDatas(), SHORT, LONG, M);
+        final MACDEntity macdEntity = new MACDEntity(getDatas(), SHORT, LONG, M);
         macdData = new ArrayList<>();
         deaData = new ArrayList<>();
         difData = new ArrayList<>();
@@ -180,7 +167,7 @@ public class KLineDataManage {
      * 初始化自己计算KDJ
      */
     public void initKDJ() {
-        final KDJEntity kdjEntity = new KDJEntity(getKLineDatas(), KDJN, KDJM1, KDJM2);
+        final KDJEntity kdjEntity = new KDJEntity(getDatas(), KDJN, KDJM1, KDJM2);
         kData = new ArrayList<>();
         dData = new ArrayList<>();
         jData = new ArrayList<>();
@@ -198,7 +185,7 @@ public class KLineDataManage {
      * 初始化自己计算BOLL
      */
     public void initBOLL() {
-        final BOLLEntity bollEntity = new BOLLEntity(getKLineDatas(), BOLLN);
+        final BOLLEntity bollEntity = new BOLLEntity(getDatas(), BOLLN);
         bollDataUP = new ArrayList<>();
         bollDataMB = new ArrayList<>();
         bollDataDN = new ArrayList<>();
@@ -216,9 +203,9 @@ public class KLineDataManage {
      * 初始化自己计算RSI
      */
     public void initRSI() {
-        final RSIEntity rsiEntity6 = new RSIEntity(getKLineDatas(), RSIN1);
-        final RSIEntity rsiEntity12 = new RSIEntity(getKLineDatas(), RSIN2);
-        final RSIEntity rsiEntity24 = new RSIEntity(getKLineDatas(), RSIN3);
+        final RSIEntity rsiEntity6 = new RSIEntity(getDatas(), RSIN1);
+        final RSIEntity rsiEntity12 = new RSIEntity(getDatas(), RSIN2);
+        final RSIEntity rsiEntity24 = new RSIEntity(getDatas(), RSIN3);
 
         rsiData6 = new ArrayList<>();
         rsiData12 = new ArrayList<>();
@@ -323,38 +310,8 @@ public class KLineDataManage {
         return barDataSet;
     }
 
-    private float sum = 0;
-
-    private float getSum(Integer a, Integer b) {
-        sum = 0;
-        if (a < 0) {
-            return 0;
-        }
-        for (int i = a; i <= b; i++) {
-            sum += getKLineDatas().get(i).getClose();
-        }
-        return sum;
-    }
-
-    public void addAKLineData(KLineDataModel kLineData) {
-        kDatas.add(kLineData);
-    }
-
-    public void addKLineDatas(List<KLineDataModel> kLineData) {
-        kDatas.addAll(kLineData);
-    }
-
-    public synchronized ArrayList<KLineDataModel> getKLineDatas() {
-        return kDatas;
-    }
-
-    public void resetKLineData() {
-        kDatas.clear();
-    }
-
-    public void setKLineData(ArrayList<KLineDataModel> datas) {
-        kDatas.clear();
-        kDatas.addAll(datas);
+    public synchronized ArrayList<KLineDataModel> getDatas() {
+        return mDatas;
     }
 
     public ArrayList<String> getxVals() {
@@ -405,87 +362,9 @@ public class KLineDataManage {
         return offSet;
     }
 
-    public ArrayList<BarEntry> getMacdData() {
-        return macdData;
-    }
-
-    public ArrayList<Entry> getDeaData() {
-        return deaData;
-    }
-
-    public ArrayList<Entry> getDifData() {
-        return difData;
-    }
-
-    public ArrayList<Entry> getkData() {
-        return kData;
-    }
-
-    public ArrayList<Entry> getdData() {
-        return dData;
-    }
-
-    public ArrayList<Entry> getjData() {
-        return jData;
-    }
-
-    public ArrayList<Entry> getBollDataUP() {
-        return bollDataUP;
-    }
-
-    public ArrayList<Entry> getBollDataMB() {
-        return bollDataMB;
-    }
-
-    public ArrayList<Entry> getBollDataDN() {
-        return bollDataDN;
-    }
-
-    public ArrayList<Entry> getRsiData6() {
-        return rsiData6;
-    }
-
-    public ArrayList<Entry> getRsiData12() {
-        return rsiData12;
-    }
-
-    public ArrayList<Entry> getRsiData24() {
-        return rsiData24;
-    }
-
-    public void setOneMaValue(LineData lineData, int i) {
-        for (int k = 0; k < lineData.getDataSets().size(); k++) {
-            final ILineDataSet lineDataSet = lineData.getDataSetByIndex(k);
-            lineDataSet.removeEntryByXValue(i);
-            if (k == 0) {
-                if (i >= N1) {
-                    sum = 0;
-                    float all5 = getSum(i - (N1 - 1), i) / N1;
-                    lineDataSet.addEntry(new Entry(i, i + offSet, all5));
-                }
-            } else if (k == 1) {
-                if (i >= N2) {
-                    sum = 0;
-                    float all10 = getSum(i - (N2 - 1), i) / N2;
-                    lineDataSet.addEntry(new Entry(i, i + offSet, all10));
-                }
-            } else if (k == 2) {
-                if (i >= N3) {
-                    sum = 0;
-                    float all20 = getSum(i - (N3 - 1), i) / N3;
-                    lineDataSet.addEntry(new Entry(i, i + offSet, all20));
-                }
-            }
-        }
-    }
-
     enum ColorType {
         blue,
         yellow,
         purple
-    }
-
-    public double getPreClosePrice() {
-        return preClosePrice;
     }
 }

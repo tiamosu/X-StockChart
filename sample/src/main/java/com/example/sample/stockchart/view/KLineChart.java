@@ -2,11 +2,13 @@ package com.example.sample.stockchart.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.LinearLayout;
 
 import com.example.sample.R;
 import com.example.sample.stockchart.data.KLineDataManage;
 import com.example.sample.stockchart.listener.CoupleChartGestureListener;
+import com.example.sample.stockchart.model.KLineDataModel;
 import com.example.sample.stockchart.utils.CommonUtil;
 import com.example.sample.stockchart.utils.VolFormatter;
 import com.github.mikephil.charting.charts.Chart;
@@ -54,17 +56,9 @@ public class KLineChart extends LinearLayout {
         setOrientation(VERTICAL);
         mContext = context;
 
-        mCandleChart = new CombinedChart(context);
-        final LayoutParams lineChartParams = new LayoutParams(-1, -2);
-        lineChartParams.weight = 2;
-        mCandleChart.setLayoutParams(lineChartParams);
-        addView(mCandleChart);
-
-        mBarChart = new KLineCombinedChart(context);
-        final LayoutParams barChartParams = new LayoutParams(-1, -2);
-        barChartParams.weight = 1;
-        mBarChart.setLayoutParams(barChartParams);
-        addView(mBarChart);
+        View.inflate(context, R.layout.view_chart_k_line, this);
+        mCandleChart = findViewById(R.id.view_chart_k_line_candle_chart);
+        mBarChart = findViewById(R.id.view_chart_k_line_bar_chart);
     }
 
     /**
@@ -75,8 +69,10 @@ public class KLineChart extends LinearLayout {
         initChartBar();
         initChartEvent();
 
-        //初始化图表框显示
-        setDataToChart(new KLineDataManage(mContext));
+        //初始化图表框显示（需要添加一条数据才能显示图表框）
+        final KLineDataManage manage = new KLineDataManage(mContext);
+        manage.getDatas().add(new KLineDataModel());
+        setDataToChart(manage);
     }
 
     private void initChartLine() {
@@ -243,7 +239,7 @@ public class KLineChart extends LinearLayout {
      */
     public void setDataToChart(KLineDataManage data) {
         kLineData = data;
-        if (data.getKLineDatas().size() == 0) {
+        if (data.getDatas().size() == 0) {
             return;
         }
 
@@ -307,7 +303,7 @@ public class KLineChart extends LinearLayout {
                 CommonUtil.dip2px(mContext, 5));
 
         final float offset = data.getOffSet();
-        final float dataSize = data.getKLineDatas().size();
+        final float dataSize = data.getDatas().size();
         float candleMax = candleChartData.getXMax() + offset;
         float barMax = barChartData.getXMax() + offset;
         if (dataSize < X_RANGE) {
