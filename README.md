@@ -1,6 +1,17 @@
 # X-StockChart
 
 **基于MPAndroidChart3.0+的专业分时图和K线图**
+```
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        maven { url 'https://dl.bintray.com/weixia/maven' }
+    }
+}
+
+implementation 'me.xia:x-stockchart:3.0.5'
+```
 
 先上效果图：
 
