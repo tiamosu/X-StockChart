@@ -225,7 +225,6 @@ public class XAxisRenderer extends AxisRenderer {
             positions[i] = mXAxis.mEntries[i / 2];
             positions[i + 1] = mXAxis.mEntries[i / 2];
         }
-
         mTrans.pointValuesToPixel(positions);
 
         setupGridPaint();
@@ -253,10 +252,8 @@ public class XAxisRenderer extends AxisRenderer {
     protected void drawGridLine(Canvas c, float x, float y, Path gridLinePath) {
         gridLinePath.moveTo(x, mViewPortHandler.contentBottom());
         gridLinePath.lineTo(x, mViewPortHandler.contentTop());
-
         // draw a path because lines don't support dashing on lower android versions
         c.drawPath(gridLinePath, mGridPaint);
-
         gridLinePath.reset();
     }
 

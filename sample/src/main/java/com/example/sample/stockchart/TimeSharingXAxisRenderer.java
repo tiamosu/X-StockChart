@@ -63,18 +63,20 @@ public class TimeSharingXAxisRenderer extends XAxisRenderer {
             return;
         }
 
-        mGridPaint.setColor(mXAxis.getGridColor());
-        mGridPaint.setStrokeWidth(mXAxis.getGridLineWidth());
-        mGridPaint.setPathEffect(mXAxis.getGridDashPathEffect());
+        setupGridPaint();
+
         int count = mXAxis.getXLabels().size();
         if (!mChart.isScaleXEnabled()) {
             count -= 1;
         }
-
         final float[] position = new float[]{0f, 0f};
         for (int i = 0; i < count; i++) {
             final int ix = mXAxis.getXLabels().keyAt(i);
             position[0] = ix;
+            //优化XLabels对应的线条绘制（主用于初始化）
+            if (ix == 0) {
+                position[0] = Integer.MIN_VALUE;
+            }
             mTrans.pointValuesToPixel(position);
             c.drawLine(position[0], mViewPortHandler.offsetTop(), position[0],
                     mViewPortHandler.contentBottom(), mGridPaint);
