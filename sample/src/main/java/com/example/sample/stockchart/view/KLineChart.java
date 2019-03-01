@@ -45,7 +45,7 @@ public class KLineChart extends LinearLayout {
     public CoupleChartGestureListener gestureListenerCandle;
 
     private static final int PRECISION = 3;//小数精度
-    private static final float X_RANGE = 50;
+    private static final float X_RANGE = 45;
 
     public KLineChart(Context context) {
         this(context, null);
@@ -298,7 +298,7 @@ public class KLineChart extends LinearLayout {
                 CommonUtil.dip2px(mContext, 15));
         mBarChart.setViewPortOffsets(
                 CommonUtil.dip2px(mContext, 5),
-                CommonUtil.dip2px(mContext, 5),
+                0,
                 CommonUtil.dip2px(mContext, 5),
                 CommonUtil.dip2px(mContext, 5));
 
