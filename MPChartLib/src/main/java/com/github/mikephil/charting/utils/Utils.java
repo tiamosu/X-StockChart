@@ -494,7 +494,7 @@ public abstract class Utils {
         drawOffsetX -= mDrawTextRectBuffer.left;
 
         // Android does not snap the bounds to line boundaries,
-        //  and draws from bottom to top.
+        // and draws from bottom to top.
         // And we want to normalize it.
         drawOffsetY += -mFontMetricsBuffer.ascent;
 
@@ -513,9 +513,7 @@ public abstract class Utils {
             // Move the "outer" rect relative to the anchor, assuming its centered
             if (anchor.x != 0.5f || anchor.y != 0.5f) {
                 final FSize rotatedSize = getSizeOfRotatedRectangleByDegrees(
-                        mDrawTextRectBuffer.width(),
-                        lineHeight,
-                        angleDegrees);
+                        mDrawTextRectBuffer.width(), lineHeight, angleDegrees);
 
                 translateX -= rotatedSize.width * (anchor.x - 0.5f);
                 translateY -= rotatedSize.height * (anchor.y - 0.5f);
@@ -525,7 +523,7 @@ public abstract class Utils {
             c.save();
             c.translate(translateX, translateY);
             c.rotate(angleDegrees);
-            c.drawText(text, drawOffsetX, drawOffsetY, paint);
+            c.drawText(text, drawOffsetX, drawOffsetY - 5, paint);
             c.restore();
         } else {
             if (anchor.x != 0.f || anchor.y != 0.f) {
@@ -535,8 +533,7 @@ public abstract class Utils {
 
             drawOffsetX += x;
             drawOffsetY += y;
-
-            c.drawText(text, drawOffsetX, drawOffsetY, paint);
+            c.drawText(text, drawOffsetX, drawOffsetY - 5, paint);
         }
 
         paint.setTextAlign(originalTextAlign);

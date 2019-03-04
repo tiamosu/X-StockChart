@@ -51,8 +51,10 @@ public class TimeSharingXAxisRenderer extends XAxisRenderer {
             else if ((position[0] - labelWidth / 2) < mViewPortHandler.contentLeft()) {
                 position[0] = mViewPortHandler.contentLeft() + (float) labelWidth / 2;
             }
-            c.drawText(label, position[0], pos + Utils.convertPixelsToDp(
-                    mViewPortHandler.offsetBottom() + 10), mAxisLabelPaint);
+
+            final float offsetBottom = Utils.convertPixelsToDp(mViewPortHandler.offsetBottom());
+            final float y = pos + offsetBottom + 5;
+            c.drawText(label, position[0], y, mAxisLabelPaint);
         }
     }
 
