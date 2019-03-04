@@ -47,7 +47,7 @@ public class KLineBarChartRenderer extends BarChartRenderer {
                     dataSet.getEntryCount()); i < count; i++) {
 
                 final BarEntry e = dataSet.getEntryForIndex(i);
-                x = e.getX();
+                x = e.getX() + mOffSet;
                 mBarShadowRectBuffer.left = x - barWidthHalf;
                 mBarShadowRectBuffer.right = x + barWidthHalf;
                 trans.rectValueToPixel(mBarShadowRectBuffer);

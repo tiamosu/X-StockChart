@@ -32,6 +32,7 @@ import java.util.List;
 public class LineChartRenderer extends LineRadarRenderer {
 
     protected LineDataProvider mChart;
+    protected float mOffSet = 0.5f;
 
     /**
      * paint for the inner circle of the value indicators
@@ -139,19 +140,19 @@ public class LineChartRenderer extends LineRadarRenderer {
             Entry cur = prev;
 
             // let the spline start
-            cubicPath.moveTo(cur.getX(), cur.getY() * phaseY);
+            cubicPath.moveTo(cur.getX() + mOffSet, cur.getY() * phaseY);
 
             for (int j = mXBounds.min + 1; j <= mXBounds.range + mXBounds.min; j++) {
                 prev = cur;
                 cur = dataSet.getEntryForIndex(j);
 
-                final float cpx = (prev.getX())
-                        + (cur.getX() - prev.getX()) / 2.0f;
+                final float cpx = (prev.getX() + mOffSet)
+                        + (cur.getX() + mOffSet - prev.getX() + mOffSet) / 2.0f;
 
                 cubicPath.cubicTo(
                         cpx, prev.getY() * phaseY,
                         cpx, cur.getY() * phaseY,
-                        cur.getX(), cur.getY() * phaseY);
+                        cur.getX() + mOffSet, cur.getY() * phaseY);
             }
         }
 
@@ -203,7 +204,7 @@ public class LineChartRenderer extends LineRadarRenderer {
             }
 
             // let the spline start
-            cubicPath.moveTo(cur.getX(), cur.getY() * phaseY);
+            cubicPath.moveTo(cur.getX() + mOffSet, cur.getY() * phaseY);
 
             for (int j = mXBounds.min + 1; j <= mXBounds.range + mXBounds.min; j++) {
                 prevPrev = prev;
@@ -213,14 +214,14 @@ public class LineChartRenderer extends LineRadarRenderer {
                 nextIndex = j + 1 < dataSet.getEntryCount() ? j + 1 : j;
                 next = dataSet.getEntryForIndex(nextIndex);
 
-                prevDx = (cur.getX() - prevPrev.getX()) * intensity;
+                prevDx = (cur.getX() + mOffSet - prevPrev.getX() + mOffSet) * intensity;
                 prevDy = (cur.getY() - prevPrev.getY()) * intensity;
-                curDx = (next.getX() - prev.getX()) * intensity;
+                curDx = (next.getX() + mOffSet - prev.getX() + mOffSet) * intensity;
                 curDy = (next.getY() - prev.getY()) * intensity;
 
-                cubicPath.cubicTo(prev.getX() + prevDx, (prev.getY() + prevDy) * phaseY,
-                        cur.getX() - curDx,
-                        (cur.getY() - curDy) * phaseY, cur.getX(), cur.getY() * phaseY);
+                cubicPath.cubicTo(prev.getX() + mOffSet + prevDx, (prev.getY() + prevDy) * phaseY,
+                        cur.getX() + mOffSet - curDx, (cur.getY() - curDy) * phaseY,
+                        cur.getX() + mOffSet, cur.getY() * phaseY);
             }
         }
 
@@ -241,8 +242,8 @@ public class LineChartRenderer extends LineRadarRenderer {
 
     protected void drawCubicFill(Canvas c, ILineDataSet dataSet, Path spline, Transformer trans, XBounds bounds) {
         final float fillMin = dataSet.getFillFormatter().getFillLinePosition(dataSet, mChart);
-        spline.lineTo(dataSet.getEntryForIndex(bounds.min + bounds.range).getX(), fillMin);
-        spline.lineTo(dataSet.getEntryForIndex(bounds.min).getX(), fillMin);
+        spline.lineTo(dataSet.getEntryForIndex(bounds.min + bounds.range).getX() + mOffSet, fillMin);
+        spline.lineTo(dataSet.getEntryForIndex(bounds.min).getX() + mOffSet, fillMin);
         spline.close();
         trans.pathValueToPixel(spline);
 
@@ -296,7 +297,7 @@ public class LineChartRenderer extends LineRadarRenderer {
                     continue;
                 }
 
-                mLineBuffer[0] = e.getX();
+                mLineBuffer[0] = e.getX() + mOffSet;
                 mLineBuffer[1] = e.getY() * phaseY;
 
                 if (j < mXBounds.max) {
@@ -305,14 +306,14 @@ public class LineChartRenderer extends LineRadarRenderer {
                         break;
                     }
                     if (isDrawSteppedEnabled) {
-                        mLineBuffer[2] = e.getX();
+                        mLineBuffer[2] = e.getX() + mOffSet;
                         mLineBuffer[3] = mLineBuffer[1];
                         mLineBuffer[4] = mLineBuffer[2];
                         mLineBuffer[5] = mLineBuffer[3];
-                        mLineBuffer[6] = e.getX();
+                        mLineBuffer[6] = e.getX() + mOffSet;
                         mLineBuffer[7] = e.getY() * phaseY;
                     } else {
-                        mLineBuffer[2] = e.getX();
+                        mLineBuffer[2] = e.getX() + mOffSet;
                         mLineBuffer[3] = e.getY() * phaseY;
                     }
                 } else {
@@ -353,17 +354,17 @@ public class LineChartRenderer extends LineRadarRenderer {
                         continue;
                     }
 
-                    mLineBuffer[j++] = e1.getX();
+                    mLineBuffer[j++] = e1.getX() + mOffSet;
                     mLineBuffer[j++] = e1.getY() * phaseY;
 
                     if (isDrawSteppedEnabled) {
-                        mLineBuffer[j++] = e2.getX();
+                        mLineBuffer[j++] = e2.getX() + mOffSet;
                         mLineBuffer[j++] = e1.getY() * phaseY;
-                        mLineBuffer[j++] = e2.getX();
+                        mLineBuffer[j++] = e2.getX() + mOffSet;
                         mLineBuffer[j++] = e1.getY() * phaseY;
                     }
 
-                    mLineBuffer[j++] = e2.getX();
+                    mLineBuffer[j++] = e2.getX() + mOffSet;
                     mLineBuffer[j++] = e2.getY() * phaseY;
                 }
 
@@ -433,8 +434,8 @@ public class LineChartRenderer extends LineRadarRenderer {
         outputPath.reset();
 
         final Entry entry = dataSet.getEntryForIndex(startIndex);
-        outputPath.moveTo(entry.getX(), fillMin);
-        outputPath.lineTo(entry.getX(), entry.getY() * phaseY);
+        outputPath.moveTo(entry.getX() + mOffSet, fillMin);
+        outputPath.lineTo(entry.getX() + mOffSet, entry.getY() * phaseY);
 
         // create a new path
         Entry currentEntry = null;
@@ -443,17 +444,17 @@ public class LineChartRenderer extends LineRadarRenderer {
             currentEntry = dataSet.getEntryForIndex(x);
 
             if (isDrawSteppedEnabled) {
-                outputPath.lineTo(currentEntry.getX(), previousEntry.getY() * phaseY);
+                outputPath.lineTo(currentEntry.getX() + mOffSet, previousEntry.getY() * phaseY);
             }
 
-            outputPath.lineTo(currentEntry.getX(), currentEntry.getY() * phaseY);
+            outputPath.lineTo(currentEntry.getX() + mOffSet, currentEntry.getY() * phaseY);
 
             previousEntry = currentEntry;
         }
 
         // close up
         if (currentEntry != null) {
-            outputPath.lineTo(currentEntry.getX(), fillMin);
+            outputPath.lineTo(currentEntry.getX() + mOffSet, fillMin);
         }
 
         outputPath.close();
@@ -601,7 +602,7 @@ public class LineChartRenderer extends LineRadarRenderer {
                     }
                 }
 
-                mCirclesBuffer[0] = e.getX();
+                mCirclesBuffer[0] = e.getX() + mOffSet;
                 mCirclesBuffer[1] = e.getY() * phaseY;
                 trans.pointValuesToPixel(mCirclesBuffer);
 
@@ -644,7 +645,7 @@ public class LineChartRenderer extends LineRadarRenderer {
             }
 
             final MPPointD pix = mChart.getTransformer(set.getAxisDependency())
-                    .getPixelForValues(e.getX(), e.getY() * mAnimator.getPhaseY());
+                    .getPixelForValues(e.getX() + mOffSet, e.getY() * mAnimator.getPhaseY());
             high.setDraw((float) pix.x, (float) pix.y);
             // draw the lines
             drawHighlightLines(c, (float) pix.x, (float) pix.y, set);

@@ -28,6 +28,7 @@ import java.util.List;
 public class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
 
     protected BarDataProvider mChart;
+    protected float mOffSet = 0.5f;
 
     /**
      * the rect object that is used for drawing the bars
@@ -104,8 +105,7 @@ public class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
                     dataSet.getEntryCount()); i < count; i++) {
 
                 final BarEntry e = dataSet.getEntryForIndex(i);
-                x = e.getX();
-
+                x = e.getX() + mOffSet;
                 mBarShadowRectBuffer.left = x - barWidthHalf;
                 mBarShadowRectBuffer.right = x + barWidthHalf;
                 trans.rectValueToPixel(mBarShadowRectBuffer);
@@ -436,7 +436,7 @@ public class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
                 y2 = 0.f;
             }
 
-            prepareBarHighlight(e.getX(), y1, y2, barData.getBarWidth() / 2f, trans);
+            prepareBarHighlight(e.getX() + mOffSet, y1, y2, barData.getBarWidth() / 2f, trans);
             setHighlightDrawPos(high, mBarRect);
             c.drawRect(mBarRect, mHighlightPaint);
         }
