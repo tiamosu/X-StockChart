@@ -270,10 +270,10 @@ public class KLineChart extends LinearLayout {
             @Override
             public String getFormattedValue(float value) {
                 final int index = (int) (value - data.getOffSet());
-                if (index < 0 || index >= data.getxVals().size()) {
+                if (index < 0 || index >= data.getXVals().size()) {
                     return "";
                 } else {
-                    return data.getxVals().get(index);
+                    return data.getXVals().get(index);
                 }
             }
         });
@@ -281,10 +281,10 @@ public class KLineChart extends LinearLayout {
             @Override
             public String getFormattedValue(float value) {
                 final int index = (int) (value - data.getOffSet());
-                if (index < 0 || index >= data.getxVals().size()) {
+                if (index < 0 || index >= data.getXVals().size()) {
                     return "";
                 } else {
-                    return data.getxVals().get(index);
+                    return data.getXVals().get(index);
                 }
             }
         });

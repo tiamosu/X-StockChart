@@ -34,58 +34,43 @@ import androidx.core.content.ContextCompat;
  * @date 2019/1/15.
  */
 public class KLineDataManage {
-    private Context mContext;
-    private ArrayList<KLineDataModel> mDatas = new ArrayList<>();
+    private final Context mContext;
+    private final ArrayList<KLineDataModel> mAllDatas = new ArrayList<>();
     private float offSet = 0.99f;//K线图最右边偏移量
 
     //MA参数
-    private int N1 = 5;
-    private int N2 = 10;
-    private int N3 = 20;
+    private final static int N1 = 5;
+    private final static int N2 = 10;
+    private final static int N3 = 20;
     //BOLL参数
-    private int BOLLN = 26;
+    private final static int BOLLN = 26;
     //MACD参数
-    private int SHORT = 12;
-    private int LONG = 26;
-    private int M = 9;
+    private final static int SHORT = 12;
+    private final static int LONG = 26;
+    private final static int M = 9;
     //KDJ参数
-    private int KDJN = 9;
-    private int KDJM1 = 3;
-    private int KDJM2 = 3;
+    private final static int KDJN = 9;
+    private final static int KDJM1 = 3;
+    private final static int KDJM2 = 3;
     //RSI参数
-    private int RSIN1 = 6;
-    private int RSIN2 = 12;
-    private int RSIN3 = 24;
+    private final static int RSIN1 = 6;
+    private final static int RSIN2 = 12;
+    private final static int RSIN3 = 24;
 
+    private final ArrayList<KLineDataModel> mDatas = new ArrayList<>();
     //X轴数据
-    private ArrayList<String> xVal = new ArrayList<>();
+    private ArrayList<String> mXVal = new ArrayList<>();
 
-    private CandleDataSet candleDataSet;//蜡烛图集合
-    private BarDataSet volumeDataSet;//成交量集合
+    private CandleDataSet mCandleDataSet;//蜡烛图集合
+    private BarDataSet mVolumeDataSet;//成交量集合
     private BarDataSet barDataMACD;//MACD集合
-    private CandleDataSet bollCandleDataSet;//BOLL蜡烛图集合
+    private CandleDataSet mBollCandleDataSet;//BOLL蜡烛图集合
 
-    private List<ILineDataSet> lineDataMA = new ArrayList<>();
-
+    private List<ILineDataSet> mLineDataMA = new ArrayList<>();
     private List<ILineDataSet> lineDataMACD = new ArrayList<>();
-    private ArrayList<BarEntry> macdData = new ArrayList<>();
-    private ArrayList<Entry> deaData = new ArrayList<>();
-    private ArrayList<Entry> difData = new ArrayList<>();
-
     private List<ILineDataSet> lineDataKDJ = new ArrayList<>();
-    private ArrayList<Entry> kData = new ArrayList<>();
-    private ArrayList<Entry> dData = new ArrayList<>();
-    private ArrayList<Entry> jData = new ArrayList<>();
-
     private List<ILineDataSet> lineDataBOLL = new ArrayList<>();
-    private ArrayList<Entry> bollDataUP = new ArrayList<>();
-    private ArrayList<Entry> bollDataMB = new ArrayList<>();
-    private ArrayList<Entry> bollDataDN = new ArrayList<>();
-
     private List<ILineDataSet> lineDataRSI = new ArrayList<>();
-    private ArrayList<Entry> rsiData6 = new ArrayList<>();
-    private ArrayList<Entry> rsiData12 = new ArrayList<>();
-    private ArrayList<Entry> rsiData24 = new ArrayList<>();
 
     public KLineDataManage(Context context) {
         mContext = context;
@@ -98,16 +83,9 @@ public class KLineDataManage {
         if (object == null) {
             return;
         }
-        mDatas.clear();
-        lineDataMA.clear();
+        mAllDatas.clear();
         final JSONArray data = object.optJSONArray("data");
         if (data != null) {
-            xVal.clear();
-            ArrayList<CandleEntry> candleEntries = new ArrayList<>();
-            ArrayList<BarEntry> barEntries = new ArrayList<>();
-            ArrayList<Entry> line5Entries = new ArrayList<>();
-            ArrayList<Entry> line10Entries = new ArrayList<>();
-            ArrayList<Entry> line20Entries = new ArrayList<>();
             for (int i = 0; i < data.length(); i++) {
                 final KLineDataModel dataModel = new KLineDataModel();
                 dataModel.setDateMills(data.optJSONArray(i).optLong(0, 0L));
@@ -123,26 +101,55 @@ public class KLineDataManage {
                 dataModel.setMa30(data.optJSONArray(i).optDouble(10));
                 dataModel.setMa60(data.optJSONArray(i).optDouble(11));
                 dataModel.setPreClose(data.optJSONArray(i).optDouble(12));
-                mDatas.add(dataModel);
-
-                xVal.add(DataTimeUtil.secToDate(dataModel.getDateMills()));
-                candleEntries.add(new CandleEntry(i, i + offSet, (float) dataModel.getHigh(),
-                        (float) dataModel.getLow(), (float) dataModel.getOpen(), (float) dataModel.getClose()));
-
-                float color = dataModel.getOpen() > dataModel.getClose() ? 0f : 1f;
-                barEntries.add(new BarEntry(i, i + offSet, (float) dataModel.getVolume(), color));
-
-                line5Entries.add(new Entry(i, i + offSet, (float) dataModel.getMa5()));
-                line10Entries.add(new Entry(i, i + offSet, (float) dataModel.getMa10()));
-                line20Entries.add(new Entry(i, i + offSet, (float) dataModel.getMa20()));
+                mAllDatas.add(dataModel);
             }
-            candleDataSet = setACandle(candleEntries);
-            bollCandleDataSet = setBOLLCandle(candleEntries);
-            volumeDataSet = setABar(barEntries, "成交量");
-            lineDataMA.add(setALine(ColorType.blue, line5Entries, false));
-            lineDataMA.add(setALine(ColorType.yellow, line10Entries, false));
-            lineDataMA.add(setALine(ColorType.purple, line20Entries, false));
+
+            addData();
         }
+    }
+
+    private int mLoadDataNum;
+
+    public void addData() {
+        //已加载全部数据无需继续加载
+        if (mDatas.size() == mAllDatas.size()) {
+            return;
+        }
+        mDatas.clear();
+        mXVal.clear();
+        mLineDataMA.clear();
+
+        mLoadDataNum++;
+        final ArrayList<CandleEntry> candleEntries = new ArrayList<>();
+        final ArrayList<BarEntry> barEntries = new ArrayList<>();
+        final ArrayList<Entry> line5Entries = new ArrayList<>();
+        final ArrayList<Entry> line10Entries = new ArrayList<>();
+        final ArrayList<Entry> line20Entries = new ArrayList<>();
+
+        final int allDataSize = mAllDatas.size();
+        final int size = (allDataSize - 100 * mLoadDataNum) >= 0 ? 100 * mLoadDataNum : allDataSize;
+        for (int i = 0; i < size; i++) {
+            final KLineDataModel dataModel = mAllDatas.get(i);
+            mDatas.add(dataModel);
+
+            mXVal.add(DataTimeUtil.secToDate(dataModel.getDateMills()));
+            candleEntries.add(new CandleEntry(i, i + offSet, (float) dataModel.getHigh(),
+                    (float) dataModel.getLow(), (float) dataModel.getOpen(), (float) dataModel.getClose()));
+
+            float color = dataModel.getOpen() > dataModel.getClose() ? 0f : 1f;
+            barEntries.add(new BarEntry(i, i + offSet, (float) dataModel.getVolume(), color));
+
+            line5Entries.add(new Entry(i, i + offSet, (float) dataModel.getMa5()));
+            line10Entries.add(new Entry(i, i + offSet, (float) dataModel.getMa10()));
+            line20Entries.add(new Entry(i, i + offSet, (float) dataModel.getMa20()));
+        }
+
+        mCandleDataSet = setACandle(candleEntries);
+        mBollCandleDataSet = setBOLLCandle(candleEntries);
+        mVolumeDataSet = setABar(barEntries, "成交量");
+        mLineDataMA.add(setALine(ColorType.blue, line5Entries, false));
+        mLineDataMA.add(setALine(ColorType.yellow, line10Entries, false));
+        mLineDataMA.add(setALine(ColorType.purple, line20Entries, false));
     }
 
     /**
@@ -150,10 +157,12 @@ public class KLineDataManage {
      */
     public void initMACD() {
         final MACDEntity macdEntity = new MACDEntity(getDatas(), SHORT, LONG, M);
-        macdData = new ArrayList<>();
-        deaData = new ArrayList<>();
-        difData = new ArrayList<>();
-        for (int i = 0; i < macdEntity.getMACD().size(); i++) {
+        final ArrayList<BarEntry> macdData = new ArrayList<>();
+        final ArrayList<Entry> deaData = new ArrayList<>();
+        final ArrayList<Entry> difData = new ArrayList<>();
+
+        final int size = macdEntity.getMACD().size();
+        for (int i = 0; i < size; i++) {
             macdData.add(new BarEntry(i, i + offSet, macdEntity.getMACD().get(i), macdEntity.getMACD().get(i)));
             deaData.add(new Entry(i, i + offSet, macdEntity.getDEA().get(i)));
             difData.add(new Entry(i, i + offSet, macdEntity.getDIF().get(i)));
@@ -168,10 +177,12 @@ public class KLineDataManage {
      */
     public void initKDJ() {
         final KDJEntity kdjEntity = new KDJEntity(getDatas(), KDJN, KDJM1, KDJM2);
-        kData = new ArrayList<>();
-        dData = new ArrayList<>();
-        jData = new ArrayList<>();
-        for (int i = 0; i < kdjEntity.getD().size(); i++) {
+        final ArrayList<Entry> kData = new ArrayList<>();
+        final ArrayList<Entry> dData = new ArrayList<>();
+        final ArrayList<Entry> jData = new ArrayList<>();
+
+        final int size = kdjEntity.getD().size();
+        for (int i = 0; i < size; i++) {
             kData.add(new Entry(i, i + offSet, kdjEntity.getK().get(i)));
             dData.add(new Entry(i, i + offSet, kdjEntity.getD().get(i)));
             jData.add(new Entry(i, i + offSet, kdjEntity.getJ().get(i)));
@@ -186,10 +197,12 @@ public class KLineDataManage {
      */
     public void initBOLL() {
         final BOLLEntity bollEntity = new BOLLEntity(getDatas(), BOLLN);
-        bollDataUP = new ArrayList<>();
-        bollDataMB = new ArrayList<>();
-        bollDataDN = new ArrayList<>();
-        for (int i = 0; i < bollEntity.getUPs().size(); i++) {
+        final ArrayList<Entry> bollDataUP = new ArrayList<>();
+        final ArrayList<Entry> bollDataMB = new ArrayList<>();
+        final ArrayList<Entry> bollDataDN = new ArrayList<>();
+
+        final int size = bollEntity.getUPs().size();
+        for (int i = 0; i < size; i++) {
             bollDataUP.add(new Entry(i, i + offSet, bollEntity.getUPs().get(i)));
             bollDataMB.add(new Entry(i, i + offSet, bollEntity.getMBs().get(i)));
             bollDataDN.add(new Entry(i, i + offSet, bollEntity.getDNs().get(i)));
@@ -207,10 +220,12 @@ public class KLineDataManage {
         final RSIEntity rsiEntity12 = new RSIEntity(getDatas(), RSIN2);
         final RSIEntity rsiEntity24 = new RSIEntity(getDatas(), RSIN3);
 
-        rsiData6 = new ArrayList<>();
-        rsiData12 = new ArrayList<>();
-        rsiData24 = new ArrayList<>();
-        for (int i = 0; i < rsiEntity6.getRSIs().size(); i++) {
+        final ArrayList<Entry> rsiData6 = new ArrayList<>();
+        final ArrayList<Entry> rsiData12 = new ArrayList<>();
+        final ArrayList<Entry> rsiData24 = new ArrayList<>();
+
+        final int size = rsiEntity6.getRSIs().size();
+        for (int i = 0; i < size; i++) {
             rsiData6.add(new Entry(i, i + offSet, rsiEntity6.getRSIs().get(i)));
             rsiData12.add(new Entry(i, i + offSet, rsiEntity12.getRSIs().get(i)));
             rsiData24.add(new Entry(i, i + offSet, rsiEntity24.getRSIs().get(i)));
@@ -314,12 +329,12 @@ public class KLineDataManage {
         return mDatas;
     }
 
-    public ArrayList<String> getxVals() {
-        return xVal;
+    public ArrayList<String> getXVals() {
+        return mXVal;
     }
 
     public List<ILineDataSet> getLineDataMA() {
-        return lineDataMA;
+        return mLineDataMA;
     }
 
     public List<ILineDataSet> getLineDataBOLL() {
@@ -344,17 +359,17 @@ public class KLineDataManage {
     }
 
     public BarDataSet getVolumeDataSet() {
-        return volumeDataSet = volumeDataSet != null ? volumeDataSet
+        return mVolumeDataSet = mVolumeDataSet != null ? mVolumeDataSet
                 : new BarDataSet(new ArrayList<>(), "");
     }
 
     public CandleDataSet getCandleDataSet() {
-        return candleDataSet = candleDataSet != null ? candleDataSet
+        return mCandleDataSet = mCandleDataSet != null ? mCandleDataSet
                 : new CandleDataSet(new ArrayList<>(), "");
     }
 
     public CandleDataSet getBollCandleDataSet() {
-        return bollCandleDataSet = bollCandleDataSet != null ? bollCandleDataSet
+        return mBollCandleDataSet = mBollCandleDataSet != null ? mBollCandleDataSet
                 : new CandleDataSet(new ArrayList<>(), "");
     }
 
