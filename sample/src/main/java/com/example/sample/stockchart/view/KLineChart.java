@@ -315,10 +315,13 @@ public class KLineChart extends LinearLayout {
         mCandleChart.setVisibleXRange(X_RANGE, X_RANGE);
         mBarChart.setVisibleXRange(X_RANGE, X_RANGE);
 
-        if (dataSize > X_RANGE) {
-            final float xValue = dataSize - 1;
-            mCandleChart.moveViewToAnimated(xValue, 0, YAxis.AxisDependency.LEFT, 500);
-            mBarChart.moveViewToAnimated(xValue, 0, YAxis.AxisDependency.LEFT, 500);
+        //一次最多加载100条数据，超过100条即加载更多
+        if (dataSize > 100) {
+            mCandleChart.invalidate();
+            mBarChart.invalidate();
+        } else if (dataSize > X_RANGE) {
+            mCandleChart.moveViewToX(0);
+            mBarChart.moveViewToX(0);
         } else {
             mCandleChart.invalidate();
             mBarChart.animateY(500);

@@ -3,12 +3,14 @@ package com.example.sample.ui.fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.sample.R;
 import com.example.sample.base.BaseFragment;
 import com.example.sample.common.data.ChartData;
 import com.example.sample.common.data.Constants;
 import com.example.sample.stockchart.data.KLineDataManage;
+import com.example.sample.stockchart.listener.CoupleChartGestureListener;
 import com.example.sample.stockchart.view.KLineChart;
 
 import org.json.JSONException;
@@ -74,6 +76,22 @@ public class ChartKLineFragment extends BaseFragment {
             mChart.setDataToChart(mDataManage);
             mChart.gestureListenerBar.setCoupleClick(() -> loadIndexData(mIndexType < 5 ? ++mIndexType : 1));
         }, 3000);
+
+        //加载更多数据
+        final CoupleChartGestureListener.OnEdgeListener onEdgeListener = (x, left) -> {
+            if (!left) {
+                //已加载全部数据
+                if (mDataManage.getDatas().size() == mDataManage.getAllDatas().size()) {
+                    Toast.makeText(getContext(), "已加载全部数据", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                Toast.makeText(getContext(), "加载更多数据...", Toast.LENGTH_LONG).show();
+                mDataManage.addData();
+                mChart.setDataToChart(mDataManage);
+            }
+        };
+        mChart.gestureListenerCandle.setOnEdgeListener(onEdgeListener);
+        mChart.gestureListenerBar.setOnEdgeListener(onEdgeListener);
     }
 
     private void loadIndexData(int type) {

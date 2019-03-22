@@ -4,6 +4,7 @@ import android.graphics.Matrix;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.listener.ChartTouchListener;
 import com.github.mikephil.charting.listener.OnChartGestureListener;
@@ -13,36 +14,56 @@ import com.github.mikephil.charting.listener.OnChartGestureListener;
  * @date 2019/1/15.
  */
 public class CoupleChartGestureListener implements OnChartGestureListener {
-    private Chart srcChart;
-    private Chart[] dstCharts;
-    private CoupleClick coupleClick;
+    private BarLineChartBase mSrcChart;
+    private Chart[] mDstCharts;
+    private CoupleClick mCoupleClick;
+    private OnEdgeListener mOnEdgeListener;
+    private boolean mCanLoad;//K线图手指交互已停止，正在惯性滑动
 
     public void setCoupleClick(CoupleClick coupleClick) {
-        this.coupleClick = coupleClick;
+        this.mCoupleClick = coupleClick;
     }
 
-    public interface CoupleClick {
-        void singleClickListener();
+    public void setOnEdgeListener(OnEdgeListener onEdgeListener) {
+        mOnEdgeListener = onEdgeListener;
     }
 
-    public CoupleChartGestureListener(Chart srcChart, Chart[] dstCharts) {
-        this.srcChart = srcChart;
-        this.dstCharts = dstCharts;
+    public CoupleChartGestureListener(BarLineChartBase srcChart, Chart[] dstCharts) {
+        this.mSrcChart = srcChart;
+        this.mDstCharts = dstCharts;
     }
 
     @Override
     public void onChartGestureStart(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
+        mCanLoad = false;
         syncCharts();
     }
 
     @Override
     public void onChartGestureEnd(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
-        if (dstCharts == null) {
+        if (mSrcChart == null) {
             return;
         }
+        final float leftX = mSrcChart.getLowestVisibleX();
+        final float rightX = mSrcChart.getHighestVisibleX();
+        final float minVisible = 10f;
+        if (leftX <= mSrcChart.getXChartMin() + minVisible) {//滑到最左端的minVisible范围内
+            mCanLoad = false;
+            if (mOnEdgeListener != null) {
+                mOnEdgeListener.edgeLoad(leftX, true);
+            }
+        } else if (rightX >= mSrcChart.getXChartMax() - minVisible) {//滑到最右端的minVisible范围内
+            mCanLoad = false;
+            if (mOnEdgeListener != null) {
+                mOnEdgeListener.edgeLoad(rightX, false);
+            }
+        } else {
+            mCanLoad = true;
+        }
+
         syncCharts();
         if (lastPerformedGesture != ChartTouchListener.ChartGesture.SINGLE_TAP) {
-            srcChart.highlightValue(null, true);
+            mSrcChart.highlightValue(null, true);
         }
     }
 
@@ -58,8 +79,8 @@ public class CoupleChartGestureListener implements OnChartGestureListener {
 
     @Override
     public void onChartSingleTapped(MotionEvent me) {
-        if (coupleClick != null) {
-            coupleClick.singleClickListener();
+        if (mCoupleClick != null) {
+            mCoupleClick.singleClickListener();
         }
         syncCharts();
     }
@@ -76,21 +97,38 @@ public class CoupleChartGestureListener implements OnChartGestureListener {
 
     @Override
     public void onChartTranslate(MotionEvent me, float dX, float dY) {
+        if (mCanLoad) {
+            final float leftX = mSrcChart.getLowestVisibleX();
+            final float rightX = mSrcChart.getHighestVisibleX();
+            final float minVisible = 10f;
+            if (leftX <= mSrcChart.getXChartMin() + minVisible) {//滑到最左端的minVisible范围内
+                mCanLoad = false;
+                if (mOnEdgeListener != null) {
+                    mOnEdgeListener.edgeLoad(leftX, true);
+                }
+            } else if (rightX >= mSrcChart.getXChartMax() - minVisible) {//滑到最右端的minVisible范围内
+                mCanLoad = false;
+                if (mOnEdgeListener != null) {
+                    mOnEdgeListener.edgeLoad(rightX, false);
+                }
+            }
+        }
+
         syncCharts();
     }
 
     private void syncCharts() {
-        if (dstCharts == null) {
+        if (mDstCharts == null || mSrcChart == null) {
             return;
         }
         float[] srcVals = new float[9];
         float[] dstVals = new float[9];
         // get src chart translation matrix:
-        final Matrix srcMatrix = srcChart.getViewPortHandler().getMatrixTouch();
+        final Matrix srcMatrix = mSrcChart.getViewPortHandler().getMatrixTouch();
         srcMatrix.getValues(srcVals);
 
         // apply X axis scaling and position to dst charts:
-        for (Chart dstChart : dstCharts) {
+        for (Chart dstChart : mDstCharts) {
             if (dstChart.getVisibility() == View.VISIBLE) {
                 final Matrix dstMatrix = dstChart.getViewPortHandler().getMatrixTouch();
                 dstMatrix.getValues(dstVals);
@@ -109,5 +147,13 @@ public class CoupleChartGestureListener implements OnChartGestureListener {
                 dstChart.getViewPortHandler().refresh(dstMatrix, dstChart, true);
             }
         }
+    }
+
+    public interface CoupleClick {
+        void singleClickListener();
+    }
+
+    public interface OnEdgeListener {
+        void edgeLoad(float x, boolean left);
     }
 }

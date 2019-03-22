@@ -25,6 +25,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import androidx.core.content.ContextCompat;
@@ -85,36 +86,34 @@ public class KLineDataManage {
         }
         mAllDatas.clear();
         final JSONArray data = object.optJSONArray("data");
-        if (data != null) {
-            for (int i = 0; i < data.length(); i++) {
-                final KLineDataModel dataModel = new KLineDataModel();
-                dataModel.setDateMills(data.optJSONArray(i).optLong(0, 0L));
-                dataModel.setOpen(data.optJSONArray(i).optDouble(1));
-                dataModel.setHigh(data.optJSONArray(i).optDouble(2));
-                dataModel.setLow(data.optJSONArray(i).optDouble(3));
-                dataModel.setClose(data.optJSONArray(i).optDouble(4));
-                dataModel.setVolume(NumberUtils.stringNoE10ForVol(data.optJSONArray(i).optDouble(5, 0)));
-                dataModel.setTotal(NumberUtils.stringNoE10ForVol(data.optJSONArray(i).optDouble(6, 0)));
-                dataModel.setMa5(data.optJSONArray(i).optDouble(7));
-                dataModel.setMa10(data.optJSONArray(i).optDouble(8));
-                dataModel.setMa20(data.optJSONArray(i).optDouble(9));
-                dataModel.setMa30(data.optJSONArray(i).optDouble(10));
-                dataModel.setMa60(data.optJSONArray(i).optDouble(11));
-                dataModel.setPreClose(data.optJSONArray(i).optDouble(12));
-                mAllDatas.add(dataModel);
-            }
-
-            addData();
+        if (data == null) {
+            return;
         }
+        for (int i = 0; i < data.length(); i++) {
+            final KLineDataModel dataModel = new KLineDataModel();
+            dataModel.setDateMills(data.optJSONArray(i).optLong(0, 0L));
+            dataModel.setOpen(data.optJSONArray(i).optDouble(1));
+            dataModel.setHigh(data.optJSONArray(i).optDouble(2));
+            dataModel.setLow(data.optJSONArray(i).optDouble(3));
+            dataModel.setClose(data.optJSONArray(i).optDouble(4));
+            dataModel.setVolume(NumberUtils.stringNoE10ForVol(data.optJSONArray(i).optDouble(5, 0)));
+            dataModel.setTotal(NumberUtils.stringNoE10ForVol(data.optJSONArray(i).optDouble(6, 0)));
+            dataModel.setMa5(data.optJSONArray(i).optDouble(7));
+            dataModel.setMa10(data.optJSONArray(i).optDouble(8));
+            dataModel.setMa20(data.optJSONArray(i).optDouble(9));
+            dataModel.setMa30(data.optJSONArray(i).optDouble(10));
+            dataModel.setMa60(data.optJSONArray(i).optDouble(11));
+            dataModel.setPreClose(data.optJSONArray(i).optDouble(12));
+            mAllDatas.add(dataModel);
+        }
+
+        Collections.reverse(mAllDatas);
+        addData();
     }
 
     private int mLoadDataNum;
 
     public void addData() {
-        //已加载全部数据无需继续加载
-        if (mDatas.size() == mAllDatas.size()) {
-            return;
-        }
         mDatas.clear();
         mXVal.clear();
         mLineDataMA.clear();
@@ -133,6 +132,7 @@ public class KLineDataManage {
             mDatas.add(dataModel);
 
             mXVal.add(DataTimeUtil.secToDate(dataModel.getDateMills()));
+
             candleEntries.add(new CandleEntry(i, i + offSet, (float) dataModel.getHigh(),
                     (float) dataModel.getLow(), (float) dataModel.getOpen(), (float) dataModel.getClose()));
 
@@ -323,6 +323,10 @@ public class KLineDataManage {
         barDataSet.setDecreasingPaintStyle(Paint.Style.FILL);
         barDataSet.setNeutralPaintStyle(Paint.Style.FILL);
         return barDataSet;
+    }
+
+    public synchronized ArrayList<KLineDataModel> getAllDatas() {
+        return mAllDatas;
     }
 
     public synchronized ArrayList<KLineDataModel> getDatas() {
