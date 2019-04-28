@@ -14,26 +14,34 @@ import java.text.DecimalFormat;
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class PercentFormatter extends ValueFormatter {
     public DecimalFormat mFormat;
-    private PieChart pieChart;
+    private PieChart mPieChart;
+    private boolean mPercentSignSeparated;
 
     public PercentFormatter() {
         mFormat = new DecimalFormat("###,###,##0.0");
+        mPercentSignSeparated = true;
     }
 
     // Can be used to remove percent signs if the chart isn't in percent mode
     public PercentFormatter(PieChart pieChart) {
         this();
-        this.pieChart = pieChart;
+        this.mPieChart = pieChart;
+    }
+
+    // Can be used to remove percent signs if the chart isn't in percent mode
+    public PercentFormatter(PieChart pieChart, boolean percentSignSeparated) {
+        this(pieChart);
+        this.mPercentSignSeparated = percentSignSeparated;
     }
 
     @Override
     public String getFormattedValue(float value) {
-        return mFormat.format(value) + " %";
+        return mFormat.format(value) + (mPercentSignSeparated ? " %" : "%");
     }
 
     @Override
     public String getPieLabel(float value, PieEntry pieEntry) {
-        if (pieChart != null && pieChart.isUsePercentValuesEnabled()) {
+        if (mPieChart != null && mPieChart.isUsePercentValuesEnabled()) {
             // Converted to percent
             return getFormattedValue(value);
         } else {
