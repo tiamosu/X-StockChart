@@ -11,7 +11,6 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
  * @author weixia
  * @date 2019/1/10.
  */
-@SuppressWarnings("WeakerAccess")
 public class TimeSharingYAxisRenderer extends YAxisRenderer {
     private TimeSharingYAxis mYAxis;
 
