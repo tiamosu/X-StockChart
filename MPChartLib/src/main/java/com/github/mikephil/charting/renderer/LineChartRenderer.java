@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 
 import com.github.mikephil.charting.animation.ChartAnimator;
@@ -505,23 +506,19 @@ public class LineChartRenderer extends LineRadarRenderer {
                 }
 
                 final Entry entry = dataSet.getEntryForIndex(j / 2 + mXBounds.min);
+                final String valueText = formatter.getPointLabel(entry);
                 if (dataSet.isDrawValuesEnabled()) {
                     if (isDrawBS && BSCircles.length >= 2) {
                         final int xPos = j / 2;
                         if (xPos != BSCircles[0] && xPos != BSCircles[1]) {
                             continue;
                         }
-                        final float baseline = mValuePaint.getTextSize() - mValuePaint.getFontMetrics().descent;
-                        final int textColorPos = xPos == BSCircles[0] ? 0 : 1;
-                        if (xPos == BSCircles[0]) {
-                            final float newY = yValue1 > yValue2 ? y - valOffset : y + baseline + valOffset;
-                            drawValue(c, formatter.getPointLabel(entry), x, newY, dataSet.getValueTextColor(textColorPos));
-                        } else {
-                            final float newY = yValue1 > yValue2 ? y + baseline + valOffset : y - valOffset;
-                            drawValue(c, formatter.getPointLabel(entry), x, newY, dataSet.getValueTextColor(textColorPos));
-                        }
+                        final boolean isFirstPoint = xPos == BSCircles[0];
+                        final int textColorPos = isFirstPoint ? 0 : 1;
+                        final float[] xy = getBSValueTextXY(valueText, yValue1, yValue2, x, y, valOffset, isFirstPoint);
+                        drawValue(c, valueText, xy[0], xy[1], dataSet.getValueTextColor(textColorPos));
                     } else {
-                        drawValue(c, formatter.getPointLabel(entry), x, y - valOffset, dataSet.getValueTextColor(j / 2));
+                        drawValue(c, valueText, x, y - valOffset, dataSet.getValueTextColor(j / 2));
                     }
                 }
                 if (entry.getIcon() != null && dataSet.isDrawIconsEnabled()) {
@@ -538,6 +535,58 @@ public class LineChartRenderer extends LineRadarRenderer {
 
             MPPointF.recycleInstance(iconsOffset);
         }
+    }
+
+    private Rect mRect = new Rect();
+
+    //文字超出上下边界进行调整
+    private float[] getBSValueTextXY(String valueText, float yValue1, float yValue2,
+                                     float x, float y, float valOffset, boolean isFirstPoint) {
+        final Paint.FontMetrics fontMetrics = mValuePaint.getFontMetrics();
+        final float baseline = mValuePaint.getTextSize() - fontMetrics.descent;
+        final float textWidth = mValuePaint.measureText(valueText);
+        final float textHeight = fontMetrics.descent - fontMetrics.ascent;
+        mValuePaint.getTextBounds(valueText, 0, valueText.length(), mRect);
+
+        float newX = x, newY;
+        final float xOffset = Utils.convertDpToPixel(1);
+        if (x - textWidth / 2 < mViewPortHandler.contentLeft()) {
+            newX = mViewPortHandler.contentLeft() + textWidth / 2 + xOffset;
+        } else if (x + textWidth / 2 > mViewPortHandler.contentRight()) {
+            newX = mViewPortHandler.contentRight() - textWidth / 2 - xOffset;
+        }
+
+        if (isFirstPoint) {
+            newY = yValue1 > yValue2 ? y - valOffset : y + baseline + valOffset;
+        } else {
+            newY = yValue1 > yValue2 ? y + baseline + valOffset : y - valOffset;
+        }
+        if (yValue1 > yValue2) {
+            if (isFirstPoint) {
+                //文字超出上边界
+                if (y - valOffset - textHeight < mViewPortHandler.contentTop()) {
+                    newY = mViewPortHandler.contentTop() + baseline + valOffset;
+                }
+            } else {
+                //文字超出下边界
+                if (y + valOffset + textHeight > mViewPortHandler.contentBottom()) {
+                    newY = mViewPortHandler.contentBottom() - valOffset;
+                }
+            }
+        } else {
+            if (isFirstPoint) {
+                //文字超出下边界
+                if (y + valOffset + textHeight > mViewPortHandler.contentBottom()) {
+                    newY = mViewPortHandler.contentBottom() - valOffset;
+                }
+            } else {
+                //文字超出上边界
+                if (y - valOffset - textHeight < mViewPortHandler.contentTop()) {
+                    newY = mViewPortHandler.contentTop() + baseline + valOffset;
+                }
+            }
+        }
+        return new float[]{newX, newY};
     }
 
     @Override
