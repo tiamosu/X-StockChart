@@ -313,10 +313,12 @@ public class TimeSharingChart extends LinearLayout {
             lineDataSet.setDrawBS(true);
             lineDataSet.setBSCircles(20, 70, 90);
             lineDataSet.setDrawValues(true);
+
             final List<Integer> textColors = new ArrayList<>();
             textColors.add(Color.RED);
             textColors.add(Color.BLUE);
             lineDataSet.setValueTextColors(textColors);
+            lineDataSet.setValueTextSize(24f);
         }
         return lineDataSet;
     }
