@@ -507,7 +507,8 @@ public class LineChartRenderer extends LineRadarRenderer {
                             continue;
                         }
                         final int textColorPos = xPos == BSCircles[0] ? 0 : 1;
-                        drawValue(c, formatter.getPointLabel(entry), x, y - valOffset, dataSet.getValueTextColor(textColorPos));
+                        final float newY = xPos == BSCircles[0] ? y - valOffset : y + valOffset * 1.7f;
+                        drawValue(c, formatter.getPointLabel(entry), x, newY, dataSet.getValueTextColor(textColorPos));
                     } else {
                         drawValue(c, formatter.getPointLabel(entry), x, y - valOffset, dataSet.getValueTextColor(j / 2));
                     }
