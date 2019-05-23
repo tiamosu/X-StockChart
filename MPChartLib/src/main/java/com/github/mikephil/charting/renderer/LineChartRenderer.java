@@ -487,6 +487,11 @@ public class LineChartRenderer extends LineRadarRenderer {
 
             final boolean isDrawBS = dataSet.isDrawBS();//是否绘制BS两点图
             final int[] BSCircles = dataSet.getBSCircles();//BS（买卖）两点位置
+            float yValue1 = 0, yValue2 = 0;
+            if (BSCircles.length >= 2) {
+                yValue1 = dataSet.getEntryForIndex(BSCircles[0] + mXBounds.min).getY();
+                yValue2 = dataSet.getEntryForIndex(BSCircles[1] + mXBounds.min).getY();
+            }
 
             for (int j = 0; j < positions.length; j += 2) {
                 final float x = positions[j];
@@ -507,9 +512,14 @@ public class LineChartRenderer extends LineRadarRenderer {
                             continue;
                         }
                         final float baseline = mValuePaint.getTextSize() - mValuePaint.getFontMetrics().descent;
-                        final float newY = xPos == BSCircles[0] ? y - valOffset : y + baseline + valOffset;
                         final int textColorPos = xPos == BSCircles[0] ? 0 : 1;
-                        drawValue(c, formatter.getPointLabel(entry), x, newY, dataSet.getValueTextColor(textColorPos));
+                        if (xPos == BSCircles[0]) {
+                            final float newY = yValue1 > yValue2 ? y - valOffset : y + baseline + valOffset;
+                            drawValue(c, formatter.getPointLabel(entry), x, newY, dataSet.getValueTextColor(textColorPos));
+                        } else {
+                            final float newY = yValue1 > yValue2 ? y + baseline + valOffset : y - valOffset;
+                            drawValue(c, formatter.getPointLabel(entry), x, newY, dataSet.getValueTextColor(textColorPos));
+                        }
                     } else {
                         drawValue(c, formatter.getPointLabel(entry), x, y - valOffset, dataSet.getValueTextColor(j / 2));
                     }

@@ -311,7 +311,7 @@ public class TimeSharingChart extends LinearLayout {
             lineDataSet.setCircleHoleRadius(2f);
             lineDataSet.setCircleColors(Color.RED, Color.BLUE);
             lineDataSet.setDrawBS(true);
-            lineDataSet.setBSCircles(20, 70, 90);
+            lineDataSet.setBSCircles(20, 30);
             lineDataSet.setDrawValues(true);
 
             final List<Integer> textColors = new ArrayList<>();
