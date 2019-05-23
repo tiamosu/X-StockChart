@@ -31,6 +31,7 @@ import com.github.mikephil.charting.utils.NumberUtils;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -205,7 +206,6 @@ public class TimeSharingChart extends LinearLayout {
     /**
      * 设置分时数据
      */
-    @SuppressWarnings("SuspiciousNameCombination")
     public void setDataToChart(TimeSharingDataManage mData) {
         setMaxCount(ChartType.ONE_DAY.getPointNum());
         setXLabels(mData.getTimeSharingXLabels());
@@ -309,9 +309,14 @@ public class TimeSharingChart extends LinearLayout {
             lineDataSet.setCircleRadius(5f);
             lineDataSet.setDrawCircleHole(true);
             lineDataSet.setCircleHoleRadius(2f);
-            lineDataSet.setCircleColors(Color.RED, Color.BLUE, Color.YELLOW);
+            lineDataSet.setCircleColors(Color.RED, Color.BLUE);
             lineDataSet.setDrawBS(true);
             lineDataSet.setBSCircles(20, 70, 90);
+            lineDataSet.setDrawValues(true);
+            final List<Integer> textColors = new ArrayList<>();
+            textColors.add(Color.RED);
+            textColors.add(Color.BLUE);
+            lineDataSet.setValueTextColors(textColors);
         }
         return lineDataSet;
     }

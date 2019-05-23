@@ -30,7 +30,6 @@ import java.util.List;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class LineChartRenderer extends LineRadarRenderer {
-
     protected LineDataProvider mChart;
     protected float mOffSet = 0.5f;
 
@@ -446,9 +445,7 @@ public class LineChartRenderer extends LineRadarRenderer {
             if (isDrawSteppedEnabled) {
                 outputPath.lineTo(currentEntry.getX() + mOffSet, previousEntry.getY() * phaseY);
             }
-
             outputPath.lineTo(currentEntry.getX() + mOffSet, currentEntry.getY() * phaseY);
-
             previousEntry = currentEntry;
         }
 
@@ -456,15 +453,11 @@ public class LineChartRenderer extends LineRadarRenderer {
         if (currentEntry != null) {
             outputPath.lineTo(currentEntry.getX() + mOffSet, fillMin);
         }
-
         outputPath.close();
     }
 
     @Override
     public void drawValues(Canvas c) {
-        if (!isDrawingValuesAllowed(mChart)) {
-            return;
-        }
         final List<ILineDataSet> dataSets = mChart.getLineData().getDataSets();
         for (int i = 0; i < dataSets.size(); i++) {
             final ILineDataSet dataSet = dataSets.get(i);
@@ -492,6 +485,9 @@ public class LineChartRenderer extends LineRadarRenderer {
             iconsOffset.x = Utils.convertDpToPixel(iconsOffset.x);
             iconsOffset.y = Utils.convertDpToPixel(iconsOffset.y);
 
+            final boolean isDrawBS = dataSet.isDrawBS();//是否绘制BS两点图
+            final int[] BSCircles = dataSet.getBSCircles();//BS（买卖）两点位置
+
             for (int j = 0; j < positions.length; j += 2) {
                 final float x = positions[j];
                 final float y = positions[j + 1];
@@ -505,7 +501,16 @@ public class LineChartRenderer extends LineRadarRenderer {
 
                 final Entry entry = dataSet.getEntryForIndex(j / 2 + mXBounds.min);
                 if (dataSet.isDrawValuesEnabled()) {
-                    drawValue(c, formatter.getPointLabel(entry), x, y - valOffset, dataSet.getValueTextColor(j / 2));
+                    if (isDrawBS && BSCircles.length >= 2) {
+                        final int xPos = j / 2;
+                        if (xPos != BSCircles[0] && xPos != BSCircles[1]) {
+                            continue;
+                        }
+                        final int textColorPos = xPos == BSCircles[0] ? 0 : 1;
+                        drawValue(c, formatter.getPointLabel(entry), x, y - valOffset, dataSet.getValueTextColor(textColorPos));
+                    } else {
+                        drawValue(c, formatter.getPointLabel(entry), x, y - valOffset, dataSet.getValueTextColor(j / 2));
+                    }
                 }
                 if (entry.getIcon() != null && dataSet.isDrawIconsEnabled()) {
                     final Drawable icon = entry.getIcon();
@@ -672,6 +677,7 @@ public class LineChartRenderer extends LineRadarRenderer {
     /**
      * Releases the drawing bitmap. This should be called when {@link LineChart#onDetachedFromWindow()}.
      */
+    @SuppressWarnings("JavadocReference")
     public void releaseBitmap() {
         if (mBitmapCanvas != null) {
             mBitmapCanvas.setBitmap(null);
