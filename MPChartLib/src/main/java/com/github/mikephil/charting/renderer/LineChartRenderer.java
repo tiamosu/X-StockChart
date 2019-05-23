@@ -556,34 +556,23 @@ public class LineChartRenderer extends LineRadarRenderer {
             newX = mViewPortHandler.contentRight() - textWidth / 2 - xOffset;
         }
 
-        if (isFirstPoint) {
-            newY = yValue1 > yValue2 ? y - valOffset : y + baseline + valOffset;
-        } else {
-            newY = yValue1 > yValue2 ? y + baseline + valOffset : y - valOffset;
-        }
-        if (yValue1 > yValue2) {
-            if (isFirstPoint) {
-                //文字超出上边界
-                if (y - valOffset - textHeight < mViewPortHandler.contentTop()) {
-                    newY = mViewPortHandler.contentTop() + baseline + valOffset;
-                }
-            } else {
-                //文字超出下边界
-                if (y + valOffset + textHeight > mViewPortHandler.contentBottom()) {
-                    newY = mViewPortHandler.contentBottom() - valOffset;
-                }
+        //文字位于圆心点的上方
+        final float textTopY = y - valOffset;
+        //文字位于圆心点的下方
+        final float textBottomY = y + baseline + valOffset;
+        //文字是否位于圆心点上方
+        final boolean isTextTop = isFirstPoint ? (yValue1 > yValue2) : (yValue1 < yValue2);
+        if (isTextTop) {
+            newY = textTopY;
+            //文字超出上边界
+            if (textTopY - baseline < mViewPortHandler.contentTop()) {
+                newY = textBottomY;
             }
         } else {
-            if (isFirstPoint) {
-                //文字超出下边界
-                if (y + valOffset + textHeight > mViewPortHandler.contentBottom()) {
-                    newY = mViewPortHandler.contentBottom() - valOffset;
-                }
-            } else {
-                //文字超出上边界
-                if (y - valOffset - textHeight < mViewPortHandler.contentTop()) {
-                    newY = mViewPortHandler.contentTop() + baseline + valOffset;
-                }
+            newY = textBottomY;
+            //文字超出下边界
+            if (textBottomY > mViewPortHandler.contentBottom()) {
+                newY = textTopY;
             }
         }
         return new float[]{newX, newY};
