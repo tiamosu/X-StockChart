@@ -490,8 +490,15 @@ public class LineChartRenderer extends LineRadarRenderer {
             final int[] BSCircles = dataSet.getBSCircles();//BS（买卖）两点位置
             float yValue1 = 0, yValue2 = 0;
             if (BSCircles.length >= 2) {
-                yValue1 = dataSet.getEntryForIndex(BSCircles[0] + mXBounds.min).getY();
-                yValue2 = dataSet.getEntryForIndex(BSCircles[1] + mXBounds.min).getY();
+                final int entryCount = dataSet.getEntryCount();
+                final int bIndex = BSCircles[0] + mXBounds.min;
+                final int sIndex = BSCircles[1] + mXBounds.min;
+                if (bIndex > 0 && bIndex < entryCount) {
+                    yValue1 = dataSet.getEntryForIndex(bIndex).getY();
+                }
+                if (sIndex > 0 && sIndex < entryCount) {
+                    yValue2 = dataSet.getEntryForIndex(sIndex).getY();
+                }
             }
 
             for (int j = 0; j < positions.length; j += 2) {
