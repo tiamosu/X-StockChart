@@ -21,7 +21,6 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
 import java.util.List;
 
 public class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
-
     protected CandleDataProvider mChart;
     private static final float OFFSET = 0.5f;
 
@@ -231,10 +230,6 @@ public class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
 
     @Override
     public void drawValues(Canvas c) {
-        // if values are drawn
-//        if (!isDrawingValuesAllowed(mChart)) {
-//            return;
-//        }
         final List<ICandleDataSet> dataSets = mChart.getCandleData().getDataSets();
         for (int i = 0; i < dataSets.size(); i++) {
             final ICandleDataSet dataSet = dataSets.get(i);
@@ -249,7 +244,6 @@ public class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
 
             final float[] positions = trans.generateTransformedValuesCandle(
                     dataSet, mAnimator.getPhaseX(), mAnimator.getPhaseY(), mXBounds.min, mXBounds.max);
-            final float yOffset = Utils.convertDpToPixel(5f);
 
             final ValueFormatter formatter = dataSet.getValueFormatter();
             final MPPointF iconsOffset = MPPointF.getInstance(dataSet.getIconsOffset());
@@ -290,9 +284,6 @@ public class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
                         minEntry = entry;
                     }
                 }
-                if (dataSet.isDrawValuesEnabled()) {
-//                    drawValue(c, formatter.getCandleLabel(entry), x, y - yOffset, dataSet.getValueTextColor(j / 2));
-                }
                 if (entry.getIcon() != null && dataSet.isDrawIconsEnabled()) {
                     final Drawable icon = entry.getIcon();
                     Utils.drawImage(
@@ -320,17 +311,21 @@ public class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
                 tPosition[1] = minEntry.getLow();
                 trans.pointValuesToPixel(tPosition);
                 if (tPosition[0] + highStringWidth / 2 > mViewPortHandler.contentRight()) {
-                    drawValue(c,
-                            highString + " →",
-                            tPosition[0] - (float) highStringWidth / 2,
-                            tPosition[1] + (float) highStringHeight / 2,
-                            dataSet.getCandleDataTextColor());
+                    if (dataSet.isDrawValuesEnabled()) {
+                        drawValue(c,
+                                highString + " →",
+                                tPosition[0] - (float) highStringWidth / 2,
+                                tPosition[1] + (float) highStringHeight / 2,
+                                dataSet.getCandleDataTextColor());
+                    }
                 } else {
-                    drawValue(c,
-                            "← " + highString,
-                            tPosition[0] + (float) highStringWidth / 2,
-                            tPosition[1] + (float) highStringHeight / 2,
-                            dataSet.getCandleDataTextColor());
+                    if (dataSet.isDrawValuesEnabled()) {
+                        drawValue(c,
+                                "← " + highString,
+                                tPosition[0] + (float) highStringWidth / 2,
+                                tPosition[1] + (float) highStringHeight / 2,
+                                dataSet.getCandleDataTextColor());
+                    }
                 }
             } else {
                 //画左边
@@ -343,17 +338,21 @@ public class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
                 tPosition[1] = minEntry == null ? 0f : minEntry.getLow();
                 trans.pointValuesToPixel(tPosition);
                 if (tPosition[0] - highStringWidth / 2 < mViewPortHandler.contentLeft()) {
-                    drawValue(c,
-                            "← " + highString,
-                            tPosition[0] + (float) highStringWidth / 2,
-                            tPosition[1] + (float) highStringHeight / 2,
-                            dataSet.getCandleDataTextColor());
+                    if (dataSet.isDrawValuesEnabled()) {
+                        drawValue(c,
+                                "← " + highString,
+                                tPosition[0] + (float) highStringWidth / 2,
+                                tPosition[1] + (float) highStringHeight / 2,
+                                dataSet.getCandleDataTextColor());
+                    }
                 } else {
-                    drawValue(c,
-                            highString + " →",
-                            tPosition[0] - (float) highStringWidth / 2,
-                            tPosition[1] + (float) highStringHeight / 2,
-                            dataSet.getCandleDataTextColor());
+                    if (dataSet.isDrawValuesEnabled()) {
+                        drawValue(c,
+                                highString + " →",
+                                tPosition[0] - (float) highStringWidth / 2,
+                                tPosition[1] + (float) highStringHeight / 2,
+                                dataSet.getCandleDataTextColor());
+                    }
                 }
             }
 
@@ -369,17 +368,21 @@ public class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
                 tPosition[1] = maxEntry.getHigh();
                 trans.pointValuesToPixel(tPosition);
                 if ((tPosition[0] - highStringWidth / 2) < mViewPortHandler.contentLeft()) {
-                    drawValue(c,
-                            "← " + highString,
-                            tPosition[0] + (float) highStringWidth / 2,
-                            tPosition[1] + (float) highStringHeight / 2,
-                            dataSet.getCandleDataTextColor());
+                    if (dataSet.isDrawValuesEnabled()) {
+                        drawValue(c,
+                                "← " + highString,
+                                tPosition[0] + (float) highStringWidth / 2,
+                                tPosition[1] + (float) highStringHeight / 2,
+                                dataSet.getCandleDataTextColor());
+                    }
                 } else {
-                    drawValue(c,
-                            highString + " →",
-                            tPosition[0] - (float) highStringWidth / 2,
-                            tPosition[1] + (float) highStringHeight / 2,
-                            dataSet.getCandleDataTextColor());
+                    if (dataSet.isDrawValuesEnabled()) {
+                        drawValue(c,
+                                highString + " →",
+                                tPosition[0] - (float) highStringWidth / 2,
+                                tPosition[1] + (float) highStringHeight / 2,
+                                dataSet.getCandleDataTextColor());
+                    }
                 }
             } else {
                 //画右边
@@ -392,17 +395,21 @@ public class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
                 tPosition[1] = maxEntry == null ? 0f : maxEntry.getHigh();
                 trans.pointValuesToPixel(tPosition);
                 if (tPosition[0] + highStringWidth / 2 > mViewPortHandler.contentRight()) {
-                    drawValue(c,
-                            highString + " →",
-                            tPosition[0] - (float) highStringWidth / 2,
-                            tPosition[1] + (float) highStringHeight / 2,
-                            dataSet.getCandleDataTextColor());
+                    if (dataSet.isDrawValuesEnabled()) {
+                        drawValue(c,
+                                highString + " →",
+                                tPosition[0] - (float) highStringWidth / 2,
+                                tPosition[1] + (float) highStringHeight / 2,
+                                dataSet.getCandleDataTextColor());
+                    }
                 } else {
-                    drawValue(c,
-                            "← " + highString,
-                            tPosition[0] + (float) highStringWidth / 2,
-                            tPosition[1] + (float) highStringHeight / 2,
-                            dataSet.getCandleDataTextColor());
+                    if (dataSet.isDrawValuesEnabled()) {
+                        drawValue(c,
+                                "← " + highString,
+                                tPosition[0] + (float) highStringWidth / 2,
+                                tPosition[1] + (float) highStringHeight / 2,
+                                dataSet.getCandleDataTextColor());
+                    }
                 }
             }
         }
