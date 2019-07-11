@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 
 import com.github.mikephil.charting.animation.ChartAnimator;
@@ -526,7 +525,8 @@ public class LineChartRenderer extends LineRadarRenderer {
                                 }
                             }
                         }
-                        drawValue(c, valueText, x, y - valOffset, dataSet.getValueTextColor(textColorPos));
+                        final float[] xy = getBSValueTextXY(valueText, x, y, valOffset, isBCircle);
+                        drawValue(c, valueText, xy[0], xy[1], dataSet.getValueTextColor(textColorPos));
                     } else {
                         drawValue(c, valueText, x, y - valOffset, dataSet.getValueTextColor(j / 2));
                     }
@@ -569,16 +569,12 @@ public class LineChartRenderer extends LineRadarRenderer {
         return isBSCircle;
     }
 
-    private Rect mRect = new Rect();
-
     //文字超出上下边界进行调整
-    private float[] getBSValueTextXY(String valueText, float yValue1, float yValue2,
-                                     float x, float y, float valOffset, boolean isFirstPoint) {
+    private float[] getBSValueTextXY(String valueText, float x, float y, float valOffset, boolean isBCircle) {
         final Paint.FontMetrics fontMetrics = mValuePaint.getFontMetrics();
         final float baseline = mValuePaint.getTextSize() - fontMetrics.descent;
-        final float textWidth = mValuePaint.measureText(valueText);
         final float textHeight = fontMetrics.descent - fontMetrics.ascent;
-        mValuePaint.getTextBounds(valueText, 0, valueText.length(), mRect);
+        final float textWidth = mValuePaint.measureText(valueText);
 
         float newX = x, newY;
         final float xOffset = Utils.convertDpToPixel(1);
@@ -593,8 +589,7 @@ public class LineChartRenderer extends LineRadarRenderer {
         //文字位于圆心点的下方
         final float textBottomY = y + baseline + valOffset;
         //文字是否位于圆心点上方
-        final boolean isTextTop = isFirstPoint ? (yValue1 > yValue2) : (yValue1 < yValue2);
-        if (isTextTop) {
+        if (isBCircle) {
             newY = textTopY;
             //文字超出上边界
             if (textTopY - baseline < mViewPortHandler.contentTop()) {
