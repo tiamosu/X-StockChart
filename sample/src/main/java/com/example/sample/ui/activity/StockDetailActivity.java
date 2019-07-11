@@ -41,22 +41,18 @@ public class StockDetailActivity extends BaseActivity {
         mToolbar.inflateMenu(R.menu.menu_right);
         mToolbar.setNavigationOnClickListener(view -> finish());
         mToolbar.setOnMenuItemClickListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.item_model:
-                    final SharedPreferences sp = getSharedPreferences(Constants.SP_FILE, Context.MODE_PRIVATE);
-                    if (!sp.getBoolean(Constants.DAY_NIGHT_MODE, false)) {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                        sp.edit().putBoolean(Constants.DAY_NIGHT_MODE, true).apply();
-                        Toast.makeText(StockDetailActivity.this, "夜间模式!", Toast.LENGTH_SHORT).show();
-                    } else {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                        sp.edit().putBoolean(Constants.DAY_NIGHT_MODE, false).apply();
-                        Toast.makeText(StockDetailActivity.this, "白天模式!", Toast.LENGTH_SHORT).show();
-                    }
-                    recreate();
-                    break;
-                default:
-                    break;
+            if (item.getItemId() == R.id.item_model) {
+                final SharedPreferences sp = getSharedPreferences(Constants.SP_FILE, Context.MODE_PRIVATE);
+                if (!sp.getBoolean(Constants.DAY_NIGHT_MODE, false)) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    sp.edit().putBoolean(Constants.DAY_NIGHT_MODE, true).apply();
+                    Toast.makeText(StockDetailActivity.this, "夜间模式!", Toast.LENGTH_SHORT).show();
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    sp.edit().putBoolean(Constants.DAY_NIGHT_MODE, false).apply();
+                    Toast.makeText(StockDetailActivity.this, "白天模式!", Toast.LENGTH_SHORT).show();
+                }
+                recreate();
             }
             return true;
         });

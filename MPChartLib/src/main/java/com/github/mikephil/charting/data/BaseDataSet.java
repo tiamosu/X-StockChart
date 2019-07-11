@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.ColorInt;
-import androidx.annotation.NonNull;
 
 /**
  * Created by Philipp Jahoda on 21/10/15.
@@ -101,8 +100,14 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
     protected int mTimeDayType = 1;
     //是否绘制BS（买卖）两点图
     protected boolean mIsDrawBS;
-    //BS（买卖）两点位置
-    protected int[] mBSCircles = new int[2];
+    //B（买）点位置
+    protected int[] mBCircles;
+    //S（卖）点位置
+    protected int[] mSCircles;
+    //B（买）点的数值
+    protected float[] mBValues;
+    //S（卖）点的数值
+    protected float[] mSValues;
     //K线蜡烛图数值颜色
     protected int mCandleDataTextColor = Color.BLUE;
     //分时图成交价数据，用于分时图副图柱形颜色填充判断
@@ -461,8 +466,12 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
         return mTimeDayType;
     }
 
-    public void setDrawBS(boolean drawBS) {
-        mIsDrawBS = drawBS;
+    public void setBSOption(boolean isDrawBS, int[] BCircles, float[] BValues, int[] SCircles, float[] SValues) {
+        mIsDrawBS = isDrawBS;
+        mBCircles = BCircles;
+        mBValues = BValues;
+        mSCircles = SCircles;
+        mSValues = SValues;
     }
 
     @Override
@@ -471,12 +480,23 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
     }
 
     @Override
-    public int[] getBSCircles() {
-        return mBSCircles;
+    public int[] getBCircles() {
+        return mBCircles = mBCircles != null ? mBCircles : new int[1];
     }
 
-    public void setBSCircles(@NonNull int... BSCircles) {
-        mBSCircles = BSCircles;
+    @Override
+    public float[] getBValues() {
+        return mBValues;
+    }
+
+    @Override
+    public int[] getSCircles() {
+        return mSCircles = mSCircles != null ? mSCircles : new int[1];
+    }
+
+    @Override
+    public float[] getSValues() {
+        return mSValues;
     }
 
     @Override
@@ -577,7 +597,10 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
 
         baseDataSet.mTimeDayType = mTimeDayType;
         baseDataSet.mIsDrawBS = mIsDrawBS;
-        baseDataSet.mBSCircles = mBSCircles;
+        baseDataSet.mBCircles = mBCircles;
+        baseDataSet.mBValues = mBValues;
+        baseDataSet.mSCircles = mSCircles;
+        baseDataSet.mSValues = mSValues;
         baseDataSet.mCandleDataTextColor = mCandleDataTextColor;
         baseDataSet.mPriceList = mPriceList;
     }

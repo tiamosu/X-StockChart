@@ -410,9 +410,24 @@ public interface IDataSet<T extends Entry> {
     boolean isDrawBS();
 
     /**
-     * @return BS（买卖）两点位置
+     * @return B（买）点的位置
      */
-    int[] getBSCircles();
+    int[] getBCircles();
+
+    /**
+     * @return B（买）点的数值
+     */
+    float[] getBValues();
+
+    /**
+     * @return S（卖）点的位置
+     */
+    int[] getSCircles();
+
+    /**
+     * @return S（卖）点的数值
+     */
+    float[] getSValues();
 
     /**
      * @return K线蜡烛图中，数值颜色

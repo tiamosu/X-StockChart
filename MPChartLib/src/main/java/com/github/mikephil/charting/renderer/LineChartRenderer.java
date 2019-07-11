@@ -487,19 +487,10 @@ public class LineChartRenderer extends LineRadarRenderer {
             iconsOffset.y = Utils.convertDpToPixel(iconsOffset.y);
 
             final boolean isDrawBS = dataSet.isDrawBS();//是否绘制BS两点图
-            final int[] BSCircles = dataSet.getBSCircles();//BS（买卖）两点位置
-            float yValue1 = 0, yValue2 = 0;
-            if (BSCircles.length >= 2) {
-                final int entryCount = dataSet.getEntryCount();
-                final int bIndex = BSCircles[0] + mXBounds.min;
-                final int sIndex = BSCircles[1] + mXBounds.min;
-                if (bIndex > 0 && bIndex < entryCount) {
-                    yValue1 = dataSet.getEntryForIndex(bIndex).getY();
-                }
-                if (sIndex > 0 && sIndex < entryCount) {
-                    yValue2 = dataSet.getEntryForIndex(sIndex).getY();
-                }
-            }
+            final int[] BCircles = dataSet.getBCircles();//B（买）点的位置
+            final float[] BValues = dataSet.getBValues();//B（买）点的数值
+            final int[] SCircles = dataSet.getSCircles();//S（卖）点的位置
+            final float[] SValues = dataSet.getSValues();//S（卖）点的数值
 
             for (int j = 0; j < positions.length; j += 2) {
                 final float x = positions[j];
@@ -513,17 +504,29 @@ public class LineChartRenderer extends LineRadarRenderer {
                 }
 
                 final Entry entry = dataSet.getEntryForIndex(j / 2 + mXBounds.min);
-                final String valueText = formatter.getPointLabel(entry);
+                String valueText = formatter.getPointLabel(entry);
                 if (dataSet.isDrawValuesEnabled()) {
-                    if (isDrawBS && BSCircles.length >= 2) {
+                    if (isDrawBS) {
                         final int xPos = j / 2;
-                        if (xPos != BSCircles[0] && xPos != BSCircles[1]) {
+                        if (!isBSCircle(false, BCircles, SCircles, xPos)) {
                             continue;
                         }
-                        final boolean isFirstPoint = xPos == BSCircles[0];
-                        final int textColorPos = isFirstPoint ? 0 : 1;
-                        final float[] xy = getBSValueTextXY(valueText, yValue1, yValue2, x, y, valOffset, isFirstPoint);
-                        drawValue(c, valueText, xy[0], xy[1], dataSet.getValueTextColor(textColorPos));
+                        final boolean isBCircle = isBSCircle(true, BCircles, SCircles, xPos);
+                        final int textColorPos = isBCircle ? 0 : 1;
+                        if (isBCircle && BValues != null) {
+                            for (int k = 0; k < BCircles.length; k++) {
+                                if (xPos == BCircles[k] && k < BValues.length) {
+                                    valueText = String.valueOf(BValues[k]);
+                                }
+                            }
+                        } else if (SValues != null) {
+                            for (int k = 0; k < SCircles.length; k++) {
+                                if (xPos == SCircles[k] && k < SValues.length) {
+                                    valueText = String.valueOf(SValues[k]);
+                                }
+                            }
+                        }
+                        drawValue(c, valueText, x, y - valOffset, dataSet.getValueTextColor(textColorPos));
                     } else {
                         drawValue(c, valueText, x, y - valOffset, dataSet.getValueTextColor(j / 2));
                     }
@@ -542,6 +545,28 @@ public class LineChartRenderer extends LineRadarRenderer {
 
             MPPointF.recycleInstance(iconsOffset);
         }
+    }
+
+    private boolean isBSCircle(boolean isOnlyBCircle, int[] BCircles, int[] SCircles, int position) {
+        //是否含有BS（买卖）点的位置
+        boolean isBSCircle = false;
+        if (BCircles != null) {
+            for (int bCircle : BCircles) {
+                if (position == bCircle) {
+                    isBSCircle = true;
+                    break;
+                }
+            }
+        }
+        if (!isOnlyBCircle && !isBSCircle && SCircles != null) {
+            for (int sCircle : SCircles) {
+                if (position == sCircle) {
+                    isBSCircle = true;
+                    break;
+                }
+            }
+        }
+        return isBSCircle;
     }
 
     private Rect mRect = new Rect();
@@ -651,17 +676,16 @@ public class LineChartRenderer extends LineRadarRenderer {
             }
 
             final boolean isDrawBS = dataSet.isDrawBS();//是否绘制BS两点图
-            final int[] BSCircles = dataSet.getBSCircles();//BS（买卖）两点位置
+            final int[] BCircles = dataSet.getBCircles();//B（买）点的位置
+            final int[] SCircles = dataSet.getSCircles();//S（卖）点的位置
             final int boundsRangeCount = mXBounds.range + mXBounds.min;
             for (int j = mXBounds.min; j <= boundsRangeCount; j++) {
                 final Entry e = dataSet.getEntryForIndex(j);
                 if (e == null) {
                     break;
                 }
-                if (isDrawBS && BSCircles.length >= 2) {
-                    if (j != BSCircles[0] && j != BSCircles[1]) {
-                        continue;
-                    }
+                if (isDrawBS && !isBSCircle(false, BCircles, SCircles, j)) {
+                    continue;
                 }
 
                 mCirclesBuffer[0] = e.getX() + mOffSet;
@@ -678,9 +702,9 @@ public class LineChartRenderer extends LineRadarRenderer {
 
                 Bitmap circleBitmap = null;
                 if (imageCache != null) {
-                    if (isDrawBS && BSCircles.length >= 2) {
-                        //0：B（买）   1：S（卖）
-                        circleBitmap = imageCache.getBitmap(j == BSCircles[0] ? 0 : 1);
+                    if (isDrawBS) {
+                        final boolean isBCircle = isBSCircle(true, BCircles, SCircles, j);
+                        circleBitmap = imageCache.getBitmap(isBCircle ? 0 : 1);
                     } else {
                         circleBitmap = imageCache.getBitmap(j);
                     }

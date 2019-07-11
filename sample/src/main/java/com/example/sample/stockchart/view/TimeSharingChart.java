@@ -310,9 +310,13 @@ public class TimeSharingChart extends LinearLayout {
             lineDataSet.setDrawCircleHole(true);
             lineDataSet.setCircleHoleRadius(2f);
             lineDataSet.setCircleColors(Color.RED, Color.BLUE);
-            lineDataSet.setDrawBS(true);
-            lineDataSet.setBSCircles(118, 60);//65,119
             lineDataSet.setDrawValues(true);
+
+            final int[] BCircles = {20, 90};
+            final float[] BValues = {77, 88};
+            final int[] SCircles = {50, 119};
+            final float[] SValues = {110, 150};
+            lineDataSet.setBSOption(true, BCircles, BValues, SCircles, SValues);
 
             final List<Integer> textColors = new ArrayList<>();
             textColors.add(Color.RED);
