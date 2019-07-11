@@ -512,6 +512,7 @@ public class LineChartRenderer extends LineRadarRenderer {
                         }
                         final boolean isBCircle = isBSCircle(true, BCircles, SCircles, xPos);
                         final int textColorPos = isBCircle ? 0 : 1;
+                        //若点所在的位置没有手动设置数值，则默认取线条上的点所在数值
                         if (isBCircle && BValues != null) {
                             for (int k = 0; k < BCircles.length; k++) {
                                 if (xPos == BCircles[k] && k < BValues.length) {
