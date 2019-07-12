@@ -246,9 +246,9 @@ public class TimeSharingChart extends LinearLayout {
             lineDataSets.add(setLine(TYPE_LINE_JJ, lineJJEntries));
         }
         if (dataManage.isBSChart()) {
-            final int[] bCircles = {15, 30, 80};
+            final int[] bCircles = {15, 30, 118};
+            final int[] sCircles = {65, 119};
             final float[] bValues = {77, 88};
-            final int[] sCircles = {80, 119};
             final float[] sValues = {110, 150};
 
 //            lineDataSets.add(setBSLine(lineCJEntries, bCircles, bValues, sCircles, sValues));
@@ -321,6 +321,7 @@ public class TimeSharingChart extends LinearLayout {
                                   int[] bCircles, float[] bValues,
                                   int[] sCircles, float[] sValues) {
         final LineDataSet lineDataSet = new LineDataSet(entries, "bsLine");
+        lineDataSet.setColor(Color.TRANSPARENT);
         lineDataSet.setCircleRadius(5f);
         lineDataSet.setCircleHoleRadius(2f);
         lineDataSet.setCircleColors(Color.RED, Color.BLUE);
@@ -329,7 +330,7 @@ public class TimeSharingChart extends LinearLayout {
         textColors.add(Color.RED);
         textColors.add(Color.BLUE);
         lineDataSet.setValueTextColors(textColors);
-        lineDataSet.setValueTextSize(24f);
+        lineDataSet.setValueTextSize(16f);
         lineDataSet.setBSOption(true, bCircles, bValues, sCircles, sValues);
         return lineDataSet;
     }
