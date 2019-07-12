@@ -486,10 +486,10 @@ public class LineChartRenderer extends LineRadarRenderer {
             iconsOffset.y = Utils.convertDpToPixel(iconsOffset.y);
 
             final boolean isDrawBS = dataSet.isDrawBS();//是否绘制BS两点图
-            final int[] BCircles = dataSet.getBCircles();//B（买）点的位置
-            final float[] BValues = dataSet.getBValues();//B（买）点的数值
-            final int[] SCircles = dataSet.getSCircles();//S（卖）点的位置
-            final float[] SValues = dataSet.getSValues();//S（卖）点的数值
+            final int[] bCircles = dataSet.getBCircles();//B（买）点的位置
+            final int[] sCircles = dataSet.getSCircles();//S（卖）点的位置
+            final float[] bValues = dataSet.getBValues();//B（买）点的数值
+            final float[] sValues = dataSet.getSValues();//S（卖）点的数值
 
             for (int j = 0; j < positions.length; j += 2) {
                 final float x = positions[j];
@@ -507,7 +507,7 @@ public class LineChartRenderer extends LineRadarRenderer {
                 if (dataSet.isDrawValuesEnabled()) {
                     if (isDrawBS) {
                         final int xPos = j / 2;
-                        final boolean[] isBSCircle = isBSCircle(BCircles, SCircles, xPos);
+                        final boolean[] isBSCircle = isBSCircle(bCircles, sCircles, xPos);
                         if (!isBSCircle[0]) {
                             continue;
                         }
@@ -516,17 +516,23 @@ public class LineChartRenderer extends LineRadarRenderer {
                         final int textColorPos = isBCircle ? 0 : 1;
 
                         //若点所在的位置没有手动设置数值，则默认取线条上的点所在数值
-                        if (isBCircle && BCircles != null && BValues != null) {
-                            for (int k = 0; k < BCircles.length; k++) {
-                                if (xPos == BCircles[k] && k < BValues.length) {
-                                    valueText = String.valueOf(BValues[k]);
+                        if (isBCircle && bCircles != null && bValues != null) {
+                            final int circleLength = bCircles.length;
+                            final int valueLength = bValues.length;
+                            for (int k = 0; k < circleLength; k++) {
+                                if (xPos == bCircles[k] && k < valueLength) {
+                                    valueText = String.valueOf(bValues[k]);
+                                    break;
                                 }
                             }
                         }
-                        if (isSCircle && SCircles != null && SValues != null) {
-                            for (int k = 0; k < SCircles.length; k++) {
-                                if (xPos == SCircles[k] && k < SValues.length) {
-                                    valueText = String.valueOf(SValues[k]);
+                        if (isSCircle && sCircles != null && sValues != null) {
+                            final int circleLength = sCircles.length;
+                            final int valueLength = sValues.length;
+                            for (int k = 0; k < circleLength; k++) {
+                                if (xPos == sCircles[k] && k < valueLength) {
+                                    valueText = String.valueOf(sValues[k]);
+                                    break;
                                 }
                             }
                         }

@@ -10,7 +10,7 @@ allprojects {
     }
 }
 
-implementation 'me.xia:x-stockchart:3.1.8'
+implementation 'me.xia:x-stockchart:3.1.9'
 ```
 
 先上效果图：
