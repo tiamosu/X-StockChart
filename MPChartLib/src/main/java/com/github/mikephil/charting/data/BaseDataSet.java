@@ -466,12 +466,12 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
         return mTimeDayType;
     }
 
-    public void setBSOption(boolean isDrawBS, int[] BCircles, float[] BValues, int[] SCircles, float[] SValues) {
+    public void setBSOption(boolean isDrawBS, int[] bCircles, float[] bValues, int[] sCircles, float[] sValues) {
         mIsDrawBS = isDrawBS;
-        mBCircles = BCircles;
-        mBValues = BValues;
-        mSCircles = SCircles;
-        mSValues = SValues;
+        mBCircles = bCircles;
+        mBValues = bValues;
+        mSCircles = sCircles;
+        mSValues = sValues;
     }
 
     @Override
@@ -481,7 +481,7 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
 
     @Override
     public int[] getBCircles() {
-        return mBCircles = mBCircles != null ? mBCircles : new int[1];
+        return mBCircles = mBCircles != null ? mBCircles : new int[]{Integer.MAX_VALUE};
     }
 
     @Override
@@ -491,7 +491,7 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
 
     @Override
     public int[] getSCircles() {
-        return mSCircles = mSCircles != null ? mSCircles : new int[1];
+        return mSCircles = mSCircles != null ? mSCircles : new int[]{Integer.MAX_VALUE};
     }
 
     @Override

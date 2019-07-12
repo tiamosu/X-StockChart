@@ -85,9 +85,9 @@ public class TimeSharingChart extends LinearLayout {
         initChartBar();
 
         //初始化图表线框显示（需要添加一条数据才能显示图表框）
-        final TimeSharingDataManage manage = new TimeSharingDataManage();
-        manage.getDatas().add(new TimeSharingDataModel());
-        setDataToChart(manage);
+        final TimeSharingDataManage dataManage = new TimeSharingDataManage();
+        dataManage.getDatas().add(new TimeSharingDataModel());
+        setDataToChart(dataManage);
     }
 
     private void initChartLine() {
@@ -206,47 +206,57 @@ public class TimeSharingChart extends LinearLayout {
     /**
      * 设置分时数据
      */
-    public void setDataToChart(TimeSharingDataManage mData) {
+    public void setDataToChart(TimeSharingDataManage dataManage) {
         setMaxCount(ChartType.ONE_DAY.getPointNum());
-        setXLabels(mData.getTimeSharingXLabels());
+        setXLabels(dataManage.getTimeSharingXLabels());
 
-        mAxisLeftLine.setAxisMinimum(mData.getMin());
-        mAxisLeftLine.setAxisMaximum(mData.getMax());
+        mAxisLeftLine.setAxisMinimum(dataManage.getMin());
+        mAxisLeftLine.setAxisMaximum(dataManage.getMax());
 
-        if (Float.isNaN(mData.getPercentMax())
-                || Float.isNaN(mData.getPercentMin())
-                || Float.isNaN(mData.getVolMaxTime())) {
+        if (Float.isNaN(dataManage.getPercentMax())
+                || Float.isNaN(dataManage.getPercentMin())
+                || Float.isNaN(dataManage.getVolMaxTime())) {
             mAxisLeftBar.setAxisMaximum(0);
             mAxisRightLine.setAxisMinimum(0);
             mAxisRightLine.setAxisMaximum(0);
         } else {
-            mAxisLeftBar.setAxisMaximum(mData.getVolMaxTime());
-            mAxisRightLine.setAxisMinimum(mData.getPercentMin());
-            mAxisRightLine.setAxisMaximum(mData.getPercentMax());
+            mAxisLeftBar.setAxisMaximum(dataManage.getVolMaxTime());
+            mAxisRightLine.setAxisMinimum(dataManage.getPercentMin());
+            mAxisRightLine.setAxisMaximum(dataManage.getPercentMax());
         }
 
         final ArrayList<Entry> lineCJEntries = new ArrayList<>();
         final ArrayList<Entry> lineJJEntries = new ArrayList<>();
         final ArrayList<BarEntry> barEntries = new ArrayList<>();
-        for (int i = 0, j = 0; i < mData.getDatas().size(); i++, j++) {
-            final TimeSharingDataModel t = mData.getDatas().get(j);
+        for (int i = 0, j = 0; i < dataManage.getDatas().size(); i++, j++) {
+            final TimeSharingDataModel t = dataManage.getDatas().get(j);
             if (t == null) {
                 lineCJEntries.add(new Entry(i, i, Float.NaN));
                 lineJJEntries.add(new Entry(i, i, Float.NaN));
                 barEntries.add(new BarEntry(i, i, Float.NaN));
                 continue;
             }
-            lineCJEntries.add(new Entry(i, i, (float) mData.getDatas().get(i).getNowPrice()));
-            lineJJEntries.add(new Entry(i, i, (float) mData.getDatas().get(i).getAveragePrice()));
-            barEntries.add(new BarEntry(i, i, mData.getDatas().get(i).getVolume()));
+            lineCJEntries.add(new Entry(i, i, (float) dataManage.getDatas().get(i).getNowPrice()));
+            lineJJEntries.add(new Entry(i, i, (float) dataManage.getDatas().get(i).getAveragePrice()));
+            barEntries.add(new BarEntry(i, i, dataManage.getDatas().get(i).getVolume()));
         }
-        final ArrayList<ILineDataSet> sets = new ArrayList<>();
-        sets.add(setLine(TYPE_LINE_CJ, lineCJEntries, mData));
-        if (!mData.isBSChart()) {
-            sets.add(setLine(TYPE_LINE_JJ, lineJJEntries, mData));
+        final ArrayList<ILineDataSet> lineDataSets = new ArrayList<>();
+        lineDataSets.add(setLine(TYPE_LINE_CJ, lineCJEntries));
+        if (!dataManage.isBSChart()) {
+            lineDataSets.add(setLine(TYPE_LINE_JJ, lineJJEntries));
         }
-        final LineData cd = new LineData(sets);
-        mLineChart.setData(cd);
+        if (dataManage.isBSChart()) {
+            final int[] bCircles = {15, 30, 80};
+            final float[] bValues = {77, 88};
+            final int[] sCircles = {80, 119};
+            final float[] sValues = {110, 150};
+
+//            lineDataSets.add(setBSLine(lineCJEntries, bCircles, bValues, sCircles, sValues));
+            lineDataSets.add(setBSLine(lineCJEntries, bCircles, bValues, null, null));
+            lineDataSets.add(setBSLine(lineCJEntries, null, null, sCircles, sValues));
+        }
+        final LineData lineData = new LineData(lineDataSets);
+        mLineChart.setData(lineData);
 
         final BarDataSet barDataSet = new BarDataSet(barEntries, "成交量");
         barDataSet.setPriceData(lineCJEntries);
@@ -283,11 +293,11 @@ public class TimeSharingChart extends LinearLayout {
         mLineChart.setVisibleXRange(mMaxCount, mMaxCount);
         mBarChart.setVisibleXRange(mMaxCount, mMaxCount);
         //moveViewTo(...) 方法会自动调用 invalidate()
-        mLineChart.moveViewToX(mData.getDatas().size() - 1);
-        mBarChart.moveViewToX(mData.getDatas().size() - 1);
+        mLineChart.moveViewToX(dataManage.getDatas().size() - 1);
+        mBarChart.moveViewToX(dataManage.getDatas().size() - 1);
     }
 
-    private LineDataSet setLine(int type, ArrayList<Entry> entries, TimeSharingDataManage dataManage) {
+    private LineDataSet setLine(int type, ArrayList<Entry> entries) {
         final LineDataSet lineDataSet = new LineDataSet(entries, "ma" + type);
         lineDataSet.setDrawValues(false);
         lineDataSet.setLineWidth(0.7f);
@@ -304,26 +314,23 @@ public class TimeSharingChart extends LinearLayout {
         } else if (type == TYPE_LINE_JJ) {
             lineDataSet.setColor(ContextCompat.getColor(mContext, R.color.minute_yellow));
         }
-        if (dataManage.isBSChart()) {
-            lineDataSet.setDrawCircles(true);
-            lineDataSet.setCircleRadius(5f);
-            lineDataSet.setDrawCircleHole(true);
-            lineDataSet.setCircleHoleRadius(2f);
-            lineDataSet.setCircleColors(Color.RED, Color.BLUE);
-            lineDataSet.setDrawValues(true);
+        return lineDataSet;
+    }
 
-            final int[] BCircles = {15, 30, 80};
-            final float[] BValues = {77, 88};
-            final int[] SCircles = {65, 119};
-            final float[] SValues = {110, 150};
-            lineDataSet.setBSOption(true, BCircles, BValues, SCircles, SValues);
+    private LineDataSet setBSLine(ArrayList<Entry> entries,
+                                  int[] bCircles, float[] bValues,
+                                  int[] sCircles, float[] sValues) {
+        final LineDataSet lineDataSet = new LineDataSet(entries, "bsLine");
+        lineDataSet.setCircleRadius(5f);
+        lineDataSet.setCircleHoleRadius(2f);
+        lineDataSet.setCircleColors(Color.RED, Color.BLUE);
 
-            final List<Integer> textColors = new ArrayList<>();
-            textColors.add(Color.RED);
-            textColors.add(Color.BLUE);
-            lineDataSet.setValueTextColors(textColors);
-            lineDataSet.setValueTextSize(24f);
-        }
+        final List<Integer> textColors = new ArrayList<>();
+        textColors.add(Color.RED);
+        textColors.add(Color.BLUE);
+        lineDataSet.setValueTextColors(textColors);
+        lineDataSet.setValueTextSize(24f);
+        lineDataSet.setBSOption(true, bCircles, bValues, sCircles, sValues);
         return lineDataSet;
     }
 

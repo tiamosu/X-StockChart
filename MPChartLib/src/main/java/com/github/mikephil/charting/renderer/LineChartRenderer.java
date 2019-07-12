@@ -507,11 +507,14 @@ public class LineChartRenderer extends LineRadarRenderer {
                 if (dataSet.isDrawValuesEnabled()) {
                     if (isDrawBS) {
                         final int xPos = j / 2;
-                        if (!isBSCircle(false, BCircles, SCircles, xPos)) {
+                        final boolean[] isBSCircle = isBSCircle(BCircles, SCircles, xPos);
+                        if (!isBSCircle[0]) {
                             continue;
                         }
-                        final boolean isBCircle = isBSCircle(true, BCircles, SCircles, xPos);
+                        final boolean isBCircle = isBSCircle[1];
+                        final boolean isSCircle = isBSCircle[2];
                         final int textColorPos = isBCircle ? 0 : 1;
+
                         //若点所在的位置没有手动设置数值，则默认取线条上的点所在数值
                         if (isBCircle && BValues != null) {
                             for (int k = 0; k < BCircles.length; k++) {
@@ -519,7 +522,8 @@ public class LineChartRenderer extends LineRadarRenderer {
                                     valueText = String.valueOf(BValues[k]);
                                 }
                             }
-                        } else if (SValues != null) {
+                        }
+                        if (isSCircle && SValues != null) {
                             for (int k = 0; k < SCircles.length; k++) {
                                 if (xPos == SCircles[k] && k < SValues.length) {
                                     valueText = String.valueOf(SValues[k]);
@@ -548,26 +552,29 @@ public class LineChartRenderer extends LineRadarRenderer {
         }
     }
 
-    private boolean isBSCircle(boolean isOnlyBCircle, int[] BCircles, int[] SCircles, int position) {
-        //是否含有BS（买卖）点的位置
-        boolean isBSCircle = false;
-        if (BCircles != null) {
-            for (int bCircle : BCircles) {
+    private boolean[] isBSCircle(int[] bCircles, int[] sCircles, int position) {
+        //是否含有B（买）、S（卖）点的位置
+        boolean isBCircle = false, isSCircle = false;
+        if (bCircles != null) {
+            for (int bCircle : bCircles) {
                 if (position == bCircle) {
-                    isBSCircle = true;
+                    isBCircle = true;
                     break;
                 }
             }
         }
-        if (!isOnlyBCircle && !isBSCircle && SCircles != null) {
-            for (int sCircle : SCircles) {
+        if (sCircles != null) {
+            for (int sCircle : sCircles) {
                 if (position == sCircle) {
-                    isBSCircle = true;
+                    isSCircle = true;
                     break;
                 }
             }
         }
-        return isBSCircle;
+        final boolean isBSCircle = isBCircle || isSCircle;
+        //若处于同一条线的前提下，B、S位于同一个点时，需进行处理： S 点覆盖 B 点
+        isBCircle = isBCircle && !isSCircle;
+        return new boolean[]{isBSCircle, isBCircle, isSCircle};
     }
 
     //文字超出上下边界进行调整
@@ -680,7 +687,8 @@ public class LineChartRenderer extends LineRadarRenderer {
                 if (e == null) {
                     break;
                 }
-                if (isDrawBS && !isBSCircle(false, BCircles, SCircles, j)) {
+                final boolean[] isBSCircle = isBSCircle(BCircles, SCircles, j);
+                if (isDrawBS && !isBSCircle[0]) {
                     continue;
                 }
 
@@ -699,14 +707,14 @@ public class LineChartRenderer extends LineRadarRenderer {
                 Bitmap circleBitmap = null;
                 if (imageCache != null) {
                     if (isDrawBS) {
-                        final boolean isBCircle = isBSCircle(true, BCircles, SCircles, j);
-                        circleBitmap = imageCache.getBitmap(isBCircle ? 0 : 1);
+                        circleBitmap = imageCache.getBitmap(isBSCircle[1] ? 0 : 1);
                     } else {
                         circleBitmap = imageCache.getBitmap(j);
                     }
                 }
                 if (circleBitmap != null) {
-                    c.drawBitmap(circleBitmap, mCirclesBuffer[0] - circleRadius, mCirclesBuffer[1] - circleRadius, null);
+                    c.drawBitmap(circleBitmap, mCirclesBuffer[0] - circleRadius,
+                            mCirclesBuffer[1] - circleRadius, null);
                 }
             }
         }
