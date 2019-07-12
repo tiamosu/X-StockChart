@@ -481,7 +481,7 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
 
     @Override
     public int[] getBCircles() {
-        return mBCircles = mBCircles != null ? mBCircles : new int[]{Integer.MAX_VALUE};
+        return mBCircles;
     }
 
     @Override
@@ -491,7 +491,7 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
 
     @Override
     public int[] getSCircles() {
-        return mSCircles = mSCircles != null ? mSCircles : new int[]{Integer.MAX_VALUE};
+        return mSCircles;
     }
 
     @Override

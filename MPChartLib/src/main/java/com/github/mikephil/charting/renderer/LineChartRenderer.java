@@ -516,14 +516,14 @@ public class LineChartRenderer extends LineRadarRenderer {
                         final int textColorPos = isBCircle ? 0 : 1;
 
                         //若点所在的位置没有手动设置数值，则默认取线条上的点所在数值
-                        if (isBCircle && BValues != null) {
+                        if (isBCircle && BCircles != null && BValues != null) {
                             for (int k = 0; k < BCircles.length; k++) {
                                 if (xPos == BCircles[k] && k < BValues.length) {
                                     valueText = String.valueOf(BValues[k]);
                                 }
                             }
                         }
-                        if (isSCircle && SValues != null) {
+                        if (isSCircle && SCircles != null && SValues != null) {
                             for (int k = 0; k < SCircles.length; k++) {
                                 if (xPos == SCircles[k] && k < SValues.length) {
                                     valueText = String.valueOf(SValues[k]);
