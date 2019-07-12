@@ -522,7 +522,6 @@ public class LineChartRenderer extends LineRadarRenderer {
                             for (int k = 0; k < circleLength; k++) {
                                 if (xPos == bCircles[k] && k < valueLength) {
                                     valueText = String.valueOf(bValues[k]);
-                                    break;
                                 }
                             }
                         }
@@ -532,7 +531,6 @@ public class LineChartRenderer extends LineRadarRenderer {
                             for (int k = 0; k < circleLength; k++) {
                                 if (xPos == sCircles[k] && k < valueLength) {
                                     valueText = String.valueOf(sValues[k]);
-                                    break;
                                 }
                             }
                         }

@@ -246,7 +246,7 @@ public class TimeSharingChart extends LinearLayout {
             lineDataSets.add(setLine(TYPE_LINE_JJ, lineJJEntries));
         }
         if (dataManage.isBSChart()) {
-            final int[] bCircles = {15, 30, 118};
+            final int[] bCircles = {15, 15, 118};
             final int[] sCircles = {65, 119};
             final float[] bValues = {77, 88};
             final float[] sValues = {110, 150};
