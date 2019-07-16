@@ -601,7 +601,7 @@ public class LineChartRenderer extends LineRadarRenderer {
         //文字位于圆心点的下方
         final float textBottomY = y + baseline + valOffset;
         //文字是否位于圆心点上方
-        if (isBCircle) {
+        if (!isBCircle) {
             newY = textTopY;
             //文字超出上边界
             if (textTopY - baseline < mViewPortHandler.contentTop()) {
