@@ -29,7 +29,7 @@ implementation 'me.xia:x-stockchart:3.2.1'
 
 ### 参考 [StockChart](https://github.com/WallaceXiao/StockChart-MPAndroidChart) 实现项目中需要的分时图、K线图等图表
 
-StockApp是Android平台的金融图表库，包括**分时图**和**K线图**。本项目通过继承的方式定制了最新版本的**MPAndroidChart**
+X-StockChart是Android平台的金融图表库，包括**分时图**和**K线图**。本项目通过继承的方式定制了最新版本的**MPAndroidChart**
 
 - 使用简单，几行代码就可以实现专业分时K线图效果
 - 支持BS（买卖）两点分时图
