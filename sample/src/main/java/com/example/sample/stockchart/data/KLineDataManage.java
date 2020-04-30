@@ -133,15 +133,15 @@ public class KLineDataManage {
 
             mXVal.add(DataTimeUtil.secToDate(dataModel.getDateMills()));
 
-            candleEntries.add(new CandleEntry(i, i + offSet, (float) dataModel.getHigh(),
+            candleEntries.add(new CandleEntry(i + offSet, (float) dataModel.getHigh(),
                     (float) dataModel.getLow(), (float) dataModel.getOpen(), (float) dataModel.getClose()));
 
             float color = dataModel.getOpen() > dataModel.getClose() ? 0f : 1f;
-            barEntries.add(new BarEntry(i, i + offSet, (float) dataModel.getVolume(), color));
+            barEntries.add(new BarEntry(i + offSet, (float) dataModel.getVolume(), color));
 
-            line5Entries.add(new Entry(i, i + offSet, (float) dataModel.getMa5()));
-            line10Entries.add(new Entry(i, i + offSet, (float) dataModel.getMa10()));
-            line20Entries.add(new Entry(i, i + offSet, (float) dataModel.getMa20()));
+            line5Entries.add(new Entry(i + offSet, (float) dataModel.getMa5()));
+            line10Entries.add(new Entry(i + offSet, (float) dataModel.getMa10()));
+            line20Entries.add(new Entry(i + offSet, (float) dataModel.getMa20()));
         }
 
         mCandleDataSet = setACandle(candleEntries);
@@ -163,9 +163,9 @@ public class KLineDataManage {
 
         final int size = macdEntity.getMACD().size();
         for (int i = 0; i < size; i++) {
-            macdData.add(new BarEntry(i, i + offSet, macdEntity.getMACD().get(i), macdEntity.getMACD().get(i)));
-            deaData.add(new Entry(i, i + offSet, macdEntity.getDEA().get(i)));
-            difData.add(new Entry(i, i + offSet, macdEntity.getDIF().get(i)));
+            macdData.add(new BarEntry(i + offSet, macdEntity.getMACD().get(i), macdEntity.getMACD().get(i)));
+            deaData.add(new Entry(i + offSet, macdEntity.getDEA().get(i)));
+            difData.add(new Entry(i + offSet, macdEntity.getDIF().get(i)));
         }
         barDataMACD = setABar(macdData);
         lineDataMACD.add(setALine(ColorType.blue, deaData));
@@ -183,9 +183,9 @@ public class KLineDataManage {
 
         final int size = kdjEntity.getD().size();
         for (int i = 0; i < size; i++) {
-            kData.add(new Entry(i, i + offSet, kdjEntity.getK().get(i)));
-            dData.add(new Entry(i, i + offSet, kdjEntity.getD().get(i)));
-            jData.add(new Entry(i, i + offSet, kdjEntity.getJ().get(i)));
+            kData.add(new Entry(i + offSet, kdjEntity.getK().get(i)));
+            dData.add(new Entry(i + offSet, kdjEntity.getD().get(i)));
+            jData.add(new Entry(i + offSet, kdjEntity.getJ().get(i)));
         }
         lineDataKDJ.add(setALine(ColorType.blue, kData, "KDJ" + N1, false));
         lineDataKDJ.add(setALine(ColorType.yellow, dData, "KDJ" + N2, false));
@@ -203,9 +203,9 @@ public class KLineDataManage {
 
         final int size = bollEntity.getUPs().size();
         for (int i = 0; i < size; i++) {
-            bollDataUP.add(new Entry(i, i + offSet, bollEntity.getUPs().get(i)));
-            bollDataMB.add(new Entry(i, i + offSet, bollEntity.getMBs().get(i)));
-            bollDataDN.add(new Entry(i, i + offSet, bollEntity.getDNs().get(i)));
+            bollDataUP.add(new Entry(i + offSet, bollEntity.getUPs().get(i)));
+            bollDataMB.add(new Entry(i + offSet, bollEntity.getMBs().get(i)));
+            bollDataDN.add(new Entry(i + offSet, bollEntity.getDNs().get(i)));
         }
         lineDataBOLL.add(setALine(ColorType.blue, bollDataUP, false));
         lineDataBOLL.add(setALine(ColorType.yellow, bollDataMB, false));
@@ -226,9 +226,9 @@ public class KLineDataManage {
 
         final int size = rsiEntity6.getRSIs().size();
         for (int i = 0; i < size; i++) {
-            rsiData6.add(new Entry(i, i + offSet, rsiEntity6.getRSIs().get(i)));
-            rsiData12.add(new Entry(i, i + offSet, rsiEntity12.getRSIs().get(i)));
-            rsiData24.add(new Entry(i, i + offSet, rsiEntity24.getRSIs().get(i)));
+            rsiData6.add(new Entry(i + offSet, rsiEntity6.getRSIs().get(i)));
+            rsiData12.add(new Entry(i + offSet, rsiEntity12.getRSIs().get(i)));
+            rsiData24.add(new Entry(i + offSet, rsiEntity24.getRSIs().get(i)));
         }
         lineDataRSI.add(setALine(ColorType.blue, rsiData6, "RSI" + RSIN1, true));
         lineDataRSI.add(setALine(ColorType.yellow, rsiData12, "RSI" + RSIN2, false));
