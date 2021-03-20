@@ -16,7 +16,7 @@ allprojects {
 ```
 
 ``` groovy
-implementation 'com.github.tiamosu:X-StockChart:3.2.2'
+implementation 'com.github.tiamosu:X-StockChart:3.2.3'
 ```
 
 先上效果图：
