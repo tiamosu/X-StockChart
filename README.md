@@ -1,16 +1,22 @@
 # X-StockChart
 
 **基于MPAndroidChart3.0+的专业分时图和K线图**
-```
+
+## Download
+[![](https://jitpack.io/v/tiamosu/X-StockChart.svg)](https://jitpack.io/#tiamosu/X-StockChart)
+
+```groovy
 allprojects {
     repositories {
         google()
         jcenter()
-        maven { url 'https://dl.bintray.com/weixia/maven' }
+        maven { url 'https://jitpack.io' }
     }
 }
+```
 
-implementation 'me.xia:x-stockchart:3.2.1'
+``` groovy
+implementation 'com.github.tiamosu:X-StockChart:3.2.2'
 ```
 
 先上效果图：
