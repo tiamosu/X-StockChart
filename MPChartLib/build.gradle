@@ -1,12 +1,19 @@
-apply plugin: 'com.android.library'
+apply {
+    plugin "com.android.library"
+    plugin "kotlin-android"
+    plugin "kotlin-parcelize"
+    plugin "kotlin-kapt"
+}
 
 android {
-    compileSdkVersion compile_sdk_version
+    compileSdkVersion Android.compileSdkVersion
     defaultConfig {
-        minSdkVersion min_sdk_version
-        targetSdkVersion target_sdk_version
-        versionCode version_code
-        versionName version_name
+        minSdkVersion Android.minSdkVersion
+        targetSdkVersion Android.targetSdkVersion
+        versionCode Android.versionCode
+        versionName Android.versionName
+
+        consumerProguardFiles "consumer-rules.pro"
     }
     buildTypes {
         release {
@@ -15,13 +22,20 @@ android {
         }
     }
     lintOptions {
+        checkReleaseBuilds false
         abortOnError false
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    compileOnly 'androidx.appcompat:appcompat:1.0.2'
+    compileOnly Deps.androidx_appcompat
 }
 
-apply from: 'bintray.gradle'
+apply from: "${rootDir.path}/config_publish.gradle"
