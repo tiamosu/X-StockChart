@@ -7,11 +7,11 @@ package com.github.mikephil.charting.data;
 public class RadarEntry extends Entry {
 
     public RadarEntry(float value) {
-        super(0, 0f, value);
+        super(0f, value);
     }
 
     public RadarEntry(float value, Object data) {
-        super(0, 0f, value, data);
+        super(0f, value, data);
     }
 
     /**

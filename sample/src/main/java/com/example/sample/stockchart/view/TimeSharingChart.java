@@ -231,14 +231,14 @@ public class TimeSharingChart extends LinearLayout {
         for (int i = 0, j = 0; i < dataManage.getDatas().size(); i++, j++) {
             final TimeSharingDataModel t = dataManage.getDatas().get(j);
             if (t == null) {
-                lineCJEntries.add(new Entry(i, i, Float.NaN));
-                lineJJEntries.add(new Entry(i, i, Float.NaN));
-                barEntries.add(new BarEntry(i, i, Float.NaN));
+                lineCJEntries.add(new Entry(i, Float.NaN));
+                lineJJEntries.add(new Entry(i, Float.NaN));
+                barEntries.add(new BarEntry(i, Float.NaN, 0f));
                 continue;
             }
-            lineCJEntries.add(new Entry(i, i, (float) dataManage.getDatas().get(i).getNowPrice()));
-            lineJJEntries.add(new Entry(i, i, (float) dataManage.getDatas().get(i).getAveragePrice()));
-            barEntries.add(new BarEntry(i, i, dataManage.getDatas().get(i).getVolume()));
+            lineCJEntries.add(new Entry(i, (float) dataManage.getDatas().get(i).getNowPrice()));
+            lineJJEntries.add(new Entry(i, (float) dataManage.getDatas().get(i).getAveragePrice()));
+            barEntries.add(new BarEntry(i, dataManage.getDatas().get(i).getVolume()));
         }
         final ArrayList<ILineDataSet> lineDataSets = new ArrayList<>();
         lineDataSets.add(setLine(TYPE_LINE_CJ, lineCJEntries));
@@ -251,7 +251,7 @@ public class TimeSharingChart extends LinearLayout {
             final float[] bValues = {77, 88};
             final float[] sValues = {110, 150};
 
-//            lineDataSets.add(setBSLine(lineCJEntries, bCircles, bValues, sCircles, sValues));
+            //            lineDataSets.add(setBSLine(lineCJEntries, bCircles, bValues, sCircles, sValues));
             lineDataSets.add(setBSLine(lineCJEntries, bCircles, bValues, null, null));
             lineDataSets.add(setBSLine(lineCJEntries, null, null, sCircles, sValues));
         }
