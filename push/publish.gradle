@@ -181,7 +181,7 @@ private def loadLocalProperties() {
 }
 
 private def loadPublishProperties() {
-    return loadProperties("publish.properties")
+    return loadProperties("push/publish.properties")
 }
 
 private def loadProperties(String fileName) {
