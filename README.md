@@ -9,14 +9,13 @@
 allprojects {
     repositories {
         google()
-        jcenter()
-        maven { url 'https://jitpack.io' }
+        mavenCentral()
     }
 }
 ```
 
 ``` groovy
-implementation 'com.github.tiamosu:X-StockChart:3.2.3'
+implementation 'com.gitee.tiamosu:StockChart:4.0.0'
 ```
 
 先上效果图：
