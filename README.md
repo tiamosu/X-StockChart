@@ -3,7 +3,6 @@
 **基于MPAndroidChart3.0+的专业分时图和K线图**
 
 ## Download
-[![](https://jitpack.io/v/tiamosu/X-StockChart.svg)](https://jitpack.io/#tiamosu/X-StockChart)
 
 ```groovy
 allprojects {
