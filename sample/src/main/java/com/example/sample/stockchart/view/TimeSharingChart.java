@@ -74,9 +74,9 @@ public class TimeSharingChart extends LinearLayout {
         mBarChartViewStub = findViewById(R.id.view_chart_time_sharing_bar_vs);
 
         mColorArray = new int[]{
-                ContextCompat.getColor(mContext, R.color.up_color),
-                ContextCompat.getColor(mContext, R.color.equal_color),
-                ContextCompat.getColor(mContext, R.color.down_color)
+            ContextCompat.getColor(mContext, R.color.up_color),
+            ContextCompat.getColor(mContext, R.color.equal_color),
+            ContextCompat.getColor(mContext, R.color.down_color)
         };
     }
 
@@ -111,7 +111,7 @@ public class TimeSharingChart extends LinearLayout {
         mXAxisLine.setGridColor(ContextCompat.getColor(mContext, R.color.grid_color));
         mXAxisLine.setGridLineWidth(0.7f);
         mXAxisLine.enableGridDashedLine(CommonUtil.dip2px(mContext, 4f),
-                CommonUtil.dip2px(mContext, 3f), 0);
+            CommonUtil.dip2px(mContext, 3f), 0);
 
         //主图左Y轴
         mAxisLeftLine = (TimeSharingYAxis) mLineChart.getAxisLeft();
@@ -119,7 +119,7 @@ public class TimeSharingChart extends LinearLayout {
         mAxisLeftLine.setDrawGridLines(true);
         mAxisLeftLine.setGridLineWidth(0.7f);
         mAxisLeftLine.enableGridDashedLine(CommonUtil.dip2px(mContext, 4f),
-                CommonUtil.dip2px(mContext, 3f), 0);
+            CommonUtil.dip2px(mContext, 3f), 0);
         mAxisLeftLine.setGridColor(ContextCompat.getColor(mContext, R.color.grid_color));
         mAxisLeftLine.setValueLineInside(true);
         mAxisLeftLine.setDrawTopBottomGridLine(false);
@@ -176,7 +176,7 @@ public class TimeSharingChart extends LinearLayout {
         mXAxisBar.setGridColor(ContextCompat.getColor(mContext, R.color.grid_color));
         mXAxisBar.setGridLineWidth(0.7f);
         mXAxisBar.enableGridDashedLine(CommonUtil.dip2px(mContext, 4f),
-                CommonUtil.dip2px(mContext, 3f), 0);
+            CommonUtil.dip2px(mContext, 3f), 0);
 
         //副图左Y轴
         mAxisLeftBar = (TimeSharingYAxis) mBarChart.getAxisLeft();
@@ -200,7 +200,7 @@ public class TimeSharingChart extends LinearLayout {
         axisRightBar.setGridColor(ContextCompat.getColor(mContext, R.color.grid_color));
         axisRightBar.setGridLineWidth(0.7f);
         axisRightBar.enableGridDashedLine(CommonUtil.dip2px(mContext, 4f),
-                CommonUtil.dip2px(mContext, 3f), 0);
+            CommonUtil.dip2px(mContext, 3f), 0);
     }
 
     /**
@@ -214,8 +214,8 @@ public class TimeSharingChart extends LinearLayout {
         mAxisLeftLine.setAxisMaximum(dataManage.getMax());
 
         if (Float.isNaN(dataManage.getPercentMax())
-                || Float.isNaN(dataManage.getPercentMin())
-                || Float.isNaN(dataManage.getVolMaxTime())) {
+            || Float.isNaN(dataManage.getPercentMin())
+            || Float.isNaN(dataManage.getVolMaxTime())) {
             mAxisLeftBar.setAxisMaximum(0);
             mAxisRightLine.setAxisMinimum(0);
             mAxisRightLine.setAxisMaximum(0);
@@ -246,14 +246,14 @@ public class TimeSharingChart extends LinearLayout {
             lineDataSets.add(setLine(TYPE_LINE_JJ, lineJJEntries));
         }
         if (dataManage.isBSChart()) {
-            final int[] bCircles = {15, 15, 118};
+            final int[] bCircles = {15, 118};
             final int[] sCircles = {65, 119};
             final float[] bValues = {77, 88};
             final float[] sValues = {110, 150};
 
             //            lineDataSets.add(setBSLine(lineCJEntries, bCircles, bValues, sCircles, sValues));
-            lineDataSets.add(setBSLine(lineCJEntries, bCircles, bValues, null, null));
-            lineDataSets.add(setBSLine(lineCJEntries, null, null, sCircles, sValues));
+            lineDataSets.add(setBSLine(lineCJEntries, bCircles, null, null, null));
+            lineDataSets.add(setBSLine(lineCJEntries, null, null, sCircles, null));
         }
         final LineData lineData = new LineData(lineDataSets);
         mLineChart.setData(lineData);
@@ -275,15 +275,15 @@ public class TimeSharingChart extends LinearLayout {
         //请注意，修改视口的所有方法需要在为Chart设置数据之后调用。
         //设置当前视图四周的偏移量。 设置这个，将阻止图表自动计算它的偏移量。使用 resetViewPortOffsets()撤消此设置。
         mLineChart.setViewPortOffsets(
-                CommonUtil.dip2px(mContext, 5),
-                CommonUtil.dip2px(mContext, 5),
-                CommonUtil.dip2px(mContext, 5),
-                CommonUtil.dip2px(mContext, 15));
+            CommonUtil.dip2px(mContext, 5),
+            CommonUtil.dip2px(mContext, 5),
+            CommonUtil.dip2px(mContext, 5),
+            CommonUtil.dip2px(mContext, 15));
         mBarChart.setViewPortOffsets(
-                CommonUtil.dip2px(mContext, 5),
-                0,
-                CommonUtil.dip2px(mContext, 5),
-                CommonUtil.dip2px(mContext, 5));
+            CommonUtil.dip2px(mContext, 5),
+            0,
+            CommonUtil.dip2px(mContext, 5),
+            CommonUtil.dip2px(mContext, 5));
 
         //下面方法需在填充数据后调用
         mXAxisLine.setXLabels(getXLabels());

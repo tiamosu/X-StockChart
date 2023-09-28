@@ -1,7 +1,6 @@
 package com.example.sample.ui.fragment;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 
 import com.example.sample.R;
@@ -26,7 +25,6 @@ public class TimeSharingFragment extends BaseFragment {
     TimeSharingChart mChart;
 
     private boolean mIsBSChart;
-    private static final Handler HANDLER = new Handler();
 
     public static TimeSharingFragment newInstance(boolean isBSChart) {
         final TimeSharingFragment fragment = new TimeSharingFragment();
@@ -53,24 +51,16 @@ public class TimeSharingFragment extends BaseFragment {
     protected void onLoadData(View rootView) {
         mChart.initChart();
 
-        HANDLER.postDelayed(() -> {
-            //测试数据
-            JSONObject object = null;
-            try {
-                object = new JSONObject(ChartData.TIMEDATA);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            final TimeSharingDataManage dataManage = new TimeSharingDataManage();
-            dataManage.parseTimeData(object, 0);
-            dataManage.setBSChart(mIsBSChart);
-            mChart.setDataToChart(dataManage);
-        }, 3000);
-    }
-
-    @Override
-    public void onDestroy() {
-        HANDLER.removeCallbacksAndMessages(null);
-        super.onDestroy();
+        //测试数据
+        JSONObject object = null;
+        try {
+            object = new JSONObject(ChartData.TIMEDATA);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        final TimeSharingDataManage dataManage = new TimeSharingDataManage();
+        dataManage.parseTimeData(object, 0);
+        dataManage.setBSChart(mIsBSChart);
+        mChart.setDataToChart(dataManage);
     }
 }

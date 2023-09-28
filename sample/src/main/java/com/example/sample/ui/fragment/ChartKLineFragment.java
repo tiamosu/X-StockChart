@@ -1,7 +1,6 @@
 package com.example.sample.ui.fragment;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.Toast;
 
@@ -30,7 +29,6 @@ public class ChartKLineFragment extends BaseFragment {
     private int mType;//日K：1；周K：7；月K：30
     private int mIndexType = 1;
     private KLineDataManage mDataManage;
-    private static final Handler HANDLER = new Handler();
 
     public static ChartKLineFragment newInstance(int type) {
         final ChartKLineFragment fragment = new ChartKLineFragment();
@@ -58,24 +56,22 @@ public class ChartKLineFragment extends BaseFragment {
         mDataManage = new KLineDataManage(getActivity());
         mChart.initChart();
 
-        HANDLER.postDelayed(() -> {
-            JSONObject object = null;
-            try {
-                if (mType == 1) {
-                    object = new JSONObject(ChartData.KLINEDATA);
-                } else if (mType == 7) {
-                    object = new JSONObject(ChartData.KLINEWEEKDATA);
-                } else if (mType == 30) {
-                    object = new JSONObject(ChartData.KLINEMONTHDATA);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
+        JSONObject object = null;
+        try {
+            if (mType == 1) {
+                object = new JSONObject(ChartData.KLINEDATA);
+            } else if (mType == 7) {
+                object = new JSONObject(ChartData.KLINEWEEKDATA);
+            } else if (mType == 30) {
+                object = new JSONObject(ChartData.KLINEMONTHDATA);
             }
-            //上证指数代码000001.IDX.SH
-            mDataManage.parseKlineData(object);
-            mChart.setDataToChart(mDataManage);
-            mChart.gestureListenerBar.setCoupleClick(() -> loadIndexData(mIndexType < 5 ? ++mIndexType : 1));
-        }, 3000);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        //上证指数代码000001.IDX.SH
+        mDataManage.parseKlineData(object);
+        mChart.setDataToChart(mDataManage);
+        mChart.gestureListenerBar.setCoupleClick(() -> loadIndexData(mIndexType < 5 ? ++mIndexType : 1));
 
         //加载更多数据
         final CoupleChartGestureListener.OnEdgeListener onEdgeListener = (x, left) -> {
@@ -119,11 +115,5 @@ public class ChartKLineFragment extends BaseFragment {
             default:
                 break;
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        HANDLER.removeCallbacksAndMessages(null);
-        super.onDestroy();
     }
 }
